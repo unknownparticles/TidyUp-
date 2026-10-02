@@ -2,6 +2,9 @@
 (function() {
   'use strict';
 
+  // Game Application Version
+  const APP_VERSION = '1.1.0';
+
   // 1. High-Resolution 3D Rendered Item Assets (Extracted directly from sprite sheet)
   const ITEMS = {
     santa: { id: 'santa', name: '圣诞老人', img: './assets/items/santa.png' },
@@ -1661,6 +1664,8 @@
       this.isPaused = !this.isPaused;
       const modal = document.getElementById('modal-pause');
       if (this.isPaused) {
+        const verEl = document.getElementById('pause-modal-version');
+        if (verEl) verEl.textContent = `版本号：v${APP_VERSION}`;
         modal.classList.add('open');
       } else {
         modal.classList.remove('open');

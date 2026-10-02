@@ -701,6 +701,20 @@ body.hammer-mode {
   margin-bottom: 8px;
 }
 
+.modal-version-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.12), rgba(41, 128, 185, 0.2));
+  color: #2980b9;
+  border: 1.5px solid rgba(52, 152, 219, 0.35);
+  padding: 3px 12px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
 .modal-stars {
   display: flex;
   justify-content: center;

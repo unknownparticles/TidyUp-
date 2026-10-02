@@ -66,3 +66,26 @@ python3 -m http.server 3000
    - 也可在 `Settings -> Pages -> Build and deployment -> Source` 选择 **Deploy from a branch**。
    - 分支选择 `main`，目录选择 `/ (root)`，保存后即生效。
 
+---
+
+## 🏷️ 版本规范与自动递增
+
+游戏在点击右下角 **暂停** 按钮时，弹窗顶部会清晰展示当前游戏版本号（例如 `版本号：v1.1.0`）。
+
+### 版本号自增规范
+- 🚀 **大功能**：大版本号 +1（Major +1，例如 `1.1.0` -> `2.0.0`），执行：
+  ```bash
+  npm run bump:major
+  ```
+- ✨ **小功能**：小版本号 +1（Minor +1，例如 `1.0.0` -> `1.1.0`），执行：
+  ```bash
+  npm run bump:minor
+  ```
+- 🐞 **修复优化**：补丁号 +1（Patch +1，例如 `1.1.0` -> `1.1.1`），执行：
+  ```bash
+  npm run bump:patch
+  ```
+
+> 💡 **Git Hook 自动化**：已配置 `.githooks/pre-commit`。每次提交代码时，若未手动修改版本号，提交钩子将自动按小功能规则递增小版本号并同步更新 `package.json`、`app.js` 与 `index.html`。若为大功能提交，可提前运行 `npm run bump:major` 或使用 `BUMP=major git commit -m "..."`。
+
+

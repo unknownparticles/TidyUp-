@@ -1,0 +1,9 @@
+#!/bin/sh
+# 提交前自动检查并递增版本号
+# 默认小功能 (minor +1)
+# 若指定 BUMP=major 则大版本号 +1
+# 若已手动修改 package.json 版本号并暂存，则自动跳过
+
+if [ -f "./scripts/bump-version.js" ]; then
+  node ./scripts/bump-version.js hook-pre-commit
+fi
