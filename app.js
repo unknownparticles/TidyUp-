@@ -363,22 +363,32 @@
     }
   }
 
-  // 4. Solvability Verification Algorithm (可解性校验器)
+  // 4. Solvability Verification Algorithm (支持多层深度的可解性校验器)
   function verifySolvability(cabinetData, conveyorRows) {
-    // Clone board state
+    // Clone board state with all layers
     const slots = [];
-    cabinetData.forEach(c => slots.push({ front: [...c.layers[0]], back: [...c.layers[1]] }));
+    cabinetData.forEach(c => slots.push({ layers: c.layers.map(l => [...l]) }));
     conveyorRows.forEach(row => {
-      row.forEach(s => slots.push({ front: [...s.layers[0]], back: [...s.layers[1]] }));
+      row.forEach(s => slots.push({ layers: s.layers.map(l => [...l]) }));
     });
 
-    // BFS simulation of elimination steps
-    let maxSteps = 120;
+    // Promotion helper inside verification
+    const promoteSimSlot = (slot) => {
+      if (slot.layers[0].length === 0 && slot.layers.slice(1).some(l => l.length > 0)) {
+        while (slot.layers.length > 1 && slot.layers[0].length === 0 && slot.layers.slice(1).some(l => l.length > 0)) {
+          slot.layers.shift();
+          slot.layers.push([]);
+        }
+      }
+    };
+
+    // BFS / Greedy simulation of elimination steps
+    let maxSteps = 300;
     while (maxSteps-- > 0) {
       // 1. Count items in front layer across all slots
       const counts = {};
       slots.forEach(slot => {
-        slot.front.forEach(item => {
+        slot.layers[0].forEach(item => {
           const k = getItemMatchKey(item);
           counts[k] = (counts[k] || 0) + 1;
         });
@@ -391,43 +401,42 @@
         let needed = 3;
         for (let i = 0; i < slots.length && needed > 0; i++) {
           const slot = slots[i];
-          for (let j = slot.front.length - 1; j >= 0 && needed > 0; j--) {
-            if (getItemMatchKey(slot.front[j]) === matchableMatchKey) {
-              slot.front.splice(j, 1);
+          for (let j = slot.layers[0].length - 1; j >= 0 && needed > 0; j--) {
+            if (getItemMatchKey(slot.layers[0][j]) === matchableMatchKey) {
+              slot.layers[0].splice(j, 1);
               needed--;
-              // If slot front became empty, promote back layer
-              if (slot.front.length === 0 && slot.back.length > 0) {
-                slot.front = [...slot.back];
-                slot.back = [];
-              }
+              promoteSimSlot(slot);
             }
           }
         }
         continue; // Next round of elimination
       }
 
-      // 2. If no direct 3-match in front, check if moving an item to an open slot reveals a needed item
+      // 2. If no direct 3-match in front, check if emptying a slot to reveal deeper items helps
       let movedToReveal = false;
-      const openSlot = slots.find(s => s.front.length < 3);
+      const candidateSlots = slots.filter(s => s.layers[0].length > 0 && s.layers.slice(1).some(l => l.length > 0));
+      candidateSlots.sort((a, b) => a.layers[0].length - b.layers[0].length);
 
-      if (openSlot) {
-        // Find a slot that has back items waiting to be exposed
-        const slotWithBack = slots.find(s => s !== openSlot && s.front.length > 0 && s.back.length > 0);
-        if (slotWithBack) {
-          const item = slotWithBack.front.pop();
-          openSlot.front.push(item);
-          if (slotWithBack.front.length === 0) {
-            slotWithBack.front = [...slotWithBack.back];
-            slotWithBack.back = [];
+      for (const cand of candidateSlots) {
+        const toMove = cand.layers[0].length;
+        const available = slots.filter(s => s !== cand && s.layers[0].length < 3);
+        const totalAvail = available.reduce((acc, s) => acc + (3 - s.layers[0].length), 0);
+        if (totalAvail >= toMove) {
+          while (cand.layers[0].length > 0) {
+            const item = cand.layers[0].pop();
+            const target = slots.find(s => s !== cand && s.layers[0].length < 3);
+            if (target) target.layers[0].push(item);
           }
+          promoteSimSlot(cand);
           movedToReveal = true;
+          break;
         }
       }
 
       if (movedToReveal) continue;
 
       // 3. Check if all items cleared
-      const remainingItems = slots.reduce((acc, s) => acc + s.front.length + s.back.length, 0);
+      const remainingItems = slots.reduce((acc, s) => acc + s.layers.reduce((lacc, l) => lacc + l.length, 0), 0);
       if (remainingItems === 0) {
         return true; // 100% Solvable!
       }
@@ -436,7 +445,7 @@
       break;
     }
 
-    const totalRemaining = slots.reduce((acc, s) => acc + s.front.length + s.back.length, 0);
+    const totalRemaining = slots.reduce((acc, s) => acc + s.layers.reduce((lacc, l) => lacc + l.length, 0), 0);
     return totalRemaining === 0;
   }
 
@@ -492,7 +501,7 @@
       let attempts = 0;
       let valid = false;
 
-      while (!valid && attempts < 50) {
+      while (!valid && attempts < 15) {
         attempts++;
         this.generateLevelData(levelNumber);
         valid = verifySolvability(this.cabinetData, this.conveyorRows);
@@ -508,15 +517,43 @@
       this.renderBoard();
     }
 
+    // Helper to promote deeper layers when layer 0 is completely empty
+    promoteSlot(slotData) {
+      if (!slotData || !slotData.layers) return false;
+      if (slotData.layers[0].length === 0 && slotData.layers.slice(1).some(l => l.length > 0)) {
+        while (slotData.layers.length > 1 && slotData.layers[0].length === 0 && slotData.layers.slice(1).some(l => l.length > 0)) {
+          slotData.layers.shift();
+          slotData.layers.push([]);
+        }
+        if (slotData.layers[0].length > 0) {
+          sound.playPick();
+          return true;
+        }
+      }
+      return false;
+    }
+
+    getSlotLayerCount(slotData) {
+      if (!slotData || !slotData.layers) return 0;
+      let count = 0;
+      for (let i = 0; i < slotData.layers.length; i++) {
+        if (slotData.layers[i] && slotData.layers[i].length > 0) {
+          count++;
+        }
+      }
+      return count;
+    }
+
     generateLevelData(levelNumber) {
       this.currentLevel = levelNumber;
       this.selectedItemInfo = null;
       this.timerSeconds = 988; // 16:28
       this.updateTimerDisplay();
 
-      // DENSE PACKING: Triplet counts for full conveyor + bottom-aligned cabinet
-      const tripletCounts = [18, 24, 28];
-      const totalTriplets = tripletCounts[Math.min(levelNumber - 1, 2)] || 24;
+      // RICH MULTI-LAYER PACKING: 4 layers per slot (上下各多层货架)
+      // Total triplets: Level 1 = 36 triplets (108 items), Level 2 = 46 triplets (138 items), Level 3 = 56 triplets (168 items)
+      const tripletCounts = [36, 46, 56];
+      const totalTriplets = tripletCounts[Math.min(levelNumber - 1, 2)] || 46;
 
       // Pick distinct item types
       const shuffledTypes = [...ITEM_KEYS].sort(() => Math.random() - 0.5);
@@ -532,16 +569,16 @@
       // Shuffle pool
       itemPool.sort(() => Math.random() - 0.5);
 
-      // Setup 3x3 Upper Cabinet: 9 cubbies
+      // Setup 3x3 Upper Cabinet: 9 cubbies, each with 4 layers
       this.cabinetData = [];
       for (let i = 0; i < 9; i++) {
         this.cabinetData.push({
           id: `cabinet-${i}`,
-          layers: [[], []] // layer 0: front (3 items), layer 1: back (3 items)
+          layers: [[], [], [], []]
         });
       }
 
-      // Setup 3 Conveyor Rows: 4 planks per row = 12 planks total (Seamless looping conveyor)
+      // Setup 3 Conveyor Rows: 4 planks per row = 12 planks total, each with 4 layers
       const plankWidth = 136;
       const plankGap = 10;
       const pitch = plankWidth + plankGap; // 146
@@ -553,63 +590,85 @@
         for (let s = 0; s < 4; s++) {
           let initX = s * pitch;
           if (speed > 0) {
-            // For right-moving row, offset so one shelf is poised to enter smoothly from left
-            initX = (s - 1) * pitch; // -146, 0, 146, 292
+            initX = (s - 1) * pitch;
           }
           shelves.push({
             id: `conveyor-${r}-${s}`,
             rowIndex: r,
             shelfIndex: s,
-            layers: [[], []],
+            layers: [[], [], [], []],
             xPos: initX
           });
         }
         this.conveyorRows.push(shelves);
       }
 
-      // 1. Conveyor Rows: "下面滚动的货架也应该是满的"
-      // Every single shelf on all 3 conveyor tracks is 100% full in the front layer (3 items each = 36 items!)
+      // Active populated cabinet cubbies: 0, 1, 3, 4, 5, 7, 8 (7 cubbies)
+      // Cubbies 2 and 6 remain open buffer compartments across all layers for sorting
+      const populatedCabinet = [0, 1, 3, 4, 5, 7, 8];
+
+      // 1. Layer 0 (Front interactive layer):
+      // Conveyor: all 12 shelves get 2 to 3 items
       this.conveyorRows.forEach(row => {
         row.forEach(shelf => {
-          for (let k = 0; k < 3 && itemPool.length > 0; k++) {
+          const count = Math.random() < 0.6 ? 3 : 2;
+          for (let k = 0; k < count && itemPool.length > 0; k++) {
             shelf.layers[0].push(itemPool.pop());
           }
         });
       });
-
-      // 2. Conveyor Rows Back Layer: Pack 2 to 3 items per shelf ("灰色代表在下一行")
-      this.conveyorRows.forEach(row => {
-        row.forEach(shelf => {
-          const backCount = Math.random() < 0.5 ? 2 : 3;
-          for (let k = 0; k < backCount && itemPool.length > 0; k++) {
-            shelf.layers[1].push(itemPool.pop());
-          }
-        });
-      });
-
-      // 3. Upper Cabinet (9 cubbies across 3 rows):
-      // Every shelf (Top, Middle, Bottom) has goods! Top shelf is definitely populated.
-      // Top shelf: cubbies 0, 1 have 2-3 items; cubby 2 is empty workspace
-      // Middle shelf: cubbies 3, 5 have 2-3 items; cubby 4 is empty workspace
-      // Bottom shelf: cubbies 7, 8 have 2-3 items; cubby 6 is empty workspace
-      // This leaves 3 full cubbies (9 slots) + partial slots open (10-12 empty slots total) for ample maneuvering!
-      const populatedCubbies = [0, 1, 3, 5, 7, 8];
-      populatedCubbies.forEach(c => {
+      // Cabinet: 7 cubbies get 2 to 3 items
+      populatedCabinet.forEach(c => {
         const count = Math.random() < 0.6 ? 3 : 2;
         for (let k = 0; k < count && itemPool.length > 0; k++) {
           this.cabinetData[c].layers[0].push(itemPool.pop());
         }
       });
 
-      // Disperse remaining items into back layers of populated cabinet cubbies or conveyor shelves
+      // 2. Layer 1 (Back Layer 1):
+      this.conveyorRows.forEach(row => {
+        row.forEach(shelf => {
+          const count = Math.random() < 0.6 ? 3 : 2;
+          for (let k = 0; k < count && itemPool.length > 0; k++) {
+            shelf.layers[1].push(itemPool.pop());
+          }
+        });
+      });
+      populatedCabinet.forEach(c => {
+        const count = Math.random() < 0.6 ? 3 : 2;
+        for (let k = 0; k < count && itemPool.length > 0; k++) {
+          this.cabinetData[c].layers[1].push(itemPool.pop());
+        }
+      });
+
+      // 3. Layer 2 (Back Layer 2 / Deep Layer):
+      this.conveyorRows.forEach(row => {
+        row.forEach(shelf => {
+          const count = Math.random() < 0.5 ? 3 : 2;
+          for (let k = 0; k < count && itemPool.length > 0; k++) {
+            shelf.layers[2].push(itemPool.pop());
+          }
+        });
+      });
+      populatedCabinet.forEach(c => {
+        const count = Math.random() < 0.5 ? 3 : 2;
+        for (let k = 0; k < count && itemPool.length > 0; k++) {
+          this.cabinetData[c].layers[2].push(itemPool.pop());
+        }
+      });
+
+      // 4. Layer 3 (Deepest Layer 3):
       while (itemPool.length > 0) {
         const item = itemPool.pop();
-        const openBackSlot = populatedCubbies.map(c => this.cabinetData[c]).find(c => c.layers[1].length < 2) ||
-                             this.conveyorRows.flatMap(r => r).find(s => s.layers[1].length < 3);
-        if (openBackSlot) {
-          openBackSlot.layers[1].push(item);
+        const openSlot = populatedCabinet.map(c => this.cabinetData[c]).find(c => c.layers[3].length < 3) ||
+                         this.conveyorRows.flatMap(r => r).find(s => s.layers[3].length < 3) ||
+                         populatedCabinet.map(c => this.cabinetData[c]).find(c => c.layers[2].length < 3) ||
+                         this.conveyorRows.flatMap(r => r).find(s => s.layers[2].length < 3);
+        if (openSlot) {
+          const targetL = openSlot.layers[3].length < 3 ? 3 : 2;
+          openSlot.layers[targetL].push(item);
         } else {
-          this.conveyorRows[0][0].layers[1].push(item);
+          this.conveyorRows[0][0].layers[3].push(item);
         }
       }
     }
@@ -670,12 +729,22 @@
     // Render items inside a specific slot-lane without touching the rest of the board
     renderLane(laneEl, layers, type, slotIdx, shelfIdx = 0) {
       laneEl.innerHTML = '';
-      const frontItems = layers[0];
-      const backItems = layers[1];
+      const frontItems = layers[0] || [];
+      const backItems = layers[1] || [];
+      const deepItems = layers[2] || [];
 
       for (let pos = 0; pos < 3; pos++) {
         const itemContainer = document.createElement('div');
         itemContainer.className = 'item-layer-container';
+
+        // Deepest 3rd layer: subtle silhouette in background
+        if (deepItems[pos]) {
+          const deepKey = deepItems[pos];
+          const deepItemEl = document.createElement('div');
+          deepItemEl.className = 'good-item layer-deep';
+          deepItemEl.innerHTML = `<img src="${ITEMS[deepKey].img}" alt="" draggable="false">`;
+          itemContainer.appendChild(deepItemEl);
+        }
 
         // Back layer: Grayed out & darkened ("灰色代表在下一行")
         if (backItems[pos]) {
@@ -726,7 +795,22 @@
       if (!compDiv) return;
       const lane = compDiv.querySelector('.slot-lane');
       if (!lane) return;
-      this.renderLane(lane, this.cabinetData[compIdx].layers, 'cabinet', compIdx);
+      const slotData = this.cabinetData[compIdx];
+      this.renderLane(lane, slotData.layers, 'cabinet', compIdx);
+
+      // Remaining layer depth indicator badge
+      let pill = compDiv.querySelector('.layer-depth-pill');
+      const count = this.getSlotLayerCount(slotData);
+      if (count > 1) {
+        if (!pill) {
+          pill = document.createElement('div');
+          pill.className = 'layer-depth-pill';
+          compDiv.appendChild(pill);
+        }
+        pill.textContent = `${count}层`;
+      } else if (pill) {
+        pill.remove();
+      }
     }
 
     // Granular update: update only one conveyor shelf plank
@@ -737,7 +821,22 @@
       if (!plank) return;
       const lane = plank.querySelector('.slot-lane');
       if (!lane) return;
-      this.renderLane(lane, this.conveyorRows[rowIdx][shelfIdx].layers, 'conveyor', rowIdx, shelfIdx);
+      const slotData = this.conveyorRows[rowIdx][shelfIdx];
+      this.renderLane(lane, slotData.layers, 'conveyor', rowIdx, shelfIdx);
+
+      // Remaining layer depth indicator badge
+      let pill = plank.querySelector('.layer-depth-pill');
+      const count = this.getSlotLayerCount(slotData);
+      if (count > 1) {
+        if (!pill) {
+          pill = document.createElement('div');
+          pill.className = 'layer-depth-pill';
+          plank.appendChild(pill);
+        }
+        pill.textContent = `${count}层`;
+      } else if (pill) {
+        pill.remove();
+      }
     }
 
     // Granular update for any slot location
@@ -903,12 +1002,8 @@
       setTimeout(() => {
         targetData.layers[0] = [];
 
-        // Back layer items promote to front layer! ("下一行变为上一行，灰色变为亮色")
-        if (targetData.layers[1] && targetData.layers[1].length > 0) {
-          targetData.layers[0] = [...targetData.layers[1]];
-          targetData.layers[1] = [];
-          sound.playPick();
-        }
+        // Deeper layer items promote to front layer! ("下一行变为上一行，灰色变为亮色")
+        this.promoteSlot(targetData);
 
         // Granular update only the affected slot
         if (type === 'cabinet') {
@@ -955,11 +1050,7 @@
         ? this.cabinetData[fromLocation.slotIndex]
         : this.conveyorRows[fromLocation.rowIndex][fromLocation.shelfIndex];
 
-      if (sourceSlotData.layers[0].length === 0 && sourceSlotData.layers[1].length > 0) {
-        sourceSlotData.layers[0] = [...sourceSlotData.layers[1]];
-        sourceSlotData.layers[1] = [];
-        sound.playPick();
-      }
+      this.promoteSlot(sourceSlotData);
 
       // Clear selection without rebuilding DOM
       this.selectedItemInfo = null;
@@ -1177,10 +1268,6 @@
           itemIndex: itemIdx,
           itemKey
         };
-
-        try {
-          itemEl.setPointerCapture(e.pointerId);
-        } catch (_) {}
       };
 
       const onPointerMove = (e) => {
@@ -1201,9 +1288,12 @@
           this.dragGhost.innerHTML = `<img src="${ITEMS[draggedItemData.itemKey].img}" alt="" draggable="false">`;
           this.dragGhost.style.display = 'flex';
           this.dragGhost.style.transition = 'none';
+          this.dragGhost.style.left = `${clientX}px`;
+          this.dragGhost.style.top = `${clientY}px`;
+          this.dragGhost.style.transform = 'translate(-50%, -50%) scale(1.15)';
 
           if (draggedItemEl) {
-            draggedItemEl.style.opacity = '0.15';
+            draggedItemEl.style.visibility = 'hidden';
           }
           sound.playPick();
         }
@@ -1212,6 +1302,7 @@
           // Precise cursor tracking: pointer is exactly at the visual center of the dragged item
           this.dragGhost.style.left = `${clientX}px`;
           this.dragGhost.style.top = `${clientY}px`;
+          this.dragGhost.style.transform = 'translate(-50%, -50%) scale(1.15)';
 
           clearSnapHighlights();
           const target = findBestSnapTarget(clientX, clientY);
@@ -1230,14 +1321,11 @@
       const onPointerUp = (e) => {
         if (activePointerId === null || e.pointerId !== activePointerId) return;
 
-        try {
-          draggedItemEl?.releasePointerCapture(e.pointerId);
-        } catch (_) {}
-
         clearSnapHighlights();
 
         if (!isDragging) {
           // Tap / Click action
+          if (draggedItemEl) draggedItemEl.style.visibility = 'visible';
           activePointerId = null;
           handleItemTap(draggedItemData);
           return;
@@ -1253,7 +1341,7 @@
 
           if (isSameSlot) {
             this.dragGhost.style.display = 'none';
-            if (draggedItemEl) draggedItemEl.style.opacity = '1';
+            if (draggedItemEl) draggedItemEl.style.visibility = 'visible';
             this.renderBoard();
           } else {
             // Magnetic Snap Animation into target slot!
@@ -1314,7 +1402,7 @@
               this.dragGhost.style.display = 'none';
               this.dragGhost.style.transition = 'none';
               this.dragGhost.style.transform = 'translate(-50%, -50%) scale(1.15)';
-              if (draggedItemEl) draggedItemEl.style.opacity = '1';
+              if (draggedItemEl) draggedItemEl.style.visibility = 'visible';
               this.renderBoard();
             }, 150);
           } else {
@@ -1403,11 +1491,7 @@
           : this.conveyorRows[slotIdx][shelfIdx];
 
         slotData.layers[0].splice(itemIdx, 1);
-
-        if (slotData.layers[0].length === 0 && slotData.layers[1].length > 0) {
-          slotData.layers[0] = [...slotData.layers[1]];
-          slotData.layers[1] = [];
-        }
+        this.promoteSlot(slotData);
 
         if (type === 'cabinet') {
           this.updateCompartment(slotIdx);
@@ -1465,13 +1549,29 @@
       }
 
       if (removedCount < 3) {
-        this.cabinetData.forEach(comp => {
-          const idx = comp.layers[1].indexOf(targetKey);
-          if (idx !== -1 && removedCount < 3) {
-            comp.layers[1].splice(idx, 1);
-            removedCount++;
-          }
-        });
+        // Also look into deeper layers if needed
+        for (let l = 1; l < 4 && removedCount < 3; l++) {
+          this.cabinetData.forEach(comp => {
+            if (comp.layers[l] && removedCount < 3) {
+              const idx = comp.layers[l].indexOf(targetKey);
+              if (idx !== -1) {
+                comp.layers[l].splice(idx, 1);
+                removedCount++;
+              }
+            }
+          });
+          this.conveyorRows.forEach(row => {
+            row.forEach(shelf => {
+              if (shelf.layers[l] && removedCount < 3) {
+                const idx = shelf.layers[l].indexOf(targetKey);
+                if (idx !== -1) {
+                  shelf.layers[l].splice(idx, 1);
+                  removedCount++;
+                }
+              }
+            });
+          });
+        }
       }
 
       this.score += 150;
@@ -1480,10 +1580,12 @@
       this.particles.emit(parentRect.width / 2, parentRect.height / 2, 40, 'star');
 
       this.cabinetData.forEach(c => {
-        if (c.layers[0].length === 0 && c.layers[1].length > 0) {
-          c.layers[0] = [...c.layers[1]];
-          c.layers[1] = [];
-        }
+        this.promoteSlot(c);
+      });
+      this.conveyorRows.forEach(row => {
+        row.forEach(shelf => {
+          this.promoteSlot(shelf);
+        });
       });
 
       this.updateAllSlots();
@@ -1573,11 +1675,11 @@
     checkGameWinOrLoss() {
       let totalItems = 0;
       this.cabinetData.forEach(comp => {
-        totalItems += comp.layers[0].length + comp.layers[1].length;
+        comp.layers.forEach(l => totalItems += l.length);
       });
       this.conveyorRows.forEach(row => {
         row.forEach(shelf => {
-          totalItems += shelf.layers[0].length + shelf.layers[1].length;
+          shelf.layers.forEach(l => totalItems += l.length);
         });
       });
 

@@ -257,6 +257,32 @@ body {
   justify-content: center;
 }
 
+/* Deepest 3rd Layer Item (Subtle 3D Depth) */
+.good-item.layer-deep {
+  position: absolute;
+  bottom: 7px;
+  width: 70%;
+  height: 70%;
+  filter: grayscale(100%) brightness(0.24) contrast(0.7);
+  opacity: 0.55;
+  transform: translateY(-8px) scale(0.72);
+  transform-origin: bottom center;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.good-item.layer-deep img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+}
+
 /* Back Layer Item: Low Brightness, Grayscale, Occluded ("灰色代表在下一行") */
 .good-item.layer-back {
   position: absolute;
@@ -267,7 +293,7 @@ body {
   opacity: 0.85;
   transform: translateY(-4px) scale(0.84);
   transform-origin: bottom center;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
   display: flex;
   align-items: flex-end;
@@ -281,6 +307,25 @@ body {
   object-fit: contain;
   object-position: bottom center;
   display: block;
+}
+
+/* Remaining Layer Depth Indicator Badge on compartments & shelves */
+.layer-depth-pill {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #e67e22, #d35400);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  padding: 1px 6px;
+  border-radius: 9px;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  line-height: 1.2;
+  letter-spacing: 0.5px;
 }
 
 /* Front Layer Item: High-definition 3D, Vibrant, Interactable */
@@ -527,14 +572,19 @@ body {
 /* ================== Dragging Ghost Element ================== */
 .drag-ghost {
   position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   pointer-events: none !important;
-  z-index: 9999;
+  z-index: 999999 !important;
   width: 52px;
   height: 58px;
   transform: translate(-50%, -50%) scale(1.15);
   filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.45));
   will-change: left, top, transform;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
 }
