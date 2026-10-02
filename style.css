@@ -4,6 +4,10 @@
   --wood-dark: #8e5f38;
   --wood-border: #663914;
   --bg-color: #ecdcc9;
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
 }
 
 * {
@@ -14,6 +18,17 @@
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 img {
@@ -27,19 +42,18 @@ img {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   background: radial-gradient(circle at 50% 30%, #dfd3c5 0%, #b3a494 100%);
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   color: #333;
 }
 
-/* Main Phone Container (Matching 711:1024 Aspect Ratio from Reference) */
+/* Main Phone Container (Adapts dynamically to mobile viewport and PWA) */
 #game-container {
   width: 100vw;
   max-width: 430px;
   height: 100vh;
+  height: 100dvh;
   max-height: 890px;
   background: #f1e7dc;
   position: relative;
@@ -50,6 +64,19 @@ body {
   touch-action: none;
 }
 
+@media (max-width: 500px) {
+  #game-container {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+}
+
 @media (min-width: 500px) {
   #game-container {
     border-radius: 28px;
@@ -58,13 +85,19 @@ body {
   }
 }
 
-/* ================== Top Header Bar ================== */
+/* ================== Top Header Bar (Safe Area & AppBar Compatible) ================== */
 .header-bar {
-  padding: 8px 12px 4px 12px;
+  padding-top: calc(8px + var(--sat));
+  padding-left: calc(12px + var(--sal));
+  padding-right: calc(12px + var(--sar));
+  padding-bottom: 6px;
   display: flex;
   align-items: center;
   gap: 8px;
   z-index: 20;
+  background: rgba(241, 231, 220, 0.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .avatar-badge {
@@ -182,10 +215,11 @@ body {
 /* ================== Play Area ================== */
 .play-area {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   padding: 4px 10px;
-  gap: 8px;
+  gap: 6px;
   overflow: hidden;
   position: relative;
 }
@@ -485,9 +519,12 @@ body {
   box-shadow: 0 0 10px #2ecc71;
 }
 
-/* ================== Bottom Boosters Bar ================== */
+/* ================== Bottom Boosters Bar (Safe Area & ToolBar Compatible) ================== */
 .bottom-tools-bar {
-  padding: 4px 14px 14px 14px;
+  padding-top: 6px;
+  padding-left: calc(14px + var(--sal));
+  padding-right: calc(14px + var(--sar));
+  padding-bottom: calc(12px + var(--sab));
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -605,7 +642,7 @@ body.hammer-mode {
 
 .hammer-banner {
   position: absolute;
-  top: 64px;
+  top: calc(64px + var(--sat));
   left: 50%;
   transform: translateX(-50%);
   background: rgba(231, 76, 60, 0.95);
@@ -681,6 +718,9 @@ body.hammer-mode {
 
 .modal-card {
   width: 86%;
+  max-width: 360px;
+  max-height: calc(100% - 40px - var(--sat) - var(--sab));
+  overflow-y: auto;
   background: #ffffff;
   border-radius: 24px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
@@ -795,3 +835,59 @@ body.hammer-mode {
   pointer-events: none;
   z-index: 90;
 }
+
+/* Compact Mobile Screen Adaptation (for devices with height < 750px like iPhone SE) */
+@media (max-height: 750px) {
+  .header-bar {
+    padding-top: calc(4px + var(--sat));
+    padding-bottom: 2px;
+  }
+  .avatar-badge {
+    width: 44px;
+    height: 44px;
+  }
+  .header-center-pill {
+    height: 38px;
+  }
+  .timer-box {
+    padding: 2px 6px;
+  }
+  #timer-text {
+    font-size: 14px;
+  }
+  .score-badge {
+    font-size: 14px;
+  }
+  .verify-ribbon {
+    font-size: 10px;
+    padding: 1px 0;
+  }
+  .play-area {
+    gap: 4px;
+    padding: 2px 8px;
+  }
+  .cabinet-wrapper {
+    height: 215px;
+  }
+  .conveyor-row-wrapper {
+    height: 60px;
+  }
+  .shelf-plank {
+    width: 122px;
+    height: 56px;
+    background-size: 100% 38px;
+  }
+  .tool-btn {
+    width: 50px;
+    height: 50px;
+  }
+  .pause-btn {
+    width: 42px;
+    height: 42px;
+  }
+  .bottom-tools-bar {
+    padding-top: 4px;
+    padding-bottom: calc(8px + var(--sab));
+  }
+}
+

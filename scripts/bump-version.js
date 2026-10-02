@@ -16,6 +16,7 @@ const rootDir = path.resolve(__dirname, '..');
 const packageJsonPath = path.join(rootDir, 'package.json');
 const appJsPath = path.join(rootDir, 'app.js');
 const indexHtmlPath = path.join(rootDir, 'index.html');
+const swJsPath = path.join(rootDir, 'sw.js');
 
 function readCurrentVersion() {
   const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
@@ -93,6 +94,16 @@ function bumpVersion(type, msg = '') {
     fs.writeFileSync(indexHtmlPath, htmlContent, 'utf8');
   }
 
+  // 4. 更新 sw.js 中的 CACHE_VERSION
+  if (fs.existsSync(swJsPath)) {
+    let swContent = fs.readFileSync(swJsPath, 'utf8');
+    swContent = swContent.replace(
+      /const\s+CACHE_VERSION\s*=\s*['"][^'"]+['"];/,
+      `const CACHE_VERSION = 'v${nextVer}';`
+    );
+    fs.writeFileSync(swJsPath, swContent, 'utf8');
+  }
+
   console.log(`[Version Bump] ${reason}: v${curVerStr} -> v${nextVer}`);
   return { prev: curVerStr, next: nextVer, type: bumpType, reason };
 }
@@ -128,8 +139,8 @@ if (command === 'hook-pre-commit') {
   const envType = process.env.BUMP || 'minor';
   bumpVersion(envType);
   try {
-    execSync('git add package.json app.js index.html', { cwd: rootDir });
-    console.log('[Version Hook] 已自动更新并暂存 package.json, app.js, index.html');
+    execSync('git add package.json app.js index.html sw.js', { cwd: rootDir });
+    console.log('[Version Hook] 已自动更新并暂存 package.json, app.js, index.html, sw.js');
   } catch (err) {
     console.error('[Version Hook] Git add failed:', err.message);
   }
@@ -143,8 +154,8 @@ bumpVersion(command, messageArg);
 
 if (shouldStage) {
   try {
-    execSync('git add package.json app.js index.html', { cwd: rootDir });
-    console.log('[Git Stage] package.json, app.js, index.html 已自动暂存');
+    execSync('git add package.json app.js index.html sw.js', { cwd: rootDir });
+    console.log('[Git Stage] package.json, app.js, index.html, sw.js 已自动暂存');
   } catch (err) {
     console.error('Git add failed:', err.message);
   }

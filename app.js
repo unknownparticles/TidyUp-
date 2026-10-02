@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.1.1';
+  const APP_VERSION = '1.2.0';
 
   // 1. High-Resolution 3D Rendered Item Assets (Extracted directly from sprite sheet)
   const ITEMS = {
@@ -1729,5 +1729,53 @@
 
   window.addEventListener('DOMContentLoaded', () => {
     window.game = new GoodsOrganizerGame();
+
+    // ================== PWA Installation & Service Worker ==================
+    let deferredInstallPrompt = null;
+    const btnInstallPwa = document.getElementById('btn-install-pwa');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      if (btnInstallPwa) {
+        btnInstallPwa.style.display = 'block';
+      }
+      console.log('[PWA] beforeinstallprompt captured, install button activated');
+    });
+
+    if (btnInstallPwa) {
+      btnInstallPwa.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) return;
+        btnInstallPwa.style.display = 'none';
+        deferredInstallPrompt.prompt();
+        try {
+          const { outcome } = await deferredInstallPrompt.userChoice;
+          console.log(`[PWA] Install prompt outcome: ${outcome}`);
+        } catch (err) {
+          console.error('[PWA] Error during install prompt:', err);
+        }
+        deferredInstallPrompt = null;
+      });
+    }
+
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] Goods Sort 3D was installed successfully!');
+      if (btnInstallPwa) {
+        btnInstallPwa.style.display = 'none';
+      }
+    });
+
+    // Register Service Worker for offline capability
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => {
+            console.log(`[PWA] Service Worker registered with scope: ${reg.scope}`);
+          })
+          .catch((err) => {
+            console.warn('[PWA] Service Worker registration failed:', err);
+          });
+      });
+    }
   });
 })();

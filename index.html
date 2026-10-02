@@ -2,8 +2,23 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>收纳整理师 - 货柜消除 3D</title>
+  
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#8e44ad">
+  <meta name="color-scheme" content="light">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="收纳整理师">
+
+  <!-- Favicons and Touch Icons -->
+  <link rel="icon" type="image/svg+xml" href="./assets/ui/logo.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png">
+
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -142,7 +157,7 @@
     <div id="modal-pause" class="modal-overlay">
       <div class="modal-card">
         <h2>游戏暂停</h2>
-        <div class="modal-version-badge" id="pause-modal-version">版本号：v1.1.1</div>
+        <div class="modal-version-badge" id="pause-modal-version">版本号：v1.2.0</div>
         <p class="modal-desc">
           <strong>收纳小技巧：</strong><br>
           • 凑齐 3 个相同物品放在同一格可消除<br>
@@ -152,6 +167,7 @@
         </p>
         <div class="modal-btn-row">
           <button class="btn-primary" id="btn-resume">继续游戏</button>
+          <button class="btn-secondary" id="btn-install-pwa" style="display: none; background: linear-gradient(180deg, #9b59b6, #8e44ad); color: white; border: none; font-weight: bold;">📲 安装为独立桌面/手机应用</button>
         </div>
       </div>
     </div>
