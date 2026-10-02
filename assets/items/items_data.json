@@ -24,10 +24,10 @@
     "name": "圣诞麋鹿",
     "img": "./assets/items/reindeer.png"
   },
-  "snowman_blue": {
-    "id": "snowman_blue",
-    "name": "蓝帽雪人",
-    "img": "./assets/items/snowman_blue.png"
+  "snowman_yellow": {
+    "id": "snowman_yellow",
+    "name": "黄帽雪人",
+    "img": "./assets/items/snowman_yellow.png"
   },
   "stocking": {
     "id": "stocking",
@@ -56,12 +56,12 @@
   },
   "gift_white": {
     "id": "gift_white",
-    "name": "雪白礼盒",
+    "name": "蓝带白礼盒",
     "img": "./assets/items/gift_white.png"
   },
   "gift_striped": {
     "id": "gift_striped",
-    "name": "条纹礼盒",
+    "name": "红白条纹礼盒",
     "img": "./assets/items/gift_striped.png"
   },
   "gift_yellow": {
@@ -216,7 +216,7 @@
   },
   "jam_berry": {
     "id": "jam_berry",
-    "name": "蔓越莓果酱",
+    "name": "蓝莓鲜果酱",
     "img": "./assets/items/jam_berry.png"
   },
   "jam_peach": {
