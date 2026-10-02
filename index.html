@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>收纳整理师 - 货柜消除 3D</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <div id="game-container">
+    <!-- Particle Canvas for Match Sparkles & Fireworks -->
+    <canvas id="fx-canvas"></canvas>
+
+    <!-- Freeze Ice Overlay -->
+    <div id="freeze-overlay" class="freeze-overlay"></div>
+
+    <!-- Hammer Mode Active Banner -->
+    <div id="hammer-banner" class="hammer-banner" style="display: none;">
+      <span>🔨 敲击模式：点击任意物品直接消除</span>
+      <button id="btn-cancel-hammer" class="btn-cancel-tool">取消</button>
+    </div>
+
+    <!-- Ghost element for Drag and Drop -->
+    <div id="drag-ghost" class="drag-ghost" style="display: none;"></div>
+
+    <!-- ================== Top Header ================== -->
+    <header class="header-bar">
+      <!-- Mascot Avatar Logo (Self-Generated Crisp SVG) -->
+      <div class="avatar-badge">
+        <img src="./assets/ui/logo.svg" alt="收纳大师">
+      </div>
+
+      <!-- Main Pill Container -->
+      <div class="header-center-pill">
+        <!-- Timer -->
+        <div class="timer-box">
+          <svg class="timer-icon" viewBox="0 0 24 24" fill="none" stroke="#00d2d3" stroke-width="2.5">
+            <circle cx="12" cy="12" r="9"/>
+            <polyline points="12 7 12 12 15 15"/>
+          </svg>
+          <span id="timer-text">16:28</span>
+        </div>
+
+        <!-- Mode Badge -->
+        <div class="mode-badge" id="level-mode-tag">精英挑战赛</div>
+
+        <!-- Star Score -->
+        <div class="score-badge">
+          <svg class="star-icon" viewBox="0 0 24 24">
+            <polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#f1c40f" stroke="#d68910" stroke-width="1.5"/>
+          </svg>
+          <span id="score-value">0</span>
+        </div>
+      </div>
+
+      <!-- Sound Toggle -->
+      <button class="btn-header" id="btn-sound-toggle" title="声音开关">🔊</button>
+    </header>
+
+    <!-- Solvability Verification Badge -->
+    <div class="verify-ribbon" id="verify-badge">可解性校验：算法已通过 ✔</div>
+
+    <!-- ================== Play Area ================== -->
+    <main class="play-area">
+      <!-- Upper Main Cabinet (9 Big Compartments with Wood Shelf Floor & Dividers) -->
+      <div class="cabinet-wrapper">
+        <div class="cabinet-grid" id="cabinet-grid">
+          <!-- Dynamically generated 9 full compartments -->
+        </div>
+      </div>
+
+      <!-- Lower 3 Scrolling Conveyor Rows ("下面三行能自动滚动，灰色代表在下一行") -->
+      <div class="conveyor-section" id="conveyor-section">
+        <!-- Dynamically generated 3 horizontal conveyor rows -->
+      </div>
+    </main>
+
+    <!-- ================== Bottom Boosters Bar ================== -->
+    <footer class="bottom-tools-bar">
+      <!-- Hammer Tool (19) -->
+      <div class="tool-btn" id="btn-tool-hammer" title="锤子：强制清除指定物品">
+        <img src="./assets/ui/btn_hammer.svg" alt="锤子">
+        <div class="tool-count-badge" id="count-hammer">19</div>
+      </div>
+
+      <!-- Magic Wand Tool (41) -->
+      <div class="tool-btn" id="btn-tool-wand" title="魔棒：自动寻找并匹配消除一组物品">
+        <img src="./assets/ui/btn_wand.svg" alt="魔棒">
+        <div class="tool-count-badge" id="count-wand">41</div>
+      </div>
+
+      <!-- Freeze Tool (67) -->
+      <div class="tool-btn" id="btn-tool-freeze" title="冰冻：暂停倒计时计时器">
+        <img src="./assets/ui/btn_freeze.svg" alt="冰冻">
+        <div class="tool-count-badge" id="count-freeze">67</div>
+      </div>
+
+      <!-- Shuffle Tool (+) -->
+      <div class="tool-btn plus" id="btn-tool-shuffle" title="重排：打乱并重新排列当前可见物品">
+        <img src="./assets/ui/btn_shuffle.svg" alt="重排">
+        <div class="tool-count-badge">+</div>
+      </div>
+
+      <!-- Pause Button -->
+      <div class="pause-btn" id="btn-pause" title="暂停游戏">
+        <img src="./assets/ui/btn_pause.svg" alt="暂停">
+      </div>
+    </footer>
+
+    <!-- ================== Modals ================== -->
+
+    <!-- Victory Modal -->
+    <div id="modal-win" class="modal-overlay">
+      <div class="modal-card">
+        <h2>🎉 整理大成功！</h2>
+        <div class="modal-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#f1c40f"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#f1c40f"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#f1c40f"/></svg>
+        </div>
+        <p class="modal-desc">货架已被全部整理清空！<br>最终积分: <strong id="win-final-score" style="color: #e67e22; font-size: 20px;">0</strong></p>
+        <div class="modal-btn-row">
+          <button class="btn-primary" id="btn-next-level">进入下一关</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="modal-gameover" class="modal-overlay">
+      <div class="modal-card">
+        <h2 style="color: #e74c3c;">挑战失败</h2>
+        <p class="modal-desc" id="gameover-reason">货架已无多余位置周转！</p>
+        <div class="modal-btn-row">
+          <button class="btn-primary" id="btn-revive" style="background: linear-gradient(180deg, #3498db, #2980b9);">⚡ 立即复活 (+90秒)</button>
+          <button class="btn-secondary" id="btn-restart">重新开始挑战</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pause Modal -->
+    <div id="modal-pause" class="modal-overlay">
+      <div class="modal-card">
+        <h2>游戏暂停</h2>
+        <p class="modal-desc">
+          <strong>收纳小技巧：</strong><br>
+          • 凑齐 3 个相同物品放在同一格可消除<br>
+          • 灰色物品代表在下一层/行，前排移开后激活<br>
+          • 下方三行货架会自动滚动，善用空格周转<br>
+          • 遇死局可用【魔棒】或【重排】化解
+        </p>
+        <div class="modal-btn-row">
+          <button class="btn-primary" id="btn-resume">继续游戏</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

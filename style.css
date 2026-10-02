@@ -1,0 +1,733 @@
+:root {
+  --wood-light: #e6c19c;
+  --wood-mid: #cfa075;
+  --wood-dark: #8e5f38;
+  --wood-border: #663914;
+  --bg-color: #ecdcc9;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+img {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: radial-gradient(circle at 50% 30%, #dfd3c5 0%, #b3a494 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: #333;
+}
+
+/* Main Phone Container (Matching 711:1024 Aspect Ratio from Reference) */
+#game-container {
+  width: 100vw;
+  max-width: 430px;
+  height: 100vh;
+  max-height: 890px;
+  background: #f1e7dc;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  touch-action: none;
+}
+
+@media (min-width: 500px) {
+  #game-container {
+    border-radius: 28px;
+    height: 94vh;
+    border: 4px solid #fff;
+  }
+}
+
+/* ================== Top Header Bar ================== */
+.header-bar {
+  padding: 8px 12px 4px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 20;
+}
+
+.avatar-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+.header-center-pill {
+  flex: 1;
+  height: 44px;
+  background: linear-gradient(180deg, #9b59b6, #8e44ad);
+  border: 2.5px solid #f1c40f;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  justify-content: space-between;
+}
+
+.timer-box {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 3px 8px;
+  border-radius: 14px;
+}
+
+.timer-icon {
+  width: 17px;
+  height: 17px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+}
+
+#timer-text {
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.mode-badge {
+  background: linear-gradient(180deg, #6c5ce7, #5352ed);
+  color: #fffa65;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.score-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.star-icon {
+  width: 22px;
+  height: 22px;
+  filter: drop-shadow(0 2px 4px rgba(241, 196, 15, 0.6));
+}
+
+.btn-header {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  font-size: 16px;
+}
+.btn-header:active {
+  transform: scale(0.92);
+}
+
+/* Solvability Status Ribbon */
+.verify-ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #27ae60;
+  background: rgba(46, 204, 113, 0.15);
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+/* ================== Play Area ================== */
+.play-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 10px;
+  gap: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ================== Upper 3x3 Main Cabinet ================== */
+.cabinet-wrapper {
+  width: 100%;
+  height: 245px;
+  background-image: url('./assets/ui/cabinet_empty.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: relative;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+}
+
+.cabinet-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 4px 6px;
+  box-sizing: border-box;
+}
+
+/* Single Cabinet Cubby (Contains 3 Item Positions) */
+.compartment {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 3px;
+  overflow: visible;
+  transition: all 0.2s;
+}
+
+.compartment.drop-target-snap,
+.compartment.drop-target-valid {
+  background: rgba(46, 204, 113, 0.45) !important;
+  border-radius: 8px;
+  box-shadow: inset 0 0 16px #2ecc71, 0 0 12px rgba(46, 204, 113, 0.7) !important;
+  transform: scale(1.03);
+}
+
+.compartment.drop-target-invalid {
+  background: rgba(231, 76, 60, 0.35) !important;
+  border-radius: 6px;
+  box-shadow: inset 0 0 12px #e74c3c !important;
+}
+
+/* 3 Items Lane */
+.slot-lane {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  position: relative;
+  padding: 0 1px;
+}
+
+/* Item Layer Container (Holds Front + Back Layer) */
+.item-layer-container {
+  width: 32%;
+  height: 92%;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Back Layer Item: Low Brightness, Grayscale, Occluded ("灰色代表在下一行") */
+.good-item.layer-back {
+  position: absolute;
+  bottom: 4px;
+  width: 82%;
+  height: 82%;
+  filter: grayscale(100%) brightness(0.38) contrast(0.85);
+  opacity: 0.85;
+  transform: translateY(-4px) scale(0.84);
+  transform-origin: bottom center;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.good-item.layer-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+}
+
+/* Front Layer Item: High-definition 3D, Vibrant, Interactable */
+.good-item.layer-front {
+  position: relative;
+  width: 96%;
+  height: 96%;
+  z-index: 3;
+  cursor: grab;
+  filter: drop-shadow(0 5px 6px rgba(0,0,0,0.3));
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s;
+  animation: itemPop 0.25s ease-out;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.good-item.layer-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+}
+
+@keyframes itemPop {
+  0% { transform: scale(0.5); opacity: 0; }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Selected item hover / bouncing */
+.good-item.selected {
+  transform: translateY(-12px) scale(1.18) !important;
+  filter: drop-shadow(0 12px 14px rgba(0,0,0,0.45)) drop-shadow(0 0 10px #f1c40f) !important;
+  z-index: 99 !important;
+  animation: selectedBounce 0.5s infinite alternate ease-in-out !important;
+}
+
+@keyframes selectedBounce {
+  0% { transform: translateY(-10px) scale(1.15); }
+  100% { transform: translateY(-16px) scale(1.22); }
+}
+
+/* Item Matching Flash / Elimination */
+.good-item.matching {
+  animation: matchFlash 0.35s forwards ease-in-out;
+}
+
+@keyframes matchFlash {
+  0% { transform: scale(1); filter: brightness(1.2); }
+  50% { transform: scale(1.25) rotate(6deg); filter: brightness(2) drop-shadow(0 0 16px #ffd700); }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* Hammer smash destruction */
+.good-item.smashed {
+  animation: smashExplode 0.3s forwards ease-out;
+}
+@keyframes smashExplode {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.3) rotate(-15deg); filter: brightness(2) contrast(2); }
+  100% { transform: scale(0) translateY(25px) rotate(50deg); opacity: 0; }
+}
+
+/* Empty Slot Indicator */
+.empty-slot-indicator {
+  width: 26px;
+  height: 36px;
+  border: 1.5px dashed rgba(160, 110, 70, 0.45);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(140, 90, 50, 0.5);
+  font-size: 14px;
+  font-weight: 300;
+  transition: all 0.2s;
+  align-self: flex-end;
+  margin-bottom: 2px;
+}
+
+.empty-slot-indicator:hover, .compartment.drop-target-valid .empty-slot-indicator, .shelf-plank.drop-target-valid .empty-slot-indicator {
+  border-color: #27ae60;
+  color: #27ae60;
+  background: rgba(46, 204, 113, 0.2);
+}
+
+/* ================== Lower 3 Scrolling Conveyor Rows ================== */
+.conveyor-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.conveyor-row-wrapper {
+  position: relative;
+  width: 100%;
+  height: 72px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.conveyor-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Floating Wooden Shelf Plank */
+.shelf-plank {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 136px;
+  height: 66px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  background-image: url('./assets/ui/shelf_plank_hd.png');
+  background-size: 100% 46px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  padding: 0 6px 10px 6px;
+  box-sizing: border-box;
+  will-change: transform;
+}
+
+.shelf-plank.drop-target-snap,
+.shelf-plank.drop-target-valid {
+  filter: drop-shadow(0 0 12px #2ecc71) brightness(1.2) !important;
+}
+
+.shelf-plank.drop-target-invalid {
+  filter: drop-shadow(0 0 10px #e74c3c) !important;
+}
+
+.shelf-plank .slot-lane {
+  height: 100%;
+  width: 100%;
+}
+
+.compartment.drop-target-snap .empty-slot-indicator,
+.shelf-plank.drop-target-snap .empty-slot-indicator,
+.compartment.drop-target-valid .empty-slot-indicator,
+.shelf-plank.drop-target-valid .empty-slot-indicator {
+  border-color: #2ecc71 !important;
+  color: #2ecc71 !important;
+  background: rgba(46, 204, 113, 0.4) !important;
+  transform: scale(1.18);
+  box-shadow: 0 0 10px #2ecc71;
+}
+
+/* ================== Bottom Boosters Bar ================== */
+.bottom-tools-bar {
+  padding: 4px 14px 14px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: linear-gradient(180deg, #d8a679 0%, #a86c3b 100%);
+  border-top: 4px solid #6c3c1a;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 30;
+}
+
+.tool-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.tool-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+.tool-btn:active {
+  transform: translateY(3px) scale(0.96);
+}
+
+.tool-btn.active-tool {
+  animation: toolPulse 0.8s infinite alternate ease-in-out;
+}
+
+@keyframes toolPulse {
+  0% { transform: scale(1.02); filter: drop-shadow(0 0 8px #00f2fe); }
+  100% { transform: scale(1.12); filter: drop-shadow(0 0 16px #00f2fe); }
+}
+
+.tool-count-badge {
+  position: absolute;
+  bottom: -4px;
+  background: #ffffff;
+  color: #333;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  border: 1.5px solid #d35400;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.tool-btn.plus .tool-count-badge {
+  background: #a55eea;
+  color: #fff;
+  border-color: #8854d0;
+  font-size: 14px;
+}
+
+/* Pause Button */
+.pause-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.pause-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.25));
+}
+.pause-btn:active {
+  transform: translateY(2px) scale(0.95);
+}
+
+/* ================== Dragging Ghost Element ================== */
+.drag-ghost {
+  position: fixed;
+  pointer-events: none !important;
+  z-index: 9999;
+  width: 52px;
+  height: 58px;
+  transform: translate(-50%, -50%) scale(1.15);
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.45));
+  will-change: left, top, transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drag-ghost img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+  pointer-events: none;
+}
+
+/* ================== Hammer Targeting Overlay ================== */
+body.hammer-mode {
+  cursor: crosshair !important;
+}
+
+.hammer-banner {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(231, 76, 60, 0.95);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-cancel-tool {
+  background: #fff;
+  color: #c0392b;
+  border: none;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ================== Freeze Ice Screen Frame Effect ================== */
+.freeze-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  border: 10px solid rgba(72, 219, 251, 0.75);
+  box-shadow: inset 0 0 35px rgba(0, 210, 211, 0.6);
+  z-index: 80;
+  display: none;
+  animation: freezePulse 1.2s infinite alternate ease-in-out;
+}
+
+.freeze-overlay.active {
+  display: block;
+}
+
+@keyframes freezePulse {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* ================== Modal Dialogs ================== */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-out;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  width: 86%;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  padding: 24px;
+  text-align: center;
+  transform: scale(0.85);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 4px solid #f1c40f;
+}
+
+.modal-overlay.open .modal-card {
+  transform: scale(1);
+}
+
+.modal-card h2 {
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.modal-stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.modal-stars svg {
+  width: 42px;
+  height: 42px;
+  filter: drop-shadow(0 3px 6px rgba(241, 196, 15, 0.6));
+}
+
+.modal-desc {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.modal-btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #2ecc71, #27ae60);
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: 800;
+  padding: 12px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 0 #1e8449, 0 6px 12px rgba(46, 204, 113, 0.4);
+  cursor: pointer;
+}
+.btn-primary:active {
+  transform: translateY(2px);
+}
+
+.btn-secondary {
+  background: #f1f2f6;
+  color: #57606f;
+  border: 1px solid #ced6e0;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+/* Floating Match Score Particle */
+.score-float {
+  position: absolute;
+  color: #ffd700;
+  font-size: 24px;
+  font-weight: 900;
+  text-shadow: 0 2px 4px #000, 0 0 10px #f39c12;
+  pointer-events: none;
+  z-index: 150;
+  animation: floatUp 0.8s forwards ease-out;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(0.6); opacity: 1; }
+  50% { transform: translateY(-30px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-50px) scale(1); opacity: 0; }
+}
+
+/* Canvas Particle Overlay */
+#fx-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 90;
+}
