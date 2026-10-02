@@ -31,7 +31,8 @@
 ## 🚀 在线体验与启动方式
 
 ### 🌐 方式 1：在线直接畅玩 (GitHub Pages)
-👉 **[点击直接进入游戏](https://unknownparticles.github.io/TidyUp-/)**
+👉 **[点击直接进入游戏 (alunapp.cn)](https://alunapp.cn/TidyUp-/)**  
+*(备用镜像：[https://unknownparticles.github.io/TidyUp-/](https://unknownparticles.github.io/TidyUp-/))*
 
 *(无需安装任何软件或依赖，支持桌面端与移动端浏览器即开即玩)*
 
