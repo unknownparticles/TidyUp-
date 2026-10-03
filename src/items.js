@@ -1,4 +1,4 @@
-// Reference-faithful SVG assets with embedded, cleaned PNG artwork.
+// Reference-faithful vector assets with repaired silhouettes and smooth curves.
 export const ITEMS = {
   "blue_snowman": {
     "id": "blue_snowman",

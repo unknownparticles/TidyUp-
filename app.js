@@ -3,9 +3,9 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.7.2';
+  const APP_VERSION = '1.7.3';
 
-  // Reference-faithful SVG assets with embedded, cleaned PNG artwork.
+  // Reference-faithful vector assets with repaired silhouettes and smooth curves.
   const ITEMS = {
     blue_snowman: { id: 'blue_snowman', name: '蓝帽雪人', archetype: 'snowman', colorGroup: 'blue', img: './assets/items/blue_snowman.svg' },
     red_snowman: { id: 'red_snowman', name: '红帽雪人', archetype: 'snowman', colorGroup: 'red', img: './assets/items/red_snowman.svg' },
