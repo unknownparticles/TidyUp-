@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <!-- Green Rind -->
+    <path d="M24,28 Q50,92 76,28 Z" fill="#2e7d32"/>
+    <!-- Light Green Inner Rind -->
+    <path d="M26,30 Q50,88 74,30 Z" fill="#c8e6c9"/>
+    <!-- Red Pulp -->
+    <path d="M29,32 Q50,84 71,32 Z" fill="#d32f2f"/>
+
+    <!-- Black Seeds -->
+    <ellipse cx="44" cy="48" rx="1.5" ry="2.4" fill="#212121" transform="rotate(-15 44 48)"/>
+    <ellipse cx="56" cy="48" rx="1.5" ry="2.4" fill="#212121" transform="rotate(15 56 48)"/>
+    <ellipse cx="50" cy="62" rx="1.5" ry="2.4" fill="#212121"/>
+  
+</svg>

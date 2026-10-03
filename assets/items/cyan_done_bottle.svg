@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <linearGradient id="done-b-cyan_done_bottle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#80deea"/>
+      <stop offset="50%" stop-color="#00acc1"/>
+      <stop offset="100%" stop-color="#006064"/>
+    </linearGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <rect x="38" y="16" width="24" height="10" rx="3" fill="url(#done-b-cyan_done_bottle)"/>
+    <path d="M60,18 C72,18 72,26 60,26" stroke="#00acc1" stroke-width="3" fill="none"/>
+    <rect x="28" y="26" width="44" height="64" rx="8" fill="url(#done-b-cyan_done_bottle)"/>
+
+    <rect x="28" y="46" width="44" height="28" fill="#00838f"/>
+    <text x="50" y="66" font-size="14" font-weight="900" fill="#fff9c4" text-anchor="middle" font-family="Arial Black, Impact, sans-serif">Done</text>
+  
+</svg>

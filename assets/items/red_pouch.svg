@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <radialGradient id="pouch-g-red_pouch" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff8a80"/>
+      <stop offset="50%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </radialGradient>
+    <radialGradient id="gold-pom" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="60%" stop-color="#fbc02d"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <path d="M42,32 C28,42 22,66 26,82 C28,90 72,90 74,82 C78,66 72,42 58,32 Z" fill="url(#pouch-g-red_pouch)"/>
+    <path d="M38,32 C34,22 42,18 46,24 C50,18 54,18 58,24 C62,18 68,22 64,32 Z" fill="url(#pouch-g-red_pouch)"/>
+
+    <path d="M38,32 Q50,36 62,32" stroke="#fbc02d" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M46,34 Q38,44 42,50" stroke="#fbc02d" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <circle cx="42" cy="51" r="2.8" fill="url(#gold-pom)"/>
+    <path d="M54,34 Q62,44 58,50" stroke="#fbc02d" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <circle cx="58" cy="51" r="2.8" fill="url(#gold-pom)"/>
+
+    <g transform="translate(50, 66)">
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="0" y1="-12" x2="0" y2="12" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="-8.5" y1="-8.5" x2="8.5" y2="8.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="-8.5" y1="8.5" x2="8.5" y2="-8.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="-6" cy="0" r="1.5" fill="#ffffff"/><circle cx="6" cy="0" r="1.5" fill="#ffffff"/>
+      <circle cx="0" cy="-6" r="1.5" fill="#ffffff"/><circle cx="0" cy="6" r="1.5" fill="#ffffff"/>
+      <circle cx="0" cy="0" r="2.2" fill="#ffffff"/>
+    </g>
+  
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <linearGradient id="cup-sleeve-orange_coffee_cup" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffcc80"/>
+      <stop offset="50%" stop-color="#fb8c00"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </linearGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <path d="M34,26 L38,86 Q50,89 62,86 L66,26 Z" fill="#ffffff" stroke="#cfd8dc" stroke-width="1.2"/>
+    <path d="M35,46 L37,70 Q50,73 63,70 L65,46 Z" fill="url(#cup-sleeve-orange_coffee_cup)"/>
+    <rect x="30" y="16" width="40" height="12" rx="4" fill="url(#cup-sleeve-orange_coffee_cup)"/>
+    <rect x="33" y="12" width="34" height="6" rx="2" fill="url(#cup-sleeve-orange_coffee_cup)"/>
+  
+</svg>

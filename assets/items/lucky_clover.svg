@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <radialGradient id="leaf-g" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#c5e1a5"/>
+      <stop offset="50%" stop-color="#7cb342"/>
+      <stop offset="100%" stop-color="#33691e"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <!-- Stem -->
+    <path d="M50,50 Q48,74 54,88" stroke="#558b2f" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+    <!-- 4 Heart-shaped Leaves -->
+    <!-- Top Leaf -->
+    <path d="M50,50 C40,38 34,22 46,18 C50,22 50,30 50,50 C50,30 50,22 54,18 C66,22 60,38 50,50 Z" fill="url(#leaf-g)"/>
+    <!-- Bottom Leaf -->
+    <path d="M50,50 C40,62 34,78 46,82 C50,78 50,70 50,50 C50,70 50,78 54,82 C66,78 60,62 50,50 Z" fill="url(#leaf-g)"/>
+    <!-- Left Leaf -->
+    <path d="M50,50 C38,40 22,34 18,46 C22,50 30,50 50,50 C30,50 22,50 18,54 C22,66 38,60 50,50 Z" fill="url(#leaf-g)"/>
+    <!-- Right Leaf -->
+    <path d="M50,50 C62,40 78,34 82,46 C78,50 70,50 50,50 C70,50 78,50 82,54 C78,66 62,60 50,50 Z" fill="url(#leaf-g)"/>
+
+    <!-- Central Vein Glow -->
+    <circle cx="50" cy="50" r="3.5" fill="#e8f5e9"/>
+  
+</svg>

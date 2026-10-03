@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <linearGradient id="candle-g-red_candle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef5350"/>
+      <stop offset="50%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </linearGradient>
+    <radialGradient id="flame-g" cx="50%" cy="60%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#ffeb3b"/>
+      <stop offset="80%" stop-color="#ff9800"/>
+      <stop offset="100%" stop-color="#f44336"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <rect x="34" y="34" width="32" height="52" rx="4" fill="url(#candle-g-red_candle)"/>
+    <path d="M34,34 Q38,48 42,42 Q46,52 50,44 Q54,54 58,42 Q62,48 66,34 Z" fill="#ef5350"/>
+    <ellipse cx="50" cy="34" rx="16" ry="5" fill="#ef5350"/>
+    <line x1="50" y1="34" x2="50" y2="24" stroke="#212121" stroke-width="1.8"/>
+    <path d="M50,10 C46,16 46,24 50,26 C54,24 54,16 50,10 Z" fill="url(#flame-g)"/>
+  
+</svg>

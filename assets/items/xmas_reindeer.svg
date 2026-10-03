@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <radialGradient id="deer-fur" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffe0b2"/>
+      <stop offset="45%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#f57c00"/>
+    </radialGradient>
+    <radialGradient id="rudolph-nose" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ff5252"/>
+      <stop offset="70%" stop-color="#d50000"/>
+      <stop offset="100%" stop-color="#9b0000"/>
+    </radialGradient>
+    <radialGradient id="deer-bell" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="60%" stop-color="#fbc02d"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <!-- Branched Antlers -->
+    <path d="M37,28 C34,16 28,12 24,10 M28,15 C24,18 20,17 18,15 M32,19 C28,21 24,22 22,23" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M63,28 C66,16 72,12 76,10 M72,15 C76,18 80,17 82,15 M68,19 C72,21 76,22 78,23" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+    <!-- Reindeer Legs / Body -->
+    <rect x="36" y="65" width="9" height="24" rx="4" fill="url(#deer-fur)"/>
+    <rect x="55" y="65" width="9" height="24" rx="4" fill="url(#deer-fur)"/>
+    <rect x="36" y="85" width="9" height="4" rx="1.5" fill="#5d4037"/>
+    <rect x="55" y="85" width="9" height="4" rx="1.5" fill="#5d4037"/>
+
+    <ellipse cx="50" cy="65" rx="19" ry="17" fill="url(#deer-fur)"/>
+    <ellipse cx="50" cy="68" rx="11" ry="12" fill="#fff3e0"/>
+
+    <!-- Red Collar with Bell -->
+    <path d="M37,56 Q50,62 63,56" stroke="#d50000" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <circle cx="50" cy="63" r="4.2" fill="url(#deer-bell)"/>
+    <circle cx="50" cy="64.5" r="1.1" fill="#795548"/>
+
+    <!-- Deer Ears -->
+    <ellipse cx="30" cy="38" rx="6" ry="3.5" fill="url(#deer-fur)" transform="rotate(-15 30 38)"/>
+    <ellipse cx="70" cy="38" rx="6" ry="3.5" fill="url(#deer-fur)" transform="rotate(15 70 38)"/>
+
+    <!-- Deer Head -->
+    <ellipse cx="50" cy="42" rx="18" ry="16" fill="url(#deer-fur)"/>
+
+    <circle cx="42" cy="38" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="58" cy="38" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="41.2" cy="37.2" r="0.85" fill="#ffffff"/>
+    <circle cx="57.2" cy="37.2" r="0.85" fill="#ffffff"/>
+
+    <ellipse cx="50" cy="45" rx="4.8" ry="3.8" fill="url(#rudolph-nose)"/>
+    <circle cx="48.5" cy="43.5" r="1.3" fill="#ffffff" opacity="0.85"/>
+  
+</svg>

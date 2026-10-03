@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <linearGradient id="milk-c-farm_cow_milk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#bbdefb"/>
+      <stop offset="60%" stop-color="#42a5f5"/>
+      <stop offset="100%" stop-color="#1976d2"/>
+    </linearGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <rect x="28" y="16" width="44" height="74" rx="4" fill="url(#milk-c-farm_cow_milk)"/>
+
+    <rect x="36" y="24" width="28" height="18" rx="4" fill="#212121"/>
+    <text x="50" y="37" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="Georgia, serif" font-style="italic">Milk</text>
+
+    <path d="M28,60 Q34,54 42,58 Q50,64 58,54 Q66,50 72,56 L72,90 L28,90 Z" fill="#ffffff"/>
+    <ellipse cx="50" cy="72" rx="7" ry="5" fill="#ffe082" transform="rotate(-15 50 72)"/>
+  
+</svg>

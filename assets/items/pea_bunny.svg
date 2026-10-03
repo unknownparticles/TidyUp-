@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <linearGradient id="pod-g-pea_bunny" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c5e1a5"/>
+      <stop offset="50%" stop-color="#8bc34a"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </linearGradient>
+    <radialGradient id="bunny-f" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="65%" stop-color="#f5f8fa"/>
+      <stop offset="100%" stop-color="#dbe5ed"/>
+    </radialGradient>
+    <linearGradient id="ear-i" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffccd2"/>
+      <stop offset="100%" stop-color="#ffb3ba"/>
+    </linearGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <!-- Pea Pod Back Shell -->
+    <path d="M22,35 C14,58 24,88 56,92 C74,94 88,85 88,74 C86,85 68,91 50,88 C26,84 18,58 26,32 Z" fill="url(#pod-g-pea_bunny)" opacity="0.9"/>
+    
+    <!-- Bunny Body lying back -->
+    <ellipse cx="60" cy="68" rx="16" ry="14" fill="url(#bunny-f)" transform="rotate(-15 60 68)"/>
+    <ellipse cx="62" cy="72" rx="10" ry="8" fill="#fff9c4" opacity="0.8" transform="rotate(-15 62 72)"/>
+    <!-- Feet -->
+    <ellipse cx="74" cy="75" rx="4.5" ry="3" fill="url(#bunny-f)"/>
+    <ellipse cx="74" cy="75" rx="2" ry="1.5" fill="#ffccd2"/>
+
+    <!-- Bunny Long Ears tilted back -->
+    <path d="M38,40 C28,26 18,18 25,12 C32,8 42,22 46,36 Z" fill="url(#bunny-f)"/>
+    <path d="M36,36 C28,26 22,20 26,15 C30,12 38,22 42,34 Z" fill="url(#ear-i)"/>
+    <path d="M48,36 C42,20 44,10 52,8 C58,6 60,18 56,34 Z" fill="url(#bunny-f)"/>
+    <path d="M49,32 C45,20 46,13 51,11 C55,10 57,18 54,30 Z" fill="url(#ear-i)"/>
+
+    <!-- Bunny Head -->
+    <circle cx="52" cy="50" r="16" fill="url(#bunny-f)"/>
+    <ellipse cx="44" cy="54" rx="3.5" ry="2.5" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
+    <ellipse cx="64" cy="50" rx="3.5" ry="2.5" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
+
+    <!-- Sleeping / Winking Eyes -->
+    <path d="M45,46 Q48,43 51,46" stroke="#37474f" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <circle cx="60" cy="44" r="1.8" fill="#37474f"/>
+    <circle cx="59.4" cy="43.4" r="0.6" fill="#ffffff"/>
+    <ellipse cx="55" cy="49" rx="1.4" ry="1" fill="#e91e63"/>
+    <path d="M53,52 Q55,54 57,52" stroke="#37474f" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+    <!-- Paws on belly -->
+    <ellipse cx="52" cy="64" rx="3.5" ry="2.8" fill="url(#bunny-f)"/>
+    <ellipse cx="60" cy="63" rx="3.5" ry="2.8" fill="url(#bunny-f)"/>
+
+    <!-- Pea Pod Front Cradle Lip -->
+    <path d="M18,34 C12,58 24,88 56,92 C74,94 88,82 88,74 C78,82 60,86 44,80 C26,72 20,54 22,34 Z" fill="url(#pod-g-pea_bunny)"/>
+    <path d="M22,34 C16,56 26,82 52,88" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.55"/>
+  
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <radialGradient id="frog-skin" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#c5e1a5"/>
+      <stop offset="50%" stop-color="#8bc34a"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </radialGradient>
+    <radialGradient id="frog-eye-lens" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffb74d"/>
+      <stop offset="50%" stop-color="#5d4037"/>
+      <stop offset="100%" stop-color="#212121"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <ellipse cx="32" cy="85" rx="10" ry="4" fill="#aed581"/>
+    <ellipse cx="68" cy="85" rx="10" ry="4" fill="#aed581"/>
+
+    <ellipse cx="50" cy="66" rx="23" ry="20" fill="url(#frog-skin)"/>
+    <ellipse cx="50" cy="68" rx="15" ry="14" fill="#f1f8e9"/>
+
+    <ellipse cx="40" cy="82" rx="4.5" ry="3.5" fill="url(#frog-skin)"/>
+    <ellipse cx="60" cy="82" rx="4.5" ry="3.5" fill="url(#frog-skin)"/>
+
+    <circle cx="36" cy="34" r="11" fill="url(#frog-skin)"/>
+    <circle cx="64" cy="34" r="11" fill="url(#frog-skin)"/>
+
+    <circle cx="36" cy="34" r="8" fill="url(#frog-eye-lens)"/>
+    <circle cx="64" cy="34" r="8" fill="url(#frog-eye-lens)"/>
+    <circle cx="33.5" cy="31.5" r="2.8" fill="#ffffff"/>
+    <circle cx="61.5" cy="31.5" r="2.8" fill="#ffffff"/>
+
+    <ellipse cx="50" cy="48" rx="20" ry="13" fill="url(#frog-skin)"/>
+
+    <circle cx="47" cy="45" r="0.8" fill="#33691e"/>
+    <circle cx="53" cy="45" r="0.8" fill="#33691e"/>
+    <path d="M42,50 Q50,56 58,50" stroke="#33691e" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  
+</svg>

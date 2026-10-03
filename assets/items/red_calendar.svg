@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <!-- Calendar Block Base -->
+    <rect x="26" y="24" width="48" height="62" rx="6" fill="#ffffff" stroke="#cfd8dc" stroke-width="1.2"/>
+    <!-- Colored Header Band -->
+    <path d="M26,30 C26,26 28,24 32,24 L68,24 C72,24 74,26 74,30 L74,44 L26,44 Z" fill="#d32f2f"/>
+
+    <!-- Binder Rings -->
+    <rect x="36" y="18" width="6" height="12" rx="3" fill="#90a4ae"/>
+    <rect x="58" y="18" width="6" height="12" rx="3" fill="#90a4ae"/>
+
+    <!-- "25" Typography -->
+    <text x="50" y="76" font-size="28" font-weight="900" fill="#212121" text-anchor="middle" font-family="Arial Black, Impact, sans-serif">25</text>
+  
+</svg>

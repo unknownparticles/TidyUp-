@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <linearGradient id="gbox-b-yellow_gift_box" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="60%" stop-color="#fbc02d"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </linearGradient>
+    <radialGradient id="ribbon-bow-yellow_gift_box" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff8a80"/>
+      <stop offset="70%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <rect x="28" y="24" width="44" height="66" rx="5" fill="url(#gbox-b-yellow_gift_box)"/>
+    <rect x="45" y="24" width="10" height="66" fill="url(#ribbon-bow-yellow_gift_box)"/>
+    <rect x="28" y="52" width="44" height="10" fill="url(#ribbon-bow-yellow_gift_box)"/>
+
+    <path d="M48,54 C34,42 26,48 38,57 Z" fill="url(#ribbon-bow-yellow_gift_box)"/>
+    <path d="M52,54 C66,42 74,48 62,57 Z" fill="url(#ribbon-bow-yellow_gift_box)"/>
+    <path d="M48,58 C34,68 26,62 38,55 Z" fill="url(#ribbon-bow-yellow_gift_box)"/>
+    <path d="M52,58 C66,68 74,62 62,55 Z" fill="url(#ribbon-bow-yellow_gift_box)"/>
+    <circle cx="50" cy="57" r="4.2" fill="url(#ribbon-bow-yellow_gift_box)"/>
+    <circle cx="48.8" cy="55.8" r="1.2" fill="#ffffff" opacity="0.6"/>
+  
+</svg>

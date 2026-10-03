@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <radialGradient id="panda-w" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#f5f5f5"/>
+      <stop offset="100%" stop-color="#cfd8dc"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <circle cx="34" cy="28" r="9" fill="#212121"/>
+    <circle cx="66" cy="28" r="9" fill="#212121"/>
+
+    <ellipse cx="50" cy="70" rx="19" ry="17" fill="url(#panda-w)"/>
+    <circle cx="36" cy="83" r="6" fill="#212121"/>
+    <circle cx="64" cy="83" r="6" fill="#212121"/>
+    <ellipse cx="43" cy="67" rx="5" ry="7" fill="#212121"/>
+    <ellipse cx="57" cy="67" rx="5" ry="7" fill="#212121"/>
+
+    <circle cx="50" cy="44" r="20" fill="url(#panda-w)"/>
+
+    <ellipse cx="41" cy="41" rx="6" ry="4.5" fill="#212121" transform="rotate(-15 41 41)"/>
+    <ellipse cx="59" cy="41" rx="6" ry="4.5" fill="#212121" transform="rotate(15 59 41)"/>
+    <circle cx="41" cy="41" r="2.2" fill="#ffffff"/>
+    <circle cx="59" cy="41" r="2.2" fill="#ffffff"/>
+    <circle cx="41" cy="41" r="1.4" fill="#000000"/>
+    <circle cx="59" cy="41" r="1.4" fill="#000000"/>
+
+    <ellipse cx="50" cy="44" rx="2.5" ry="1.6" fill="#212121"/>
+    <path d="M47,48 Q50,54 53,48 Z" fill="#e91e63"/>
+  
+</svg>

@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
- * Procedural SVG Item Generator for Goods Sort 3D (收纳整理师)
- * Generates 15 base archetypes with 74 high-contrast, distinguishable variants.
+ * Authentic 3D Figurines & Clay-Style SVG Item Generator for Goods Sort 3D (收纳整理师)
+ * Faithfully modeled after the original PNG sprite assets, with parameterized variations.
  * 
- * Features:
- * - 100% Crisp Vector SVG (viewBox="0 0 100 100")
- * - 3D Gradients, Glossy Highlights, Outlines, and Drop Shadows
- * - Parameterized variations (e.g. Snowmen only vary hat/scarf style & color as requested)
- * - Maximum visual contrast to eliminate repetition and confusion
+ * Quality Principles:
+ * - 100% Modeled on the original PNG character silhouettes and clay aesthetic
+ * - 3D volumetric multi-stop gradients, soft Gaussian blur for clay highlights & blush
+ * - Contact ambient shadows
+ * - Parameterized variations (e.g. Snowmen strictly vary only hat/scarf/buttons, Milk cartons vary flavor/color, etc.)
+ * - High visual contrast between different archetypes and colorways to prevent confusion
  */
 
 const fs = require('fs');
@@ -19,2071 +20,1531 @@ if (!fs.existsSync(itemsDir)) {
   fs.mkdirSync(itemsDir, { recursive: true });
 }
 
-// Helper for SVG defs and wrappers
-function wrapSvg(id, defs, content) {
+function wrapSvg(defs, content) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
   <defs>
-    <!-- Common drop shadow for depth -->
-    <filter id="shadow-${id}" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
     </filter>
-    <radialGradient id="base-shadow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#000" stop-opacity="0.32"/>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
       <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
     </radialGradient>
     ${defs}
   </defs>
-  <!-- Floor Contact Shadow -->
-  <ellipse cx="50" cy="94" rx="34" ry="5.5" fill="url(#base-shadow)"/>
-  <g filter="url(#shadow-${id})">
-    ${content}
-  </g>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  ${content}
 </svg>`;
 }
 
-// ==========================================
-// 1. SNOWMAN (雪人)
-// Base body is classic snow white with carrot nose & coal buttons
-// Variations ONLY change the Hat & Scarf style and colors!
-// ==========================================
-function renderSnowman(variant) {
-  const { id, hatType, primaryColor, secondaryColor, pompomColor, pattern } = variant;
+// -------------------------------------------------------------
+// 1. SNOWMAN (雪人) - Modeled faithfully after blue_snowman.png
+// Round body, 2 buttons, round orange nose button, blush, dotted smile,
+// knit beanie with folded brim & pompom, cozy scarf with tail on left.
+// Variations ONLY change hat, scarf, and button colors!
+// -------------------------------------------------------------
+function renderSnowman(hatColors, scarfColors, btnColors, id) {
   const defs = `
-    <radialGradient id="snow-body" cx="38%" cy="30%" r="65%">
+    <radialGradient id="snow-b-${id}" cx="36%" cy="32%" r="65%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="75%" stop-color="#e3f2fd"/>
-      <stop offset="100%" stop-color="#b0bec5"/>
+      <stop offset="55%" stop-color="#f0f7fc"/>
+      <stop offset="85%" stop-color="#d2e5f5"/>
+      <stop offset="100%" stop-color="#b8d5ec"/>
     </radialGradient>
-    <radialGradient id="snow-head" cx="38%" cy="28%" r="65%">
+    <radialGradient id="snow-h-${id}" cx="36%" cy="30%" r="65%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="75%" stop-color="#e8f5e9"/>
-      <stop offset="100%" stop-color="#cfd8dc"/>
+      <stop offset="60%" stop-color="#f2f8fc"/>
+      <stop offset="88%" stop-color="#d5e7f5"/>
+      <stop offset="100%" stop-color="#bedaf0"/>
     </radialGradient>
-    <linearGradient id="carrot-grad" x1="0%" y1="0%" x2="100%" y2="50%">
-      <stop offset="0%" stop-color="#ff9f43"/>
-      <stop offset="100%" stop-color="#ee5253"/>
+    <radialGradient id="hat-crown-${id}" cx="38%" cy="28%" r="65%">
+      <stop offset="0%" stop-color="${hatColors[0]}"/>
+      <stop offset="50%" stop-color="${hatColors[1]}"/>
+      <stop offset="100%" stop-color="${hatColors[2]}"/>
+    </radialGradient>
+    <linearGradient id="hat-brim-${id}" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="${hatColors[0]}"/>
+      <stop offset="50%" stop-color="${hatColors[1]}"/>
+      <stop offset="100%" stop-color="${hatColors[2]}"/>
     </linearGradient>
-    <linearGradient id="hat-grad-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${primaryColor[0]}"/>
-      <stop offset="100%" stop-color="${primaryColor[1]}"/>
+    <linearGradient id="scarf-g-${id}" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="${scarfColors[0]}"/>
+      <stop offset="45%" stop-color="${scarfColors[1]}"/>
+      <stop offset="100%" stop-color="${scarfColors[2]}"/>
     </linearGradient>
-    <linearGradient id="scarf-grad-${id}" x1="0%" y1="0%" x2="100%" y2="50%">
-      <stop offset="0%" stop-color="${secondaryColor[0]}"/>
-      <stop offset="100%" stop-color="${secondaryColor[1]}"/>
+    <radialGradient id="btn-g-${id}" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="${btnColors[0]}"/>
+      <stop offset="60%" stop-color="${btnColors[1]}"/>
+      <stop offset="100%" stop-color="${btnColors[2]}"/>
+    </radialGradient>
+    <radialGradient id="carrot-g" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffb74d"/>
+      <stop offset="60%" stop-color="#ff9100"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <!-- Snowman Bottom Snowball Body -->
+    <circle cx="50" cy="72" r="22" fill="url(#snow-b-${id})"/>
+    <path d="M34,84 Q50,94 66,84 Q72,72 70,62 Q66,86 46,88 Q36,88 34,84 Z" fill="#9ec1dd" opacity="0.38" filter="url(#clay-blur)"/>
+
+    <!-- 2 Buttons on Belly -->
+    <circle cx="50" cy="67" r="3.2" fill="url(#btn-g-${id})"/>
+    <circle cx="49.1" cy="66.1" r="0.85" fill="#ffffff" opacity="0.75"/>
+    <circle cx="50" cy="78" r="3.2" fill="url(#btn-g-${id})"/>
+    <circle cx="49.1" cy="77.1" r="0.85" fill="#ffffff" opacity="0.75"/>
+
+    <!-- Snowman Head -->
+    <circle cx="50" cy="44" r="16.5" fill="url(#snow-h-${id})"/>
+
+    <!-- Soft Rosy Blush Cheeks -->
+    <ellipse cx="37" cy="46" rx="3.8" ry="2.8" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
+    <ellipse cx="63" cy="46" rx="3.8" ry="2.8" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
+
+    <!-- Glossy Eyes -->
+    <circle cx="42" cy="39" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="58" cy="39" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="41.2" cy="38.2" r="0.85" fill="#ffffff"/>
+    <circle cx="57.2" cy="38.2" r="0.85" fill="#ffffff"/>
+
+    <!-- Round Orange Carrot Nose Button -->
+    <ellipse cx="50" cy="43" rx="4.2" ry="3.3" fill="url(#carrot-g)"/>
+    <ellipse cx="49" cy="42" rx="1.6" ry="1.1" fill="#ffe082" opacity="0.75"/>
+
+    <!-- Sweet Dotted Smile -->
+    <circle cx="44" cy="48.2" r="0.85" fill="#263238"/>
+    <circle cx="47" cy="49.5" r="0.85" fill="#263238"/>
+    <circle cx="50" cy="50.0" r="0.85" fill="#263238"/>
+    <circle cx="53" cy="49.5" r="0.85" fill="#263238"/>
+    <circle cx="56" cy="48.2" r="0.85" fill="#263238"/>
+
+    <!-- Scarf Draped Tail on Left -->
+    <path d="M38,55 L34,74 Q36,77 42,75 L45,56 Z" fill="url(#scarf-g-${id})"/>
+    <path d="M38,55 L38,75" stroke="${scarfColors[2]}" stroke-width="1.2" opacity="0.5"/>
+
+    <!-- Scarf Neck Wrap -->
+    <path d="M31,52 Q50,60 69,52 Q71,57 67,61 Q50,67 33,61 Q29,56 31,52 Z" fill="url(#scarf-g-${id})"/>
+    <path d="M33,53 Q50,61 67,53" stroke="${scarfColors[0]}" stroke-width="1" fill="none" opacity="0.6"/>
+
+    <!-- Beanie Hat Crown -->
+    <path d="M33,26 C33,12 67,12 67,26 C67,28 33,28 33,26 Z" fill="url(#hat-crown-${id})"/>
+    <!-- Folded Thick Brim -->
+    <path d="M30,26 C30,22 70,22 70,26 C72,32 28,32 30,26 Z" fill="url(#hat-brim-${id})"/>
+    <path d="M31,25 C35,23 65,23 69,25" stroke="${hatColors[0]}" stroke-width="1" fill="none" opacity="0.7"/>
+
+    <!-- White Fluffy Pompom on Top -->
+    <circle cx="50" cy="12" r="4.6" fill="#ffffff"/>
+    <circle cx="50" cy="12" r="4.6" fill="#d2e6f7" opacity="0.35"/>
+    <circle cx="48.8" cy="10.8" r="1.8" fill="#ffffff"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 2. PEA BUNNY (豌豆小兔) - Modeled faithfully after pea_bunny.png
+// -------------------------------------------------------------
+function renderPeaBunny(podColors, id) {
+  const defs = `
+    <linearGradient id="pod-g-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${podColors[0]}"/>
+      <stop offset="50%" stop-color="${podColors[1]}"/>
+      <stop offset="100%" stop-color="${podColors[2]}"/>
+    </linearGradient>
+    <radialGradient id="bunny-f" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="65%" stop-color="#f5f8fa"/>
+      <stop offset="100%" stop-color="#dbe5ed"/>
+    </radialGradient>
+    <linearGradient id="ear-i" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffccd2"/>
+      <stop offset="100%" stop-color="#ffb3ba"/>
     </linearGradient>
   `;
 
-  // Hat generation based on hatType
-  let hatSvg = '';
-  if (hatType === 'santa') {
-    // Red pointed Santa hat drooping to right
-    hatSvg = `
-      <!-- Santa pointed cap -->
-      <path d="M33,31 Q48,10 70,18 Q82,24 84,34 Q80,36 74,32 Q62,20 49,27 Z" fill="url(#hat-grad-${id})" stroke="#333" stroke-width="0.8"/>
-      <!-- Fluffy brim -->
-      <rect x="31" y="27" width="38" height="7" rx="3.5" fill="#ffffff" stroke="#cfd8dc" stroke-width="0.8"/>
-      <!-- Fluffy pompom ball -->
-      <circle cx="85" cy="36" r="5" fill="#ffffff" stroke="#cfd8dc" stroke-width="0.8"/>
-    `;
-  } else if (hatType === 'beanie') {
-    // Winter knitted beanie with ribbed lines and round top pompom
-    hatSvg = `
-      <!-- Beanie dome -->
-      <path d="M33,31 C33,14 67,14 67,31 Z" fill="url(#hat-grad-${id})" stroke="#222" stroke-width="0.8"/>
-      <!-- Rib lines on beanie -->
-      <path d="M42,19 Q44,28 45,30 M50,17 Q50,28 50,30 M58,19 Q56,28 55,30" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-linecap="round"/>
-      <!-- Fold brim -->
-      <rect x="31" y="26" width="38" height="7" rx="2" fill="url(#scarf-grad-${id})" stroke="#222" stroke-width="0.8"/>
-      <!-- Top pompom -->
-      <circle cx="50" cy="14" r="5.5" fill="${pompomColor}" stroke="#333" stroke-width="0.8"/>
-    `;
-  } else if (hatType === 'tophat') {
-    // Magician / formal top hat with gold band
-    hatSvg = `
-      <!-- Hat cylinder -->
-      <rect x="37" y="12" width="26" height="18" rx="2" fill="url(#hat-grad-${id})" stroke="#111" stroke-width="0.8"/>
-      <!-- Gold trim band -->
-      <rect x="37" y="24" width="26" height="4" fill="${secondaryColor[0]}" stroke="#333" stroke-width="0.5"/>
-      <!-- Hat brim -->
-      <ellipse cx="50" cy="29" rx="21" ry="4" fill="url(#hat-grad-${id})" stroke="#111" stroke-width="0.8"/>
-    `;
-  } else if (hatType === 'elf') {
-    // Pointed elf hat with curled tip & jingle bell
-    hatSvg = `
-      <!-- Curled elf hat -->
-      <path d="M33,30 Q45,15 62,11 Q74,8 78,3 Q72,12 55,24 Q44,27 35,30 Z" fill="url(#hat-grad-${id})" stroke="#222" stroke-width="0.8"/>
-      <!-- Scalloped brim -->
-      <path d="M31,27 L37,32 L43,27 L50,32 L57,27 L63,32 L69,27 L68,32 L32,32 Z" fill="url(#scarf-grad-${id})" stroke="#222" stroke-width="0.6"/>
-      <!-- Bell at tip -->
-      <circle cx="78" cy="3" r="3.8" fill="#f1c40f" stroke="#d35400" stroke-width="0.8"/>
-    `;
-  } else if (hatType === 'warmknit') {
-    // Warm earflap winter cap
-    hatSvg = `
-      <path d="M33,30 C33,16 67,16 67,30 Z" fill="url(#hat-grad-${id})" stroke="#222" stroke-width="0.8"/>
-      <!-- Left ear flap -->
-      <path d="M34,29 L32,37 Q34,40 37,37 L38,29 Z" fill="url(#hat-grad-${id})" stroke="#222" stroke-width="0.8"/>
-      <!-- Right ear flap -->
-      <path d="M66,29 L68,37 Q66,40 63,37 L62,29 Z" fill="url(#hat-grad-${id})" stroke="#222" stroke-width="0.8"/>
-      <!-- Top fluffy ball -->
-      <circle cx="50" cy="15" r="5" fill="${pompomColor}" stroke="#333" stroke-width="0.8"/>
-    `;
-  } else {
-    // Twin pompom bobble hat
-    hatSvg = `
-      <path d="M34,31 C34,16 66,16 66,31 Z" fill="url(#hat-grad-${id})" stroke="#222" stroke-width="0.8"/>
-      <rect x="32" y="27" width="36" height="6" rx="2" fill="url(#scarf-grad-${id})" stroke="#222" stroke-width="0.8"/>
-      <circle cx="37" cy="16" r="4.5" fill="${pompomColor}" stroke="#333" stroke-width="0.8"/>
-      <circle cx="63" cy="16" r="4.5" fill="${pompomColor}" stroke="#333" stroke-width="0.8"/>
-    `;
-  }
-
   const content = `
-    <!-- Twig Arms -->
-    <path d="M30,62 L15,54 M18,56 L14,60 M21,54 L20,49" stroke="#795548" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M70,62 L85,54 M82,56 L86,60 M79,54 L80,49" stroke="#795548" stroke-width="2.5" stroke-linecap="round"/>
-
-    <!-- Bottom Snowball Body -->
-    <circle cx="50" cy="69" r="23" fill="url(#snow-body)" stroke="#90a4ae" stroke-width="1"/>
+    <!-- Pea Pod Back Shell -->
+    <path d="M22,35 C14,58 24,88 56,92 C74,94 88,85 88,74 C86,85 68,91 50,88 C26,84 18,58 26,32 Z" fill="url(#pod-g-${id})" opacity="0.9"/>
     
-    <!-- Coal Buttons on Body -->
-    <circle cx="50" cy="62" r="2.2" fill="#2d3436"/>
-    <circle cx="50" cy="70" r="2.2" fill="#2d3436"/>
-    <circle cx="50" cy="78" r="2.2" fill="#2d3436"/>
-    <circle cx="49.2" cy="61.2" r="0.6" fill="#fff"/>
-    <circle cx="49.2" cy="69.2" r="0.6" fill="#fff"/>
+    <!-- Bunny Body lying back -->
+    <ellipse cx="60" cy="68" rx="16" ry="14" fill="url(#bunny-f)" transform="rotate(-15 60 68)"/>
+    <ellipse cx="62" cy="72" rx="10" ry="8" fill="#fff9c4" opacity="0.8" transform="rotate(-15 62 72)"/>
+    <!-- Feet -->
+    <ellipse cx="74" cy="75" rx="4.5" ry="3" fill="url(#bunny-f)"/>
+    <ellipse cx="74" cy="75" rx="2" ry="1.5" fill="#ffccd2"/>
 
-    <!-- Head Snowball -->
-    <circle cx="50" cy="40" r="16.5" fill="url(#snow-head)" stroke="#90a4ae" stroke-width="0.8"/>
-
-    <!-- Blush Cheeks -->
-    <ellipse cx="40" cy="43" rx="2.5" ry="1.5" fill="#ff7675" opacity="0.65"/>
-    <ellipse cx="60" cy="43" rx="2.5" ry="1.5" fill="#ff7675" opacity="0.65"/>
-
-    <!-- Coal Eyes -->
-    <circle cx="44" cy="38" r="2.2" fill="#2d3436"/>
-    <circle cx="56" cy="38" r="2.2" fill="#2d3436"/>
-    <circle cx="43.3" cy="37.3" r="0.7" fill="#ffffff"/>
-    <circle cx="55.3" cy="37.3" r="0.7" fill="#ffffff"/>
-
-    <!-- Carrot Nose -->
-    <polygon points="50,40 66,43 50,44" fill="url(#carrot-grad)" stroke="#d35400" stroke-width="0.5"/>
-
-    <!-- Happy Coal Smile -->
-    <circle cx="44" cy="46" r="1" fill="#2d3436"/>
-    <circle cx="47" cy="47.5" r="1" fill="#2d3436"/>
-    <circle cx="50" cy="48" r="1" fill="#2d3436"/>
-    <circle cx="53" cy="47.5" r="1" fill="#2d3436"/>
-    <circle cx="56" cy="46" r="1" fill="#2d3436"/>
-
-    <!-- Neck Scarf -->
-    <!-- Scarf neck loop -->
-    <path d="M34,49 Q50,55 66,49 Q67,54 64,57 Q50,62 36,57 Z" fill="url(#scarf-grad-${id})" stroke="#222" stroke-width="0.8"/>
-    <!-- Scarf hanging tail with fringes -->
-    <path d="M54,54 L59,71 L67,70 L62,54 Z" fill="url(#scarf-grad-${id})" stroke="#222" stroke-width="0.8"/>
-    <!-- Scarf fringe cuts -->
-    <line x1="60" y1="71" x2="60" y2="74" stroke="${secondaryColor[0]}" stroke-width="1.2"/>
-    <line x1="63" y1="71" x2="63" y2="74" stroke="${secondaryColor[0]}" stroke-width="1.2"/>
-    <line x1="66" y1="70" x2="66" y2="73" stroke="${secondaryColor[0]}" stroke-width="1.2"/>
-
-    <!-- Hat -->
-    ${hatSvg}
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 2. BOBA & BEVERAGE CUPS (奶茶/冷饮杯)
-// ==========================================
-function renderBoba(variant) {
-  const { id, liquidGrad, strawColor, topping, drinkName } = variant;
-  const defs = `
-    <linearGradient id="cup-liquid-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${liquidGrad[0]}"/>
-      <stop offset="100%" stop-color="${liquidGrad[1]}"/>
-    </linearGradient>
-    <linearGradient id="cup-glare" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
-      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.1"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-  `;
-
-  let toppingSvg = '';
-  if (topping === 'pearls_strawberry') {
-    toppingSvg = `
-      <!-- Tapioca Pearls -->
-      <circle cx="40" cy="81" r="3" fill="#2d3436"/><circle cx="48" cy="83" r="3" fill="#2d3436"/>
-      <circle cx="56" cy="82" r="3" fill="#2d3436"/><circle cx="62" cy="80" r="3" fill="#2d3436"/>
-      <circle cx="44" cy="76" r="3" fill="#2d3436"/><circle cx="52" cy="77" r="3" fill="#2d3436"/>
-      <!-- Strawberry Garnish on rim -->
-      <path d="M62,28 Q75,18 72,32 Q68,36 62,34 Z" fill="#e74c3c" stroke="#c0392b" stroke-width="0.8"/>
-      <circle cx="68" cy="27" r="0.7" fill="#fff"/><circle cx="66" cy="31" r="0.7" fill="#fff"/>
-      <path d="M60,30 L63,26 L66,29 Z" fill="#2ecc71"/>
-    `;
-  } else if (topping === 'pearls_matcha') {
-    toppingSvg = `
-      <circle cx="40" cy="81" r="3" fill="#1b2a1a"/><circle cx="48" cy="83" r="3" fill="#1b2a1a"/>
-      <circle cx="56" cy="82" r="3" fill="#1b2a1a"/><circle cx="62" cy="80" r="3" fill="#1b2a1a"/>
-      <!-- Mint leaf on lid -->
-      <path d="M60,28 Q70,22 66,32 Q58,32 60,28 Z" fill="#2ecc71" stroke="#27ae60" stroke-width="0.8"/>
-      <line x1="60" y1="28" x2="65" y2="30" stroke="#1b5e20" stroke-width="0.6"/>
-    `;
-  } else if (topping === 'citrus_wheel') {
-    toppingSvg = `
-      <!-- Lemon/Orange Wheel Garnish -->
-      <circle cx="65" cy="30" r="10" fill="#f1c40f" stroke="#d68910" stroke-width="1.5"/>
-      <circle cx="65" cy="30" r="8" fill="#f39c12"/>
-      <path d="M65,22 L65,38 M57,30 L73,30 M59,24 L71,36 M59,36 L71,24" stroke="#fff" stroke-width="1"/>
-      <circle cx="65" cy="30" r="2" fill="#fff"/>
-    `;
-  } else if (topping === 'stars_ice') {
-    toppingSvg = `
-      <!-- Ice Cubes -->
-      <rect x="40" y="45" width="10" height="10" rx="2" fill="rgba(255,255,255,0.4)" stroke="#fff" stroke-width="0.6"/>
-      <rect x="52" y="52" width="11" height="11" rx="2" fill="rgba(255,255,255,0.4)" stroke="#fff" stroke-width="0.6"/>
-      <!-- Floating glitter stars -->
-      <polygon points="45,68 47,72 51,72 48,74 49,78 45,75 41,78 42,74 39,72 43,72" fill="#ffeaa7"/>
-      <polygon points="57,75 58,78 61,78 59,80 60,83 57,81 54,83 55,80 53,78 56,78" fill="#ffeaa7"/>
-    `;
-  } else if (topping === 'whipped_cream') {
-    toppingSvg = `
-      <!-- Whipped Cream Swirl -->
-      <path d="M35,32 Q50,15 65,32 Q60,20 50,18 Q40,20 35,32 Z" fill="#ffffff" stroke="#e0e0e0" stroke-width="0.8"/>
-      <!-- Caramel Drizzle -->
-      <path d="M38,28 Q44,22 50,28 Q56,22 62,28" stroke="#d35400" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-      <!-- Chocolate chips at bottom -->
-      <rect x="42" y="79" width="5" height="5" rx="1" fill="#3e2723"/>
-      <rect x="52" y="80" width="5" height="5" rx="1" fill="#3e2723"/>
-      <rect x="60" y="78" width="5" height="5" rx="1" fill="#3e2723"/>
-    `;
-  } else {
-    // Tropical lime & mint
-    toppingSvg = `
-      <rect x="42" y="50" width="12" height="12" rx="2" fill="rgba(255,255,255,0.45)" stroke="#fff" stroke-width="0.8"/>
-      <circle cx="64" cy="30" r="9" fill="#2ecc71" stroke="#27ae60" stroke-width="1.2"/>
-      <circle cx="64" cy="30" r="7.2" fill="#a8e6cf"/>
-      <line x1="64" y1="23" x2="64" y2="37" stroke="#fff" stroke-width="0.8"/>
-      <line x1="57" y1="30" x2="71" y2="30" stroke="#fff" stroke-width="0.8"/>
-    `;
-  }
-
-  const content = `
-    <!-- Angled Straw -->
-    <path d="M50,30 L64,8" stroke="${strawColor}" stroke-width="5" stroke-linecap="round"/>
-    <path d="M50,30 L64,8" stroke="#fff" stroke-width="1.2" stroke-dasharray="3,3" stroke-linecap="round"/>
-
-    <!-- Cup Liquid Body -->
-    <path d="M30,36 L36,86 Q50,91 64,86 L70,36 Z" fill="url(#cup-liquid-${id})" stroke="#222" stroke-width="1.2"/>
-
-    <!-- Toppings & Extras -->
-    ${toppingSvg}
-
-    <!-- Translucent Cup Shell & Glare -->
-    <path d="M28,34 L35,88 Q50,93 65,88 L72,34 Z" fill="none" stroke="#dfe6e9" stroke-width="1.5"/>
-    <path d="M31,37 L36,85 Q40,86 42,85 L37,37 Z" fill="url(#cup-glare)"/>
-
-    <!-- Cup Dome Lid -->
-    <path d="M26,34 Q50,22 74,34 Z" fill="rgba(255,255,255,0.75)" stroke="#b2bec3" stroke-width="1.2"/>
-    <rect x="25" y="32" width="50" height="4" rx="2" fill="#ecf0f1" stroke="#95a5a6" stroke-width="1"/>
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 3. GIFT BOX (礼品盒)
-// ==========================================
-function renderGiftBox(variant) {
-  const { id, boxColor, ribbonColor, pattern } = variant;
-  const defs = `
-    <linearGradient id="box-body-${id}" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="${boxColor[0]}"/>
-      <stop offset="100%" stop-color="${boxColor[1]}"/>
-    </linearGradient>
-    <linearGradient id="box-lid-${id}" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="${boxColor[2] || boxColor[0]}"/>
-      <stop offset="100%" stop-color="${boxColor[1]}"/>
-    </linearGradient>
-    <linearGradient id="ribbon-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${ribbonColor[0]}"/>
-      <stop offset="100%" stop-color="${ribbonColor[1]}"/>
-    </linearGradient>
-  `;
-
-  const content = `
-    <!-- Box Body -->
-    <rect x="24" y="44" width="52" height="42" rx="4" fill="url(#box-body-${id})" stroke="#222" stroke-width="1.2"/>
-
-    <!-- Optional Polka or Stripes Pattern on Box -->
-    ${pattern === 'dots' ? `
-      <circle cx="33" cy="54" r="2.5" fill="rgba(255,255,255,0.3)"/>
-      <circle cx="43" cy="74" r="2.5" fill="rgba(255,255,255,0.3)"/>
-      <circle cx="67" cy="54" r="2.5" fill="rgba(255,255,255,0.3)"/>
-      <circle cx="57" cy="74" r="2.5" fill="rgba(255,255,255,0.3)"/>
-    ` : ''}
-
-    <!-- Vertical Ribbon on Body -->
-    <rect x="44" y="44" width="12" height="42" fill="url(#ribbon-${id})" stroke="#222" stroke-width="0.8"/>
-
-    <!-- Horizontal Ribbon on Body -->
-    <rect x="24" y="58" width="52" height="10" fill="url(#ribbon-${id})" stroke="#222" stroke-width="0.8"/>
-
-    <!-- Box Lid (overhangs body) -->
-    <rect x="20" y="36" width="60" height="12" rx="3" fill="url(#box-lid-${id})" stroke="#222" stroke-width="1.2"/>
-    <rect x="44" y="36" width="12" height="12" fill="url(#ribbon-${id})" stroke="#222" stroke-width="0.8"/>
-
-    <!-- Big Fluffy Ribbon Bow on Top -->
-    <!-- Left loop -->
-    <path d="M47,36 C35,20 22,25 36,36 C42,37 46,37 48,36 Z" fill="url(#ribbon-${id})" stroke="#222" stroke-width="1"/>
-    <!-- Right loop -->
-    <path d="M53,36 C65,20 78,25 64,36 C58,37 54,37 52,36 Z" fill="url(#ribbon-${id})" stroke="#222" stroke-width="1"/>
-    <!-- Center knot -->
-    <circle cx="50" cy="36" r="4.5" fill="url(#ribbon-${id})" stroke="#222" stroke-width="1"/>
-    <circle cx="48.5" cy="34.5" r="1.2" fill="#fff" opacity="0.6"/>
-
-    <!-- Curled Ribbon ends hanging down -->
-    <path d="M46,39 Q38,48 42,54" stroke="${ribbonColor[0]}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <path d="M54,39 Q62,48 58,54" stroke="${ribbonColor[0]}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 4. MILK CARTON (屋顶包牛奶盒)
-// High-visibility fruit/flavor emblem on front!
-// ==========================================
-function renderMilkCarton(variant) {
-  const { id, cartonColor, roofColor, badgeType } = variant;
-  const defs = `
-    <linearGradient id="milk-carton-${id}" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="${cartonColor[0]}"/>
-      <stop offset="100%" stop-color="${cartonColor[1]}"/>
-    </linearGradient>
-    <linearGradient id="milk-roof-${id}" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="${roofColor[0]}"/>
-      <stop offset="100%" stop-color="${roofColor[1]}"/>
-    </linearGradient>
-  `;
-
-  let badgeSvg = '';
-  if (badgeType === 'strawberry') {
-    badgeSvg = `
-      <!-- Big Strawberry 🍓 -->
-      <path d="M50,56 C42,56 38,64 42,72 C46,80 50,83 50,83 C50,83 54,80 58,72 C62,64 58,56 50,56 Z" fill="#e74c3c" stroke="#c0392b" stroke-width="0.8"/>
-      <!-- Seeds -->
-      <circle cx="46" cy="65" r="0.7" fill="#fff"/><circle cx="54" cy="65" r="0.7" fill="#fff"/>
-      <circle cx="50" cy="71" r="0.7" fill="#fff"/><circle cx="48" cy="77" r="0.7" fill="#fff"/>
-      <!-- Leaves on top -->
-      <path d="M45,57 Q50,52 47,49 Q50,53 53,49 Q50,52 55,57 Z" fill="#2ecc71"/>
-    `;
-  } else if (badgeType === 'banana') {
-    badgeSvg = `
-      <!-- Bananas 🍌 -->
-      <path d="M42,74 C40,65 48,54 62,54 C56,58 48,65 49,76 C46,76 43,76 42,74 Z" fill="#f1c40f" stroke="#d68910" stroke-width="0.8"/>
-      <path d="M37,76 C35,68 43,59 55,59 C50,63 44,69 44,78 Z" fill="#f39c12"/>
-      <!-- Tips -->
-      <circle cx="62" cy="54" r="1.2" fill="#795548"/>
-      <circle cx="40" cy="76" r="1.5" fill="#5d4037"/>
-    `;
-  } else if (badgeType === 'chocolate') {
-    badgeSvg = `
-      <!-- Chocolate Bar 🍫 -->
-      <rect x="40" y="56" width="20" height="24" rx="2" fill="#4e342e" stroke="#3e2723" stroke-width="1"/>
-      <rect x="42" y="58" width="7" height="9" rx="1" fill="#6d4c41"/>
-      <rect x="51" y="58" width="7" height="9" rx="1" fill="#6d4c41"/>
-      <rect x="42" y="69" width="7" height="9" rx="1" fill="#6d4c41"/>
-      <rect x="51" y="69" width="7" height="9" rx="1" fill="#6d4c41"/>
-    `;
-  } else if (badgeType === 'matcha') {
-    badgeSvg = `
-      <!-- Matcha Leaves 🍃 -->
-      <path d="M50,55 C40,58 38,72 50,78 C62,72 60,58 50,55 Z" fill="#00b894" stroke="#00a382" stroke-width="0.8"/>
-      <line x1="50" y1="57" x2="50" y2="76" stroke="#55efc4" stroke-width="1"/>
-      <line x1="50" y1="64" x2="44" y2="60" stroke="#55efc4" stroke-width="0.8"/>
-      <line x1="50" y1="68" x2="56" y2="64" stroke="#55efc4" stroke-width="0.8"/>
-    `;
-  } else if (badgeType === 'blueberry') {
-    badgeSvg = `
-      <!-- Blueberries -->
-      <circle cx="45" cy="71" r="6" fill="#4834d4" stroke="#30336b" stroke-width="0.8"/>
-      <circle cx="55" cy="71" r="6" fill="#30336b" stroke="#130f40" stroke-width="0.8"/>
-      <circle cx="50" cy="63" r="6" fill="#686de0" stroke="#4834d4" stroke-width="0.8"/>
-      <!-- Star crowns -->
-      <polygon points="50,61 51,63 53,63 51,64 52,66 50,65 48,66 49,64 47,63 49,63" fill="#130f40"/>
-    `;
-  } else {
-    // Classic Milk Splash & Cow Spots 🥛
-    badgeSvg = `
-      <!-- Milk Drop -->
-      <path d="M50,55 C44,63 41,69 41,73 C41,78 45,82 50,82 C55,82 59,78 59,73 C59,69 56,63 50,55 Z" fill="#0984e3"/>
-      <path d="M50,58 C46,65 44,70 44,73 C44,76 47,79 50,79 C53,79 56,76 56,73 C56,70 54,65 50,58 Z" fill="#ffffff"/>
-      <circle cx="47" cy="70" r="1.5" fill="#74b9ff"/>
-    `;
-  }
-
-  const content = `
-    <!-- Carton Body -->
-    <rect x="28" y="38" width="44" height="48" rx="3" fill="url(#milk-carton-${id})" stroke="#222" stroke-width="1.2"/>
-
-    <!-- White Label Field on Front -->
-    <rect x="33" y="48" width="34" height="34" rx="4" fill="#ffffff" stroke="#e0e0e0" stroke-width="0.8"/>
-
-    <!-- Flavor Emblem Badge -->
-    ${badgeSvg}
-
-    <!-- Gable Roof (Triangular Front + Side Slope) -->
-    <!-- Gable Crest Flap -->
-    <rect x="35" y="16" width="30" height="7" fill="#ffffff" stroke="#222" stroke-width="1"/>
-    <!-- Triangular Roof Peak -->
-    <polygon points="50,23 28,38 72,38" fill="url(#milk-roof-${id})" stroke="#222" stroke-width="1.2"/>
-    <!-- Center Crease -->
-    <line x1="50" y1="23" x2="50" y2="38" stroke="rgba(0,0,0,0.25)" stroke-width="1.2"/>
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 5. TEDDY BEAR (毛绒小熊)
-// ==========================================
-function renderTeddyBear(variant) {
-  const { id, furColor, muzzleColor, bowtieColor, isPanda } = variant;
-  const defs = `
-    <radialGradient id="bear-fur-${id}" cx="40%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="${furColor[0]}"/>
-      <stop offset="100%" stop-color="${furColor[1]}"/>
-    </radialGradient>
-    <linearGradient id="bear-bow-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${bowtieColor[0]}"/>
-      <stop offset="100%" stop-color="${bowtieColor[1]}"/>
-    </linearGradient>
-  `;
-
-  const content = `
-    <!-- Bear Ears -->
-    <circle cx="32" cy="30" r="10" fill="url(#bear-fur-${id})" stroke="#222" stroke-width="1"/>
-    <circle cx="68" cy="30" r="10" fill="url(#bear-fur-${id})" stroke="#222" stroke-width="1"/>
-    <!-- Inner ear pads -->
-    <circle cx="32" cy="30" r="5.5" fill="${isPanda ? '#2d3436' : muzzleColor}" opacity="0.8"/>
-    <circle cx="68" cy="30" r="5.5" fill="${isPanda ? '#2d3436' : muzzleColor}" opacity="0.8"/>
-
-    <!-- Bear Body -->
-    <ellipse cx="50" cy="68" r="22" fill="url(#bear-fur-${id})" stroke="#222" stroke-width="1"/>
-    <!-- Belly patch -->
-    <ellipse cx="50" cy="70" rx="13" ry="14" fill="${muzzleColor}" opacity="0.9"/>
-
-    <!-- Paws -->
-    <circle cx="28" cy="68" r="6" fill="url(#bear-fur-${id})" stroke="#222" stroke-width="0.8"/>
-    <circle cx="72" cy="68" r="6" fill="url(#bear-fur-${id})" stroke="#222" stroke-width="0.8"/>
-
-    <!-- Bear Head -->
-    <circle cx="50" cy="44" r="19" fill="url(#bear-fur-${id})" stroke="#222" stroke-width="1"/>
-
-    ${isPanda ? `
-      <!-- Panda Eye Patches -->
-      <ellipse cx="42" cy="42" rx="5" ry="4" fill="#2d3436" transform="rotate(-15 42 42)"/>
-      <ellipse cx="58" cy="42" rx="5" ry="4" fill="#2d3436" transform="rotate(15 58 42)"/>
-    ` : ''}
-
-    <!-- Eyes -->
-    <circle cx="42" cy="42" r="2.5" fill="#111"/>
-    <circle cx="58" cy="42" r="2.5" fill="#111"/>
-    <circle cx="41.2" cy="41.2" r="0.8" fill="#fff"/>
-    <circle cx="57.2" cy="41.2" r="0.8" fill="#fff"/>
-
-    <!-- Muzzle / Snout -->
-    <ellipse cx="50" cy="49" rx="8" ry="6" fill="${muzzleColor}" stroke="#333" stroke-width="0.6"/>
-    <!-- Nose -->
-    <path d="M47,46 Q50,45 53,46 Q50,50 47,46 Z" fill="#2d3436"/>
-    <!-- Mouth -->
-    <path d="M47,51 Q50,53 53,51" stroke="#2d3436" stroke-width="1" fill="none" stroke-linecap="round"/>
-
-    <!-- Bowtie / Neck accessory -->
-    <polygon points="42,59 50,62 42,65" fill="url(#bear-bow-${id})" stroke="#222" stroke-width="0.8"/>
-    <polygon points="58,59 50,62 58,65" fill="url(#bear-bow-${id})" stroke="#222" stroke-width="0.8"/>
-    <circle cx="50" cy="62" r="2.5" fill="url(#bear-bow-${id})" stroke="#222" stroke-width="0.8"/>
-
-    ${isPanda ? `
-      <!-- Bamboo sprig held by panda -->
-      <path d="M68,58 Q72,50 78,48" stroke="#00b894" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M72,52 Q78,51 76,46 Q71,49 72,52 Z" fill="#55efc4"/>
-    ` : ''}
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 6. CUTE BUNNY (萌萌小兔)
-// ==========================================
-function renderBunny(variant) {
-  const { id, bodyColor, innerEarColor, heldItem } = variant;
-  const defs = `
-    <radialGradient id="bunny-body-${id}" cx="40%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="${bodyColor[0]}"/>
-      <stop offset="100%" stop-color="${bodyColor[1]}"/>
-    </radialGradient>
-  `;
-
-  let heldSvg = '';
-  if (heldItem === 'carrot') {
-    heldSvg = `
-      <!-- Carrot 🥕 -->
-      <polygon points="45,66 56,78 48,72" fill="#ff7675" stroke="#d63031" stroke-width="0.8"/>
-      <path d="M43,65 L39,60 M44,64 L42,58 M46,65 L46,59" stroke="#2ecc71" stroke-width="1.8" stroke-linecap="round"/>
-    `;
-  } else if (heldItem === 'strawberry') {
-    heldSvg = `
-      <circle cx="50" cy="70" r="7" fill="#e74c3c" stroke="#c0392b" stroke-width="0.8"/>
-      <circle cx="48" cy="68" r="0.8" fill="#fff"/><circle cx="52" cy="72" r="0.8" fill="#fff"/>
-      <path d="M47,63 L50,60 L53,63 Z" fill="#2ecc71"/>
-    `;
-  } else if (heldItem === 'clover') {
-    heldSvg = `
-      <circle cx="47" cy="68" r="3.5" fill="#2ecc71"/>
-      <circle cx="53" cy="68" r="3.5" fill="#2ecc71"/>
-      <circle cx="50" cy="65" r="3.5" fill="#2ecc71"/>
-      <circle cx="50" cy="72" r="3.5" fill="#2ecc71"/>
-      <path d="M50,72 Q50,78 54,80" stroke="#27ae60" stroke-width="1.5" fill="none"/>
-    `;
-  } else if (heldItem === 'bell') {
-    heldSvg = `
-      <path d="M45,67 Q50,63 55,67 L57,75 L43,75 Z" fill="#f1c40f" stroke="#d68910" stroke-width="0.8"/>
-      <circle cx="50" cy="76" r="2" fill="#e67e22"/>
-    `;
-  } else {
-    // Star ⭐
-    heldSvg = `
-      <polygon points="50,62 52,67 57,67 53,70 55,75 50,72 45,75 47,70 43,67 48,67" fill="#f1c40f" stroke="#f39c12" stroke-width="0.8"/>
-    `;
-  }
-
-  const content = `
-    <!-- Long Bunny Ears -->
-    <!-- Left Ear -->
-    <path d="M37,42 C30,22 34,8 41,10 C46,12 45,28 42,42 Z" fill="url(#bunny-body-${id})" stroke="#222" stroke-width="1"/>
-    <path d="M38,38 C34,24 36,14 40,15 C44,16 43,26 41,38 Z" fill="${innerEarColor}"/>
-    <!-- Right Ear -->
-    <path d="M63,42 C70,22 66,8 59,10 C54,12 55,28 58,42 Z" fill="url(#bunny-body-${id})" stroke="#222" stroke-width="1"/>
-    <path d="M62,38 C66,24 64,14 60,15 C56,16 57,26 59,38 Z" fill="${innerEarColor}"/>
-
-    <!-- Bunny Body -->
-    <ellipse cx="50" cy="69" rx="20" ry="18" fill="url(#bunny-body-${id})" stroke="#222" stroke-width="1"/>
+    <!-- Bunny Long Ears tilted back -->
+    <path d="M38,40 C28,26 18,18 25,12 C32,8 42,22 46,36 Z" fill="url(#bunny-f)"/>
+    <path d="M36,36 C28,26 22,20 26,15 C30,12 38,22 42,34 Z" fill="url(#ear-i)"/>
+    <path d="M48,36 C42,20 44,10 52,8 C58,6 60,18 56,34 Z" fill="url(#bunny-f)"/>
+    <path d="M49,32 C45,20 46,13 51,11 C55,10 57,18 54,30 Z" fill="url(#ear-i)"/>
 
     <!-- Bunny Head -->
-    <circle cx="50" cy="46" r="18" fill="url(#bunny-body-${id})" stroke="#222" stroke-width="1"/>
+    <circle cx="52" cy="50" r="16" fill="url(#bunny-f)"/>
+    <ellipse cx="44" cy="54" rx="3.5" ry="2.5" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
+    <ellipse cx="64" cy="50" rx="3.5" ry="2.5" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
 
-    <!-- Blush Cheeks -->
-    <ellipse cx="38" cy="49" rx="3" ry="2" fill="#ff7675" opacity="0.6"/>
-    <ellipse cx="62" cy="49" rx="3" ry="2" fill="#ff7675" opacity="0.6"/>
+    <!-- Sleeping / Winking Eyes -->
+    <path d="M45,46 Q48,43 51,46" stroke="#37474f" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <circle cx="60" cy="44" r="1.8" fill="#37474f"/>
+    <circle cx="59.4" cy="43.4" r="0.6" fill="#ffffff"/>
+    <ellipse cx="55" cy="49" rx="1.4" ry="1" fill="#e91e63"/>
+    <path d="M53,52 Q55,54 57,52" stroke="#37474f" stroke-width="1.2" fill="none" stroke-linecap="round"/>
 
-    <!-- Eyes -->
-    <circle cx="43" cy="44" r="2.2" fill="#2d3436"/>
-    <circle cx="57" cy="44" r="2.2" fill="#2d3436"/>
-    <circle cx="42.3" cy="43.3" r="0.7" fill="#fff"/>
-    <circle cx="56.3" cy="43.3" r="0.7" fill="#fff"/>
+    <!-- Paws on belly -->
+    <ellipse cx="52" cy="64" rx="3.5" ry="2.8" fill="url(#bunny-f)"/>
+    <ellipse cx="60" cy="63" rx="3.5" ry="2.8" fill="url(#bunny-f)"/>
 
-    <!-- Nose & Mouth -->
-    <polygon points="48,48 52,48 50,50" fill="#e84393"/>
-    <path d="M47,52 Q50,54 53,52" stroke="#2d3436" stroke-width="0.8" fill="none"/>
-
-    <!-- Held Accessory -->
-    ${heldSvg}
-
-    <!-- Paws holding accessory -->
-    <circle cx="43" cy="68" r="3.5" fill="url(#bunny-body-${id})" stroke="#222" stroke-width="0.6"/>
-    <circle cx="57" cy="68" r="3.5" fill="url(#bunny-body-${id})" stroke="#222" stroke-width="0.6"/>
+    <!-- Pea Pod Front Cradle Lip -->
+    <path d="M18,34 C12,58 24,88 56,92 C74,94 88,82 88,74 C78,82 60,86 44,80 C26,72 20,54 22,34 Z" fill="url(#pod-g-${id})"/>
+    <path d="M22,34 C16,56 26,82 52,88" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.55"/>
   `;
 
-  return wrapSvg(id, defs, content);
+  return wrapSvg(defs, content);
 }
 
-// ==========================================
-// 7. SWIRL LOLLIPOP (旋涡棒棒糖)
-// ==========================================
-function renderLollipop(variant) {
-  const { id, swirlColors, bowColor } = variant;
+// -------------------------------------------------------------
+// 3. XMAS TREE (圣诞树) - Modeled faithfully after xmas_tree.png
+// -------------------------------------------------------------
+function renderXmasTree(treeColors, id) {
   const defs = `
-    <radialGradient id="lollipop-gloss" cx="35%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
-      <stop offset="40%" stop-color="#ffffff" stop-opacity="0"/>
+    <linearGradient id="tree-t1-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${treeColors[0]}"/>
+      <stop offset="60%" stop-color="${treeColors[1]}"/>
+      <stop offset="100%" stop-color="${treeColors[2]}"/>
+    </linearGradient>
+    <radialGradient id="star-g" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="45%" stop-color="#fbc02d"/>
+      <stop offset="100%" stop-color="#f57f17"/>
     </radialGradient>
-  `;
-
-  const content = `
-    <!-- White Paper Stick -->
-    <rect x="47" y="48" width="6" height="42" rx="3" fill="#ffffff" stroke="#b2bec3" stroke-width="1"/>
-
-    <!-- Candy Disk Base -->
-    <circle cx="50" cy="38" r="26" fill="${swirlColors[0]}" stroke="#222" stroke-width="1.2"/>
-
-    <!-- Spiral Swirl Blades -->
-    <path d="M50,38 Q50,16 66,22 Q76,38 50,38 Z" fill="${swirlColors[1]}"/>
-    <path d="M50,38 Q72,38 66,54 Q50,64 50,38 Z" fill="${swirlColors[1]}"/>
-    <path d="M50,38 Q50,60 34,54 Q24,38 50,38 Z" fill="${swirlColors[1]}"/>
-    <path d="M50,38 Q28,38 34,22 Q50,12 50,38 Z" fill="${swirlColors[1]}"/>
-
-    ${swirlColors[2] ? `
-      <!-- 3rd Color Accent Pinwheel -->
-      <path d="M50,38 Q58,24 64,28 Q60,38 50,38 Z" fill="${swirlColors[2]}"/>
-      <path d="M50,38 Q64,48 58,54 Q50,46 50,38 Z" fill="${swirlColors[2]}"/>
-      <path d="M50,38 Q42,52 36,48 Q40,38 50,38 Z" fill="${swirlColors[2]}"/>
-      <path d="M50,38 Q36,28 42,22 Q50,30 50,38 Z" fill="${swirlColors[2]}"/>
-    ` : ''}
-
-    <!-- Center Glossy Bead -->
-    <circle cx="50" cy="38" r="6" fill="${swirlColors[0]}" stroke="#fff" stroke-width="1"/>
-
-    <!-- Glossy Highlight Overlay -->
-    <circle cx="50" cy="38" r="26" fill="url(#lollipop-gloss)"/>
-
-    <!-- Cute Bow Tie at stick junction -->
-    <polygon points="42,62 50,65 42,68" fill="${bowColor}" stroke="#222" stroke-width="0.8"/>
-    <polygon points="58,62 50,65 58,68" fill="${bowColor}" stroke="#222" stroke-width="0.8"/>
-    <circle cx="50" cy="65" r="2.5" fill="${bowColor}" stroke="#222" stroke-width="0.8"/>
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 8. JAM / HONEY CANNING JAR (果酱/蜂蜜罐)
-// ==========================================
-function renderJamJar(variant) {
-  const { id, jamColor, clothColor, fruitType } = variant;
-  const defs = `
-    <linearGradient id="jam-liquid-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${jamColor[0]}"/>
-      <stop offset="100%" stop-color="${jamColor[1]}"/>
-    </linearGradient>
-  `;
-
-  let fruitSvg = '';
-  if (fruitType === 'strawberry') {
-    fruitSvg = `
-      <path d="M50,61 C45,61 42,67 45,73 C48,78 50,80 50,80 C50,80 52,78 55,73 C58,67 55,61 50,61 Z" fill="#e74c3c"/>
-      <circle cx="48" cy="68" r="0.6" fill="#fff"/><circle cx="52" cy="72" r="0.6" fill="#fff"/>
-      <path d="M47,61 L50,58 L53,61 Z" fill="#2ecc71"/>
-    `;
-  } else if (fruitType === 'honeybee') {
-    fruitSvg = `
-      <!-- Honeybee 🐝 -->
-      <ellipse cx="50" cy="70" rx="6" ry="4.5" fill="#f1c40f" stroke="#2d3436" stroke-width="0.8"/>
-      <line x1="48" y1="66" x2="48" y2="74" stroke="#2d3436" stroke-width="1.2"/>
-      <line x1="52" y1="66" x2="52" y2="74" stroke="#2d3436" stroke-width="1.2"/>
-      <!-- Wings -->
-      <ellipse cx="48" cy="64" rx="2.5" ry="4" fill="rgba(255,255,255,0.85)" stroke="#74b9ff" stroke-width="0.6"/>
-      <ellipse cx="52" cy="64" rx="2.5" ry="4" fill="rgba(255,255,255,0.85)" stroke="#74b9ff" stroke-width="0.6"/>
-    `;
-  } else if (fruitType === 'blueberry') {
-    fruitSvg = `
-      <circle cx="47" cy="71" r="4.5" fill="#4834d4"/>
-      <circle cx="53" cy="71" r="4.5" fill="#30336b"/>
-      <circle cx="50" cy="65" r="4.5" fill="#686de0"/>
-    `;
-  } else if (fruitType === 'kiwi') {
-    fruitSvg = `
-      <circle cx="50" cy="70" r="7" fill="#2ecc71" stroke="#27ae60" stroke-width="0.8"/>
-      <circle cx="50" cy="70" r="3" fill="#ecf0f1"/>
-      <circle cx="48" cy="68" r="0.6" fill="#000"/><circle cx="52" cy="68" r="0.6" fill="#000"/>
-      <circle cx="48" cy="72" r="0.6" fill="#000"/><circle cx="52" cy="72" r="0.6" fill="#000"/>
-    `;
-  } else {
-    // Orange slice
-    fruitSvg = `
-      <circle cx="50" cy="70" r="7.5" fill="#f39c12" stroke="#d35400" stroke-width="0.8"/>
-      <circle cx="50" cy="70" r="6" fill="#e67e22"/>
-      <line x1="50" y1="64" x2="50" y2="76" stroke="#fff" stroke-width="0.8"/>
-      <line x1="44" y1="70" x2="56" y2="70" stroke="#fff" stroke-width="0.8"/>
-    `;
-  }
-
-  const content = `
-    <!-- Glass Jar Body -->
-    <rect x="28" y="44" width="44" height="42" rx="10" fill="url(#jam-liquid-${id})" stroke="#222" stroke-width="1.2"/>
-
-    <!-- Front White Label -->
-    <rect x="34" y="55" width="32" height="26" rx="5" fill="#ffffff" stroke="#e0e0e0" stroke-width="0.8"/>
-    ${fruitSvg}
-
-    <!-- Jar Glass Glare -->
-    <path d="M31,48 L31,80 Q34,84 37,84 L37,48 Z" fill="rgba(255,255,255,0.3)"/>
-
-    <!-- Cloth Checkered Lid Overhang -->
-    <path d="M22,38 Q50,30 78,38 L75,46 Q68,42 64,46 Q56,42 50,46 Q44,42 36,46 Q32,42 25,46 Z" fill="${clothColor}" stroke="#222" stroke-width="1"/>
-
-    <!-- Tied String Ribbon around Neck -->
-    <line x1="26" y1="44" x2="74" y2="44" stroke="#d35400" stroke-width="2"/>
-    <circle cx="50" cy="44" r="2.5" fill="#e67e22"/>
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 9. CUPCAKE (奶油纸杯蛋糕)
-// ==========================================
-function renderCupcake(variant) {
-  const { id, frostingGrad, cupColor, toppingType } = variant;
-  const defs = `
-    <linearGradient id="cupcake-frost-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${frostingGrad[0]}"/>
-      <stop offset="100%" stop-color="${frostingGrad[1]}"/>
-    </linearGradient>
-  `;
-
-  let toppingSvg = '';
-  if (toppingType === 'cherry') {
-    toppingSvg = `
-      <!-- Cherry 🍒 -->
-      <circle cx="50" cy="22" r="5.5" fill="#d63031" stroke="#c0392b" stroke-width="0.8"/>
-      <circle cx="48" cy="20" r="1.2" fill="#fff"/>
-      <path d="M50,17 Q58,6 64,12" stroke="#27ae60" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    `;
-  } else if (toppingType === 'star') {
-    toppingSvg = `
-      <!-- Star ⭐ -->
-      <polygon points="50,12 52,17 57,17 53,20 55,25 50,22 45,25 47,20 43,17 48,17" fill="#f1c40f" stroke="#f39c12" stroke-width="0.8"/>
-    `;
-  } else if (toppingType === 'candycane') {
-    toppingSvg = `
-      <!-- Candy Cane -->
-      <path d="M48,26 L48,14 Q48,9 53,9 Q58,9 58,14 L58,18" stroke="#e74c3c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M48,26 L48,14 Q48,9 53,9 Q58,9 58,14 L58,18" stroke="#fff" stroke-width="1" stroke-dasharray="2,2" fill="none" stroke-linecap="round"/>
-    `;
-  } else if (toppingType === 'berries') {
-    toppingSvg = `
-      <circle cx="47" cy="22" r="3.5" fill="#6c5ce7"/>
-      <circle cx="53" cy="22" r="3.5" fill="#a29bfe"/>
-      <circle cx="50" cy="18" r="3.5" fill="#fd79a8"/>
-    `;
-  } else {
-    // Red Beans / Matcha
-    toppingSvg = `
-      <ellipse cx="48" cy="21" rx="2.5" ry="3.5" fill="#c0392b"/>
-      <ellipse cx="53" cy="21" rx="2.5" ry="3.5" fill="#962d22"/>
-    `;
-  }
-
-  const content = `
-    <!-- Pleated Baking Paper Cup -->
-    <polygon points="28,54 34,88 66,88 72,54" fill="${cupColor}" stroke="#222" stroke-width="1.2"/>
-    <!-- Pleat ridges -->
-    <line x1="36" y1="54" x2="40" y2="88" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
-    <line x1="44" y1="54" x2="47" y2="88" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
-    <line x1="52" y1="54" x2="53" y2="88" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
-    <line x1="60" y1="54" x2="60" y2="88" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
-
-    <!-- Sponge Cake Rim -->
-    <ellipse cx="50" cy="54" rx="23" ry="5" fill="#f5cd79" stroke="#eccc68" stroke-width="1"/>
-
-    <!-- Frosting Swirl Layers -->
-    <!-- Bottom swirl tier -->
-    <path d="M24,53 Q32,44 50,44 Q68,44 76,53 Q66,57 50,57 Q34,57 24,53 Z" fill="url(#cupcake-frost-${id})" stroke="#222" stroke-width="1"/>
-    <!-- Middle swirl tier -->
-    <path d="M29,45 Q37,34 50,34 Q63,34 71,45 Q62,48 50,48 Q38,48 29,45 Z" fill="url(#cupcake-frost-${id})" stroke="#222" stroke-width="1"/>
-    <!-- Top peak swirl -->
-    <path d="M36,36 Q44,24 50,22 Q56,24 64,36 Q56,38 50,38 Q44,38 36,36 Z" fill="url(#cupcake-frost-${id})" stroke="#222" stroke-width="1"/>
-
-    <!-- Colorful Sprinkles -->
-    <rect x="36" y="47" width="3" height="1.5" rx="0.5" fill="#ff4757" transform="rotate(25 36 47)"/>
-    <rect x="62" y="48" width="3" height="1.5" rx="0.5" fill="#2ed573" transform="rotate(-30 62 48)"/>
-    <rect x="44" y="38" width="3" height="1.5" rx="0.5" fill="#ffa502" transform="rotate(40 44 38)"/>
-    <rect x="56" y="37" width="3" height="1.5" rx="0.5" fill="#1e90ff" transform="rotate(-15 56 37)"/>
-
-    <!-- Peak Topping -->
-    ${toppingSvg}
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 10. FESTIVE PINE TREE (节日小树)
-// ==========================================
-function renderPineTree(variant) {
-  const { id, foliageGrad, starColor, baubleColor } = variant;
-  const defs = `
-    <linearGradient id="tree-foliage-${id}" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="${foliageGrad[0]}"/>
-      <stop offset="100%" stop-color="${foliageGrad[1]}"/>
-    </linearGradient>
   `;
 
   const content = `
     <!-- Tree Trunk -->
-    <rect x="44" y="78" width="12" height="12" rx="2" fill="#795548" stroke="#4e342e" stroke-width="1"/>
+    <rect x="44" y="80" width="12" height="12" rx="3" fill="#8d6e63"/>
+    <rect x="44" y="80" width="12" height="12" rx="3" fill="#5d4037" opacity="0.4"/>
 
-    <!-- Bottom Tier Branches -->
-    <path d="M22,78 L50,56 L78,78 Q64,74 50,78 Q36,74 22,78 Z" fill="url(#tree-foliage-${id})" stroke="#222" stroke-width="1.2"/>
+    <!-- Bottom Tier (Widest) -->
+    <path d="M22,78 C22,66 40,60 50,60 C60,60 78,66 78,78 C78,84 22,84 22,78 Z" fill="url(#tree-t1-${id})"/>
+    <path d="M25,75 Q50,83 75,75" stroke="#fbc02d" stroke-width="2.6" fill="none" stroke-linecap="round"/>
 
-    <!-- Middle Tier Branches -->
-    <path d="M27,62 L50,42 L73,62 Q60,59 50,62 Q40,59 27,62 Z" fill="url(#tree-foliage-${id})" stroke="#222" stroke-width="1.2"/>
+    <!-- Middle Tier -->
+    <path d="M28,60 C28,48 42,42 50,42 C58,42 72,48 72,60 C72,66 28,66 28,60 Z" fill="url(#tree-t1-${id})"/>
+    <path d="M31,58 Q50,65 69,58" stroke="#fbc02d" stroke-width="2.6" fill="none" stroke-linecap="round"/>
 
-    <!-- Top Tier Branches -->
-    <path d="M33,46 L50,26 L67,46 Q58,43 50,46 Q42,43 33,46 Z" fill="url(#tree-foliage-${id})" stroke="#222" stroke-width="1.2"/>
+    <!-- Top Tier -->
+    <path d="M35,42 C35,26 44,22 50,22 C56,22 65,26 65,42 C65,48 35,48 35,42 Z" fill="url(#tree-t1-${id})"/>
+    <path d="M38,39 Q50,45 62,39" stroke="#fbc02d" stroke-width="2.4" fill="none" stroke-linecap="round"/>
 
-    <!-- Baubles / Ornaments -->
-    <circle cx="36" cy="74" r="3.2" fill="${baubleColor[0]}" stroke="#fff" stroke-width="0.6"/>
-    <circle cx="64" cy="74" r="3.2" fill="${baubleColor[1] || baubleColor[0]}" stroke="#fff" stroke-width="0.6"/>
-    <circle cx="42" cy="58" r="3" fill="${baubleColor[1] || baubleColor[0]}" stroke="#fff" stroke-width="0.6"/>
-    <circle cx="58" cy="58" r="3" fill="${baubleColor[0]}" stroke="#fff" stroke-width="0.6"/>
-    <circle cx="50" cy="40" r="2.8" fill="${baubleColor[0]}" stroke="#fff" stroke-width="0.6"/>
+    <!-- Pastel Bauble Dots (pink, cyan, yellow) -->
+    <circle cx="36" cy="74" r="2.8" fill="#ff80ab"/>
+    <circle cx="52" cy="78" r="2.8" fill="#ffe57f"/>
+    <circle cx="68" cy="74" r="2.8" fill="#ff80ab"/>
+    <circle cx="42" cy="57" r="2.6" fill="#ff80ab"/>
+    <circle cx="58" cy="60" r="2.6" fill="#80d8ff"/>
+    <circle cx="45" cy="38" r="2.4" fill="#ff80ab"/>
+    <circle cx="55" cy="40" r="2.4" fill="#80d8ff"/>
 
-    <!-- Top Pinnacle Star ⭐ -->
-    <polygon points="50,16 53,23 60,23 54,27 57,34 50,30 43,34 46,27 40,23 47,23" fill="${starColor}" stroke="#e67e22" stroke-width="0.8"/>
+    <!-- 3D Star on Pinnacle -->
+    <polygon points="50,8 53,16 61,16 55,21 57,29 50,24 43,29 45,21 39,16 47,16" fill="url(#star-g)"/>
+    <circle cx="50" cy="18" r="2" fill="#fff" opacity="0.6"/>
   `;
 
-  return wrapSvg(id, defs, content);
+  return wrapSvg(defs, content);
 }
 
-// ==========================================
-// 11. FESTIVE BELL (节日铃铛)
-// ==========================================
-function renderBell(variant) {
-  const { id, metalGrad, bowColor } = variant;
+// -------------------------------------------------------------
+// 4. XMAS REINDEER (圣诞小鹿) - Modeled faithfully after xmas_reindeer.png
+// -------------------------------------------------------------
+function renderReindeer(id) {
   const defs = `
-    <linearGradient id="bell-metal-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${metalGrad[0]}"/>
-      <stop offset="50%" stop-color="${metalGrad[1]}"/>
-      <stop offset="100%" stop-color="${metalGrad[2] || metalGrad[1]}"/>
-    </linearGradient>
-  `;
-
-  const content = `
-    <!-- Clapper Ball at bottom -->
-    <circle cx="50" cy="80" r="5" fill="#333"/>
-    <circle cx="50" cy="81" r="4" fill="${metalGrad[1]}"/>
-
-    <!-- Bell Body -->
-    <path d="M50,28 C37,28 32,46 30,68 C27,76 22,78 22,81 L78,81 C78,78 73,76 70,68 C68,46 63,28 50,28 Z" fill="url(#bell-metal-${id})" stroke="#222" stroke-width="1.2"/>
-
-    <!-- Flared Lip Rim -->
-    <ellipse cx="50" cy="81" rx="28" ry="4" fill="url(#bell-metal-${id})" stroke="#222" stroke-width="1.2"/>
-
-    <!-- Engraved Snowflake / Star Emblem on Bell -->
-    <polygon points="50,48 51.5,53 56,53 52,56 54,61 50,58 46,61 48,56 44,53 48.5,53" fill="rgba(255,255,255,0.7)"/>
-
-    <!-- Big Decorative Ribbon Bow on Top -->
-    <path d="M48,28 C36,14 24,19 37,28 Z" fill="${bowColor}" stroke="#222" stroke-width="1"/>
-    <path d="M52,28 C64,14 76,19 63,28 Z" fill="${bowColor}" stroke="#222" stroke-width="1"/>
-    <circle cx="50" cy="28" r="3.5" fill="${bowColor}" stroke="#222" stroke-width="1"/>
-    <!-- Ribbon trails -->
-    <path d="M46,31 Q38,40 42,46" stroke="${bowColor}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <path d="M54,31 Q62,40 58,46" stroke="${bowColor}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 12. CROWN FROG (荷叶萌蛙)
-// ==========================================
-function renderFrog(variant) {
-  const { id, frogColor, accessoryType } = variant;
-  const defs = `
-    <radialGradient id="frog-skin-${id}" cx="40%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="${frogColor[0]}"/>
-      <stop offset="100%" stop-color="${frogColor[1]}"/>
+    <radialGradient id="deer-fur" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffe0b2"/>
+      <stop offset="45%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#f57c00"/>
+    </radialGradient>
+    <radialGradient id="rudolph-nose" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ff5252"/>
+      <stop offset="70%" stop-color="#d50000"/>
+      <stop offset="100%" stop-color="#9b0000"/>
+    </radialGradient>
+    <radialGradient id="deer-bell" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="60%" stop-color="#fbc02d"/>
+      <stop offset="100%" stop-color="#f57f17"/>
     </radialGradient>
   `;
 
-  let accSvg = '';
-  if (accessoryType === 'crown') {
-    accSvg = `
-      <!-- Royal Golden Crown 👑 -->
-      <polygon points="40,24 43,14 50,19 57,14 60,24" fill="#f1c40f" stroke="#d68910" stroke-width="0.8"/>
-      <circle cx="43" cy="14" r="1.5" fill="#e74c3c"/>
-      <circle cx="50" cy="19" r="1.5" fill="#3498db"/>
-      <circle cx="57" cy="14" r="1.5" fill="#e74c3c"/>
-      <rect x="40" y="24" width="20" height="3" fill="#f39c12"/>
-    `;
-  } else if (accessoryType === 'flower') {
-    accSvg = `
-      <!-- Waterlily Flower 🌸 -->
-      <circle cx="64" cy="26" r="3.5" fill="#ff7675"/>
-      <circle cx="70" cy="26" r="3.5" fill="#ff7675"/>
-      <circle cx="67" cy="21" r="3.5" fill="#ff7675"/>
-      <circle cx="67" cy="26" r="2.5" fill="#f1c40f"/>
-    `;
-  } else if (accessoryType === 'bowtie') {
-    accSvg = `
-      <!-- Red Dapper Bowtie 🎀 -->
-      <polygon points="40,65 50,68 40,71" fill="#e74c3c" stroke="#222" stroke-width="0.8"/>
-      <polygon points="60,65 50,68 60,71" fill="#e74c3c" stroke="#222" stroke-width="0.8"/>
-      <circle cx="50" cy="68" r="2.5" fill="#c0392b" stroke="#222" stroke-width="0.8"/>
-    `;
-  } else {
-    // Poison dart spots
-    accSvg = `
-      <circle cx="45" cy="52" r="2" fill="#f1c40f"/>
-      <circle cx="55" cy="52" r="2" fill="#f1c40f"/>
-      <circle cx="50" cy="60" r="2.5" fill="#f1c40f"/>
-    `;
-  }
-
   const content = `
-    <!-- Frog Eyes Protrusions -->
-    <circle cx="36" cy="34" r="10" fill="url(#frog-skin-${id})" stroke="#222" stroke-width="1"/>
-    <circle cx="64" cy="34" r="10" fill="url(#frog-skin-${id})" stroke="#222" stroke-width="1"/>
+    <!-- Branched Antlers -->
+    <path d="M37,28 C34,16 28,12 24,10 M28,15 C24,18 20,17 18,15 M32,19 C28,21 24,22 22,23" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M63,28 C66,16 72,12 76,10 M72,15 C76,18 80,17 82,15 M68,19 C72,21 76,22 78,23" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" fill="none"/>
 
-    <!-- Frog Big Head / Body -->
-    <ellipse cx="50" cy="56" rx="26" ry="22" fill="url(#frog-skin-${id})" stroke="#222" stroke-width="1.2"/>
-    <!-- Cream belly -->
-    <ellipse cx="50" cy="64" rx="15" ry="11" fill="#e8f5e9" opacity="0.8"/>
+    <!-- Reindeer Legs / Body -->
+    <rect x="36" y="65" width="9" height="24" rx="4" fill="url(#deer-fur)"/>
+    <rect x="55" y="65" width="9" height="24" rx="4" fill="url(#deer-fur)"/>
+    <rect x="36" y="85" width="9" height="4" rx="1.5" fill="#5d4037"/>
+    <rect x="55" y="85" width="9" height="4" rx="1.5" fill="#5d4037"/>
 
-    <!-- Eyes (Big and cute) -->
-    <circle cx="36" cy="34" r="6" fill="#ffffff" stroke="#333" stroke-width="0.8"/>
-    <circle cx="64" cy="34" r="6" fill="#ffffff" stroke="#333" stroke-width="0.8"/>
-    <circle cx="37" cy="34" r="3.5" fill="#2d3436"/>
-    <circle cx="63" cy="34" r="3.5" fill="#2d3436"/>
-    <circle cx="35.5" cy="32.5" r="1.2" fill="#ffffff"/>
-    <circle cx="61.5" cy="32.5" r="1.2" fill="#ffffff"/>
+    <ellipse cx="50" cy="65" rx="19" ry="17" fill="url(#deer-fur)"/>
+    <ellipse cx="50" cy="68" rx="11" ry="12" fill="#fff3e0"/>
 
-    <!-- Blush Cheeks -->
-    <ellipse cx="32" cy="54" rx="3.5" ry="2" fill="#ff7675" opacity="0.6"/>
-    <ellipse cx="68" cy="54" rx="3.5" ry="2" fill="#ff7675" opacity="0.6"/>
+    <!-- Red Collar with Bell -->
+    <path d="M37,56 Q50,62 63,56" stroke="#d50000" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <circle cx="50" cy="63" r="4.2" fill="url(#deer-bell)"/>
+    <circle cx="50" cy="64.5" r="1.1" fill="#795548"/>
 
-    <!-- Nostrils -->
-    <circle cx="47" cy="48" r="0.8" fill="#2d3436"/>
-    <circle cx="53" cy="48" r="0.8" fill="#2d3436"/>
+    <!-- Deer Ears -->
+    <ellipse cx="30" cy="38" rx="6" ry="3.5" fill="url(#deer-fur)" transform="rotate(-15 30 38)"/>
+    <ellipse cx="70" cy="38" rx="6" ry="3.5" fill="url(#deer-fur)" transform="rotate(15 70 38)"/>
 
-    <!-- Wide Happy Smile -->
-    <path d="M38,55 Q50,65 62,55" stroke="#2d3436" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <!-- Deer Head -->
+    <ellipse cx="50" cy="42" rx="18" ry="16" fill="url(#deer-fur)"/>
 
-    <!-- Front Webbed Paws -->
-    <circle cx="38" cy="74" r="4.5" fill="url(#frog-skin-${id})" stroke="#222" stroke-width="0.8"/>
-    <circle cx="62" cy="74" r="4.5" fill="url(#frog-skin-${id})" stroke="#222" stroke-width="0.8"/>
+    <circle cx="42" cy="38" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="58" cy="38" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="41.2" cy="37.2" r="0.85" fill="#ffffff"/>
+    <circle cx="57.2" cy="37.2" r="0.85" fill="#ffffff"/>
 
-    <!-- Accessory -->
-    ${accSvg}
+    <ellipse cx="50" cy="45" rx="4.8" ry="3.8" fill="url(#rudolph-nose)"/>
+    <circle cx="48.5" cy="43.5" r="1.3" fill="#ffffff" opacity="0.85"/>
   `;
 
-  return wrapSvg(id, defs, content);
+  return wrapSvg(defs, content);
 }
 
-// ==========================================
-// 13. SNACK / CHIP BAG (膨化零食袋)
-// ==========================================
-function renderSnackBag(variant) {
-  const { id, bagGrad, badgeColor, flavorIcon } = variant;
+// -------------------------------------------------------------
+// 5. XMAS GNOME (圣诞小矮人) - Modeled faithfully after xmas_gnome.png
+// -------------------------------------------------------------
+function renderGnome(hatColors, coatColor, id) {
   const defs = `
-    <linearGradient id="snack-bag-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${bagGrad[0]}"/>
-      <stop offset="100%" stop-color="${bagGrad[1]}"/>
+    <linearGradient id="gnome-hat-${id}" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="${hatColors[0]}"/>
+      <stop offset="60%" stop-color="${hatColors[1]}"/>
+      <stop offset="100%" stop-color="${hatColors[2]}"/>
     </linearGradient>
-  `;
-
-  let iconSvg = '';
-  if (flavorIcon === 'flame') {
-    iconSvg = `
-      <!-- Chili / Hot Crisp -->
-      <path d="M50,56 Q42,66 48,74 Q52,70 54,64 Q58,60 50,56 Z" fill="#e74c3c"/>
-      <path d="M50,62 Q46,68 50,72 Q52,69 50,62 Z" fill="#f1c40f"/>
-    `;
-  } else if (flavorIcon === 'seaweed') {
-    iconSvg = `
-      <!-- Seaweed Nori & Lime -->
-      <rect x="42" y="58" width="16" height="12" rx="1" fill="#1b5e20" transform="rotate(-10 50 64)"/>
-      <circle cx="56" cy="68" r="4.5" fill="#2ecc71"/>
-    `;
-  } else if (flavorIcon === 'cheese') {
-    iconSvg = `
-      <!-- Cheese Wedge 🧀 -->
-      <polygon points="40,70 60,62 58,74" fill="#f1c40f" stroke="#d68910" stroke-width="0.8"/>
-      <circle cx="48" cy="68" r="1.5" fill="#d35400"/>
-      <circle cx="54" cy="67" r="1.2" fill="#d35400"/>
-    `;
-  } else {
-    // Sweet Potato
-    iconSvg = `
-      <ellipse cx="50" cy="66" rx="9" ry="5.5" fill="#8e44ad" transform="rotate(20 50 66)"/>
-      <ellipse cx="50" cy="66" rx="7" ry="3.5" fill="#f39c12" transform="rotate(20 50 66)"/>
-    `;
-  }
-
-  const content = `
-    <!-- Bag Main Pillow Body -->
-    <rect x="25" y="24" width="50" height="58" rx="6" fill="url(#snack-bag-${id})" stroke="#222" stroke-width="1.2"/>
-
-    <!-- Crimped Top Edge (Zig-zag) -->
-    <path d="M24,24 L27,20 L30,24 L33,20 L36,24 L39,20 L42,24 L45,20 L48,24 L51,20 L54,24 L57,20 L60,24 L63,20 L66,24 L69,20 L72,24 L75,20 L76,24 Z" fill="url(#snack-bag-${id})" stroke="#222" stroke-width="0.8"/>
-
-    <!-- Crimped Bottom Edge -->
-    <path d="M24,82 L27,86 L30,82 L33,86 L36,82 L39,86 L42,82 L45,86 L48,82 L51,86 L54,82 L57,86 L60,82 L63,86 L66,82 L69,86 L72,82 L75,86 L76,82 Z" fill="url(#snack-bag-${id})" stroke="#222" stroke-width="0.8"/>
-
-    <!-- Center Flavor Badge Oval -->
-    <ellipse cx="50" cy="54" rx="18" ry="20" fill="#ffffff" stroke="${badgeColor}" stroke-width="2"/>
-    <text x="50" y="44" font-size="7" font-weight="900" fill="${badgeColor}" text-anchor="middle" font-family="sans-serif">CRISP</text>
-    ${iconSvg}
-
-    <!-- Bag Sheen Glare -->
-    <path d="M28,28 L34,78 Q36,80 39,78 L33,28 Z" fill="rgba(255,255,255,0.25)"/>
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 14. COFFEE & COCOA MUG (暖心马克杯)
-// ==========================================
-function renderCoffeeMug(variant) {
-  const { id, mugColor, drinkColor, toppingType } = variant;
-  const defs = `
-    <linearGradient id="mug-body-${id}" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="${mugColor[0]}"/>
-      <stop offset="100%" stop-color="${mugColor[1]}"/>
-    </linearGradient>
-  `;
-
-  let topSvg = '';
-  if (toppingType === 'marshmallows') {
-    topSvg = `
-      <!-- White Mini Marshmallows -->
-      <rect x="38" y="38" width="6" height="5" rx="1.5" fill="#ffffff" stroke="#ddd" stroke-width="0.5"/>
-      <rect x="47" y="36" width="6" height="5" rx="1.5" fill="#ffffff" stroke="#ddd" stroke-width="0.5"/>
-      <rect x="54" y="39" width="6" height="5" rx="1.5" fill="#ffffff" stroke="#ddd" stroke-width="0.5"/>
-    `;
-  } else if (toppingType === 'heart') {
-    topSvg = `
-      <!-- Foam Heart Latte Art -->
-      <path d="M50,42 C46,36 38,38 43,44 L50,48 L57,44 C62,38 54,36 50,42 Z" fill="#ffffff" opacity="0.9"/>
-    `;
-  } else if (toppingType === 'lemon') {
-    topSvg = `
-      <circle cx="50" cy="40" r="5" fill="#f1c40f" stroke="#d68910" stroke-width="0.6"/>
-      <line x1="50" y1="35" x2="50" y2="45" stroke="#fff" stroke-width="0.5"/>
-      <line x1="45" y1="40" x2="55" y2="40" stroke="#fff" stroke-width="0.5"/>
-    `;
-  } else {
-    // Whipped Cream swirl
-    topSvg = `
-      <path d="M42,42 Q50,30 58,42 Z" fill="#ffffff"/>
-      <line x1="56" y1="44" x2="64" y2="28" stroke="#8d6e63" stroke-width="2.5" stroke-linecap="round"/>
-    `;
-  }
-
-  const content = `
-    <!-- Steam Trails -->
-    <path d="M44,28 Q41,20 46,14" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-    <path d="M52,26 Q56,18 51,12" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-
-    <!-- Curved Mug Handle -->
-    <path d="M66,48 Q82,48 82,62 Q82,76 66,76" stroke="${mugColor[0]}" stroke-width="7" fill="none" stroke-linecap="round"/>
-    <path d="M66,48 Q82,48 82,62 Q82,76 66,76" stroke="#222" stroke-width="1.2" fill="none"/>
-
-    <!-- Ceramic Mug Body -->
-    <rect x="26" y="40" width="44" height="42" rx="6" fill="url(#mug-body-${id})" stroke="#222" stroke-width="1.2"/>
-
-    <!-- Liquid Surface Rim -->
-    <ellipse cx="48" cy="40" rx="22" ry="7" fill="${drinkColor}" stroke="#222" stroke-width="1"/>
-
-    <!-- Front Emblem (Snowflake or Star) -->
-    <polygon points="48,56 49,60 53,60 50,62 51,66 48,64 45,66 46,62 43,60 47,60" fill="rgba(255,255,255,0.85)"/>
-
-    <!-- Topping Treats -->
-    ${topSvg}
-  `;
-
-  return wrapSvg(id, defs, content);
-}
-
-// ==========================================
-// 15. MAGIC POTION BOTTLE (魔法药水瓶)
-// ==========================================
-function renderPotionBottle(variant) {
-  const { id, liquidGrad, glowColor, sparkleIcon } = variant;
-  const defs = `
-    <radialGradient id="potion-liquid-${id}" cx="40%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="${liquidGrad[0]}"/>
-      <stop offset="100%" stop-color="${liquidGrad[1]}"/>
+    <radialGradient id="beard-g" cx="40%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#f5f7fa"/>
+      <stop offset="100%" stop-color="#cfd8dc"/>
+    </radialGradient>
+    <radialGradient id="nose-g" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffe0b2"/>
+      <stop offset="70%" stop-color="#ffcc80"/>
+      <stop offset="100%" stop-color="#ffa726"/>
     </radialGradient>
   `;
 
-  let symbolSvg = '';
-  if (sparkleIcon === 'heart') {
-    symbolSvg = `
-      <path d="M50,64 C46,58 38,60 43,67 L50,73 L57,67 C62,60 54,58 50,64 Z" fill="#ffffff" opacity="0.85"/>
-    `;
-  } else if (sparkleIcon === 'ice') {
-    symbolSvg = `
-      <polygon points="50,58 52,64 58,64 53,68 55,74 50,70 45,74 47,68 42,64 48,64" fill="#ffffff" opacity="0.85"/>
-    `;
-  } else if (sparkleIcon === 'leaf') {
-    symbolSvg = `
-      <path d="M50,58 C42,60 40,70 50,75 C60,70 58,60 50,58 Z" fill="#ffffff" opacity="0.85"/>
-    `;
-  } else {
-    // Star sparkles
-    symbolSvg = `
-      <polygon points="50,60 52,65 57,65 53,68 55,73 50,70 45,73 47,68 43,65 48,65" fill="#f1c40f"/>
-    `;
-  }
-
   const content = `
-    <!-- Wooden Cork Stopper -->
-    <polygon points="44,20 56,20 54,28 46,28" fill="#a0522d" stroke="#5d4037" stroke-width="1"/>
+    <ellipse cx="40" cy="88" rx="8" ry="4.5" fill="#d32f2f"/>
+    <ellipse cx="60" cy="88" rx="8" ry="4.5" fill="#d32f2f"/>
 
-    <!-- Bottle Neck Glass -->
-    <rect x="44" y="27" width="12" height="12" fill="rgba(255,255,255,0.7)" stroke="#222" stroke-width="1.2"/>
-    <ellipse cx="50" cy="27" rx="7" ry="2.5" fill="#ecf0f1" stroke="#222" stroke-width="1"/>
+    <ellipse cx="50" cy="74" rx="20" ry="16" fill="${coatColor}"/>
 
-    <!-- Round Flask Body -->
-    <circle cx="50" cy="65" r="23" fill="url(#potion-liquid-${id})" stroke="#222" stroke-width="1.2"/>
+    <path d="M30,55 C22,68 32,86 50,86 C68,86 78,68 70,55 Z" fill="url(#beard-g)"/>
 
-    <!-- Glowing Liquid Surface Line -->
-    <ellipse cx="50" cy="50" rx="19" ry="5" fill="${liquidGrad[0]}" opacity="0.7"/>
+    <ellipse cx="50" cy="55" rx="6.5" ry="5.2" fill="url(#nose-g)"/>
+    <ellipse cx="48.5" cy="53.5" r="1.5" fill="#ffffff" opacity="0.6"/>
 
-    <!-- Bubbles -->
-    <circle cx="42" cy="72" r="2.5" fill="rgba(255,255,255,0.6)"/>
-    <circle cx="58" cy="68" r="1.8" fill="rgba(255,255,255,0.6)"/>
-    <circle cx="48" cy="58" r="1.5" fill="rgba(255,255,255,0.6)"/>
+    <rect x="25" y="47" width="50" height="9" rx="4.5" fill="#ffffff"/>
+    <rect x="25" y="47" width="50" height="9" rx="4.5" fill="#cfd8dc" opacity="0.3"/>
 
-    <!-- Center Magic Glyphs -->
-    ${symbolSvg}
+    <path d="M29,48 C34,26 50,14 74,10 C82,8 86,16 80,24 C72,28 65,40 71,48 Z" fill="url(#gnome-hat-${id})"/>
 
-    <!-- Glass Specular Highlight -->
-    <path d="M33,52 C31,60 34,72 40,77" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <circle cx="82" cy="14" r="5" fill="#ffffff"/>
+    <circle cx="82" cy="14" r="5" fill="#cfd8dc" opacity="0.3"/>
   `;
 
-  return wrapSvg(id, defs, content);
+  return wrapSvg(defs, content);
 }
 
-// ==========================================
-// MASTER ITEM REGISTRY (74 Distinct Variants across 15 Archetypes)
-// ==========================================
-const ITEM_DEFINITIONS = [
-  // 1. SNOWMAN (雪人) - 6 Variants (Hat & Scarf variations only as requested!)
+// -------------------------------------------------------------
+// 6. STOCKING (长袜) - Modeled faithfully after polka_stocking.png
+// -------------------------------------------------------------
+function renderStocking(bodyColor, id) {
+  const defs = `
+    <linearGradient id="sock-g-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${bodyColor[0]}"/>
+      <stop offset="50%" stop-color="${bodyColor[1]}"/>
+      <stop offset="100%" stop-color="${bodyColor[2]}"/>
+    </linearGradient>
+  `;
+
+  const content = `
+    <path d="M40,24 L40,64 C40,78 30,86 42,88 C54,90 70,88 64,74 C60,65 60,40 60,24 Z" fill="url(#sock-g-${id})"/>
+
+    <circle cx="48" cy="38" r="3.2" fill="#ffffff"/>
+    <circle cx="56" cy="48" r="3.2" fill="#ffffff"/>
+    <circle cx="46" cy="56" r="3.2" fill="#ffffff"/>
+    <circle cx="54" cy="68" r="3.2" fill="#ffffff"/>
+    <circle cx="42" cy="74" r="3.2" fill="#ffffff"/>
+    <circle cx="48" cy="82" r="2.8" fill="#ffffff"/>
+
+    <path d="M58,66 C66,74 62,80 58,74 Z" fill="#ffffff" opacity="0.8"/>
+    <path d="M40,84 C34,84 36,88 42,88 Z" fill="#ffffff" opacity="0.8"/>
+
+    <rect x="36" y="16" width="28" height="12" rx="5" fill="#ffffff"/>
+    <rect x="36" y="16" width="28" height="12" rx="5" fill="#cfd8dc" opacity="0.3"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 7. RED POUCH (圣诞福袋) - Modeled faithfully after red_pouch.png
+// -------------------------------------------------------------
+function renderPouch(pouchColors, id) {
+  const defs = `
+    <radialGradient id="pouch-g-${id}" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="${pouchColors[0]}"/>
+      <stop offset="50%" stop-color="${pouchColors[1]}"/>
+      <stop offset="100%" stop-color="${pouchColors[2]}"/>
+    </radialGradient>
+    <radialGradient id="gold-pom" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="60%" stop-color="#fbc02d"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <path d="M42,32 C28,42 22,66 26,82 C28,90 72,90 74,82 C78,66 72,42 58,32 Z" fill="url(#pouch-g-${id})"/>
+    <path d="M38,32 C34,22 42,18 46,24 C50,18 54,18 58,24 C62,18 68,22 64,32 Z" fill="url(#pouch-g-${id})"/>
+
+    <path d="M38,32 Q50,36 62,32" stroke="#fbc02d" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M46,34 Q38,44 42,50" stroke="#fbc02d" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <circle cx="42" cy="51" r="2.8" fill="url(#gold-pom)"/>
+    <path d="M54,34 Q62,44 58,50" stroke="#fbc02d" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <circle cx="58" cy="51" r="2.8" fill="url(#gold-pom)"/>
+
+    <g transform="translate(50, 66)">
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="0" y1="-12" x2="0" y2="12" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="-8.5" y1="-8.5" x2="8.5" y2="8.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="-8.5" y1="8.5" x2="8.5" y2="-8.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="-6" cy="0" r="1.5" fill="#ffffff"/><circle cx="6" cy="0" r="1.5" fill="#ffffff"/>
+      <circle cx="0" cy="-6" r="1.5" fill="#ffffff"/><circle cx="0" cy="6" r="1.5" fill="#ffffff"/>
+      <circle cx="0" cy="0" r="2.2" fill="#ffffff"/>
+    </g>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 8. GOLD BELL (圣诞金铃) - Modeled faithfully after gold_bell.png
+// -------------------------------------------------------------
+function renderBell(metalColors, bowColor, id) {
+  const defs = `
+    <radialGradient id="bell-g-${id}" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="${metalColors[0]}"/>
+      <stop offset="50%" stop-color="${metalColors[1]}"/>
+      <stop offset="100%" stop-color="${metalColors[2]}"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <circle cx="50" cy="80" r="5.5" fill="${metalColors[2]}"/>
+    <circle cx="50" cy="81" r="4.5" fill="${metalColors[1]}"/>
+
+    <path d="M50,28 C37,28 32,48 30,70 C28,78 22,80 22,83 L78,83 C78,80 72,78 70,70 C68,48 63,28 50,28 Z" fill="url(#bell-g-${id})"/>
+    <ellipse cx="50" cy="83" rx="28" ry="4.5" fill="url(#bell-g-${id})"/>
+
+    <path d="M48,27 C34,14 20,20 34,29 C40,30 45,29 48,27 Z" fill="${bowColor}"/>
+    <path d="M52,27 C66,14 80,20 66,29 C60,30 55,29 52,27 Z" fill="${bowColor}"/>
+    <circle cx="50" cy="27" r="4.2" fill="${bowColor}"/>
+    <circle cx="48.8" cy="25.5" r="1.2" fill="#ffffff" opacity="0.6"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 9. GIFT BOX (礼盒) - Modeled faithfully after pink_gift_box.png & yellow_gift_box.png
+// -------------------------------------------------------------
+function renderGiftBox(boxColors, ribbonColor, id) {
+  const defs = `
+    <linearGradient id="gbox-b-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${boxColors[0]}"/>
+      <stop offset="60%" stop-color="${boxColors[1]}"/>
+      <stop offset="100%" stop-color="${boxColors[2]}"/>
+    </linearGradient>
+    <radialGradient id="ribbon-bow-${id}" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="${ribbonColor[0]}"/>
+      <stop offset="70%" stop-color="${ribbonColor[1]}"/>
+      <stop offset="100%" stop-color="${ribbonColor[2]}"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <rect x="28" y="24" width="44" height="66" rx="5" fill="url(#gbox-b-${id})"/>
+    <rect x="45" y="24" width="10" height="66" fill="url(#ribbon-bow-${id})"/>
+    <rect x="28" y="52" width="44" height="10" fill="url(#ribbon-bow-${id})"/>
+
+    <path d="M48,54 C34,42 26,48 38,57 Z" fill="url(#ribbon-bow-${id})"/>
+    <path d="M52,54 C66,42 74,48 62,57 Z" fill="url(#ribbon-bow-${id})"/>
+    <path d="M48,58 C34,68 26,62 38,55 Z" fill="url(#ribbon-bow-${id})"/>
+    <path d="M52,58 C66,68 74,62 62,55 Z" fill="url(#ribbon-bow-${id})"/>
+    <circle cx="50" cy="57" r="4.2" fill="url(#ribbon-bow-${id})"/>
+    <circle cx="48.8" cy="55.8" r="1.2" fill="#ffffff" opacity="0.6"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 10. DONE BOTTLE (Done水杯) - Modeled faithfully after cyan_done_bottle.png
+// -------------------------------------------------------------
+function renderDoneBottle(bottleColors, labelBg, id) {
+  const defs = `
+    <linearGradient id="done-b-${id}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${bottleColors[0]}"/>
+      <stop offset="50%" stop-color="${bottleColors[1]}"/>
+      <stop offset="100%" stop-color="${bottleColors[2]}"/>
+    </linearGradient>
+  `;
+
+  const content = `
+    <rect x="38" y="16" width="24" height="10" rx="3" fill="url(#done-b-${id})"/>
+    <path d="M60,18 C72,18 72,26 60,26" stroke="${bottleColors[1]}" stroke-width="3" fill="none"/>
+    <rect x="28" y="26" width="44" height="64" rx="8" fill="url(#done-b-${id})"/>
+
+    <rect x="28" y="46" width="44" height="28" fill="${labelBg}"/>
+    <text x="50" y="66" font-size="14" font-weight="900" fill="#fff9c4" text-anchor="middle" font-family="Arial Black, Impact, sans-serif">Done</text>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 11. BEAR BOTTLE (小熊饮料瓶) - Modeled faithfully after bear_bottle.png
+// -------------------------------------------------------------
+function renderBearBottle(id) {
+  const defs = `
+    <radialGradient id="bear-bot" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffa726"/>
+      <stop offset="60%" stop-color="#fb8c00"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <rect x="38" y="14" width="24" height="12" rx="3" fill="#ffd54f"/>
+    <path d="M60,17 C72,17 72,25 60,25" stroke="#fbc02d" stroke-width="3.5" fill="none"/>
+    <rect x="26" y="26" width="48" height="64" rx="10" fill="url(#bear-bot)"/>
+
+    <circle cx="41" cy="46" r="6" fill="#ffffff"/>
+    <circle cx="59" cy="46" r="6" fill="#ffffff"/>
+    <ellipse cx="50" cy="56" rx="16" ry="14" fill="#ffffff"/>
+    <ellipse cx="50" cy="57" rx="12" ry="10" fill="#ffe082"/>
+
+    <circle cx="44" cy="56" r="1.8" fill="#3e2723"/>
+    <circle cx="56" cy="56" r="1.8" fill="#3e2723"/>
+    <circle cx="50" cy="59" r="1.5" fill="#3e2723"/>
+    <path d="M48,62 Q50,64 52,62" stroke="#3e2723" stroke-width="1.2" fill="none"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 12. LOLLIPOP (棒棒糖) - Modeled faithfully after pink_lollipop.png
+// -------------------------------------------------------------
+function renderLollipop(candyColors, id) {
+  const defs = `
+    <radialGradient id="pop-g-${id}" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="${candyColors[0]}"/>
+      <stop offset="60%" stop-color="${candyColors[1]}"/>
+      <stop offset="100%" stop-color="${candyColors[2]}"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <rect x="47" y="55" width="6" height="38" rx="2" fill="#fff9c4"/>
+    <circle cx="50" cy="38" r="22" fill="url(#pop-g-${id})"/>
+    <ellipse cx="50" cy="38" rx="23" ry="4" fill="none" stroke="${candyColors[2]}" stroke-width="1.8"/>
+    <circle cx="42" cy="28" r="4.5" fill="#ffffff" opacity="0.5"/>
+
+    <path d="M48,58 C36,50 30,56 40,62 Z" fill="${candyColors[1]}"/>
+    <path d="M52,58 C64,50 70,56 60,62 Z" fill="${candyColors[1]}"/>
+    <circle cx="50" cy="58" r="3.6" fill="${candyColors[2]}"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 13. GREEN FROG (萌萌小青蛙) - Modeled faithfully after green_frog.png
+// -------------------------------------------------------------
+function renderFrog(id) {
+  const defs = `
+    <radialGradient id="frog-skin" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#c5e1a5"/>
+      <stop offset="50%" stop-color="#8bc34a"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </radialGradient>
+    <radialGradient id="frog-eye-lens" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffb74d"/>
+      <stop offset="50%" stop-color="#5d4037"/>
+      <stop offset="100%" stop-color="#212121"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <ellipse cx="32" cy="85" rx="10" ry="4" fill="#aed581"/>
+    <ellipse cx="68" cy="85" rx="10" ry="4" fill="#aed581"/>
+
+    <ellipse cx="50" cy="66" rx="23" ry="20" fill="url(#frog-skin)"/>
+    <ellipse cx="50" cy="68" rx="15" ry="14" fill="#f1f8e9"/>
+
+    <ellipse cx="40" cy="82" rx="4.5" ry="3.5" fill="url(#frog-skin)"/>
+    <ellipse cx="60" cy="82" rx="4.5" ry="3.5" fill="url(#frog-skin)"/>
+
+    <circle cx="36" cy="34" r="11" fill="url(#frog-skin)"/>
+    <circle cx="64" cy="34" r="11" fill="url(#frog-skin)"/>
+
+    <circle cx="36" cy="34" r="8" fill="url(#frog-eye-lens)"/>
+    <circle cx="64" cy="34" r="8" fill="url(#frog-eye-lens)"/>
+    <circle cx="33.5" cy="31.5" r="2.8" fill="#ffffff"/>
+    <circle cx="61.5" cy="31.5" r="2.8" fill="#ffffff"/>
+
+    <ellipse cx="50" cy="48" rx="20" ry="13" fill="url(#frog-skin)"/>
+
+    <circle cx="47" cy="45" r="0.8" fill="#33691e"/>
+    <circle cx="53" cy="45" r="0.8" fill="#33691e"/>
+    <path d="M42,50 Q50,56 58,50" stroke="#33691e" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 14. YELLOW CHICK (金黄小鸡公仔) - Modeled faithfully after yellow_chick.png
+// -------------------------------------------------------------
+function renderYellowChick(id) {
+  const defs = `
+    <radialGradient id="chick-body" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="50%" stop-color="#fdd835"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <ellipse cx="42" cy="90" rx="4" ry="2.5" fill="#ff7043"/>
+    <ellipse cx="58" cy="90" rx="4" ry="2.5" fill="#ff7043"/>
+
+    <path d="M50,14 Q48,6 52,4 Q54,10 50,14" fill="#ffd54f"/>
+    <circle cx="50" cy="54" r="26" fill="url(#chick-body)"/>
+
+    <ellipse cx="26" cy="58" rx="5" ry="9" fill="#fbc02d" transform="rotate(15 26 58)"/>
+    <ellipse cx="74" cy="58" rx="5" ry="9" fill="#fbc02d" transform="rotate(-15 74 58)"/>
+
+    <circle cx="39" cy="44" r="6.5" fill="url(#gloss-eye)"/>
+    <circle cx="61" cy="44" r="6.5" fill="url(#gloss-eye)"/>
+    <circle cx="37" cy="41" r="2.5" fill="#ffffff"/>
+    <circle cx="59" cy="41" r="2.5" fill="#ffffff"/>
+    <circle cx="41" cy="46" r="1.1" fill="#ffffff"/>
+    <circle cx="63" cy="46" r="1.1" fill="#ffffff"/>
+
+    <polygon points="46,50 54,50 50,57" fill="#ff7043"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 15. COOKIE BUCKET (雪花饼干罐) - Modeled faithfully after red_cookie_bucket.png
+// -------------------------------------------------------------
+function renderCookieBucket(id) {
+  const defs = `
+    <linearGradient id="bucket-g" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef5350"/>
+      <stop offset="50%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#c62828"/>
+    </linearGradient>
+    <radialGradient id="cookie-g" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffe082"/>
+      <stop offset="70%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#f57c00"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <ellipse cx="42" cy="24" rx="8" ry="12" fill="url(#cookie-g)" transform="rotate(-15 42 24)"/>
+    <ellipse cx="58" cy="22" rx="8" ry="12" fill="url(#cookie-g)" transform="rotate(15 58 22)"/>
+    <circle cx="40" cy="20" r="1" fill="#5d4037"/><circle cx="44" cy="26" r="1" fill="#5d4037"/>
+    <circle cx="56" cy="20" r="1" fill="#5d4037"/><circle cx="60" cy="25" r="1" fill="#5d4037"/>
+
+    <rect x="28" y="36" width="44" height="52" rx="4" fill="url(#bucket-g)"/>
+    <rect x="25" y="30" width="50" height="8" rx="4" fill="#b3e5fc"/>
+
+    <g transform="translate(50, 62)">
+      <line x1="-9" y1="0" x2="9" y2="0" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="0" y1="-9" x2="0" y2="9" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="-6.5" y1="-6.5" x2="6.5" y2="6.5" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="-6.5" y1="6.5" x2="6.5" y2="-6.5" stroke="#ffffff" stroke-width="1.8"/>
+      <circle cx="0" cy="0" r="1.8" fill="#ffffff"/>
+    </g>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 16. MILK CARTON (鲜牛奶盒) - Modeled faithfully after blue_milk_carton.png
+// -------------------------------------------------------------
+function renderMilkCarton(cartonColors, id) {
+  const defs = `
+    <linearGradient id="milk-c-${id}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${cartonColors[0]}"/>
+      <stop offset="60%" stop-color="${cartonColors[1]}"/>
+      <stop offset="100%" stop-color="${cartonColors[2]}"/>
+    </linearGradient>
+  `;
+
+  const content = `
+    <rect x="28" y="16" width="44" height="74" rx="4" fill="url(#milk-c-${id})"/>
+
+    <rect x="36" y="24" width="28" height="18" rx="4" fill="#212121"/>
+    <text x="50" y="37" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="Georgia, serif" font-style="italic">Milk</text>
+
+    <path d="M28,60 Q34,54 42,58 Q50,64 58,54 Q66,50 72,56 L72,90 L28,90 Z" fill="#ffffff"/>
+    <ellipse cx="50" cy="72" rx="7" ry="5" fill="#ffe082" transform="rotate(-15 50 72)"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 17. TEDDY BEAR (毛绒泰迪熊) - Modeled faithfully after teddy_bear.png
+// -------------------------------------------------------------
+function renderTeddyBear(furColors, id) {
+  const defs = `
+    <radialGradient id="tbear-fur-${id}" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="${furColors[0]}"/>
+      <stop offset="60%" stop-color="${furColors[1]}"/>
+      <stop offset="100%" stop-color="${furColors[2]}"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <circle cx="34" cy="28" r="9" fill="url(#tbear-fur-${id})"/>
+    <circle cx="34" cy="28" r="5" fill="#ffe0b2"/>
+    <circle cx="66" cy="28" r="9" fill="url(#tbear-fur-${id})"/>
+    <circle cx="66" cy="28" r="5" fill="#ffe0b2"/>
+
+    <ellipse cx="50" cy="70" rx="19" ry="17" fill="url(#tbear-fur-${id})"/>
+    <circle cx="38" cy="84" r="5" fill="#ffe0b2"/>
+    <circle cx="62" cy="84" r="5" fill="#ffe0b2"/>
+
+    <ellipse cx="44" cy="70" rx="4.5" ry="6" fill="url(#tbear-fur-${id})"/>
+    <ellipse cx="56" cy="70" rx="4.5" ry="6" fill="url(#tbear-fur-${id})"/>
+
+    <circle cx="50" cy="44" r="20" fill="url(#tbear-fur-${id})"/>
+
+    <ellipse cx="37" cy="46" rx="4" ry="2.8" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
+    <ellipse cx="63" cy="46" rx="4" ry="2.8" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
+    <circle cx="42" cy="40" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="58" cy="40" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="41.2" cy="39.2" r="0.85" fill="#ffffff"/>
+    <circle cx="57.2" cy="39.2" r="0.85" fill="#ffffff"/>
+
+    <ellipse cx="50" cy="46" rx="7" ry="5.5" fill="#ffffff"/>
+    <ellipse cx="50" cy="44" rx="2.2" ry="1.5" fill="#4e342e"/>
+    <path d="M48,47 Q50,49 52,47" stroke="#4e342e" stroke-width="1.2" fill="none"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 18. PANDA BEAR (国宝小熊猫) - Modeled faithfully after panda_bear.png
+// -------------------------------------------------------------
+function renderPanda(id) {
+  const defs = `
+    <radialGradient id="panda-w" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#f5f5f5"/>
+      <stop offset="100%" stop-color="#cfd8dc"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <circle cx="34" cy="28" r="9" fill="#212121"/>
+    <circle cx="66" cy="28" r="9" fill="#212121"/>
+
+    <ellipse cx="50" cy="70" rx="19" ry="17" fill="url(#panda-w)"/>
+    <circle cx="36" cy="83" r="6" fill="#212121"/>
+    <circle cx="64" cy="83" r="6" fill="#212121"/>
+    <ellipse cx="43" cy="67" rx="5" ry="7" fill="#212121"/>
+    <ellipse cx="57" cy="67" rx="5" ry="7" fill="#212121"/>
+
+    <circle cx="50" cy="44" r="20" fill="url(#panda-w)"/>
+
+    <ellipse cx="41" cy="41" rx="6" ry="4.5" fill="#212121" transform="rotate(-15 41 41)"/>
+    <ellipse cx="59" cy="41" rx="6" ry="4.5" fill="#212121" transform="rotate(15 59 41)"/>
+    <circle cx="41" cy="41" r="2.2" fill="#ffffff"/>
+    <circle cx="59" cy="41" r="2.2" fill="#ffffff"/>
+    <circle cx="41" cy="41" r="1.4" fill="#000000"/>
+    <circle cx="59" cy="41" r="1.4" fill="#000000"/>
+
+    <ellipse cx="50" cy="44" rx="2.5" ry="1.6" fill="#212121"/>
+    <path d="M47,48 Q50,54 53,48 Z" fill="#e91e63"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 19. COFFEE CUP (随行咖啡杯) - Modeled faithfully after orange_coffee_cup.png
+// -------------------------------------------------------------
+function renderCoffeeCup(sleeveColors, id) {
+  const defs = `
+    <linearGradient id="cup-sleeve-${id}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${sleeveColors[0]}"/>
+      <stop offset="50%" stop-color="${sleeveColors[1]}"/>
+      <stop offset="100%" stop-color="${sleeveColors[2]}"/>
+    </linearGradient>
+  `;
+
+  const content = `
+    <path d="M34,26 L38,86 Q50,89 62,86 L66,26 Z" fill="#ffffff" stroke="#cfd8dc" stroke-width="1.2"/>
+    <path d="M35,46 L37,70 Q50,73 63,70 L65,46 Z" fill="url(#cup-sleeve-${id})"/>
+    <rect x="30" y="16" width="40" height="12" rx="4" fill="url(#cup-sleeve-${id})"/>
+    <rect x="33" y="12" width="34" height="6" rx="2" fill="url(#cup-sleeve-${id})"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 20. WINTER MITTEN (雪花手套) - Modeled faithfully after green_mitten.png
+// -------------------------------------------------------------
+function renderMitten(mittenColors, id) {
+  const defs = `
+    <linearGradient id="mitten-g-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${mittenColors[0]}"/>
+      <stop offset="60%" stop-color="${mittenColors[1]}"/>
+      <stop offset="100%" stop-color="${mittenColors[2]}"/>
+    </linearGradient>
+  `;
+
+  const content = `
+    <path d="M32,46 C24,46 22,58 32,60 Z" fill="url(#mitten-g-${id})"/>
+    <path d="M30,36 C30,22 70,22 70,36 L70,74 C70,78 30,78 30,74 Z" fill="url(#mitten-g-${id})"/>
+
+    <g transform="translate(52, 48)">
+      <line x1="-8" y1="0" x2="8" y2="0" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="0" y1="-8" x2="0" y2="8" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="-6" y1="-6" x2="6" y2="6" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="-6" y1="6" x2="6" y2="-6" stroke="#ffffff" stroke-width="1.8"/>
+      <circle cx="0" cy="0" r="1.5" fill="#ffffff"/>
+    </g>
+
+    <rect x="30" y="74" width="40" height="12" rx="3" fill="#ffe0b2"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 21. RED CANDLE (节日红蜡烛) - Modeled faithfully after red_candle.png
+// -------------------------------------------------------------
+function renderCandle(candleColors, id) {
+  const defs = `
+    <linearGradient id="candle-g-${id}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${candleColors[0]}"/>
+      <stop offset="50%" stop-color="${candleColors[1]}"/>
+      <stop offset="100%" stop-color="${candleColors[2]}"/>
+    </linearGradient>
+    <radialGradient id="flame-g" cx="50%" cy="60%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#ffeb3b"/>
+      <stop offset="80%" stop-color="#ff9800"/>
+      <stop offset="100%" stop-color="#f44336"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <rect x="34" y="34" width="32" height="52" rx="4" fill="url(#candle-g-${id})"/>
+    <path d="M34,34 Q38,48 42,42 Q46,52 50,44 Q54,54 58,42 Q62,48 66,34 Z" fill="${candleColors[0]}"/>
+    <ellipse cx="50" cy="34" rx="16" ry="5" fill="${candleColors[0]}"/>
+    <line x1="50" y1="34" x2="50" y2="24" stroke="#212121" stroke-width="1.8"/>
+    <path d="M50,10 C46,16 46,24 50,26 C54,24 54,16 50,10 Z" fill="url(#flame-g)"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 22. YELLOW CHEESE (黄金奶酪块) - Modeled faithfully after yellow_cheese.png
+// Swiss cheese sphere with crater holes.
+// -------------------------------------------------------------
+function renderCheese(id) {
+  const defs = `
+    <radialGradient id="cheese-sphere" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fff59d"/>
+      <stop offset="50%" stop-color="#fbc02d"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </radialGradient>
+    <radialGradient id="crater-shadow" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#e65100" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <circle cx="50" cy="50" r="34" fill="url(#cheese-sphere)"/>
+    <ellipse cx="32" cy="62" rx="9" ry="11" fill="url(#crater-shadow)"/>
+    <ellipse cx="68" cy="70" rx="7" ry="8" fill="url(#crater-shadow)"/>
+    <ellipse cx="44" cy="32" rx="5" ry="4" fill="url(#crater-shadow)"/>
+    <ellipse cx="66" cy="30" rx="8" ry="7" fill="url(#crater-shadow)"/>
+    <ellipse cx="38" cy="40" rx="4" ry="4.5" fill="url(#crater-shadow)"/>
+    <circle cx="48" cy="80" r="3.5" fill="url(#crater-shadow)"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 23. CUTE CRAB (可爱小螃蟹) - Modeled faithfully after cute_crab.png
+// Chubby coral pink crab, raised claws, glossy black eyes, blush.
+// -------------------------------------------------------------
+function renderCrab(id) {
+  const defs = `
+    <radialGradient id="crab-shell" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffab91"/>
+      <stop offset="60%" stop-color="#ff7043"/>
+      <stop offset="100%" stop-color="#d84315"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <!-- Walking Legs -->
+    <path d="M26,64 L16,70 M24,70 L14,78 M24,76 L16,84" stroke="#ff7043" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M74,64 L84,70 M76,70 L86,78 M76,76 L84,84" stroke="#ff7043" stroke-width="2.8" stroke-linecap="round"/>
+
+    <!-- Left Pincer Claw -->
+    <path d="M30,46 C20,38 18,22 28,16 C34,22 34,34 32,46 Z" fill="url(#crab-shell)"/>
+    <path d="M28,16 C22,24 24,32 30,34" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.6"/>
+
+    <!-- Right Pincer Claw -->
+    <path d="M70,46 C80,38 82,22 72,16 C66,22 66,34 68,46 Z" fill="url(#crab-shell)"/>
+    <path d="M72,16 C78,24 76,32 70,34" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.6"/>
+
+    <!-- Round Chubby Body -->
+    <ellipse cx="50" cy="58" rx="24" ry="20" fill="url(#crab-shell)"/>
+
+    <!-- Rosy Blush Cheeks -->
+    <ellipse cx="38" cy="62" rx="3.5" ry="2.5" fill="#ff8a80" opacity="0.6" filter="url(#clay-blur)"/>
+    <ellipse cx="62" cy="62" rx="3.5" ry="2.5" fill="#ff8a80" opacity="0.6" filter="url(#clay-blur)"/>
+
+    <!-- Big Glossy Eyes -->
+    <circle cx="42" cy="54" r="3" fill="url(#gloss-eye)"/>
+    <circle cx="58" cy="54" r="3" fill="url(#gloss-eye)"/>
+    <circle cx="41" cy="52.8" r="1.1" fill="#ffffff"/>
+    <circle cx="57" cy="52.8" r="1.1" fill="#ffffff"/>
+
+    <!-- Cute Smiling Mouth -->
+    <path d="M47,61 Q50,64 53,61" stroke="#3e2723" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 24. LUCKY CLOVER (幸运四叶草) - Modeled faithfully after lucky_clover.png
+// 4-leaf clover with soft glossy green leaves and stem.
+// -------------------------------------------------------------
+function renderClover(id) {
+  const defs = `
+    <radialGradient id="leaf-g" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#c5e1a5"/>
+      <stop offset="50%" stop-color="#7cb342"/>
+      <stop offset="100%" stop-color="#33691e"/>
+    </radialGradient>
+  `;
+
+  const content = `
+    <!-- Stem -->
+    <path d="M50,50 Q48,74 54,88" stroke="#558b2f" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+    <!-- 4 Heart-shaped Leaves -->
+    <!-- Top Leaf -->
+    <path d="M50,50 C40,38 34,22 46,18 C50,22 50,30 50,50 C50,30 50,22 54,18 C66,22 60,38 50,50 Z" fill="url(#leaf-g)"/>
+    <!-- Bottom Leaf -->
+    <path d="M50,50 C40,62 34,78 46,82 C50,78 50,70 50,50 C50,70 50,78 54,82 C66,78 60,62 50,50 Z" fill="url(#leaf-g)"/>
+    <!-- Left Leaf -->
+    <path d="M50,50 C38,40 22,34 18,46 C22,50 30,50 50,50 C30,50 22,50 18,54 C22,66 38,60 50,50 Z" fill="url(#leaf-g)"/>
+    <!-- Right Leaf -->
+    <path d="M50,50 C62,40 78,34 82,46 C78,50 70,50 50,50 C70,50 78,50 82,54 C78,66 62,60 50,50 Z" fill="url(#leaf-g)"/>
+
+    <!-- Central Vein Glow -->
+    <circle cx="50" cy="50" r="3.5" fill="#e8f5e9"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 25. CALENDAR 25 (圣诞日历25) - Modeled faithfully after red_calendar.png
+// -------------------------------------------------------------
+function renderCalendar(headerColor, id) {
+  const content = `
+    <!-- Calendar Block Base -->
+    <rect x="26" y="24" width="48" height="62" rx="6" fill="#ffffff" stroke="#cfd8dc" stroke-width="1.2"/>
+    <!-- Colored Header Band -->
+    <path d="M26,30 C26,26 28,24 32,24 L68,24 C72,24 74,26 74,30 L74,44 L26,44 Z" fill="${headerColor}"/>
+
+    <!-- Binder Rings -->
+    <rect x="36" y="18" width="6" height="12" rx="3" fill="#90a4ae"/>
+    <rect x="58" y="18" width="6" height="12" rx="3" fill="#90a4ae"/>
+
+    <!-- "25" Typography -->
+    <text x="50" y="76" font-size="28" font-weight="900" fill="#212121" text-anchor="middle" font-family="Arial Black, Impact, sans-serif">25</text>
+  `;
+
+  return wrapSvg('', content);
+}
+
+// -------------------------------------------------------------
+// 26. CHIPS BAG (薯片袋) - Modeled faithfully after green_chips_bag.png
+// -------------------------------------------------------------
+function renderChipsBag(bagColors, flavorName, id) {
+  const defs = `
+    <linearGradient id="cbag-${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${bagColors[0]}"/>
+      <stop offset="50%" stop-color="${bagColors[1]}"/>
+      <stop offset="100%" stop-color="${bagColors[2]}"/>
+    </linearGradient>
+  `;
+
+  const content = `
+    <!-- Foil Pillow Bag Body -->
+    <rect x="25" y="22" width="50" height="62" rx="6" fill="url(#cbag-${id})"/>
+
+    <!-- Top & Bottom Crimped Edges -->
+    <path d="M25,22 L28,18 L32,22 L36,18 L40,22 L44,18 L48,22 L52,18 L56,22 L60,18 L64,22 L68,18 L72,22 L75,18 L75,22 Z" fill="url(#cbag-${id})"/>
+    <path d="M25,84 L28,88 L32,84 L36,88 L40,84 L44,88 L48,84 L52,88 L56,84 L60,88 L64,84 L68,88 L72,84 L75,88 L75,84 Z" fill="url(#cbag-${id})"/>
+
+    <!-- Front Oval Flavor Badge -->
+    <ellipse cx="50" cy="54" rx="17" ry="18" fill="#ffffff"/>
+    <text x="50" y="48" font-size="6" font-weight="900" fill="#212121" text-anchor="middle" font-family="sans-serif">CHIPS</text>
+    <ellipse cx="50" cy="62" rx="9" ry="5.5" fill="#fbc02d" transform="rotate(-15 50 62)"/>
+  `;
+
+  return wrapSvg(defs, content);
+}
+
+// -------------------------------------------------------------
+// 27. WATERMELON SLICE (夏日甜西瓜) - Modeled faithfully after watermelon_slice.png
+// -------------------------------------------------------------
+function renderWatermelon(id) {
+  const content = `
+    <!-- Green Rind -->
+    <path d="M24,28 Q50,92 76,28 Z" fill="#2e7d32"/>
+    <!-- Light Green Inner Rind -->
+    <path d="M26,30 Q50,88 74,30 Z" fill="#c8e6c9"/>
+    <!-- Red Pulp -->
+    <path d="M29,32 Q50,84 71,32 Z" fill="#d32f2f"/>
+
+    <!-- Black Seeds -->
+    <ellipse cx="44" cy="48" rx="1.5" ry="2.4" fill="#212121" transform="rotate(-15 44 48)"/>
+    <ellipse cx="56" cy="48" rx="1.5" ry="2.4" fill="#212121" transform="rotate(15 56 48)"/>
+    <ellipse cx="50" cy="62" rx="1.5" ry="2.4" fill="#212121"/>
+  `;
+
+  return wrapSvg('', content);
+}
+
+
+// =============================================================
+// COMPREHENSIVE AUTHENTIC ITEMS CATALOG (65 AUTHENTIC ITEMS)
+// =============================================================
+const ITEMS_TO_GENERATE = [
+  // 1. SNOWMEN (雪人 - Only hat & scarf & buttons change, as requested!)
   {
-    id: 'snowman_red',
-    name: '圣诞红帽雪人',
+    id: 'blue_snowman',
+    name: '蓝帽雪人',
+    archetype: 'snowman',
+    colorGroup: 'blue',
+    render: () => renderSnowman(['#70c4ff', '#3da2f5', '#1e7bd6'], ['#63bcfa', '#3598eb', '#1c72ca'], ['#68bdfa', '#258bd6', '#105696'], 'blue_snowman')
+  },
+  {
+    id: 'red_snowman',
+    name: '红帽雪人',
     archetype: 'snowman',
     colorGroup: 'red',
-    render: () => renderSnowman({
-      id: 'snowman_red',
-      hatType: 'santa',
-      primaryColor: ['#e74c3c', '#c0392b'],
-      secondaryColor: ['#d63031', '#ffffff'],
-      pompomColor: '#ffffff'
-    })
+    render: () => renderSnowman(['#ff8a80', '#e53935', '#b71c1c'], ['#ef5350', '#d32f2f', '#c62828'], ['#ef5350', '#d32f2f', '#b71c1c'], 'red_snowman')
   },
   {
-    id: 'snowman_blue',
-    name: '冰蓝毛线雪人',
-    archetype: 'snowman',
-    colorGroup: 'blue',
-    render: () => renderSnowman({
-      id: 'snowman_blue',
-      hatType: 'beanie',
-      primaryColor: ['#0984e3', '#00cec9'],
-      secondaryColor: ['#74b9ff', '#0984e3'],
-      pompomColor: '#81ecec'
-    })
-  },
-  {
-    id: 'snowman_green',
-    name: '精灵绿帽雪人',
+    id: 'green_snowman',
+    name: '绿帽雪人',
     archetype: 'snowman',
     colorGroup: 'green',
-    render: () => renderSnowman({
-      id: 'snowman_green',
-      hatType: 'elf',
-      primaryColor: ['#00b894', '#009472'],
-      secondaryColor: ['#f1c40f', '#00b894'],
-      pompomColor: '#f1c40f'
-    })
+    render: () => renderSnowman(['#a5d6a7', '#43a047', '#1b5e20'], ['#81c784', '#388e3c', '#2e7d32'], ['#81c784', '#388e3c', '#1b5e20'], 'green_snowman')
   },
   {
-    id: 'snowman_purple',
-    name: '绅士礼帽雪人',
+    id: 'yellow_snowman',
+    name: '黄帽雪人',
+    archetype: 'snowman',
+    colorGroup: 'yellow',
+    render: () => renderSnowman(['#ffe082', '#ffb300', '#ff8f00'], ['#ffd54f', '#ffa000', '#e65100'], ['#ffd54f', '#ffa000', '#f57c00'], 'yellow_snowman')
+  },
+  {
+    id: 'purple_snowman',
+    name: '紫帽雪人',
     archetype: 'snowman',
     colorGroup: 'purple',
-    render: () => renderSnowman({
-      id: 'snowman_purple',
-      hatType: 'tophat',
-      primaryColor: ['#6c5ce7', '#4834d4'],
-      secondaryColor: ['#fed330', '#6c5ce7'],
-      pompomColor: '#fed330'
-    })
+    render: () => renderSnowman(['#ce93d8', '#8e24aa', '#4a148c'], ['#ba68c8', '#7b1fa2', '#6a1b9a'], ['#ba68c8', '#7b1fa2', '#4a148c'], 'purple_snowman')
   },
   {
-    id: 'snowman_yellow',
-    name: '暖阳针织雪人',
-    archetype: 'snowman',
-    colorGroup: 'yellow',
-    render: () => renderSnowman({
-      id: 'snowman_yellow',
-      hatType: 'warmknit',
-      primaryColor: ['#f1c40f', '#e67e22'],
-      secondaryColor: ['#f39c12', '#d35400'],
-      pompomColor: '#ffffff'
-    })
-  },
-  {
-    id: 'snowman_pink',
-    name: '甜心粉耳雪人',
+    id: 'pink_snowman',
+    name: '粉帽雪人',
     archetype: 'snowman',
     colorGroup: 'pink',
-    render: () => renderSnowman({
-      id: 'snowman_pink',
-      hatType: 'twinpompom',
-      primaryColor: ['#fd79a8', '#e84393'],
-      secondaryColor: ['#ffffff', '#fd79a8'],
-      pompomColor: '#ffffff'
-    })
+    render: () => renderSnowman(['#f48fb1', '#d81b60', '#880e4f'], ['#ec407a', '#c2185b', '#ad1457'], ['#ec407a', '#c2185b', '#880e4f'], 'pink_snowman')
   },
 
-  // 2. BOBA & BEVERAGE CUPS (奶茶冷饮) - 6 Variants
+  // 2. PEA BUNNY (豌豆小兔)
   {
-    id: 'boba_strawberry',
-    name: '草莓波波奶茶',
-    archetype: 'boba',
-    colorGroup: 'pink',
-    render: () => renderBoba({
-      id: 'boba_strawberry',
-      liquidGrad: ['#ff7675', '#fd79a8'],
-      strawColor: '#e84393',
-      topping: 'pearls_strawberry'
-    })
-  },
-  {
-    id: 'boba_matcha',
-    name: '翡翠抹茶奶绿',
-    archetype: 'boba',
+    id: 'pea_bunny',
+    name: '豌豆小兔',
+    archetype: 'pea_bunny',
     colorGroup: 'green',
-    render: () => renderBoba({
-      id: 'boba_matcha',
-      liquidGrad: ['#55efc4', '#00b894'],
-      strawColor: '#00b894',
-      topping: 'pearls_matcha'
-    })
+    render: () => renderPeaBunny(['#c5e1a5', '#8bc34a', '#558b2f'], 'pea_bunny')
   },
   {
-    id: 'boba_orange',
-    name: '鲜橙柠檬气泡',
-    archetype: 'boba',
+    id: 'gold_pea_bunny',
+    name: '金豆小兔',
+    archetype: 'pea_bunny',
     colorGroup: 'yellow',
-    render: () => renderBoba({
-      id: 'boba_orange',
-      liquidGrad: ['#ffeaa7', '#f39c12'],
-      strawColor: '#d35400',
-      topping: 'citrus_wheel'
-    })
+    render: () => renderPeaBunny(['#fff59d', '#fbc02d', '#f57f17'], 'gold_pea_bunny')
   },
   {
-    id: 'boba_blueberry',
-    name: '星空蓝莓冰饮',
-    archetype: 'boba',
-    colorGroup: 'purple',
-    render: () => renderBoba({
-      id: 'boba_blueberry',
-      liquidGrad: ['#a29bfe', '#6c5ce7'],
-      strawColor: '#6c5ce7',
-      topping: 'stars_ice'
-    })
-  },
-  {
-    id: 'boba_chocolate',
-    name: '浓醇巧乐厚乳',
-    archetype: 'boba',
-    colorGroup: 'brown',
-    render: () => renderBoba({
-      id: 'boba_chocolate',
-      liquidGrad: ['#8d6e63', '#4e342e'],
-      strawColor: '#d35400',
-      topping: 'whipped_cream'
-    })
-  },
-  {
-    id: 'boba_cyan',
-    name: '蓝柑海盐苏打',
-    archetype: 'boba',
-    colorGroup: 'blue',
-    render: () => renderBoba({
-      id: 'boba_cyan',
-      liquidGrad: ['#81ecec', '#0984e3'],
-      strawColor: '#f1c40f',
-      topping: 'tropical_lime'
-    })
+    id: 'pink_pea_bunny',
+    name: '粉豆小兔',
+    archetype: 'pea_bunny',
+    colorGroup: 'pink',
+    render: () => renderPeaBunny(['#f8bbd0', '#f06292', '#c2185b'], 'pink_pea_bunny')
   },
 
-  // 3. GIFT BOX (礼盒) - 6 Variants
+  // 3. XMAS TREE (圣诞树)
   {
-    id: 'gift_pink_gold',
-    name: '樱粉金带礼盒',
-    archetype: 'gift_box',
-    colorGroup: 'pink',
-    render: () => renderGiftBox({
-      id: 'gift_pink_gold',
-      boxColor: ['#fd79a8', '#e84393'],
-      ribbonColor: ['#fed330', '#f1c40f']
-    })
-  },
-  {
-    id: 'gift_blue_white',
-    name: '宝石蓝白礼盒',
-    archetype: 'gift_box',
-    colorGroup: 'blue',
-    render: () => renderGiftBox({
-      id: 'gift_blue_white',
-      boxColor: ['#0984e3', '#0652dd'],
-      ribbonColor: ['#ffffff', '#dfe6e9']
-    })
-  },
-  {
-    id: 'gift_green_red',
-    name: '翡翠红带礼盒',
-    archetype: 'gift_box',
+    id: 'xmas_tree',
+    name: '圣诞绿树',
+    archetype: 'xmas_tree',
     colorGroup: 'green',
-    render: () => renderGiftBox({
-      id: 'gift_green_red',
-      boxColor: ['#00b894', '#009472'],
-      ribbonColor: ['#e74c3c', '#c0392b']
-    })
+    render: () => renderXmasTree(['#aed581', '#7cb342', '#33691e'], 'xmas_tree')
   },
   {
-    id: 'gift_yellow_purple',
-    name: '暖黄紫带礼盒',
-    archetype: 'gift_box',
-    colorGroup: 'yellow',
-    render: () => renderGiftBox({
-      id: 'gift_yellow_purple',
-      boxColor: ['#fed330', '#f1c40f'],
-      ribbonColor: ['#6c5ce7', '#4834d4']
-    })
-  },
-  {
-    id: 'gift_red_gold',
-    name: '正红金带礼盒',
-    archetype: 'gift_box',
+    id: 'red_wish_tree',
+    name: '红愿圣诞树',
+    archetype: 'xmas_tree',
     colorGroup: 'red',
-    render: () => renderGiftBox({
-      id: 'gift_red_gold',
-      boxColor: ['#e74c3c', '#c0392b'],
-      ribbonColor: ['#fed330', '#f1c40f']
-    })
+    render: () => renderXmasTree(['#ef9a9a', '#e53935', '#b71c1c'], 'red_wish_tree')
   },
   {
-    id: 'gift_purple_yellow',
-    name: '魅惑紫黄礼盒',
-    archetype: 'gift_box',
-    colorGroup: 'purple',
-    render: () => renderGiftBox({
-      id: 'gift_purple_yellow',
-      boxColor: ['#8e44ad', '#6c3483'],
-      ribbonColor: ['#f1c40f', '#e67e22'],
-      pattern: 'dots'
-    })
+    id: 'tiered_green_tree',
+    name: '多层圣诞树',
+    archetype: 'xmas_tree',
+    colorGroup: 'cyan_green',
+    render: () => renderXmasTree(['#80cbc4', '#00897b', '#004d40'], 'tiered_green_tree')
   },
 
-  // 4. MILK CARTON (屋顶包牛奶) - 6 Variants
+  // 4. XMAS REINDEER (圣诞小鹿)
   {
-    id: 'milk_classic',
-    name: '纯香鲜牛奶',
-    archetype: 'milk_carton',
-    colorGroup: 'blue',
-    render: () => renderMilkCarton({
-      id: 'milk_classic',
-      cartonColor: ['#74b9ff', '#0984e3'],
-      roofColor: ['#ffffff', '#dfe6e9'],
-      badgeType: 'classic'
-    })
+    id: 'xmas_reindeer',
+    name: '圣诞小鹿',
+    archetype: 'xmas_reindeer',
+    colorGroup: 'brown',
+    render: () => renderReindeer('xmas_reindeer')
+  },
+
+  // 5. XMAS GNOME (圣诞小矮人)
+  {
+    id: 'xmas_gnome',
+    name: '圣诞小矮人',
+    archetype: 'xmas_gnome',
+    colorGroup: 'red',
+    render: () => renderGnome(['#ff8a80', '#e53935', '#b71c1c'], '#43a047', 'xmas_gnome')
+  },
+
+  // 6. STOCKINGS (长袜)
+  {
+    id: 'polka_stocking',
+    name: '红白长袜',
+    archetype: 'stocking',
+    colorGroup: 'red',
+    render: () => renderStocking(['#ff8a80', '#e53935', '#b71c1c'], 'polka_stocking')
   },
   {
-    id: 'milk_strawberry',
-    name: '草莓甜心奶',
-    archetype: 'milk_carton',
-    colorGroup: 'pink',
-    render: () => renderMilkCarton({
-      id: 'milk_strawberry',
-      cartonColor: ['#ff7675', '#fd79a8'],
-      roofColor: ['#ffffff', '#ffccd2'],
-      badgeType: 'strawberry'
-    })
-  },
-  {
-    id: 'milk_banana',
-    name: '浓香香蕉奶',
-    archetype: 'milk_carton',
-    colorGroup: 'yellow',
-    render: () => renderMilkCarton({
-      id: 'milk_banana',
-      cartonColor: ['#ffeaa7', '#f1c40f'],
-      roofColor: ['#ffffff', '#fdf5e6'],
-      badgeType: 'banana'
-    })
-  },
-  {
-    id: 'milk_matcha',
-    name: '宇治抹茶乳',
-    archetype: 'milk_carton',
+    id: 'green_xmas_sock',
+    name: '红边绿长袜',
+    archetype: 'stocking',
     colorGroup: 'green',
-    render: () => renderMilkCarton({
-      id: 'milk_matcha',
-      cartonColor: ['#55efc4', '#00b894'],
-      roofColor: ['#ffffff', '#e8f8f5'],
-      badgeType: 'matcha'
-    })
-  },
-  {
-    id: 'milk_chocolate',
-    name: '丝滑巧克力奶',
-    archetype: 'milk_carton',
-    colorGroup: 'brown',
-    render: () => renderMilkCarton({
-      id: 'milk_chocolate',
-      cartonColor: ['#8d6e63', '#5d4037'],
-      roofColor: ['#ffffff', '#efebe9'],
-      badgeType: 'chocolate'
-    })
-  },
-  {
-    id: 'milk_blueberry',
-    name: '蓝莓营养奶',
-    archetype: 'milk_carton',
-    colorGroup: 'purple',
-    render: () => renderMilkCarton({
-      id: 'milk_blueberry',
-      cartonColor: ['#a29bfe', '#6c5ce7'],
-      roofColor: ['#ffffff', '#f3e5f5'],
-      badgeType: 'blueberry'
-    })
+    render: () => renderStocking(['#a5d6a7', '#43a047', '#1b5e20'], 'green_xmas_sock')
   },
 
-  // 5. TEDDY BEAR (毛绒熊) - 6 Variants
+  // 7. POUCH (圣诞福袋)
   {
-    id: 'bear_brown',
-    name: '焦糖泰迪熊',
-    archetype: 'teddy_bear',
-    colorGroup: 'brown',
-    render: () => renderTeddyBear({
-      id: 'bear_brown',
-      furColor: ['#d35400', '#ba4a00'],
-      muzzleColor: '#fdebd0',
-      bowtieColor: ['#e74c3c', '#c0392b']
-    })
+    id: 'red_pouch',
+    name: '圣诞福袋',
+    archetype: 'red_pouch',
+    colorGroup: 'red',
+    render: () => renderPouch(['#ff8a80', '#e53935', '#b71c1c'], 'red_pouch')
+  },
+
+  // 8. BELLS (铃铛)
+  {
+    id: 'gold_bell',
+    name: '圣诞金铃',
+    archetype: 'bell',
+    colorGroup: 'yellow',
+    render: () => renderBell(['#fff9c4', '#fbc02d', '#f57f17'], '#d32f2f', 'gold_bell')
   },
   {
-    id: 'bear_polar',
-    name: '极地雪白熊',
-    archetype: 'teddy_bear',
+    id: 'bronze_bell',
+    name: '铜色金铃',
+    archetype: 'bell',
+    colorGroup: 'brown',
+    render: () => renderBell(['#ffe0b2', '#fb8c00', '#e65100'], '#388e3c', 'bronze_bell')
+  },
+
+  // 9. GIFT BOXES (礼盒)
+  {
+    id: 'pink_gift_box',
+    name: '金带粉礼盒',
+    archetype: 'gift_box',
+    colorGroup: 'pink',
+    render: () => renderGiftBox(['#f8bbd0', '#ec407a', '#c2185b'], ['#fff9c4', '#fbc02d', '#f57f17'], 'pink_gift_box')
+  },
+  {
+    id: 'yellow_gift_box',
+    name: '暖黄红带礼盒',
+    archetype: 'gift_box',
+    colorGroup: 'yellow',
+    render: () => renderGiftBox(['#fff9c4', '#fbc02d', '#f57f17'], ['#ff8a80', '#e53935', '#b71c1c'], 'yellow_gift_box')
+  },
+  {
+    id: 'white_gift_box',
+    name: '红带白礼盒',
+    archetype: 'gift_box',
     colorGroup: 'white',
-    render: () => renderTeddyBear({
-      id: 'bear_polar',
-      furColor: ['#ffffff', '#dfe6e9'],
-      muzzleColor: '#b2bec3',
-      bowtieColor: ['#0984e3', '#00cec9']
-    })
+    render: () => renderGiftBox(['#ffffff', '#eceff1', '#cfd8dc'], ['#ff8a80', '#e53935', '#b71c1c'], 'white_gift_box')
   },
   {
-    id: 'bear_pink',
-    name: '粉樱草莓熊',
-    archetype: 'teddy_bear',
-    colorGroup: 'pink',
-    render: () => renderTeddyBear({
-      id: 'bear_pink',
-      furColor: ['#fd79a8', '#e84393'],
-      muzzleColor: '#ffeaa7',
-      bowtieColor: ['#ffffff', '#fd79a8']
-    })
-  },
-  {
-    id: 'bear_panda',
-    name: '国宝小熊猫',
-    archetype: 'teddy_bear',
-    colorGroup: 'black_white',
-    render: () => renderTeddyBear({
-      id: 'bear_panda',
-      furColor: ['#ffffff', '#dfe6e9'],
-      muzzleColor: '#ffffff',
-      bowtieColor: ['#00b894', '#009472'],
-      isPanda: true
-    })
-  },
-  {
-    id: 'bear_purple',
-    name: '梦幻紫星熊',
-    archetype: 'teddy_bear',
-    colorGroup: 'purple',
-    render: () => renderTeddyBear({
-      id: 'bear_purple',
-      furColor: ['#a55eea', '#8854d0'],
-      muzzleColor: '#f5cd79',
-      bowtieColor: ['#fed330', '#f1c40f']
-    })
-  },
-  {
-    id: 'bear_mint',
-    name: '薄荷清凉熊',
-    archetype: 'teddy_bear',
+    id: 'green_gift_box',
+    name: '黄带绿礼盒',
+    archetype: 'gift_box',
     colorGroup: 'green',
-    render: () => renderTeddyBear({
-      id: 'bear_mint',
-      furColor: ['#55efc4', '#00b894'],
-      muzzleColor: '#ffffff',
-      bowtieColor: ['#f1c40f', '#e67e22']
-    })
+    render: () => renderGiftBox(['#c8e6c9', '#43a047', '#1b5e20'], ['#fff9c4', '#fbc02d', '#f57f17'], 'green_gift_box')
+  },
+  {
+    id: 'green_red_gift',
+    name: '绿盒红带礼盒',
+    archetype: 'gift_box',
+    colorGroup: 'green_red',
+    render: () => renderGiftBox(['#a5d6a7', '#388e3c', '#1b5e20'], ['#ef5350', '#d32f2f', '#c62828'], 'green_red_gift')
+  },
+  {
+    id: 'red_yellow_gift',
+    name: '红盒黄带礼盒',
+    archetype: 'gift_box',
+    colorGroup: 'red_yellow',
+    render: () => renderGiftBox(['#ef9a9a', '#e53935', '#b71c1c'], ['#fff59d', '#fbc02d', '#f57f17'], 'red_yellow_gift')
+  },
+  {
+    id: 'striped_gift_box',
+    name: '条纹节日礼盒',
+    archetype: 'gift_box',
+    colorGroup: 'purple',
+    render: () => renderGiftBox(['#e1bee7', '#8e24aa', '#4a148c'], ['#fff9c4', '#fbc02d', '#f57f17'], 'striped_gift_box')
+  },
+  {
+    id: 'pink_gold_gift',
+    name: '典雅粉金盒',
+    archetype: 'gift_box',
+    colorGroup: 'gold_pink',
+    render: () => renderGiftBox(['#fce4ec', '#f06292', '#ad1457'], ['#fffde7', '#ffd54f', '#ff8f00'], 'pink_gold_gift')
   },
 
-  // 6. CUTE BUNNY (萌萌兔) - 5 Variants
+  // 10. DONE BOTTLES (Done水杯)
   {
-    id: 'bunny_white',
-    name: '胡萝卜白兔',
-    archetype: 'bunny',
-    colorGroup: 'white',
-    render: () => renderBunny({
-      id: 'bunny_white',
-      bodyColor: ['#ffffff', '#dfe6e9'],
-      innerEarColor: '#ffb8b8',
-      heldItem: 'carrot'
-    })
+    id: 'cyan_done_bottle',
+    name: '蓝Done水杯',
+    archetype: 'done_bottle',
+    colorGroup: 'cyan',
+    render: () => renderDoneBottle(['#80deea', '#00acc1', '#006064'], '#00838f', 'cyan_done_bottle')
   },
   {
-    id: 'bunny_pink',
-    name: '草莓甜心兔',
-    archetype: 'bunny',
+    id: 'pink_done_bottle',
+    name: '粉Done水杯',
+    archetype: 'done_bottle',
     colorGroup: 'pink',
-    render: () => renderBunny({
-      id: 'bunny_pink',
-      bodyColor: ['#fd79a8', '#e84393'],
-      innerEarColor: '#ffffff',
-      heldItem: 'strawberry'
-    })
+    render: () => renderDoneBottle(['#f48fb1', '#d81b60', '#880e4f'], '#ad1457', 'pink_done_bottle')
   },
   {
-    id: 'bunny_mint',
-    name: '薄荷幸运兔',
-    archetype: 'bunny',
-    colorGroup: 'green',
-    render: () => renderBunny({
-      id: 'bunny_mint',
-      bodyColor: ['#55efc4', '#00b894'],
-      innerEarColor: '#ffffff',
-      heldItem: 'clover'
-    })
-  },
-  {
-    id: 'bunny_yellow',
-    name: '暖黄铃铛兔',
-    archetype: 'bunny',
-    colorGroup: 'yellow',
-    render: () => renderBunny({
-      id: 'bunny_yellow',
-      bodyColor: ['#ffeaa7', '#f1c40f'],
-      innerEarColor: '#ffffff',
-      heldItem: 'bell'
-    })
-  },
-  {
-    id: 'bunny_purple',
-    name: '浅紫星星兔',
-    archetype: 'bunny',
-    colorGroup: 'purple',
-    render: () => renderBunny({
-      id: 'bunny_purple',
-      bodyColor: ['#a29bfe', '#6c5ce7'],
-      innerEarColor: '#fd79a8',
-      heldItem: 'star'
-    })
+    id: 'teal_done_bottle',
+    name: '蓝Done水壶',
+    archetype: 'done_bottle',
+    colorGroup: 'teal',
+    render: () => renderDoneBottle(['#80cbc4', '#00897b', '#004d40'], '#00695c', 'teal_done_bottle')
   },
 
-  // 7. SWIRL LOLLIPOP (旋涡糖) - 5 Variants
+  // 11. BEAR BOTTLE (小熊饮料瓶)
   {
-    id: 'lollipop_rainbow',
-    name: '彩虹旋涡糖',
-    archetype: 'lollipop',
-    colorGroup: 'red',
-    render: () => renderLollipop({
-      id: 'lollipop_rainbow',
-      swirlColors: ['#ff4757', '#ffa502', '#2ed573'],
-      bowColor: '#f1c40f'
-    })
-  },
-  {
-    id: 'lollipop_pink',
-    name: '草莓奶霜糖',
-    archetype: 'lollipop',
-    colorGroup: 'pink',
-    render: () => renderLollipop({
-      id: 'lollipop_pink',
-      swirlColors: ['#ff7675', '#ffffff'],
-      bowColor: '#e74c3c'
-    })
-  },
-  {
-    id: 'lollipop_green',
-    name: '青柠抹茶糖',
-    archetype: 'lollipop',
-    colorGroup: 'green',
-    render: () => renderLollipop({
-      id: 'lollipop_green',
-      swirlColors: ['#2ed573', '#f1c40f'],
-      bowColor: '#00cec9'
-    })
-  },
-  {
-    id: 'lollipop_blue',
-    name: '海风蓝云糖',
-    archetype: 'lollipop',
-    colorGroup: 'blue',
-    render: () => renderLollipop({
-      id: 'lollipop_blue',
-      swirlColors: ['#0984e3', '#ffffff', '#74b9ff'],
-      bowColor: '#fed330'
-    })
-  },
-  {
-    id: 'lollipop_purple',
-    name: '蓝莓香芋糖',
-    archetype: 'lollipop',
-    colorGroup: 'purple',
-    render: () => renderLollipop({
-      id: 'lollipop_purple',
-      swirlColors: ['#8e44ad', '#fd79a8'],
-      bowColor: '#f1c40f'
-    })
-  },
-
-  // 8. JAM JAR (果酱罐) - 5 Variants
-  {
-    id: 'jam_strawberry',
-    name: '鲜红草莓酱',
-    archetype: 'jam_jar',
-    colorGroup: 'red',
-    render: () => renderJamJar({
-      id: 'jam_strawberry',
-      jamColor: ['#e74c3c', '#c0392b'],
-      clothColor: '#d63031',
-      fruitType: 'strawberry'
-    })
-  },
-  {
-    id: 'jam_honey',
-    name: '金黄纯蜂蜜',
-    archetype: 'jam_jar',
-    colorGroup: 'yellow',
-    render: () => renderJamJar({
-      id: 'jam_honey',
-      jamColor: ['#f1c40f', '#f39c12'],
-      clothColor: '#e67e22',
-      fruitType: 'honeybee'
-    })
-  },
-  {
-    id: 'jam_blueberry',
-    name: '浓醇蓝莓酱',
-    archetype: 'jam_jar',
-    colorGroup: 'purple',
-    render: () => renderJamJar({
-      id: 'jam_blueberry',
-      jamColor: ['#6c5ce7', '#4834d4'],
-      clothColor: '#8e44ad',
-      fruitType: 'blueberry'
-    })
-  },
-  {
-    id: 'jam_kiwi',
-    name: '奇异果青酱',
-    archetype: 'jam_jar',
-    colorGroup: 'green',
-    render: () => renderJamJar({
-      id: 'jam_kiwi',
-      jamColor: ['#2ecc71', '#27ae60'],
-      clothColor: '#27ae60',
-      fruitType: 'kiwi'
-    })
-  },
-  {
-    id: 'jam_orange',
-    name: '糖渍甜橙酱',
-    archetype: 'jam_jar',
+    id: 'bear_bottle',
+    name: '小熊饮料瓶',
+    archetype: 'bear_bottle',
     colorGroup: 'orange',
-    render: () => renderJamJar({
-      id: 'jam_orange',
-      jamColor: ['#e67e22', '#d35400'],
-      clothColor: '#e67e22',
-      fruitType: 'orange'
-    })
+    render: () => renderBearBottle('bear_bottle')
   },
 
-  // 9. CUPCAKE (纸杯蛋糕) - 5 Variants
+  // 12. LOLLIPOPS (棒棒糖)
   {
-    id: 'cupcake_strawberry',
-    name: '草莓粉杯糕',
-    archetype: 'cupcake',
+    id: 'pink_lollipop',
+    name: '粉色棒棒糖',
+    archetype: 'lollipop',
     colorGroup: 'pink',
-    render: () => renderCupcake({
-      id: 'cupcake_strawberry',
-      frostingGrad: ['#ff7675', '#fd79a8'],
-      cupColor: '#f1c40f',
-      toppingType: 'cherry'
-    })
+    render: () => renderLollipop(['#f8bbd0', '#ec407a', '#c2185b'], 'pink_lollipop')
   },
   {
-    id: 'cupcake_chocolate',
-    name: '薄荷巧乐糕',
-    archetype: 'cupcake',
+    id: 'green_lollipop',
+    name: '抹茶棒棒糖',
+    archetype: 'lollipop',
+    colorGroup: 'green',
+    render: () => renderLollipop(['#c8e6c9', '#43a047', '#1b5e20'], 'green_lollipop')
+  },
+
+  // 13. FROG (萌萌小青蛙)
+  {
+    id: 'green_frog',
+    name: '萌萌小青蛙',
+    archetype: 'frog',
+    colorGroup: 'green',
+    render: () => renderFrog('green_frog')
+  },
+
+  // 14. YELLOW CHICK (金黄小鸡公仔)
+  {
+    id: 'yellow_chick',
+    name: '金黄小鸡公仔',
+    archetype: 'chick',
+    colorGroup: 'yellow',
+    render: () => renderYellowChick('yellow_chick')
+  },
+
+  // 15. COOKIE BUCKET (雪花饼干罐)
+  {
+    id: 'red_cookie_bucket',
+    name: '雪花饼干罐',
+    archetype: 'cookie_bucket',
+    colorGroup: 'red',
+    render: () => renderCookieBucket('red_cookie_bucket')
+  },
+
+  // 16. MILK CARTONS (鲜牛奶盒)
+  {
+    id: 'blue_milk_carton',
+    name: '蓝盒鲜牛奶',
+    archetype: 'milk_carton',
+    colorGroup: 'blue',
+    render: () => renderMilkCarton(['#90caf9', '#1e88e5', '#0d47a1'], 'blue_milk_carton')
+  },
+  {
+    id: 'classic_milk',
+    name: '醇香全脂奶',
+    archetype: 'milk_carton',
+    colorGroup: 'navy',
+    render: () => renderMilkCarton(['#64b5f6', '#1565c0', '#0a3880'], 'classic_milk')
+  },
+  {
+    id: 'farm_cow_milk',
+    name: '高钙牧场奶',
+    archetype: 'milk_carton',
+    colorGroup: 'sky',
+    render: () => renderMilkCarton(['#bbdefb', '#42a5f5', '#1976d2'], 'farm_cow_milk')
+  },
+
+  // 17. TEDDY BEAR (毛绒熊)
+  {
+    id: 'teddy_bear',
+    name: '毛绒泰迪熊',
+    archetype: 'bear',
     colorGroup: 'brown',
-    render: () => renderCupcake({
-      id: 'cupcake_chocolate',
-      frostingGrad: ['#6d4c41', '#3e2723'],
-      cupColor: '#55efc4',
-      toppingType: 'candycane'
-    })
+    render: () => renderTeddyBear(['#ffe0b2', '#ffb74d', '#f57c00'], 'teddy_bear')
   },
   {
-    id: 'cupcake_lemon',
-    name: '柠檬金星糕',
-    archetype: 'cupcake',
-    colorGroup: 'yellow',
-    render: () => renderCupcake({
-      id: 'cupcake_lemon',
-      frostingGrad: ['#ffeaa7', '#f1c40f'],
-      cupColor: '#ffffff',
-      toppingType: 'star'
-    })
-  },
-  {
-    id: 'cupcake_blueberry',
-    name: '蓝莓紫晶糕',
-    archetype: 'cupcake',
+    id: 'purple_bear',
+    name: '紫色小玩偶',
+    archetype: 'bear',
     colorGroup: 'purple',
-    render: () => renderCupcake({
-      id: 'cupcake_blueberry',
-      frostingGrad: ['#a29bfe', '#6c5ce7'],
-      cupColor: '#fd79a8',
-      toppingType: 'berries'
-    })
+    render: () => renderTeddyBear(['#e1bee7', '#ab47bc', '#7b1fa2'], 'purple_bear')
   },
+
+  // 18. PANDA (国宝小熊猫)
   {
-    id: 'cupcake_matcha',
-    name: '抹茶红豆糕',
-    archetype: 'cupcake',
+    id: 'panda_bear',
+    name: '国宝小熊猫',
+    archetype: 'panda',
+    colorGroup: 'black_white',
+    render: () => renderPanda('panda_bear')
+  },
+
+  // 19. COFFEE CUP (随行咖啡杯)
+  {
+    id: 'orange_coffee_cup',
+    name: '随行咖啡杯',
+    archetype: 'coffee_cup',
+    colorGroup: 'orange',
+    render: () => renderCoffeeCup(['#ffcc80', '#fb8c00', '#e65100'], 'orange_coffee_cup')
+  },
+
+  // 20. MITTEN (手套)
+  {
+    id: 'green_mitten',
+    name: '雪花绿手套',
+    archetype: 'mitten',
     colorGroup: 'green',
-    render: () => renderCupcake({
-      id: 'cupcake_matcha',
-      frostingGrad: ['#55efc4', '#00b894'],
-      cupColor: '#e74c3c',
-      toppingType: 'matcha_beans'
-    })
+    render: () => renderMitten(['#a5d6a7', '#43a047', '#1b5e20'], 'green_mitten')
   },
 
-  // 10. FESTIVE PINE TREE (节日小树) - 4 Variants
+  // 21. CANDLE (蜡烛)
   {
-    id: 'tree_classic',
-    name: '常青圣诞树',
-    archetype: 'xmas_tree',
-    colorGroup: 'green',
-    render: () => renderPineTree({
-      id: 'tree_classic',
-      foliageGrad: ['#2ecc71', '#27ae60'],
-      starColor: '#f1c40f',
-      baubleColor: ['#e74c3c', '#f1c40f']
-    })
-  },
-  {
-    id: 'tree_snow',
-    name: '冰晶雪松树',
-    archetype: 'xmas_tree',
-    colorGroup: 'blue',
-    render: () => renderPineTree({
-      id: 'tree_snow',
-      foliageGrad: ['#81ecec', '#0984e3'],
-      starColor: '#ffffff',
-      baubleColor: ['#ffffff', '#00cec9']
-    })
-  },
-  {
-    id: 'tree_pink',
-    name: '梦幻粉晶树',
-    archetype: 'xmas_tree',
-    colorGroup: 'pink',
-    render: () => renderPineTree({
-      id: 'tree_pink',
-      foliageGrad: ['#fd79a8', '#e84393'],
-      starColor: '#fed330',
-      baubleColor: ['#ffffff', '#f1c40f']
-    })
-  },
-  {
-    id: 'tree_golden',
-    name: '璀璨金辉树',
-    archetype: 'xmas_tree',
-    colorGroup: 'yellow',
-    render: () => renderPineTree({
-      id: 'tree_golden',
-      foliageGrad: ['#fed330', '#f39c12'],
-      starColor: '#e74c3c',
-      baubleColor: ['#e74c3c', '#00b894']
-    })
-  },
-
-  // 11. FESTIVE BELL (铃铛) - 4 Variants
-  {
-    id: 'bell_gold',
-    name: '璀璨金铃',
-    archetype: 'bell',
-    colorGroup: 'yellow',
-    render: () => renderBell({
-      id: 'bell_gold',
-      metalGrad: ['#fed330', '#f1c40f', '#d35400'],
-      bowColor: '#e74c3c'
-    })
-  },
-  {
-    id: 'bell_silver',
-    name: '皎洁银铃',
-    archetype: 'bell',
-    colorGroup: 'white',
-    render: () => renderBell({
-      id: 'bell_silver',
-      metalGrad: ['#ffffff', '#dfe6e9', '#b2bec3'],
-      bowColor: '#0984e3'
-    })
-  },
-  {
-    id: 'bell_bronze',
-    name: '古典铜铃',
-    archetype: 'bell',
-    colorGroup: 'brown',
-    render: () => renderBell({
-      id: 'bell_bronze',
-      metalGrad: ['#e67e22', '#d35400', '#ba4a00'],
-      bowColor: '#27ae60'
-    })
-  },
-  {
-    id: 'bell_rose',
-    name: '粉玫金铃',
-    archetype: 'bell',
-    colorGroup: 'pink',
-    render: () => renderBell({
-      id: 'bell_rose',
-      metalGrad: ['#ff7675', '#fd79a8', '#e84393'],
-      bowColor: '#8e44ad'
-    })
-  },
-
-  // 12. CROWN FROG (小青蛙) - 4 Variants
-  {
-    id: 'frog_crown',
-    name: '金冠翠蛙',
-    archetype: 'frog',
-    colorGroup: 'gold_green',
-    render: () => renderFrog({
-      id: 'frog_crown',
-      frogColor: ['#2ecc71', '#27ae60'],
-      accessoryType: 'crown'
-    })
-  },
-  {
-    id: 'frog_flower',
-    name: '睡莲粉花蛙',
-    archetype: 'frog',
-    colorGroup: 'pink_lime',
-    render: () => renderFrog({
-      id: 'frog_flower',
-      frogColor: ['#55efc4', '#00b894'],
-      accessoryType: 'flower'
-    })
-  },
-  {
-    id: 'frog_bowtie',
-    name: '红领结绅士蛙',
-    archetype: 'frog',
-    colorGroup: 'red_mint',
-    render: () => renderFrog({
-      id: 'frog_bowtie',
-      frogColor: ['#78e08f', '#38ada9'],
-      accessoryType: 'bowtie'
-    })
-  },
-  {
-    id: 'frog_blue',
-    name: '冰川箭毒蛙',
-    archetype: 'frog',
-    colorGroup: 'blue',
-    render: () => renderFrog({
-      id: 'frog_blue',
-      frogColor: ['#81ecec', '#0984e3'],
-      accessoryType: 'spots'
-    })
-  },
-
-  // 13. SNACK BAG (零食袋) - 4 Variants
-  {
-    id: 'snack_red',
-    name: '麻辣香脆薯片',
-    archetype: 'snack_bag',
+    id: 'red_candle',
+    name: '节日红蜡烛',
+    archetype: 'candle',
     colorGroup: 'red',
-    render: () => renderSnackBag({
-      id: 'snack_red',
-      bagGrad: ['#e74c3c', '#c0392b'],
-      badgeColor: '#e74c3c',
-      flavorIcon: 'flame'
-    })
-  },
-  {
-    id: 'snack_green',
-    name: '青柠海苔脆片',
-    archetype: 'snack_bag',
-    colorGroup: 'green',
-    render: () => renderSnackBag({
-      id: 'snack_green',
-      bagGrad: ['#2ecc71', '#27ae60'],
-      badgeColor: '#27ae60',
-      flavorIcon: 'seaweed'
-    })
-  },
-  {
-    id: 'snack_yellow',
-    name: '浓香芝士脆片',
-    archetype: 'snack_bag',
-    colorGroup: 'yellow',
-    render: () => renderSnackBag({
-      id: 'snack_yellow',
-      bagGrad: ['#f1c40f', '#f39c12'],
-      badgeColor: '#d35400',
-      flavorIcon: 'cheese'
-    })
-  },
-  {
-    id: 'snack_purple',
-    name: '紫薯风味薯片',
-    archetype: 'snack_bag',
-    colorGroup: 'purple',
-    render: () => renderSnackBag({
-      id: 'snack_purple',
-      bagGrad: ['#8e44ad', '#6c3483'],
-      badgeColor: '#8e44ad',
-      flavorIcon: 'sweet_potato'
-    })
+    render: () => renderCandle(['#ef5350', '#e53935', '#b71c1c'], 'red_candle')
   },
 
-  // 14. COFFEE & COCOA MUG (马克杯) - 4 Variants
+  // 22. SWISS CHEESE (黄金奶酪)
   {
-    id: 'mug_red_cocoa',
-    name: '暖冬热可可',
-    archetype: 'coffee_mug',
-    colorGroup: 'red',
-    render: () => renderCoffeeMug({
-      id: 'mug_red_cocoa',
-      mugColor: ['#e74c3c', '#c0392b'],
-      drinkColor: '#4e342e',
-      toppingType: 'marshmallows'
-    })
-  },
-  {
-    id: 'mug_teal_latte',
-    name: '青瓷心拉花',
-    archetype: 'coffee_mug',
-    colorGroup: 'blue',
-    render: () => renderCoffeeMug({
-      id: 'mug_teal_latte',
-      mugColor: ['#00cec9', '#0984e3'],
-      drinkColor: '#6d4c41',
-      toppingType: 'heart'
-    })
-  },
-  {
-    id: 'mug_yellow_citrus',
-    name: '暖阳蜂蜜柚',
-    archetype: 'coffee_mug',
+    id: 'yellow_cheese',
+    name: '黄金奶酪块',
+    archetype: 'cheese',
     colorGroup: 'yellow',
-    render: () => renderCoffeeMug({
-      id: 'mug_yellow_citrus',
-      mugColor: ['#fed330', '#f1c40f'],
-      drinkColor: '#e67e22',
-      toppingType: 'lemon'
-    })
-  },
-  {
-    id: 'mug_purple_taro',
-    name: '香芋紫奶油杯',
-    archetype: 'coffee_mug',
-    colorGroup: 'purple',
-    render: () => renderCoffeeMug({
-      id: 'mug_purple_taro',
-      mugColor: ['#a29bfe', '#6c5ce7'],
-      drinkColor: '#8e44ad',
-      toppingType: 'cream'
-    })
+    render: () => renderCheese('yellow_cheese')
   },
 
-  // 15. MAGIC POTION (魔法药水) - 4 Variants
+  // 23. CUTE CRAB (可爱小螃蟹)
   {
-    id: 'potion_red',
-    name: '生命活力红药水',
-    archetype: 'potion_bottle',
-    colorGroup: 'red',
-    render: () => renderPotionBottle({
-      id: 'potion_red',
-      liquidGrad: ['#ff7675', '#d63031'],
-      sparkleIcon: 'heart'
-    })
+    id: 'cute_crab',
+    name: '可爱小螃蟹',
+    archetype: 'crab',
+    colorGroup: 'coral',
+    render: () => renderCrab('cute_crab')
   },
+
+  // 24. LUCKY CLOVER (幸运四叶草)
   {
-    id: 'potion_blue',
-    name: '冰霜魔力蓝药水',
-    archetype: 'potion_bottle',
-    colorGroup: 'blue',
-    render: () => renderPotionBottle({
-      id: 'potion_blue',
-      liquidGrad: ['#81ecec', '#0984e3'],
-      sparkleIcon: 'ice'
-    })
-  },
-  {
-    id: 'potion_green',
-    name: '自然治愈绿药水',
-    archetype: 'potion_bottle',
+    id: 'lucky_clover',
+    name: '幸运四叶草',
+    archetype: 'clover',
     colorGroup: 'green',
-    render: () => renderPotionBottle({
-      id: 'potion_green',
-      liquidGrad: ['#55efc4', '#00b894'],
-      sparkleIcon: 'leaf'
-    })
+    render: () => renderClover('lucky_clover')
+  },
+
+  // 25. CALENDARS (日历25)
+  {
+    id: 'red_calendar',
+    name: '圣诞日历25',
+    archetype: 'calendar',
+    colorGroup: 'red',
+    render: () => renderCalendar('#d32f2f', 'red_calendar')
   },
   {
-    id: 'potion_purple',
-    name: '星辰奇迹紫药水',
-    archetype: 'potion_bottle',
+    id: 'green_calendar',
+    name: '绿色日历25',
+    archetype: 'calendar',
+    colorGroup: 'green',
+    render: () => renderCalendar('#388e3c', 'green_calendar')
+  },
+
+  // 26. CHIPS BAGS (薯片零食袋)
+  {
+    id: 'green_chips_bag',
+    name: '青柠薯片袋',
+    archetype: 'chips',
+    colorGroup: 'green',
+    render: () => renderChipsBag(['#aed581', '#7cb342', '#33691e'], 'LIME', 'green_chips_bag')
+  },
+  {
+    id: 'red_snack_bag',
+    name: '红色小零食',
+    archetype: 'chips',
+    colorGroup: 'red',
+    render: () => renderChipsBag(['#ef5350', '#d32f2f', '#b71c1c'], 'HOT', 'red_snack_bag')
+  },
+  {
+    id: 'purple_snack_bag',
+    name: '香芋零食包',
+    archetype: 'chips',
     colorGroup: 'purple',
-    render: () => renderPotionBottle({
-      id: 'potion_purple',
-      liquidGrad: ['#a29bfe', '#6c5ce7'],
-      sparkleIcon: 'star'
-    })
+    render: () => renderChipsBag(['#ba68c8', '#8e24aa', '#4a148c'], 'TARO', 'purple_snack_bag')
+  },
+  {
+    id: 'yellow_chips',
+    name: '黄金波浪薯片',
+    archetype: 'chips',
+    colorGroup: 'yellow',
+    render: () => renderChipsBag(['#fff176', '#fbc02d', '#f57f17'], 'CORN', 'yellow_chips')
+  },
+
+  // 27. WATERMELON SLICE (夏日甜西瓜)
+  {
+    id: 'watermelon_slice',
+    name: '夏日甜西瓜',
+    archetype: 'watermelon',
+    colorGroup: 'red_green',
+    render: () => renderWatermelon('watermelon_slice')
   }
 ];
 
-// Main execution
-console.log(`[SVG Generator] Generating ${ITEM_DEFINITIONS.length} SVG item assets...`);
+// Generate files and update catalog
+console.log(`[SVG Generator] Generating ${ITEMS_TO_GENERATE.length} authentic 3D SVG items...`);
 
 const catalog = {};
 
-ITEM_DEFINITIONS.forEach(def => {
-  const svgContent = def.render();
-  const filePath = path.join(itemsDir, `${def.id}.svg`);
+ITEMS_TO_GENERATE.forEach(item => {
+  const svgContent = item.render();
+  const filePath = path.join(itemsDir, `${item.id}.svg`);
   fs.writeFileSync(filePath, svgContent, 'utf8');
 
-  catalog[def.id] = {
-    id: def.id,
-    name: def.name,
-    archetype: def.archetype,
-    colorGroup: def.colorGroup,
-    img: `./assets/items/${def.id}.svg`
+  catalog[item.id] = {
+    id: item.id,
+    name: item.name,
+    archetype: item.archetype,
+    colorGroup: item.colorGroup,
+    img: `./assets/items/${item.id}.svg`
   };
 });
 
-// Write json catalog
 const jsonPath = path.join(itemsDir, 'items_data.json');
 fs.writeFileSync(jsonPath, JSON.stringify(catalog, null, 2), 'utf8');
 
-console.log(`[SVG Generator] Successfully generated ${ITEM_DEFINITIONS.length} SVGs to ${itemsDir}!`);
-console.log(`[SVG Generator] Catalog updated at ${jsonPath}`);
+const srcItemsJsPath = path.join(__dirname, '..', 'src', 'items.js');
+const srcItemsJsContent = `// Authentic 3D Figurines & Clay-Style Item Assets (Procedural Vector SVG Modeled after original PNGs)
+export const ITEMS = ${JSON.stringify(catalog, null, 2)};
 
-module.exports = { ITEM_DEFINITIONS, catalog };
+export const ITEM_KEYS = Object.keys(ITEMS);
+`;
+fs.writeFileSync(srcItemsJsPath, srcItemsJsContent, 'utf8');
+
+console.log(`[SVG Generator] Successfully generated ${ITEMS_TO_GENERATE.length} SVGs to ${itemsDir}!`);
+console.log(`[SVG Generator] Catalog updated at ${jsonPath}`);
+console.log(`[SVG Generator] Updated ${srcItemsJsPath}`);
+
+module.exports = { ITEMS_TO_GENERATE, catalog };

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <linearGradient id="bucket-g" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef5350"/>
+      <stop offset="50%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#c62828"/>
+    </linearGradient>
+    <radialGradient id="cookie-g" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffe082"/>
+      <stop offset="70%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#f57c00"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <ellipse cx="42" cy="24" rx="8" ry="12" fill="url(#cookie-g)" transform="rotate(-15 42 24)"/>
+    <ellipse cx="58" cy="22" rx="8" ry="12" fill="url(#cookie-g)" transform="rotate(15 58 22)"/>
+    <circle cx="40" cy="20" r="1" fill="#5d4037"/><circle cx="44" cy="26" r="1" fill="#5d4037"/>
+    <circle cx="56" cy="20" r="1" fill="#5d4037"/><circle cx="60" cy="25" r="1" fill="#5d4037"/>
+
+    <rect x="28" y="36" width="44" height="52" rx="4" fill="url(#bucket-g)"/>
+    <rect x="25" y="30" width="50" height="8" rx="4" fill="#b3e5fc"/>
+
+    <g transform="translate(50, 62)">
+      <line x1="-9" y1="0" x2="9" y2="0" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="0" y1="-9" x2="0" y2="9" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="-6.5" y1="-6.5" x2="6.5" y2="6.5" stroke="#ffffff" stroke-width="1.8"/>
+      <line x1="-6.5" y1="6.5" x2="6.5" y2="-6.5" stroke="#ffffff" stroke-width="1.8"/>
+      <circle cx="0" cy="0" r="1.8" fill="#ffffff"/>
+    </g>
+  
+</svg>

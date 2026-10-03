@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <linearGradient id="tree-t1-red_wish_tree" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef9a9a"/>
+      <stop offset="60%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </linearGradient>
+    <radialGradient id="star-g" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="45%" stop-color="#fbc02d"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <!-- Tree Trunk -->
+    <rect x="44" y="80" width="12" height="12" rx="3" fill="#8d6e63"/>
+    <rect x="44" y="80" width="12" height="12" rx="3" fill="#5d4037" opacity="0.4"/>
+
+    <!-- Bottom Tier (Widest) -->
+    <path d="M22,78 C22,66 40,60 50,60 C60,60 78,66 78,78 C78,84 22,84 22,78 Z" fill="url(#tree-t1-red_wish_tree)"/>
+    <path d="M25,75 Q50,83 75,75" stroke="#fbc02d" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+
+    <!-- Middle Tier -->
+    <path d="M28,60 C28,48 42,42 50,42 C58,42 72,48 72,60 C72,66 28,66 28,60 Z" fill="url(#tree-t1-red_wish_tree)"/>
+    <path d="M31,58 Q50,65 69,58" stroke="#fbc02d" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+
+    <!-- Top Tier -->
+    <path d="M35,42 C35,26 44,22 50,22 C56,22 65,26 65,42 C65,48 35,48 35,42 Z" fill="url(#tree-t1-red_wish_tree)"/>
+    <path d="M38,39 Q50,45 62,39" stroke="#fbc02d" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+
+    <!-- Pastel Bauble Dots (pink, cyan, yellow) -->
+    <circle cx="36" cy="74" r="2.8" fill="#ff80ab"/>
+    <circle cx="52" cy="78" r="2.8" fill="#ffe57f"/>
+    <circle cx="68" cy="74" r="2.8" fill="#ff80ab"/>
+    <circle cx="42" cy="57" r="2.6" fill="#ff80ab"/>
+    <circle cx="58" cy="60" r="2.6" fill="#80d8ff"/>
+    <circle cx="45" cy="38" r="2.4" fill="#ff80ab"/>
+    <circle cx="55" cy="40" r="2.4" fill="#80d8ff"/>
+
+    <!-- 3D Star on Pinnacle -->
+    <polygon points="50,8 53,16 61,16 55,21 57,29 50,24 43,29 45,21 39,16 47,16" fill="url(#star-g)"/>
+    <circle cx="50" cy="18" r="2" fill="#fff" opacity="0.6"/>
+  
+</svg>

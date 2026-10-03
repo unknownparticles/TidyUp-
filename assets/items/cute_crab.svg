@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <radialGradient id="crab-shell" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffab91"/>
+      <stop offset="60%" stop-color="#ff7043"/>
+      <stop offset="100%" stop-color="#d84315"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <!-- Walking Legs -->
+    <path d="M26,64 L16,70 M24,70 L14,78 M24,76 L16,84" stroke="#ff7043" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M74,64 L84,70 M76,70 L86,78 M76,76 L84,84" stroke="#ff7043" stroke-width="2.8" stroke-linecap="round"/>
+
+    <!-- Left Pincer Claw -->
+    <path d="M30,46 C20,38 18,22 28,16 C34,22 34,34 32,46 Z" fill="url(#crab-shell)"/>
+    <path d="M28,16 C22,24 24,32 30,34" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.6"/>
+
+    <!-- Right Pincer Claw -->
+    <path d="M70,46 C80,38 82,22 72,16 C66,22 66,34 68,46 Z" fill="url(#crab-shell)"/>
+    <path d="M72,16 C78,24 76,32 70,34" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.6"/>
+
+    <!-- Round Chubby Body -->
+    <ellipse cx="50" cy="58" rx="24" ry="20" fill="url(#crab-shell)"/>
+
+    <!-- Rosy Blush Cheeks -->
+    <ellipse cx="38" cy="62" rx="3.5" ry="2.5" fill="#ff8a80" opacity="0.6" filter="url(#clay-blur)"/>
+    <ellipse cx="62" cy="62" rx="3.5" ry="2.5" fill="#ff8a80" opacity="0.6" filter="url(#clay-blur)"/>
+
+    <!-- Big Glossy Eyes -->
+    <circle cx="42" cy="54" r="3" fill="url(#gloss-eye)"/>
+    <circle cx="58" cy="54" r="3" fill="url(#gloss-eye)"/>
+    <circle cx="41" cy="52.8" r="1.1" fill="#ffffff"/>
+    <circle cx="57" cy="52.8" r="1.1" fill="#ffffff"/>
+
+    <!-- Cute Smiling Mouth -->
+    <path d="M47,61 Q50,64 53,61" stroke="#3e2723" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  
+</svg>

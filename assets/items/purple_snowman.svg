@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <radialGradient id="snow-b-purple_snowman" cx="36%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#f0f7fc"/>
+      <stop offset="85%" stop-color="#d2e5f5"/>
+      <stop offset="100%" stop-color="#b8d5ec"/>
+    </radialGradient>
+    <radialGradient id="snow-h-purple_snowman" cx="36%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#f2f8fc"/>
+      <stop offset="88%" stop-color="#d5e7f5"/>
+      <stop offset="100%" stop-color="#bedaf0"/>
+    </radialGradient>
+    <radialGradient id="hat-crown-purple_snowman" cx="38%" cy="28%" r="65%">
+      <stop offset="0%" stop-color="#ce93d8"/>
+      <stop offset="50%" stop-color="#8e24aa"/>
+      <stop offset="100%" stop-color="#4a148c"/>
+    </radialGradient>
+    <linearGradient id="hat-brim-purple_snowman" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ce93d8"/>
+      <stop offset="50%" stop-color="#8e24aa"/>
+      <stop offset="100%" stop-color="#4a148c"/>
+    </linearGradient>
+    <linearGradient id="scarf-g-purple_snowman" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#ba68c8"/>
+      <stop offset="45%" stop-color="#7b1fa2"/>
+      <stop offset="100%" stop-color="#6a1b9a"/>
+    </linearGradient>
+    <radialGradient id="btn-g-purple_snowman" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ba68c8"/>
+      <stop offset="60%" stop-color="#7b1fa2"/>
+      <stop offset="100%" stop-color="#4a148c"/>
+    </radialGradient>
+    <radialGradient id="carrot-g" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffb74d"/>
+      <stop offset="60%" stop-color="#ff9100"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <!-- Snowman Bottom Snowball Body -->
+    <circle cx="50" cy="72" r="22" fill="url(#snow-b-purple_snowman)"/>
+    <path d="M34,84 Q50,94 66,84 Q72,72 70,62 Q66,86 46,88 Q36,88 34,84 Z" fill="#9ec1dd" opacity="0.38" filter="url(#clay-blur)"/>
+
+    <!-- 2 Buttons on Belly -->
+    <circle cx="50" cy="67" r="3.2" fill="url(#btn-g-purple_snowman)"/>
+    <circle cx="49.1" cy="66.1" r="0.85" fill="#ffffff" opacity="0.75"/>
+    <circle cx="50" cy="78" r="3.2" fill="url(#btn-g-purple_snowman)"/>
+    <circle cx="49.1" cy="77.1" r="0.85" fill="#ffffff" opacity="0.75"/>
+
+    <!-- Snowman Head -->
+    <circle cx="50" cy="44" r="16.5" fill="url(#snow-h-purple_snowman)"/>
+
+    <!-- Soft Rosy Blush Cheeks -->
+    <ellipse cx="37" cy="46" rx="3.8" ry="2.8" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
+    <ellipse cx="63" cy="46" rx="3.8" ry="2.8" fill="#ff8a80" opacity="0.55" filter="url(#clay-blur)"/>
+
+    <!-- Glossy Eyes -->
+    <circle cx="42" cy="39" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="58" cy="39" r="2.5" fill="url(#gloss-eye)"/>
+    <circle cx="41.2" cy="38.2" r="0.85" fill="#ffffff"/>
+    <circle cx="57.2" cy="38.2" r="0.85" fill="#ffffff"/>
+
+    <!-- Round Orange Carrot Nose Button -->
+    <ellipse cx="50" cy="43" rx="4.2" ry="3.3" fill="url(#carrot-g)"/>
+    <ellipse cx="49" cy="42" rx="1.6" ry="1.1" fill="#ffe082" opacity="0.75"/>
+
+    <!-- Sweet Dotted Smile -->
+    <circle cx="44" cy="48.2" r="0.85" fill="#263238"/>
+    <circle cx="47" cy="49.5" r="0.85" fill="#263238"/>
+    <circle cx="50" cy="50.0" r="0.85" fill="#263238"/>
+    <circle cx="53" cy="49.5" r="0.85" fill="#263238"/>
+    <circle cx="56" cy="48.2" r="0.85" fill="#263238"/>
+
+    <!-- Scarf Draped Tail on Left -->
+    <path d="M38,55 L34,74 Q36,77 42,75 L45,56 Z" fill="url(#scarf-g-purple_snowman)"/>
+    <path d="M38,55 L38,75" stroke="#6a1b9a" stroke-width="1.2" opacity="0.5"/>
+
+    <!-- Scarf Neck Wrap -->
+    <path d="M31,52 Q50,60 69,52 Q71,57 67,61 Q50,67 33,61 Q29,56 31,52 Z" fill="url(#scarf-g-purple_snowman)"/>
+    <path d="M33,53 Q50,61 67,53" stroke="#ba68c8" stroke-width="1" fill="none" opacity="0.6"/>
+
+    <!-- Beanie Hat Crown -->
+    <path d="M33,26 C33,12 67,12 67,26 C67,28 33,28 33,26 Z" fill="url(#hat-crown-purple_snowman)"/>
+    <!-- Folded Thick Brim -->
+    <path d="M30,26 C30,22 70,22 70,26 C72,32 28,32 30,26 Z" fill="url(#hat-brim-purple_snowman)"/>
+    <path d="M31,25 C35,23 65,23 69,25" stroke="#ce93d8" stroke-width="1" fill="none" opacity="0.7"/>
+
+    <!-- White Fluffy Pompom on Top -->
+    <circle cx="50" cy="12" r="4.6" fill="#ffffff"/>
+    <circle cx="50" cy="12" r="4.6" fill="#d2e6f7" opacity="0.35"/>
+    <circle cx="48.8" cy="10.8" r="1.8" fill="#ffffff"/>
+  
+</svg>

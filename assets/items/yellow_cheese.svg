@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Soft blur filter for realistic clay highlights & blush -->
+    <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <radialGradient id="clay-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.26"/>
+      <stop offset="60%" stop-color="#000" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gloss-eye" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="60%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    
+    <radialGradient id="cheese-sphere" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fff59d"/>
+      <stop offset="50%" stop-color="#fbc02d"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </radialGradient>
+    <radialGradient id="crater-shadow" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#e65100" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#f57f17"/>
+    </radialGradient>
+  
+  </defs>
+  <!-- Ambient Contact Floor Shadow -->
+  <ellipse cx="50" cy="94" rx="26" ry="4.5" fill="url(#clay-shadow)"/>
+  
+    <circle cx="50" cy="50" r="34" fill="url(#cheese-sphere)"/>
+    <ellipse cx="32" cy="62" rx="9" ry="11" fill="url(#crater-shadow)"/>
+    <ellipse cx="68" cy="70" rx="7" ry="8" fill="url(#crater-shadow)"/>
+    <ellipse cx="44" cy="32" rx="5" ry="4" fill="url(#crater-shadow)"/>
+    <ellipse cx="66" cy="30" rx="8" ry="7" fill="url(#crater-shadow)"/>
+    <ellipse cx="38" cy="40" rx="4" ry="4.5" fill="url(#crater-shadow)"/>
+    <circle cx="48" cy="80" r="3.5" fill="url(#crater-shadow)"/>
+  
+</svg>
