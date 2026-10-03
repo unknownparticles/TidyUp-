@@ -1,12 +1,9 @@
-"""Reference-specific vector models for sprites whose white material was lost."""
-import colorsys
+"""Complete vector models for the snowman and panda reference poses."""
+from geometric_models import PALETTES
 
 
 def snowman(hue_map=None):
-    hue = {'red': 0, 'green': .33, 'yellow': .12, 'purple': .78, 'pink': .92}.get((hue_map or {}).get('target'), .56)
-    def colour(s, v):
-        return '#%02x%02x%02x' % tuple(round(c * 255) for c in colorsys.hsv_to_rgb(hue, s, v))
-    light, mid, dark = colour(.45, .99), colour(.67, .9), colour(.76, .65)
+    light, mid, dark = PALETTES[(hue_map or {}).get('target', 'blue')]
     defs = f'''<radialGradient id="snow" cx="33%" cy="28%" r="80%"><stop stop-color="#fff"/><stop offset=".58" stop-color="#f4f5f4"/><stop offset="1" stop-color="#c6d4dd"/></radialGradient>
 <linearGradient id="hat" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="{light}"/><stop offset=".55" stop-color="{mid}"/><stop offset="1" stop-color="{dark}"/></linearGradient>
 <linearGradient id="scarf"><stop stop-color="{light}"/><stop offset=".65" stop-color="{mid}"/><stop offset="1" stop-color="{dark}"/></linearGradient>

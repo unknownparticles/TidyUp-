@@ -1,4 +1,2 @@
+# Only the render verification script needs Pillow; generation uses Python's standard library.
 Pillow>=10.0,<13.0
-numpy>=1.24,<3.0
-opencv-python-headless>=4.8,<5.0
-vtracer==0.6.15

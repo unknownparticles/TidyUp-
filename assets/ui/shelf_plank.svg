@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 46" preserveAspectRatio="none">
+<defs>
+<linearGradient id="top" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffe6c3"/><stop offset="1" stop-color="#edc79c"/></linearGradient>
+<linearGradient id="front" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e4b98c"/><stop offset="1" stop-color="#c99564"/></linearGradient>
+<radialGradient id="shadow"><stop stop-color="#634d37" stop-opacity=".22"/><stop offset="1" stop-color="#634d37" stop-opacity="0"/></radialGradient>
+<clipPath id="plank"><rect x="4" y="3" width="248" height="38" rx="9"/></clipPath>
+</defs>
+<ellipse cx="128" cy="42" rx="121" ry="4" fill="url(#shadow)"/>
+<rect x="4" y="3" width="248" height="38" rx="9" fill="url(#front)"/>
+<g clip-path="url(#plank)"><rect x="4" y="3" width="248" height="24" rx="9" fill="url(#top)"/>
+<path d="M5 24 H251" stroke="#fff0d7" stroke-width="2"/>
+<path d="M16 11 Q61 7 104 12 T191 12 M80 18 Q141 13 229 17" fill="none" stroke="#cf9e6f" stroke-opacity=".18" stroke-width="1.4" stroke-linecap="round"/>
+</g></svg>

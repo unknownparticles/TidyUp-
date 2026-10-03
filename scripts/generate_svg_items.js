@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Restore damaged reference silhouettes and generate real SVG curves.
- * PNG references are build inputs; generated SVGs never embed raster images.
+ * Generate bright geometric SVG illustrations from authored shape recipes.
+ * PNG references provide dimensions; generated SVGs never embed raster images.
  */
 const fs = require('fs');
 const path = require('path');
@@ -16,7 +16,7 @@ function loadReferenceAssets(items) {
   for (const item of items) {
     const source = path.join(itemsDir, item.reference);
     if (!fs.existsSync(source)) throw new Error(`Missing reference for ${item.id}: ${source}`);
-    specs[item.id] = { source, hueMap: item.hueMap };
+    specs[item.id] = { source, hueMap: item.hueMap, archetype: item.archetype };
   }
   const result = spawnSync('python3', [path.join(__dirname, 'prepare_reference_assets.py')], {
     input: JSON.stringify(specs),
@@ -39,7 +39,7 @@ function loadReferenceAssets(items) {
 
 function renderReferenceSvg(item, asset) {
   const { width, height, defs, content } = asset;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -3 ${width + 8} ${height + 10}" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet">
   <title>${item.name}</title>
   <defs>${defs}</defs>
   ${content}
@@ -63,12 +63,12 @@ function generate() {
     fs.writeFileSync(path.join(itemsDir, `${item.id}.svg`), renderReferenceSvg(item, assets[item.id]), 'utf8');
   }
   fs.writeFileSync(path.join(itemsDir, 'items_data.json'), JSON.stringify(catalog, null, 2), 'utf8');
-  fs.writeFileSync(path.join(rootDir, 'src', 'items.js'), `// Reference-faithful vector assets with repaired silhouettes and smooth curves.
+  fs.writeFileSync(path.join(rootDir, 'src', 'items.js'), `// Bright geometric vector assets with clean shapes and soft shadows.
 export const ITEMS = ${JSON.stringify(catalog, null, 2)};
 
 export const ITEM_KEYS = Object.keys(ITEMS);
 `, 'utf8');
-  console.log(`[SVG Generator] Generated ${ITEMS_TO_GENERATE.length} real vector SVG assets with repaired silhouettes.`);
+  console.log(`[SVG Generator] Generated ${ITEMS_TO_GENERATE.length} geometric SVG illustrations with crisp shapes and soft shadows.`);
   return catalog;
 }
 

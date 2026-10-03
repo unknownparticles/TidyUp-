@@ -88,19 +88,20 @@ python3 -m http.server 3000
 
 ---
 
-## 🎨 参考图矢量素材与生成机制
+## 🎨 几何矢量素材与生成机制
 
-游戏使用 55 款真正的 SVG 矢量物品。原版 PNG 仅作为生成时的参考输入，产物由贝塞尔路径、渐变和矢量裁切组成，不内嵌 PNG 或其他位图。
+全部 55 款物品由手写的圆、椭圆、圆角矩形和简洁贝塞尔曲线组成，采用统一的明亮配色、渐变形体阴影与柔和底部投影。主体、色块、文字和五官均保持清晰，不使用位图、自动描摹碎色块或主体模糊滤镜。
 
-- **雪人与熊猫**：按参考图的比例重新绘制完整轮廓、五官、肢体及渐变，避免损坏的透明通道继续造成缺块。雪人变体只改变帽子、围巾和纽扣配色。
-- **其他参考图**：从原始颜色通道恢复白色袜口、奶盒顶部、兔子头部等误抠除的区域，再去掉背景残边和阴影碎片。曲线描摹保留参考图的颜色与图案；轮廓单独拟合为平滑曲线。
-- **生成配置**：`scripts/item_catalog.json` 指定每件物品的母版及颜色变体；`scripts/reference_models.py` 保存雪人与熊猫的矢量模型。
-- **生成依赖**：Node.js、Python 3、Pillow、NumPy、OpenCV 和 VTracer。首次使用运行 `python3 -m pip install -r scripts/requirements-assets.txt`，然后运行：
+- **模型配置**：`scripts/item_catalog.json` 保留物品目录与参考图。`scripts/geometric_models.py` 定义各类物品的几何模型、调色板、装饰和路径文字；`scripts/reference_models.py` 定义雪人与熊猫的完整造型。
+- **参考图用途**：PNG 提供原始尺寸，造型与特色图案按参考设计；原图损坏的透明通道不会参与生成，避免再次出现主体缺块。
+- **阴影**：渐变提供物品内部的亮暗变化；模糊仅处理 `SourceAlpha` 投影，最后叠回未模糊的 `SourceGraphic`。画布留出投影边距。
+- **柜格与货架**：`assets/ui/cabinet_empty.svg` 和 `assets/ui/shelf_plank.svg` 使用矢量色块、圆角、渐变和凹槽阴影，替代原位图背景。
+- **生成**：仅需 Node.js 和 Python 3 标准库，无需安装描摹库：
   ```bash
   npm run generate:svg
   ```
-  生成器先验证全部参考图及矢量结果，再写入素材；缺失依赖或出现内嵌位图时直接报错。
-- **回归检查**：安装 `rsvg-convert` 后运行 `python3 scripts/verify_svg_assets.py`，检查全部素材无内嵌位图、实际渲染正常，以及历史缺块位置和有色轮廓白边。
+  生成器验证全部几何模型及结果后写入素材；模型缺失或出现内嵌位图时直接报错。
+- **回归检查**：安装 Pillow 与 `rsvg-convert` 后运行 `python3 scripts/verify_svg_assets.py`，检查全量渲染、主体缺块、白边、路径复杂度，以及模糊仅用于投影。
 - **关卡辨识度**：关卡按基础原型和颜色组分配物品，优先跨原型选择，降低同屏物品混淆。
 
 > 💡 **Git Hook 自动化**：已配置 `.githooks/pre-commit`。每次提交代码时，若未手动修改版本号，提交钩子将自动按小功能规则递增小版本号并同步更新 `package.json`、`app.js` 与 `index.html`。若为大功能提交，可提前运行 `npm run bump:major` 或使用 `BUMP=major git commit -m "..."`。

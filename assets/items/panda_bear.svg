@@ -1,10 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 126" width="100" height="126" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -3 108 136" width="100" height="126" preserveAspectRatio="xMidYMid meet">
   <title>国宝小熊猫</title>
   <defs><radialGradient id="fur" cx="40%" cy="25%" r="85%"><stop stop-color="#fff"/><stop offset=".55" stop-color="#f4f0eb"/><stop offset="1" stop-color="#d9c4c0"/></radialGradient>
 <radialGradient id="dark" cx="30%" cy="25%" r="85%"><stop stop-color="#555353"/><stop offset=".6" stop-color="#323034"/><stop offset="1" stop-color="#191a20"/></radialGradient>
 <radialGradient id="pink" cx="40%" cy="30%"><stop stop-color="#eebfc4"/><stop offset="1" stop-color="#bb808a"/></radialGradient>
-<radialGradient id="cheek"><stop stop-color="#e6a2af" stop-opacity=".65"/><stop offset="1" stop-color="#efbcc5" stop-opacity="0"/></radialGradient></defs>
-  <ellipse cx="19" cy="20" rx="9" ry="12" transform="rotate(25 19 20)" fill="url(#dark)"/>
+<radialGradient id="cheek"><stop stop-color="#e6a2af" stop-opacity=".65"/><stop offset="1" stop-color="#efbcc5" stop-opacity="0"/></radialGradient><radialGradient id="floor-shadow"><stop stop-color="#456077" stop-opacity=".18"/><stop offset=".6" stop-color="#456077" stop-opacity=".08"/><stop offset="1" stop-color="#456077" stop-opacity="0"/></radialGradient>
+<filter id="object-shadow" filterUnits="userSpaceOnUse" x="-10" y="-10" width="120" height="150" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation=".85" result="soft-shadow"/><feOffset in="soft-shadow" dy="1.4" result="offset-shadow"/><feFlood flood-color="#45566c" flood-opacity=".15"/><feComposite in2="offset-shadow" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <ellipse cx="50.0" cy="125" rx="32.0" ry="2.7" fill="url(#floor-shadow)"/><g filter="url(#object-shadow)"><ellipse cx="19" cy="20" rx="9" ry="12" transform="rotate(25 19 20)" fill="url(#dark)"/>
 <ellipse cx="78" cy="14" rx="9" ry="12" transform="rotate(-25 78 14)" fill="url(#dark)"/>
 <ellipse cx="19" cy="19" rx="5" ry="7" transform="rotate(25 19 19)" fill="#a7a0a0"/>
 <ellipse cx="78" cy="13" rx="5" ry="7" transform="rotate(-25 78 13)" fill="#a7a0a0"/>
@@ -24,5 +25,5 @@
 <path d="M72 108 C80 100 90 100 96 106 C101 113 96 124 88 125 L74 125 C67 123 65 115 72 108Z" fill="url(#dark)"/>
 <ellipse cx="14" cy="116" rx="6" ry="5" transform="rotate(22 14 116)" fill="url(#pink)"/>
 <ellipse cx="91" cy="116" rx="5" ry="6" transform="rotate(22 91 116)" fill="url(#pink)"/>
-<g fill="#dcb2b8"><circle cx="9" cy="107" r="1.5"/><circle cx="14" cy="106" r="1.5"/><circle cx="19" cy="108" r="1.5"/><circle cx="88" cy="106" r="1.5"/><circle cx="94" cy="108" r="1.5"/></g>
+<g fill="#dcb2b8"><circle cx="9" cy="107" r="1.5"/><circle cx="14" cy="106" r="1.5"/><circle cx="19" cy="108" r="1.5"/><circle cx="88" cy="106" r="1.5"/><circle cx="94" cy="108" r="1.5"/></g></g>
 </svg>

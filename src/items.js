@@ -1,4 +1,4 @@
-// Reference-faithful vector assets with repaired silhouettes and smooth curves.
+// Bright geometric vector assets with clean shapes and soft shadows.
 export const ITEMS = {
   "blue_snowman": {
     "id": "blue_snowman",

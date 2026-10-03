@@ -1,5 +1,5 @@
 // Service Worker for 收纳整理师 - 货柜消除 3D
-const CACHE_VERSION = 'v1.7.3';
+const CACHE_VERSION = 'v1.7.4';
 const CACHE_NAME = `organizer-pwa-${CACHE_VERSION}`;
 
 // Core assets required for offline gameplay
@@ -20,8 +20,8 @@ const PRECACHE_ASSETS = [
   './assets/ui/btn_freeze.svg',
   './assets/ui/btn_shuffle.svg',
   './assets/ui/btn_pause.svg',
-  './assets/ui/cabinet_empty.png',
-  './assets/ui/shelf_plank_hd.png',
+  './assets/ui/cabinet_empty.svg',
+  './assets/ui/shelf_plank.svg',
   './assets/items/items_data.json'
 ];
 

@@ -29,6 +29,30 @@ def render(item_id, scale=4):
 
 
 class VectorAssetRegressionTests(unittest.TestCase):
+    def test_geometry_is_simple_and_materials_are_not_blurred(self):
+        for item in json.loads((ROOT / 'scripts' / 'item_catalog.json').read_text()):
+            with self.subTest(item=item['id']):
+                root = ET.parse(ITEMS / (item['id'] + '.svg')).getroot()
+                paths = root.findall('.//' + NAMESPACE + 'path')
+                self.assertLess(len(paths), 100, 'Fragmented tracing regions returned')
+                self.assertTrue(all(len(p.get('d', '')) < 700 for p in paths))
+                primitives = [node for node in root.iter() if node.tag in {
+                    NAMESPACE + 'circle', NAMESPACE + 'ellipse', NAMESPACE + 'rect'
+                }]
+                self.assertGreaterEqual(len(primitives), 2)
+                self.assertTrue(root.findall('.//' + NAMESPACE + 'filter'))
+                for blur in root.findall('.//' + NAMESPACE + 'feGaussianBlur'):
+                    self.assertEqual(blur.get('in'), 'SourceAlpha', 'Material geometry must stay crisp')
+                self.assertTrue(root.findall('.//' + NAMESPACE + 'radialGradient'))
+
+    def test_cabinet_and_shelf_use_vector_surfaces(self):
+        for name in ['cabinet_empty.svg', 'shelf_plank.svg']:
+            with self.subTest(surface=name):
+                root = ET.parse(ROOT / 'assets' / 'ui' / name).getroot()
+                self.assertFalse(root.findall('.//' + NAMESPACE + 'image'))
+                self.assertTrue(root.findall('.//' + NAMESPACE + 'rect'))
+                self.assertTrue(root.findall('.//' + NAMESPACE + 'linearGradient'))
+
     def test_all_assets_are_vectors_and_render(self):
         catalog = json.loads((ROOT / 'scripts' / 'item_catalog.json').read_text())
         for item in catalog:
