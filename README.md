@@ -99,14 +99,14 @@ python3 -m http.server 3000
 - **模型配置**：`scripts/item_catalog.json` 保留物品目录与参考图。`scripts/geometric_models.py` 定义各类物品的几何模型、调色板、装饰和路径文字；`scripts/reference_models.py` 定义雪人与熊猫的完整造型。
 - **参考图用途**：造型与特色图案按参考设计；原图损坏的透明通道不会参与生成，避免再次出现主体缺块。
 - **统一尺寸**：全部 SVG 使用 `100 × 140` 画布，`scripts/model_bounds.json` 记录几何主体的可见范围。主体按统一的 `88 × 124` 区域等比缩放、水平居中并底部对齐。柜格、货架、拖拽预览共用一组尺寸，按最小可用行高计算，避免同一件物品换位置或开始拖拽时改变大小。后层只按固定比例缩小以表达深度。
-- **阴影**：渐变提供物品内部的亮暗变化；模糊仅处理 `SourceAlpha` 投影，最后叠回未模糊的 `SourceGraphic`。画布留出投影边距。
+- **阴影**：主色保持大面积纯净色块，窄幅渐变只表达形体暗部；底部使用紧贴物品的矢量椭圆投影。SVG 主体完全不经过模糊或栅格滤镜，前排物品也不叠加 CSS 光晕。背景模糊仅在弹窗打开时启用。
 - **柜格与货架**：`assets/ui/cabinet_empty.svg` 和 `assets/ui/shelf_plank.svg` 使用矢量色块、圆角、渐变和凹槽阴影，替代原位图背景。
 - **生成**：仅需 Node.js 和 Python 3 标准库，无需安装描摹库：
   ```bash
   npm run generate:svg
   ```
   生成器验证全部几何模型及结果后写入素材；模型缺失或出现内嵌位图时直接报错。
-- **回归检查**：安装 Pillow 与 `rsvg-convert` 后运行 `python3 scripts/verify_svg_assets.py`，检查全量渲染、主体缺块、白边、路径复杂度，以及模糊仅用于投影。
+- **回归检查**：安装 Pillow 与 `rsvg-convert` 后运行 `python3 scripts/verify_svg_assets.py`，检查全量渲染、主体缺块、白边、统一尺寸、路径复杂度，以及主体无模糊或栅格滤镜。
 - **关卡辨识度**：关卡按基础原型和颜色组分配物品，优先跨原型选择，降低同屏物品混淆。
 
 > 💡 **Git Hook 自动化**：已配置 `.githooks/pre-commit`。每次提交代码时，若未手动修改版本号，提交钩子将自动按小功能规则递增小版本号并同步更新 `package.json`、`app.js` 与 `index.html`。若为大功能提交，可提前运行 `npm run bump:major` 或使用 `BUMP=major git commit -m "..."`。

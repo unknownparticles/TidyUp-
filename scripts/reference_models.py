@@ -5,8 +5,8 @@ from geometric_models import PALETTES
 def snowman(hue_map=None):
     light, mid, dark = PALETTES[(hue_map or {}).get('target', 'blue')]
     defs = f'''<radialGradient id="snow" cx="33%" cy="28%" r="80%"><stop stop-color="#fff"/><stop offset=".58" stop-color="#f0f5fc"/><stop offset="1" stop-color="#c0d4ee"/></radialGradient>
-<linearGradient id="hat" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="{light}"/><stop offset=".25" stop-color="{mid}"/><stop offset="1" stop-color="{dark}"/></linearGradient>
-<linearGradient id="scarf"><stop stop-color="{light}"/><stop offset=".3" stop-color="{mid}"/><stop offset="1" stop-color="{dark}"/></linearGradient>
+<linearGradient id="hat" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="{mid}"/><stop offset="1" stop-color="{dark}"/></linearGradient>
+<linearGradient id="scarf"><stop stop-color="{mid}"/><stop offset="1" stop-color="{dark}"/></linearGradient>
 <radialGradient id="button" cx="30%" cy="25%" r="80%"><stop stop-color="{light}"/><stop offset=".7" stop-color="{mid}"/><stop offset="1" stop-color="{dark}"/></radialGradient>
 <radialGradient id="nose" cx="30%" cy="25%"><stop stop-color="#ffcf72"/><stop offset="1" stop-color="#f3bb82"/></radialGradient>
 <radialGradient id="blush"><stop stop-color="#ffb9d2" stop-opacity=".65"/><stop offset="1" stop-color="#edb5b8" stop-opacity="0"/></radialGradient>'''

@@ -70,9 +70,9 @@ class VectorAssetRegressionTests(unittest.TestCase):
                     NAMESPACE + 'circle', NAMESPACE + 'ellipse', NAMESPACE + 'rect'
                 }]
                 self.assertGreaterEqual(len(primitives), 2)
-                self.assertTrue(root.findall('.//' + NAMESPACE + 'filter'))
-                for blur in root.findall('.//' + NAMESPACE + 'feGaussianBlur'):
-                    self.assertEqual(blur.get('in'), 'SourceAlpha', 'Material geometry must stay crisp')
+                self.assertFalse(root.findall('.//' + NAMESPACE + 'filter'), 'Item models must not pass through raster filters')
+                self.assertFalse(root.findall('.//' + NAMESPACE + 'feGaussianBlur'))
+                self.assertFalse(any(node.get('filter') for node in root.iter()))
                 self.assertTrue(root.findall('.//' + NAMESPACE + 'radialGradient'))
 
     def test_cabinet_and_shelf_use_vector_surfaces(self):

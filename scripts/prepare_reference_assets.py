@@ -27,11 +27,9 @@ def fit_model(source):
 
 
 def shadows(width, height):
-    # Blur is restricted to SourceAlpha. The coloured SourceGraphic is merged
-    # untouched, preserving crisp lettering, eyes and all material boundaries.
-    defs = f'''<radialGradient id="floor-shadow"><stop stop-color="#9db9d8" stop-opacity=".12"/><stop offset=".6" stop-color="#9db9d8" stop-opacity=".05"/><stop offset="1" stop-color="#9db9d8" stop-opacity="0"/></radialGradient>
-<filter id="object-shadow" filterUnits="userSpaceOnUse" x="-10" y="-10" width="{width+20}" height="{height+24}" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation=".55" result="soft-shadow"/><feOffset in="soft-shadow" dy="1.4" result="offset-shadow"/><feFlood flood-color="#96acce" flood-opacity=".14"/><feComposite in2="offset-shadow" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>'''
-    floor = f'<ellipse cx="{width/2}" cy="{height-1}" rx="{width*.32}" ry="2.7" fill="url(#floor-shadow)"/>'
+    # A compact vector contact shadow gives depth without filtering the model.
+    defs = '<radialGradient id="floor-shadow"><stop stop-color="#6486ad" stop-opacity=".2"/><stop offset=".5" stop-color="#6486ad" stop-opacity=".1"/><stop offset="1" stop-color="#6486ad" stop-opacity="0"/></radialGradient>'
+    floor = f'<ellipse cx="{width/2}" cy="134" rx="{width*.28}" ry="1.8" fill="url(#floor-shadow)"/>'
     return defs, floor
 
 
@@ -51,7 +49,7 @@ def main():
         result[item_id] = {
             'width': width, 'height': height,
             'defs': defs + shadow_defs,
-            'content': floor + f'<g filter="url(#object-shadow)"><g id="item-model" transform="{fit_model(source)}">{content}</g></g>',
+            'content': floor + f'<g id="item-model" transform="{fit_model(source)}">{content}</g>',
         }
     json.dump(result, sys.stdout, separators=(',', ':'))
 
