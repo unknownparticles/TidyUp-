@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.7.4';
+  const APP_VERSION = '1.7.5';
 
   // Bright geometric vector assets with clean shapes and soft shadows.
   const ITEMS = {
@@ -876,7 +876,10 @@
         if (frontItems[pos]) {
           const frontKey = frontItems[pos];
           const frontItemEl = document.createElement('div');
-          frontItemEl.className = 'good-item layer-front';
+          frontItemEl.className = 'good-item layer-front entering';
+          frontItemEl.addEventListener('animationend', () => {
+            frontItemEl.classList.remove('entering');
+          }, { once: true });
           frontItemEl.dataset.itemKey = frontKey;
           frontItemEl.dataset.type = type;
           frontItemEl.dataset.slotIndex = slotIdx;
@@ -1190,7 +1193,38 @@
       let draggedItemData = null;
       let draggedItemEl = null;
       let currentSnapTarget = null;
-      let isTouchDevice = false;
+      let isSettlingDrag = false;
+
+      const isSameLocation = (from, to) => from && to && from.type === to.type &&
+        (from.type === 'cabinet' ? from.slotIndex === to.slotIndex :
+          from.rowIndex === to.rowIndex && from.shelfIndex === to.shelfIndex);
+
+      const resetPointer = () => {
+        activePointerId = null;
+        isDragging = false;
+        draggedItemData = null;
+        draggedItemEl = null;
+        currentSnapTarget = null;
+      };
+
+      const restoreDragVisuals = (sourceEl) => {
+        this.dragGhost.style.display = 'none';
+        this.dragGhost.style.transition = 'none';
+        this.dragGhost.style.transform = 'translate(-50%, -50%)';
+        if (sourceEl) sourceEl.style.removeProperty('visibility');
+      };
+
+      const settleDrag = (callback, delay) => {
+        // Keep a later gesture from reusing the ghost while this one settles.
+        isSettlingDrag = true;
+        setTimeout(() => {
+          try {
+            callback();
+          } finally {
+            isSettlingDrag = false;
+          }
+        }, delay);
+      };
 
       const clearSnapHighlights = () => {
         document.querySelectorAll('.drop-target-snap, .drop-target-valid, .drop-target-invalid').forEach(el => {
@@ -1212,7 +1246,7 @@
             slotIndex: idx,
             rowIndex: idx,
             shelfIndex: 0,
-            canPlace: count < 3,
+            canPlace: count < 3 || isSameLocation(draggedItemData, { type: 'cabinet', slotIndex: idx }),
             rect: el.getBoundingClientRect()
           });
         });
@@ -1231,7 +1265,7 @@
               slotIndex: rIdx,
               rowIndex: rIdx,
               shelfIndex: sIdx,
-              canPlace: count < 3,
+              canPlace: count < 3 || isSameLocation(draggedItemData, { type: 'conveyor', rowIndex: rIdx, shelfIndex: sIdx }),
               rect: el.getBoundingClientRect()
             });
           });
@@ -1322,7 +1356,7 @@
       };
 
       const onPointerDown = (e) => {
-        if (this.isPaused) return;
+        if (this.isPaused || activePointerId !== null || isSettlingDrag) return;
 
         if (this.hammerMode) {
           const itemEl = e.target.closest('.good-item.layer-front');
@@ -1363,9 +1397,10 @@
         }
 
         e.preventDefault();
+        // Selection and deselection must not restart the entry animation.
+        itemEl.classList.remove('entering');
 
         activePointerId = e.pointerId;
-        isTouchDevice = e.pointerType === 'touch';
         startPointerPos = { x: e.clientX, y: e.clientY };
         isDragging = false;
         draggedItemEl = itemEl;
@@ -1441,24 +1476,25 @@
 
         if (!isDragging) {
           // Tap / Click action
-          if (draggedItemEl) draggedItemEl.style.visibility = 'visible';
-          activePointerId = null;
-          handleItemTap(draggedItemData);
+          const itemData = draggedItemData;
+          resetPointer();
+          handleItemTap(itemData);
           return;
         }
+
+        // Capture this gesture before clearing shared state. Return animations
+        // must restore its original node, even after pointerup has completed.
+        const sourceEl = draggedItemEl;
+        const sourceData = { ...draggedItemData };
 
         // Auto-snap upon release ("松手要自吸附")
         const snap = currentSnapTarget && currentSnapTarget.canPlace ? currentSnapTarget : null;
 
         if (snap) {
-          const isSameSlot = (draggedItemData.type === snap.type) &&
-            (snap.type === 'cabinet' ? draggedItemData.slotIndex === snap.slotIndex : 
-             (draggedItemData.rowIndex === snap.rowIndex && draggedItemData.shelfIndex === snap.shelfIndex));
+          const isSameSlot = isSameLocation(sourceData, snap);
 
           if (isSameSlot) {
-            this.dragGhost.style.display = 'none';
-            if (draggedItemEl) draggedItemEl.style.visibility = 'visible';
-            this.renderBoard();
+            restoreDragVisuals(sourceEl);
           } else {
             // Magnetic Snap Animation into target slot!
             const emptyIndicator = snap.el.querySelector('.empty-slot-indicator');
@@ -1477,7 +1513,6 @@
             const parentRect = document.getElementById('game-container').getBoundingClientRect();
             this.particles.emit(targetX - parentRect.left, targetY - parentRect.top, 14, 'star');
 
-            const sourceData = { ...draggedItemData };
             const targetLocation = {
               type: snap.type,
               slotIndex: snap.slotIndex,
@@ -1485,11 +1520,8 @@
               shelfIndex: snap.shelfIndex
             };
 
-            setTimeout(() => {
-              this.dragGhost.style.display = 'none';
-              this.dragGhost.style.transition = 'none';
-              this.dragGhost.style.transform = 'translate(-50%, -50%)';
-
+            settleDrag(() => {
+              restoreDragVisuals(sourceEl);
               this.moveItem(
                 {
                   type: sourceData.type,
@@ -1504,8 +1536,8 @@
           }
         } else {
           // Snap back to origin
-          if (draggedItemEl) {
-            const srcRect = draggedItemEl.getBoundingClientRect();
+          if (sourceEl) {
+            const srcRect = sourceEl.getBoundingClientRect();
             const srcX = srcRect.left + srcRect.width / 2;
             const srcY = srcRect.top + srcRect.height / 2;
 
@@ -1514,30 +1546,28 @@
             this.dragGhost.style.top = `${srcY}px`;
             this.dragGhost.style.transform = 'translate(-50%, -50%)';
 
-            setTimeout(() => {
-              this.dragGhost.style.display = 'none';
-              this.dragGhost.style.transition = 'none';
-              this.dragGhost.style.transform = 'translate(-50%, -50%)';
-              if (draggedItemEl) draggedItemEl.style.visibility = 'visible';
-              this.renderBoard();
+            settleDrag(() => {
+              restoreDragVisuals(sourceEl);
             }, 150);
           } else {
-            this.dragGhost.style.display = 'none';
-            this.renderBoard();
+            restoreDragVisuals(sourceEl);
           }
         }
 
-        activePointerId = null;
-        isDragging = false;
-        draggedItemData = null;
-        draggedItemEl = null;
-        currentSnapTarget = null;
+        resetPointer();
+      };
+
+      const onPointerCancel = (e) => {
+        if (activePointerId === null || e.pointerId !== activePointerId) return;
+        clearSnapHighlights();
+        restoreDragVisuals(draggedItemEl);
+        resetPointer();
       };
 
       container.addEventListener('pointerdown', onPointerDown);
       window.addEventListener('pointermove', onPointerMove);
       window.addEventListener('pointerup', onPointerUp);
-      window.addEventListener('pointercancel', onPointerUp);
+      window.addEventListener('pointercancel', onPointerCancel);
 
       // Boosters
       document.getElementById('btn-tool-hammer').addEventListener('click', () => this.activateHammer());
