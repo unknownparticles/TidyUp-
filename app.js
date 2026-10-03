@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.4.0';
+  const APP_VERSION = '1.4.1';
 
   // 1. High-Resolution 3D Rendered Item Assets (Extracted directly from sprite sheet)
   const ITEMS = {
