@@ -20,8 +20,8 @@ if (!fs.existsSync(itemsDir)) {
   fs.mkdirSync(itemsDir, { recursive: true });
 }
 
-function wrapSvg(defs, content) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+function wrapSvg(defs, content, viewBox = '15 4 70 94') {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" width="100%" height="100%">
   <defs>
     <!-- Soft blur filter for realistic clay highlights & blush -->
     <filter id="clay-blur" x="-20%" y="-20%" width="140%" height="140%">
@@ -147,7 +147,7 @@ function renderSnowman(hatColors, scarfColors, btnColors, id) {
     <circle cx="48.8" cy="10.8" r="1.8" fill="#ffffff"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "18 5 64 92");
 }
 
 // -------------------------------------------------------------
@@ -209,7 +209,7 @@ function renderPeaBunny(podColors, id) {
     <path d="M22,34 C16,56 26,82 52,88" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.55"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "10 4 80 92");
 }
 
 // -------------------------------------------------------------
@@ -260,7 +260,7 @@ function renderXmasTree(treeColors, id) {
     <circle cx="50" cy="18" r="2" fill="#fff" opacity="0.6"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "16 3 68 92");
 }
 
 // -------------------------------------------------------------
@@ -320,7 +320,7 @@ function renderReindeer(id) {
     <circle cx="48.5" cy="43.5" r="1.3" fill="#ffffff" opacity="0.85"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "15 5 70 90");
 }
 
 // -------------------------------------------------------------
@@ -365,7 +365,7 @@ function renderGnome(hatColors, coatColor, id) {
     <circle cx="82" cy="14" r="5" fill="#cfd8dc" opacity="0.3"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "14 8 72 88");
 }
 
 // -------------------------------------------------------------
@@ -397,7 +397,7 @@ function renderStocking(bodyColor, id) {
     <rect x="36" y="16" width="28" height="12" rx="5" fill="#cfd8dc" opacity="0.3"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "22 8 56 88");
 }
 
 // -------------------------------------------------------------
@@ -438,7 +438,7 @@ function renderPouch(pouchColors, id) {
     </g>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "18 24 64 72");
 }
 
 // -------------------------------------------------------------
@@ -466,7 +466,7 @@ function renderBell(metalColors, bowColor, id) {
     <circle cx="48.8" cy="25.5" r="1.2" fill="#ffffff" opacity="0.6"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "16 8 68 88");
 }
 
 // -------------------------------------------------------------
@@ -499,7 +499,7 @@ function renderGiftBox(boxColors, ribbonColor, id) {
     <circle cx="48.8" cy="55.8" r="1.2" fill="#ffffff" opacity="0.6"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "18 16 64 80");
 }
 
 // -------------------------------------------------------------
@@ -523,7 +523,7 @@ function renderDoneBottle(bottleColors, labelBg, id) {
     <text x="50" y="66" font-size="14" font-weight="900" fill="#fff9c4" text-anchor="middle" font-family="Arial Black, Impact, sans-serif">Done</text>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "22 12 56 84");
 }
 
 // -------------------------------------------------------------
@@ -554,7 +554,7 @@ function renderBearBottle(id) {
     <path d="M48,62 Q50,64 52,62" stroke="#3e2723" stroke-width="1.2" fill="none"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "20 10 60 86");
 }
 
 // -------------------------------------------------------------
@@ -580,7 +580,7 @@ function renderLollipop(candyColors, id) {
     <circle cx="50" cy="58" r="3.6" fill="${candyColors[2]}"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "18 6 64 90");
 }
 
 // -------------------------------------------------------------
@@ -625,7 +625,7 @@ function renderFrog(id) {
     <path d="M42,50 Q50,56 58,50" stroke="#33691e" stroke-width="1.8" fill="none" stroke-linecap="round"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "14 16 72 80");
 }
 
 // -------------------------------------------------------------
@@ -660,7 +660,7 @@ function renderYellowChick(id) {
     <polygon points="46,50 54,50 50,57" fill="#ff7043"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "15 2 70 93");
 }
 
 // -------------------------------------------------------------
@@ -698,7 +698,7 @@ function renderCookieBucket(id) {
     </g>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "14 16 72 80");
 }
 
 // -------------------------------------------------------------
@@ -723,7 +723,7 @@ function renderMilkCarton(cartonColors, id) {
     <ellipse cx="50" cy="72" rx="7" ry="5" fill="#ffe082" transform="rotate(-15 50 72)"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "18 10 64 86");
 }
 
 // -------------------------------------------------------------
@@ -765,7 +765,7 @@ function renderTeddyBear(furColors, id) {
     <path d="M48,47 Q50,49 52,47" stroke="#4e342e" stroke-width="1.2" fill="none"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "15 10 70 86");
 }
 
 // -------------------------------------------------------------
@@ -803,7 +803,7 @@ function renderPanda(id) {
     <path d="M47,48 Q50,54 53,48 Z" fill="#e91e63"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "15 10 70 86");
 }
 
 // -------------------------------------------------------------
@@ -825,7 +825,7 @@ function renderCoffeeCup(sleeveColors, id) {
     <rect x="33" y="12" width="34" height="6" rx="2" fill="url(#cup-sleeve-${id})"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "20 12 60 84");
 }
 
 // -------------------------------------------------------------
@@ -855,7 +855,7 @@ function renderMitten(mittenColors, id) {
     <rect x="30" y="74" width="40" height="12" rx="3" fill="#ffe0b2"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "16 12 68 84");
 }
 
 // -------------------------------------------------------------
@@ -884,7 +884,7 @@ function renderCandle(candleColors, id) {
     <path d="M50,10 C46,16 46,24 50,26 C54,24 54,16 50,10 Z" fill="url(#flame-g)"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "20 6 60 90");
 }
 
 // -------------------------------------------------------------
@@ -914,7 +914,7 @@ function renderCheese(id) {
     <circle cx="48" cy="80" r="3.5" fill="url(#crater-shadow)"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "14 20 72 76");
 }
 
 // -------------------------------------------------------------
@@ -960,7 +960,7 @@ function renderCrab(id) {
     <path d="M47,61 Q50,64 53,61" stroke="#3e2723" stroke-width="1.4" fill="none" stroke-linecap="round"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "8 16 84 80");
 }
 
 // -------------------------------------------------------------
@@ -994,7 +994,7 @@ function renderClover(id) {
     <circle cx="50" cy="50" r="3.5" fill="#e8f5e9"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "12 8 76 88");
 }
 
 // -------------------------------------------------------------
@@ -1015,7 +1015,7 @@ function renderCalendar(headerColor, id) {
     <text x="50" y="76" font-size="28" font-weight="900" fill="#212121" text-anchor="middle" font-family="Arial Black, Impact, sans-serif">25</text>
   `;
 
-  return wrapSvg('', content);
+  return wrapSvg("", content, "14 14 72 82");
 }
 
 // -------------------------------------------------------------
@@ -1044,7 +1044,7 @@ function renderChipsBag(bagColors, flavorName, id) {
     <ellipse cx="50" cy="62" rx="9" ry="5.5" fill="#fbc02d" transform="rotate(-15 50 62)"/>
   `;
 
-  return wrapSvg(defs, content);
+  return wrapSvg(defs, content, "16 8 68 88");
 }
 
 // -------------------------------------------------------------
@@ -1065,7 +1065,7 @@ function renderWatermelon(id) {
     <ellipse cx="50" cy="62" rx="1.5" ry="2.4" fill="#212121"/>
   `;
 
-  return wrapSvg('', content);
+  return wrapSvg("", content, "12 16 76 80");
 }
 
 

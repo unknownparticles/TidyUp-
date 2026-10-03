@@ -10,9 +10,9 @@
   --sar: env(safe-area-inset-right, 0px);
 
   /* Unified Item Dimensions: Dynamically adapt to container width, perfectly matching top cabinet, conveyor shelves, and drag ghost */
-  --item-w: clamp(34px, 9.8vw, 62px);
-  --item-h: calc(var(--item-w) * 1.5);
-  --plank-w: clamp(124px, 32vw, 210px);
+  --item-w: clamp(42px, 12vw, 80px);
+  --item-h: calc(var(--item-w) * 1.44);
+  --plank-w: clamp(134px, 34vw, 220px);
 }
 
 * {
@@ -298,8 +298,8 @@ body {
   height: 100%;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
-  gap: 2px;
+  justify-content: space-evenly;
+  gap: 1px;
   position: relative;
   padding: 0;
   box-sizing: border-box;
@@ -307,14 +307,15 @@ body {
 
 /* Item Layer Container (Holds Front + Back Layer) - Strictly Uniform Across All Slots */
 .item-layer-container {
-  width: calc((100% - 4px) / 3);
-  max-width: var(--item-w);
-  height: 92%;
+  flex: 1;
+  width: calc((100% - 2px) / 3);
+  max-width: none;
+  height: 98%;
   position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 /* Deepest 3rd Layer Item (Subtle 3D Depth) */
@@ -520,7 +521,7 @@ body {
   background-size: 100% clamp(36px, 50%, 54px);
   background-repeat: no-repeat;
   background-position: bottom;
-  padding: 0 4px 8px 4px;
+  padding: 0 2px 4px 2px;
   box-sizing: border-box;
   will-change: transform;
 }

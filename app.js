@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.6.0';
+  const APP_VERSION = '1.7.0';
 
     // 1. Authentic 3D Figurines & Clay-Style Item Assets (Procedural Vector SVG Modeled after original PNGs)
   const ITEMS = {
@@ -577,18 +577,18 @@
       const compWidth = Math.round((actualCabinetWidth * 0.908) / 3);
 
       // Plank width matches compartment width for 1:1 scale
-      const plankWidth = Math.max(124, Math.min(210, compWidth));
-      const plankGap = Math.max(8, Math.round(plankWidth * 0.08));
+      const plankWidth = Math.max(132, Math.min(220, compWidth));
+      const plankGap = Math.max(6, Math.round(plankWidth * 0.05));
 
       // 4 shelves per row: totalSpan = 4 * pitch
       // Ensure 3 * pitch >= trackWidth so wrap occurs off-screen
-      const minPitchForLoop = Math.ceil((trackWidth + 12) / 3);
+      const minPitchForLoop = Math.ceil((trackWidth + 8) / 3);
       const pitch = Math.max(plankWidth + plankGap, minPitchForLoop);
       const totalSpan = 4 * pitch;
 
-      // Item dimensions: 3 items fit inside compartment with 2px gap
-      const itemWidth = Math.max(34, Math.min(62, Math.floor((compWidth - 8) / 3)));
-      const itemHeight = Math.round(itemWidth * 1.5);
+      // Item dimensions: 3 items fit snugly inside compartment with minimal gap
+      const itemWidth = Math.max(42, Math.min(84, Math.floor((compWidth - 4) / 3)));
+      const itemHeight = Math.round(itemWidth * 1.44);
 
       // Set CSS variables on container
       container.style.setProperty('--item-w', `${itemWidth}px`);
