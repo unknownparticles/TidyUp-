@@ -2,8 +2,8 @@
   <defs>
     <linearGradient id="btn-bg-pause" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="50%" stop-color="#f2f1ff"/>
-      <stop offset="100%" stop-color="#ded9f8"/>
+      <stop offset="50%" stop-color="#e7e2fc"/>
+      <stop offset="100%" stop-color="#c8bdf0"/>
     </linearGradient>
     <linearGradient id="pause-bars" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#b8a4de"/>

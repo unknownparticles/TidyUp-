@@ -1,24 +1,24 @@
 """Small, authored SVG forms; no bitmap tracing or fragmented colour regions."""
 import math
 
-# Ice-cream colours keep the gradient's shaded end in the same bright hue.
+# Macaron hues with a compact highlight and clearly separated shaded material.
 PALETTES = {
-    'white': ('#ffffff', '#fafcff', '#e1ecfa'),
-    'cream': ('#fffef1', '#fff4cf', '#f5e3b3'),
-    'blue': ('#e4f7ff', '#adddff', '#83c5f2'),
-    'navy': ('#e3f0ff', '#afcef5', '#87b2e7'),
-    'cyan': ('#e5fcff', '#afeaf3', '#86d7e8'),
-    'teal': ('#e1fff7', '#a3ebdd', '#77d4cb'),
-    'green': ('#e0fff2', '#a1e9c8', '#72d4ad'),
-    'red': ('#ffe9e5', '#ffb8b3', '#f496a1'),
-    'pink': ('#ffedf5', '#ffc7e0', '#f5a6ce'),
-    'yellow': ('#fffbe3', '#ffeba8', '#f8d784'),
-    'gold': ('#fff9df', '#ffe7ab', '#f3ce86'),
-    'orange': ('#fff0df', '#ffd7b7', '#f8bd9c'),
-    'purple': ('#f4edff', '#dac7f6', '#bea6e9'),
-    'brown': ('#fff3e5', '#eed4bd', '#dfba9e'),
-    'dark': ('#8996ad', '#63738d', '#455775'),
-    'coral': ('#ffefe5', '#ffd0bb', '#f6af9f'),
+    'white': ('#ffffff', '#f0f5fc', '#c0d4ee'),
+    'cream': ('#fff7da', '#ffe8b0', '#ebc775'),
+    'blue': ('#bde8ff', '#69bdf2', '#439cdb'),
+    'navy': ('#c6ddff', '#7ca9e7', '#5d87cc'),
+    'cyan': ('#c2f2ff', '#67d3e9', '#3eb3cf'),
+    'teal': ('#b9f2e7', '#62cfb8', '#3dae9b'),
+    'green': ('#c2f7df', '#70d5aa', '#45b889'),
+    'red': ('#ffcac5', '#ff8b91', '#e9677d'),
+    'pink': ('#ffd6eb', '#f799c6', '#db70ab'),
+    'yellow': ('#fff0b0', '#ffdc75', '#eabd4b'),
+    'gold': ('#fff0b9', '#f9d27b', '#deae50'),
+    'orange': ('#ffe0bd', '#ffbc88', '#e99565'),
+    'purple': ('#e8d4ff', '#bd98ec', '#9773cd'),
+    'brown': ('#f9dfc6', '#e5bc98', '#c99c78'),
+    'dark': ('#7b8ba4', '#4b5e7b', '#2e4162'),
+    'coral': ('#ffdbca', '#ffb299', '#e78d7e'),
 }
 
 
@@ -54,7 +54,7 @@ class Drawing:
     def paint(self, name):
         if name not in self.names:
             light, middle, dark = PALETTES[name]
-            self.definitions.append(f'<radialGradient id="{name}" cx="30%" cy="22%" r="90%"><stop stop-color="{light}"/><stop offset=".52" stop-color="{middle}"/><stop offset="1" stop-color="{dark}"/></radialGradient>')
+            self.definitions.append(f'<radialGradient id="{name}" cx="30%" cy="22%" r="90%"><stop stop-color="{light}"/><stop offset=".26" stop-color="{middle}"/><stop offset=".72" stop-color="{middle}"/><stop offset="1" stop-color="{dark}"/></radialGradient>')
             self.names.add(name)
         return grad(name)
 
@@ -62,7 +62,7 @@ class Drawing:
         key = name + '-linear'
         if key not in self.names:
             light, middle, dark = PALETTES[name]
-            self.definitions.append(f'<linearGradient id="{key}" x1="0" y1="0" x2="1" y2=".75"><stop stop-color="{light}"/><stop offset=".45" stop-color="{middle}"/><stop offset="1" stop-color="{dark}"/></linearGradient>')
+            self.definitions.append(f'<linearGradient id="{key}" x1="0" y1="0" x2="1" y2=".75"><stop stop-color="{light}"/><stop offset=".24" stop-color="{middle}"/><stop offset=".7" stop-color="{middle}"/><stop offset="1" stop-color="{dark}"/></linearGradient>')
             self.names.add(key)
         return grad(key)
 
@@ -157,7 +157,7 @@ def bunny(d, colour):
     body += ellipse(59, 91, 5, 4, d.paint('white')) + ellipse(69, 90, 5, 4, d.paint('white'))
     body += ellipse(85, 108, 7, 5, d.paint('white'), 'transform="rotate(-25 85 108)"') + ellipse(85, 108, 3.3, 2.6, d.paint('pink'))
     body += path('M8 42 C12 68 32 103 61 115 C77 122 90 119 97 108 C94 129 78 136 59 128 C28 115 9 84 8 42Z', d.linear(colour))
-    body += line('M12 54 C21 85 40 111 61 120', PALETTES[colour][0], 2.2, 'opacity=".8"')
+    body += line('M12 54 C21 85 40 111 61 120', PALETTES[colour][0], 2.2, 'opacity=".6"')
     return body
 
 
@@ -212,7 +212,7 @@ def stocking(d, source):
         for x,y,r in [(42,48,5),(69,55,5),(51,69,5),(63,85,5),(40,98,6),(24,115,5),(50,118,5)]:
             body += circle(x,y,r,d.paint('white'))
     body += rect(23,8,61,26,6,d.paint('red' if green else 'white'))
-    body += line('M29 13 H77',PALETTES['red' if green else 'white'][0],2,'opacity=".85"')
+    body += line('M29 13 H77',PALETTES['red' if green else 'white'][0],2,'opacity=".6"')
     return body
 
 
@@ -258,7 +258,7 @@ def gift(d, source):
     else:
         body = rect(15,20,70,110,7,d.paint(colour)) + rect(44,20,12,110,2,d.linear(ribbon)) + rect(15,69,70,13,2,d.linear(ribbon))
         body += bow(d,50,73,ribbon,1.08)
-        body += line('M20 30 V61',PALETTES[colour][0],2,'opacity=".8"')
+        body += line('M20 30 V61',PALETTES[colour][0],2,'opacity=".6"')
     return body
 
 
@@ -267,7 +267,7 @@ def bottle(d, source, bear=False):
     body = ellipse(81,30,9,6,d.paint(name)) + ellipse(81,30,4.5,2.5,'#f2faf9')
     body += path('M32 33 C32 46 19 46 17 57 L17 119 Q17 130 30 130 L71 130 Q83 130 83 119 L83 57 C81 46 68 46 68 33Z',d.paint(name))
     body += rect(30,15,40,20,6,d.paint(name)) + ellipse(50,16,19,4,d.paint(name))
-    body += ellipse(43,51,17,4,'#fff','opacity=".55"') + line('M23 62 V109',PALETTES[name][0],2.5,'opacity=".7"')
+    body += ellipse(43,51,14,2.7,'#fff','opacity=".3"') + line('M23 62 V109',PALETTES[name][0],2.5,'opacity=".7"')
     if bear:
         body += circle(34,75,8,d.paint('cream')) + circle(66,75,8,d.paint('cream'))
         body += circle(34,75,4,d.paint(name)) + circle(66,75,4,d.paint(name))
@@ -282,7 +282,7 @@ def bottle(d, source, bear=False):
 
 def lollipop(d, colour):
     body = rect(46,66,8,66,3,d.paint('cream')) + line('M48 98 V127','#fff9e9',1.7)
-    body += circle(50,44,35,d.paint(colour)) + line('M27 24 Q37 14 50 16',PALETTES[colour][0],3,'opacity=".85"')
+    body += circle(50,44,35,d.paint(colour)) + line('M27 24 Q37 14 50 16',PALETTES[colour][0],3,'opacity=".6"')
     body += line('M18 48 Q50 57 82 47',PALETTES[colour][2],1.5,'opacity=".32"')
     body += bow(d,50,85,colour,.76)
     return body
@@ -381,7 +381,7 @@ def coffee(d):
 def mitten(d):
     body = path('M34 115 C22 97 12 84 17 68 C19 60 26 63 29 70 L29 42 C29 22 46 9 61 13 C80 16 89 31 87 53 C90 74 82 96 74 115Z',d.paint('green'))
     body += ellipse(22,73,10,13,d.paint('cream'),'transform="rotate(15 22 73)"') + rect(31,112,46,21,7,d.paint('cream'))
-    body += snowflake(58,67,17) + line('M36 35 Q40 24 49 21','#e1f8c6',2.4,'opacity=".8"')
+    body += snowflake(58,67,17) + line('M36 35 Q40 24 49 21','#e1f8c6',2.4,'opacity=".6"')
     return body
 
 
@@ -427,7 +427,7 @@ def calendar(d, colour):
     body += rect(19,54,58,59,7,d.paint('cream')) + label('25',48,65,44,'#509b81' if colour=='green' else '#cf7e92',1.85)
     for x in (29,48,67):
         body += rect(x-5,13,10,30,5,d.paint('dark' if colour=='green' else 'gold'))
-        body += line(f'M{x-1} 18 V33', '#eaf0f3' if colour=='green' else '#fff3bb',1.7,'opacity=".85"')
+        body += line(f'M{x-1} 18 V33', '#eaf0f3' if colour=='green' else '#fff3bb',1.7,'opacity=".6"')
     body += line('M19 120 H76',PALETTES[colour][0],2,'opacity=".5"')
     return body
 
@@ -453,7 +453,7 @@ def watermelon(d):
     body = ellipse(50,77,40,53,d.paint('green')) + ellipse(50,64,37,41,d.paint('cream')) + ellipse(50,63,33,37,d.paint('red'))
     for x,y,angle in [(35,49,-20),(57,44,10),(70,59,25),(46,67,-10),(29,71,-25),(59,79,10),(41,88,-10)]:
         body += ellipse(x,y,1.8,3,d.paint('dark'),f'transform="rotate({angle} {x} {y})"')
-    body += ''.join(line(f'M{x} 111 Q{x+3} 119 {x+1} 126','#7bc9a7',3,'opacity=".8"') for x in (26,41,57,72))
+    body += ''.join(line(f'M{x} 111 Q{x+3} 119 {x+1} 126','#7bc9a7',3,'opacity=".6"') for x in (26,41,57,72))
     body += path('M50 23 Q49 13 55 10',d.paint('green'), 'stroke="#86d6b0" stroke-width="3" stroke-linecap="round"')
     body += path('M52 23 Q35 19 25 28 Q43 26 49 32Z M54 23 Q67 19 79 31 Q63 25 58 33Z',d.paint('green'))
     return body

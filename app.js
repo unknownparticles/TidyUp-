@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.7.7';
+  const APP_VERSION = '1.7.8';
 
   // Bright geometric vector assets with clean shapes and soft shadows.
   const ITEMS = {

@@ -1,5 +1,5 @@
 // Service Worker for 收纳整理师 - 货柜消除 3D
-const CACHE_VERSION = 'v1.7.7';
+const CACHE_VERSION = 'v1.7.8';
 const CACHE_NAME = `organizer-pwa-${CACHE_VERSION}`;
 const ASSET_VERSION = CACHE_VERSION.slice(1);
 

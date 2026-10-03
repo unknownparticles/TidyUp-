@@ -1,9 +1,9 @@
 :root {
-  --bg-color: #f8fbff;
-  --ink-color: #536782;
-  --mint: #c9f4e2;
-  --lilac: #ded2f6;
-  --rose: #ffd5e5;
+  --bg-color: #eaf1fb;
+  --ink-color: #3f5473;
+  --mint: #acdcca;
+  --lilac: #c7b4e8;
+  --rose: #f6b5cf;
   --surface-shadow: rgba(128, 156, 190, 0.15);
   --sat: env(safe-area-inset-top, 0px);
   --sab: env(safe-area-inset-bottom, 0px);
@@ -47,7 +47,7 @@ img {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  background: radial-gradient(circle at 50% 30%, #fff9fc 0%, #e5f3ff 65%, #dceeff 100%);
+  background: radial-gradient(circle at 50% 30%, #edf0fa 0%, #d4e4f6 65%, #bdd5ef 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,7 +111,7 @@ body {
   align-items: center;
   gap: 8px;
   z-index: 20;
-  background: rgba(248, 251, 255, 0.96);
+  background: rgba(234, 241, 251, 0.98);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -137,7 +137,7 @@ body {
 .header-center-pill {
   flex: 1;
   height: 44px;
-  background: linear-gradient(135deg, #eee5ff, #dbeaff);
+  background: linear-gradient(135deg, #d6c6f4, #b9d4f5);
   border: 2.5px solid #ffffff;
   border-radius: 22px;
   display: flex;
@@ -151,7 +151,7 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: rgba(255, 255, 255, 0.64);
+  background: rgba(245, 249, 255, 0.74);
   padding: 3px 8px;
   border-radius: 14px;
 }
@@ -247,7 +247,7 @@ body {
   aspect-ratio: 1040 / 720;
   max-height: min(400px, 49vh, 49%);
   margin: 0 auto;
-  background-image: url('./assets/ui/cabinet_empty.svg?v=1.7.7');
+  background-image: url('./assets/ui/cabinet_empty.svg?v=1.7.8');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: relative;
@@ -378,7 +378,7 @@ body {
   font-size: 10px;
   font-weight: 800;
   color: #a3658a;
-  background: linear-gradient(135deg, #ffeaf1, #f9d4e3);
+  background: linear-gradient(135deg, #fce0e9, #edb6cc);
   border: 1px solid rgba(255, 255, 255, 0.75);
   padding: 1px 6px;
   border-radius: 9px;
@@ -396,7 +396,7 @@ body {
   height: 100%;
   z-index: 3;
   cursor: grab;
-  filter: drop-shadow(0 2px 2px rgba(134, 159, 194, 0.10));
+  filter: drop-shadow(0 1px 1px rgba(100, 132, 175, 0.18));
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s;
   display: flex;
   align-items: flex-end;
@@ -498,7 +498,7 @@ body {
   min-height: 52px;
   max-height: 102px;
   overflow: hidden;
-  background: rgba(239, 248, 255, 0.66);
+  background: rgba(219, 232, 249, 0.85);
   border-radius: 10px;
   border-bottom: 2px solid rgba(146, 168, 186, 0.12);
 }
@@ -520,7 +520,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background-image: url('./assets/ui/shelf_plank.svg?v=1.7.7');
+  background-image: url('./assets/ui/shelf_plank.svg?v=1.7.8');
   background-size: 100% clamp(36px, 50%, 54px);
   background-repeat: no-repeat;
   background-position: bottom;
@@ -563,7 +563,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: linear-gradient(180deg, #f4eeff 0%, #e6f4ff 100%);
+  background: linear-gradient(180deg, #dbd1f1 0%, #c7dff5 100%);
   border-top: 2px solid #dee9f8;
   box-shadow: 0 -4px 12px rgba(128, 156, 190, 0.13);
   z-index: 30;
