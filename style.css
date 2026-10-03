@@ -9,9 +9,10 @@
   --sal: env(safe-area-inset-left, 0px);
   --sar: env(safe-area-inset-right, 0px);
 
-  /* Unified Item Dimensions: Perfectly matched across top cabinet, bottom conveyor shelves, and drag ghost */
-  --item-w: clamp(38px, 10.4vw, 44px);
+  /* Unified Item Dimensions: Dynamically adapt to container width, perfectly matching top cabinet, conveyor shelves, and drag ghost */
+  --item-w: clamp(34px, 9.8vw, 62px);
   --item-h: calc(var(--item-w) * 1.5);
+  --plank-w: clamp(124px, 32vw, 210px);
 }
 
 * {
@@ -38,7 +39,7 @@ html, body {
 img {
   user-select: none;
   -webkit-user-select: none;
-  -webkit-user-drag: none;
+  -webkit-drag: none;
   user-drag: none;
   pointer-events: none;
 }
@@ -52,40 +53,50 @@ body {
   color: #333;
 }
 
-/* Main Phone Container (Adapts dynamically to mobile viewport and PWA) */
+/* ================== Main Game Container (Adaptive to Mobile, iPad, and Desktop) ================== */
 #game-container {
   width: 100vw;
-  max-width: 430px;
+  max-width: min(100vw, 680px, calc((100dvh - var(--sat) - var(--sab)) * 0.74));
   height: 100vh;
   height: 100dvh;
-  max-height: 890px;
+  max-height: 100dvh;
   background: #f1e7dc;
   position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.35);
   overflow: hidden;
   touch-action: none;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 540px) {
   #game-container {
     width: 100%;
     max-width: 100%;
     height: 100%;
     height: 100dvh;
-    max-height: none;
+    max-height: 100dvh;
     border-radius: 0;
     border: none;
     box-shadow: none;
   }
 }
 
-@media (min-width: 500px) {
+@media (min-width: 541px) and (min-height: 580px) {
   #game-container {
     border-radius: 28px;
-    height: 94vh;
-    border: 4px solid #fff;
+    height: min(96dvh, 1020px);
+    border: 4px solid rgba(255, 255, 255, 0.9);
+  }
+}
+
+@media (max-height: 580px) {
+  #game-container {
+    border-radius: 0;
+    border: none;
+    height: 100dvh;
+    max-height: 100dvh;
+    max-width: calc(100dvh * 0.72);
   }
 }
 
@@ -231,8 +242,10 @@ body {
 /* ================== Upper 3x3 Main Cabinet ================== */
 .cabinet-wrapper {
   width: 100%;
+  max-width: 100%;
   aspect-ratio: 1040 / 720;
-  max-height: 278px;
+  max-height: min(400px, 49vh, 49%);
+  margin: 0 auto;
   background-image: url('./assets/ui/cabinet_empty.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -464,9 +477,10 @@ body {
 /* ================== Lower 3 Scrolling Conveyor Rows ================== */
 .conveyor-section {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   gap: 3px;
   position: relative;
   overflow: hidden;
@@ -476,7 +490,9 @@ body {
 .conveyor-row-wrapper {
   position: relative;
   width: 100%;
-  height: 78px;
+  flex: 1;
+  min-height: 52px;
+  max-height: 102px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.03);
   border-radius: 10px;
@@ -494,13 +510,14 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 142px;
-  height: 76px;
+  width: var(--plank-w, 142px);
+  height: 100%;
+  max-height: 96px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   background-image: url('./assets/ui/shelf_plank_hd.png');
-  background-size: 100% 46px;
+  background-size: 100% clamp(36px, 50%, 54px);
   background-repeat: no-repeat;
   background-position: bottom;
   padding: 0 4px 8px 4px;
@@ -850,58 +867,172 @@ body.hammer-mode {
   z-index: 90;
 }
 
-/* Compact Mobile Screen Adaptation (for devices with height < 750px like iPhone SE) */
-@media (max-height: 750px) {
+/* ================== Responsive Adaptations for iPad & Mobile Devices ================== */
+
+/* 1. Tablet & iPad Enhanced Layout (Width >= 600px and Height >= 680px) */
+@media (min-width: 600px) and (min-height: 680px) {
+  .header-bar {
+    padding-top: calc(12px + var(--sat));
+    padding-bottom: 8px;
+    padding-left: calc(18px + var(--sal));
+    padding-right: calc(18px + var(--sar));
+    gap: 12px;
+  }
+  .avatar-badge {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+  }
+  .header-center-pill {
+    height: 50px;
+    border-radius: 25px;
+    padding: 0 16px;
+  }
+  #timer-text {
+    font-size: 18px;
+  }
+  .timer-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .mode-badge {
+    font-size: 14px;
+    padding: 4px 10px;
+  }
+  .score-badge {
+    font-size: 18px;
+  }
+  .star-icon {
+    width: 24px;
+    height: 24px;
+  }
+  .btn-header {
+    width: 44px;
+    height: 44px;
+    font-size: 19px;
+  }
+  .verify-ribbon {
+    font-size: 12px;
+    padding: 3px 0;
+  }
+  .play-area {
+    padding: 4px 12px;
+    gap: 6px;
+  }
+  .bottom-tools-bar {
+    padding-top: 10px;
+    padding-bottom: calc(16px + var(--sab));
+    padding-left: calc(20px + var(--sal));
+    padding-right: calc(20px + var(--sar));
+  }
+  .tool-btn {
+    width: 68px;
+    height: 68px;
+    border-radius: 22px;
+  }
+  .tool-count-badge {
+    font-size: 15px;
+    padding: 2px 9px;
+    border-radius: 12px;
+  }
+  .pause-btn {
+    width: 56px;
+    height: 56px;
+  }
+  .modal-card {
+    max-width: 420px;
+    padding: 32px 28px;
+    border-radius: 28px;
+  }
+  .modal-card h2 {
+    font-size: 28px;
+  }
+  .btn-primary {
+    font-size: 20px;
+    padding: 14px 24px;
+    border-radius: 22px;
+  }
+}
+
+/* 2. Compact Mobile Adaptation (Height <= 720px like iPhone SE, or browser toolbar open) */
+@media (max-height: 720px) {
   .header-bar {
     padding-top: calc(4px + var(--sat));
     padding-bottom: 2px;
+    gap: 6px;
   }
   .avatar-badge {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
   }
   .header-center-pill {
-    height: 38px;
+    height: 36px;
   }
   .timer-box {
     padding: 2px 6px;
   }
   #timer-text {
-    font-size: 14px;
+    font-size: 13px;
   }
   .score-badge {
-    font-size: 14px;
+    font-size: 13px;
   }
   .verify-ribbon {
     font-size: 10px;
     padding: 1px 0;
   }
   .play-area {
-    gap: 4px;
-    padding: 2px 8px;
-  }
-  .cabinet-wrapper {
-    height: 215px;
-  }
-  .conveyor-row-wrapper {
-    height: 60px;
-  }
-  .shelf-plank {
-    width: 122px;
-    height: 56px;
-    background-size: 100% 38px;
+    gap: 2px;
+    padding: 1px 6px;
   }
   .tool-btn {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
   }
   .pause-btn {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
   }
   .bottom-tools-bar {
     padding-top: 4px;
-    padding-bottom: calc(8px + var(--sab));
+    padding-bottom: calc(6px + var(--sab));
+  }
+  .tool-count-badge {
+    font-size: 11px;
+    padding: 1px 5px;
+    bottom: -3px;
+  }
+}
+
+/* 3. Ultra Short / Landscape Mobile Adaptation (Height <= 580px) */
+@media (max-height: 580px) {
+  .header-bar {
+    padding-top: calc(2px + var(--sat));
+    padding-bottom: 1px;
+  }
+  .avatar-badge {
+    width: 36px;
+    height: 36px;
+  }
+  .header-center-pill {
+    height: 32px;
+  }
+  .verify-ribbon {
+    display: none;
+  }
+  .tool-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+  .pause-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .bottom-tools-bar {
+    padding-top: 2px;
+    padding-bottom: calc(4px + var(--sab));
   }
 }
 

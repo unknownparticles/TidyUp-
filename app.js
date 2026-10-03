@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.3.1';
+  const APP_VERSION = '1.4.0';
 
   // 1. High-Resolution 3D Rendered Item Assets (Extracted directly from sprite sheet)
   const ITEMS = {
@@ -515,11 +515,13 @@
       this.cabinetData = [];
       this.conveyorRows = [];
       this.conveyorSpeeds = [-0.35, 0.42, -0.32]; // Smooth horizontal drift speeds
+      this.conveyorMetrics = null;
 
       this.selectedItemInfo = null;
       this.dragState = null;
 
       this.initDOM();
+      this.updateLayoutMetrics();
       this.particles = new ParticleSystem(document.getElementById('fx-canvas'));
       this.initLevelWithVerification(this.currentLevel);
       this.startConveyors();
@@ -539,6 +541,61 @@
       document.getElementById('count-hammer').textContent = this.propCounts.hammer;
       document.getElementById('count-wand').textContent = this.propCounts.wand;
       document.getElementById('count-freeze').textContent = this.propCounts.freeze;
+    }
+
+    // Dynamically calculate and apply responsive metrics for mobile, iPad, and desktop
+    updateLayoutMetrics() {
+      const container = document.getElementById('game-container');
+      if (!container) return;
+
+      const containerWidth = container.clientWidth;
+      const trackEl = document.querySelector('.conveyor-track') || this.conveyorSectionEl;
+      const trackWidth = trackEl ? trackEl.clientWidth : containerWidth;
+
+      // 1. Calculate compartment and plank width
+      // In the cabinet (3 columns, padding 2.3% left/right, column-gap 2.3%)
+      // Net grid width = containerWidth * (1 - 2 * 0.023 - 2 * 0.023) = containerWidth * 0.908
+      const cabinetWrapper = document.querySelector('.cabinet-wrapper');
+      const actualCabinetWidth = cabinetWrapper ? cabinetWrapper.clientWidth : containerWidth;
+      const compWidth = Math.round((actualCabinetWidth * 0.908) / 3);
+
+      // Plank width matches compartment width for 1:1 scale
+      const plankWidth = Math.max(124, Math.min(210, compWidth));
+      const plankGap = Math.max(8, Math.round(plankWidth * 0.08));
+
+      // 4 shelves per row: totalSpan = 4 * pitch
+      // Ensure 3 * pitch >= trackWidth so wrap occurs off-screen
+      const minPitchForLoop = Math.ceil((trackWidth + 12) / 3);
+      const pitch = Math.max(plankWidth + plankGap, minPitchForLoop);
+      const totalSpan = 4 * pitch;
+
+      // Item dimensions: 3 items fit inside compartment with 2px gap
+      const itemWidth = Math.max(34, Math.min(62, Math.floor((compWidth - 8) / 3)));
+      const itemHeight = Math.round(itemWidth * 1.5);
+
+      // Set CSS variables on container
+      container.style.setProperty('--item-w', `${itemWidth}px`);
+      container.style.setProperty('--item-h', `${itemHeight}px`);
+      container.style.setProperty('--plank-w', `${plankWidth}px`);
+
+      const oldPitch = this.conveyorMetrics ? this.conveyorMetrics.pitch : pitch;
+      this.conveyorMetrics = {
+        trackWidth,
+        plankWidth,
+        plankGap,
+        pitch,
+        totalSpan
+      };
+
+      // Rescale existing shelf positions if layout changed
+      if (oldPitch && oldPitch !== pitch && this.conveyorRows && this.conveyorRows.length > 0) {
+        const ratio = pitch / oldPitch;
+        this.conveyorRows.forEach(row => {
+          row.forEach(shelf => {
+            shelf.xPos *= ratio;
+          });
+        });
+      }
     }
 
     // Generate level with strict Reverse Triplet Generation and Solvability Verification
@@ -624,9 +681,10 @@
       }
 
       // Setup 3 Conveyor Rows: 4 planks per row = 12 planks total, each with 4 layers
-      const plankWidth = 136;
-      const plankGap = 10;
-      const pitch = plankWidth + plankGap; // 146
+      if (!this.conveyorMetrics) {
+        this.updateLayoutMetrics();
+      }
+      const pitch = this.conveyorMetrics ? this.conveyorMetrics.pitch : 146;
 
       this.conveyorRows = [];
       for (let r = 0; r < 3; r++) {
@@ -908,13 +966,11 @@
 
     // Auto-scroll horizontal conveyor animation (Seamless cyclic 4-shelf train)
     startConveyors() {
-      const plankWidth = 136;
-      const plankGap = 10;
-      const pitch = plankWidth + plankGap; // 146
-      const totalSpan = 4 * pitch; // 584
-
       const animate = () => {
         if (!this.isPaused && !this.isFrozen) {
+          const pitch = this.conveyorMetrics ? this.conveyorMetrics.pitch : 146;
+          const totalSpan = this.conveyorMetrics ? this.conveyorMetrics.totalSpan : (4 * pitch);
+
           this.conveyorRows.forEach((row, rowIdx) => {
             const track = document.getElementById(`conveyor-track-${rowIdx}`);
             if (!track) return;
@@ -1168,7 +1224,7 @@
 
         let bestTarget = null;
         let minDistance = Infinity;
-        const SNAP_RADIUS = 60; // Auto-snap magnetic suction radius
+        const SNAP_RADIUS = Math.max(60, Math.round((this.conveyorMetrics?.plankWidth || 142) * 0.45)); // Auto-snap magnetic suction radius
 
         for (const cand of candidates) {
           const r = cand.rect;
@@ -1495,6 +1551,20 @@
         this.timerSeconds = 90;
         this.startTimer();
       });
+
+      // Window resize & orientation change listeners for dynamic mobile / iPad responsive adaptation
+      const handleResize = () => {
+        this.updateLayoutMetrics();
+      };
+      window.addEventListener('resize', handleResize);
+      window.addEventListener('orientationchange', () => {
+        setTimeout(handleResize, 100);
+      });
+      if (window.screen && window.screen.orientation) {
+        window.screen.orientation.addEventListener('change', () => {
+          setTimeout(handleResize, 100);
+        });
+      }
     }
 
     activateHammer() {
