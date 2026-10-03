@@ -8,6 +8,10 @@
   --sab: env(safe-area-inset-bottom, 0px);
   --sal: env(safe-area-inset-left, 0px);
   --sar: env(safe-area-inset-right, 0px);
+
+  /* Unified Item Dimensions: Perfectly matched across top cabinet, bottom conveyor shelves, and drag ghost */
+  --item-w: clamp(35px, 9.6vw, 40px);
+  --item-h: calc(var(--item-w) * 1.32);
 }
 
 * {
@@ -281,25 +285,26 @@ body {
   padding: 0 1px;
 }
 
-/* Item Layer Container (Holds Front + Back Layer) */
+/* Item Layer Container (Holds Front + Back Layer) - Strictly Uniform Across All Slots */
 .item-layer-container {
-  width: 32%;
-  height: 92%;
+  width: var(--item-w);
+  height: var(--item-h);
   position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 /* Deepest 3rd Layer Item (Subtle 3D Depth) */
 .good-item.layer-deep {
   position: absolute;
-  bottom: 7px;
-  width: 70%;
-  height: 70%;
+  bottom: 3px;
+  width: 72%;
+  height: 72%;
   filter: grayscale(100%) brightness(0.24) contrast(0.7);
   opacity: 0.55;
-  transform: translateY(-8px) scale(0.72);
+  transform: translateY(-7px) scale(0.72);
   transform-origin: bottom center;
   z-index: 1;
   pointer-events: none;
@@ -320,12 +325,12 @@ body {
 /* Back Layer Item: Low Brightness, Grayscale, Occluded ("灰色代表在下一行") */
 .good-item.layer-back {
   position: absolute;
-  bottom: 4px;
-  width: 82%;
-  height: 82%;
+  bottom: 2px;
+  width: 86%;
+  height: 86%;
   filter: grayscale(100%) brightness(0.38) contrast(0.85);
   opacity: 0.85;
-  transform: translateY(-4px) scale(0.84);
+  transform: translateY(-4px) scale(0.86);
   transform-origin: bottom center;
   z-index: 2;
   pointer-events: none;
@@ -365,11 +370,11 @@ body {
 /* Front Layer Item: High-definition 3D, Vibrant, Interactable */
 .good-item.layer-front {
   position: relative;
-  width: 96%;
-  height: 96%;
+  width: 100%;
+  height: 100%;
   z-index: 3;
   cursor: grab;
-  filter: drop-shadow(0 5px 6px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.28));
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s;
   animation: itemPop 0.25s ease-out;
   display: flex;
@@ -387,21 +392,21 @@ body {
 
 @keyframes itemPop {
   0% { transform: scale(0.5); opacity: 0; }
-  80% { transform: scale(1.1); }
+  80% { transform: scale(1.08); }
   100% { transform: scale(1); opacity: 1; }
 }
 
 /* Selected item hover / bouncing */
 .good-item.selected {
-  transform: translateY(-12px) scale(1.18) !important;
-  filter: drop-shadow(0 12px 14px rgba(0,0,0,0.45)) drop-shadow(0 0 10px #f1c40f) !important;
+  transform: translateY(-10px) !important;
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.45)) drop-shadow(0 0 10px #f1c40f) !important;
   z-index: 99 !important;
   animation: selectedBounce 0.5s infinite alternate ease-in-out !important;
 }
 
 @keyframes selectedBounce {
-  0% { transform: translateY(-10px) scale(1.15); }
-  100% { transform: translateY(-16px) scale(1.22); }
+  0% { transform: translateY(-8px); }
+  100% { transform: translateY(-12px); }
 }
 
 /* Item Matching Flash / Elimination */
@@ -427,8 +432,8 @@ body {
 
 /* Empty Slot Indicator */
 .empty-slot-indicator {
-  width: 26px;
-  height: 36px;
+  width: calc(var(--item-w) * 0.75);
+  height: calc(var(--item-h) * 0.75);
   border: 1.5px dashed rgba(160, 110, 70, 0.45);
   border-radius: 6px;
   display: flex;
@@ -481,7 +486,7 @@ body {
   top: 0;
   left: 0;
   width: 136px;
-  height: 66px;
+  height: 68px;
   display: flex;
   align-items: flex-end;
   justify-content: space-evenly;
@@ -489,7 +494,7 @@ body {
   background-size: 100% 46px;
   background-repeat: no-repeat;
   background-position: bottom;
-  padding: 0 6px 10px 6px;
+  padding: 0 4px 10px 4px;
   box-sizing: border-box;
   will-change: transform;
 }
@@ -606,7 +611,7 @@ body {
   transform: translateY(2px) scale(0.95);
 }
 
-/* ================== Dragging Ghost Element ================== */
+/* ================== Dragging Ghost Element - Strictly Consistent with Shelf Items ================== */
 .drag-ghost {
   position: fixed;
   top: 0;
@@ -616,13 +621,13 @@ body {
   box-sizing: border-box;
   pointer-events: none !important;
   z-index: 999999 !important;
-  width: 52px;
-  height: 58px;
-  transform: translate(-50%, -50%) scale(1.15);
-  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.45));
+  width: var(--item-w);
+  height: var(--item-h);
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
   will-change: left, top, transform;
   display: none;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
 }
 
@@ -630,7 +635,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: center center;
+  object-position: bottom center;
   display: block;
   pointer-events: none;
 }

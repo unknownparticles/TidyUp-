@@ -307,7 +307,7 @@ export class GoodsOrganizerGame {
           const backKey = backItems[pos];
           const backItemEl = document.createElement('div');
           backItemEl.className = 'good-item layer-back';
-          backItemEl.innerHTML = ITEMS[backKey].svg;
+          backItemEl.innerHTML = `<img src="${ITEMS[backKey].img}" alt="${ITEMS[backKey].name}" draggable="false">`;
           itemContainer.appendChild(backItemEl);
         }
 
@@ -320,7 +320,7 @@ export class GoodsOrganizerGame {
           frontItemEl.dataset.type = 'cabinet';
           frontItemEl.dataset.slotIndex = compIdx;
           frontItemEl.dataset.itemIndex = pos;
-          frontItemEl.innerHTML = ITEMS[frontKey].svg;
+          frontItemEl.innerHTML = `<img src="${ITEMS[frontKey].img}" alt="${ITEMS[frontKey].name}" draggable="false">`;
 
           // Check if currently selected
           if (this.selectedItemInfo &&
@@ -381,7 +381,7 @@ export class GoodsOrganizerGame {
             const backKey = backItems[pos];
             const backItemEl = document.createElement('div');
             backItemEl.className = 'good-item layer-back';
-            backItemEl.innerHTML = ITEMS[backKey].svg;
+            backItemEl.innerHTML = `<img src="${ITEMS[backKey].img}" alt="${ITEMS[backKey].name}" draggable="false">`;
             itemContainer.appendChild(backItemEl);
           }
 
@@ -395,7 +395,7 @@ export class GoodsOrganizerGame {
             frontItemEl.dataset.rowIndex = rowIdx;
             frontItemEl.dataset.shelfIndex = shelfIdx;
             frontItemEl.dataset.itemIndex = pos;
-            frontItemEl.innerHTML = ITEMS[frontKey].svg;
+            frontItemEl.innerHTML = `<img src="${ITEMS[frontKey].img}" alt="${ITEMS[frontKey].name}" draggable="false">`;
 
             if (this.selectedItemInfo &&
                 this.selectedItemInfo.locationType === 'conveyor' &&
@@ -736,7 +736,7 @@ export class GoodsOrganizerGame {
       };
 
       // Setup ghost
-      this.dragGhost.innerHTML = ITEMS[itemKey].svg;
+      this.dragGhost.innerHTML = `<img src="${ITEMS[itemKey].img}" alt="" draggable="false">`;
       this.dragGhost.style.display = 'block';
       this.dragGhost.style.left = `${clientX}px`;
       this.dragGhost.style.top = `${clientY}px`;
