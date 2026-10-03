@@ -73,6 +73,8 @@ class VectorAssetRegressionTests(unittest.TestCase):
                 self.assertFalse(root.findall('.//' + NAMESPACE + 'filter'), 'Item models must not pass through raster filters')
                 self.assertFalse(root.findall('.//' + NAMESPACE + 'feGaussianBlur'))
                 self.assertFalse(any(node.get('filter') for node in root.iter()))
+                model = root.find('.//' + NAMESPACE + 'g[@id="item-model"]')
+                self.assertFalse(any(node.get('opacity') for node in model.iter()), 'Translucent decorative sheen returned')
                 self.assertTrue(root.findall('.//' + NAMESPACE + 'radialGradient'))
 
     def test_cabinet_and_shelf_use_vector_surfaces(self):

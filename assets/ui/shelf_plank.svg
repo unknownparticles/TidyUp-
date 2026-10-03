@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 46" preserveAspectRatio="none">
 <defs>
-<linearGradient id="top" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d7ecfb"/><stop offset="1" stop-color="#b8d9f2"/></linearGradient>
-<linearGradient id="front" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#a8cde9"/><stop offset="1" stop-color="#89b2d7"/></linearGradient>
+<linearGradient id="top" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b4d3ea"/><stop offset="1" stop-color="#a0c4df"/></linearGradient>
+<linearGradient id="front" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8fb7d7"/><stop offset="1" stop-color="#739fc5"/></linearGradient>
 <radialGradient id="shadow"><stop stop-color="#97b4cf" stop-opacity=".14"/><stop offset="1" stop-color="#97b4cf" stop-opacity="0"/></radialGradient>
 <clipPath id="plank"><rect x="4" y="3" width="248" height="38" rx="9"/></clipPath>
 </defs>

@@ -5,20 +5,20 @@ import math
 PALETTES = {
     'white': ('#ffffff', '#f0f5fc', '#c0d4ee'),
     'cream': ('#fff7da', '#ffe8b0', '#ebc775'),
-    'blue': ('#bde8ff', '#69bdf2', '#439cdb'),
-    'navy': ('#c6ddff', '#7ca9e7', '#5d87cc'),
-    'cyan': ('#c2f2ff', '#67d3e9', '#3eb3cf'),
-    'teal': ('#b9f2e7', '#62cfb8', '#3dae9b'),
-    'green': ('#c2f7df', '#70d5aa', '#45b889'),
-    'red': ('#ffcac5', '#ff8b91', '#e9677d'),
-    'pink': ('#ffd6eb', '#f799c6', '#db70ab'),
-    'yellow': ('#fff0b0', '#ffdc75', '#eabd4b'),
-    'gold': ('#fff0b9', '#f9d27b', '#deae50'),
-    'orange': ('#ffe0bd', '#ffbc88', '#e99565'),
-    'purple': ('#e8d4ff', '#bd98ec', '#9773cd'),
+    'blue': ('#bde8ff', '#45b9ef', '#2189cb'),
+    'navy': ('#c6ddff', '#669ee6', '#3f73c1'),
+    'cyan': ('#c2f2ff', '#39c4e0', '#179cb9'),
+    'teal': ('#b9f2e7', '#3dc5a7', '#229a7f'),
+    'green': ('#c2f7df', '#48ce96', '#23a774'),
+    'red': ('#ffcac5', '#ff727e', '#df4a64'),
+    'pink': ('#ffd6eb', '#f57cb9', '#d65299'),
+    'yellow': ('#fff0b0', '#ffd15b', '#dfae32'),
+    'gold': ('#fff0b9', '#f9c65c', '#dba032'),
+    'orange': ('#ffe0bd', '#ffad70', '#e57d48'),
+    'purple': ('#e8d4ff', '#ad80e8', '#875bc4'),
     'brown': ('#f9dfc6', '#e5bc98', '#c99c78'),
     'dark': ('#7b8ba4', '#4b5e7b', '#2e4162'),
-    'coral': ('#ffdbca', '#ffb299', '#e78d7e'),
+    'coral': ('#ffdbca', '#ffa083', '#e57b68'),
 }
 
 
@@ -56,7 +56,7 @@ class Drawing:
             light, middle, dark = PALETTES[name]
             # Keep the broad face opaque and coloured; local highlight geometry
             # handles shine instead of a large pale radial wash.
-            self.definitions.append(f'<linearGradient id="{name}" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="{middle}"/><stop offset=".68" stop-color="{middle}"/><stop offset="1" stop-color="{dark}"/></linearGradient>')
+            self.definitions.append(f'<linearGradient id="{name}" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="{middle}"/><stop offset=".84" stop-color="{middle}"/><stop offset="1" stop-color="{dark}"/></linearGradient>')
             self.names.add(name)
         return grad(name)
 

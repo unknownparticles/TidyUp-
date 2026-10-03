@@ -29,7 +29,7 @@
   <!-- Squircle Base -->
   <rect x="3" y="3" width="82" height="82" rx="22" ry="22" fill="url(#btn-bg-hammer)" stroke="#7bbc9e" stroke-width="2.5"/>
   <!-- Top Bevel Gloss -->
-  <path d="M6,22 C6,13 13,6 22,6 L66,6 C75,6 82,13 82,22 C82,26 60,34 44,34 C28,34 6,26 6,22 Z" fill="#ffffff" opacity="0.4"/>
+
 
   <!-- 3D Hammer Graphic -->
   <g transform="translate(44, 46) rotate(-28)">
@@ -48,18 +48,18 @@
     <!-- Left Striking Mallet Face -->
     <path d="M-21,-14 L-14,-12 L-14,11 L-21,9 Q-24,-2.5 -21,-14 Z" fill="url(#head-gold)" stroke="#dfbc93" stroke-width="1.2"/>
     <!-- Left Face Highlight -->
-    <path d="M-20,-11 Q-22,-2.5 -20,6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.8"/>
+
 
     <!-- Right Striking Mallet Face (3D Rounded Cube) -->
     <rect x="4" y="-16" width="21" height="27" rx="6" fill="url(#head-gold)" stroke="#dfbc93" stroke-width="1.4"/>
     <!-- Right Face Top Gloss -->
-    <path d="M6,-13 Q14,-15 21,-13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85"/>
+
 
     <!-- Center Cyan Round Gem on Front -->
     <circle cx="14" cy="-2.5" r="5.5" fill="url(#cyan-gem)" stroke="#87bcc7" stroke-width="1"/>
     <circle cx="12.5" cy="-4.5" r="1.6" fill="#ffffff"/>
 
     <!-- Sparkle Star at Striking Corner -->
-    <path d="M-21,-14 Q-19,-17 -16,-19 Q-19,-21 -21,-24 Q-23,-21 -26,-19 Q-23,-17 -21,-14 Z" fill="#ffffff" opacity="0.95"/>
+
   </g>
 </svg>

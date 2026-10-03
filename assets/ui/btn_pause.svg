@@ -15,19 +15,19 @@
   <!-- Circular Tactile Button -->
   <circle cx="44" cy="44" r="39" fill="url(#btn-bg-pause)" stroke="#c9bfeb" stroke-width="2.8"/>
   <!-- Inner Rim -->
-  <circle cx="44" cy="44" r="36.5" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.9"/>
+
 
   <!-- Top Gloss Bubble Arc -->
-  <path d="M12,36 C16,18 30,10 44,10 C58,10 72,18 76,36 C64,28 44,25 12,36 Z" fill="#ffffff" opacity="0.5"/>
+
 
   <!-- Pause Bars (Two warm chocolate vertical rounded pills) -->
   <g transform="translate(44, 44)">
     <rect x="-16" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#9181be" stroke-width="1.2"/>
     <!-- Left bar highlight -->
-    <rect x="-14" y="-15" width="3" height="14" rx="1.5" fill="#ffffff" opacity="0.4"/>
+
 
     <rect x="4" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#9181be" stroke-width="1.2"/>
     <!-- Right bar highlight -->
-    <rect x="6" y="-15" width="3" height="14" rx="1.5" fill="#ffffff" opacity="0.4"/>
+
   </g>
 </svg>

@@ -1,5 +1,5 @@
 :root {
-  --bg-color: #eaf1fb;
+  --bg-color: #e6edf6;
   --ink-color: #3f5473;
   --mint: #acdcca;
   --lilac: #c7b4e8;
@@ -47,7 +47,7 @@ img {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  background: radial-gradient(circle at 50% 30%, #edf0fa 0%, #d4e4f6 65%, #bdd5ef 100%);
+  background: #ccdeef;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -245,7 +245,7 @@ body {
   aspect-ratio: 1040 / 720;
   max-height: min(400px, 49vh, 49%);
   margin: 0 auto;
-  background-image: url('./assets/ui/cabinet_empty.svg?v=1.7.9');
+  background-image: url('./assets/ui/cabinet_empty.svg?v=1.7.10');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: relative;
@@ -323,7 +323,7 @@ body {
   width: 100%;
   height: 100%;
   filter: grayscale(100%) brightness(0.55);
-  opacity: 0.42;
+  opacity: 1;
   transform: translateY(-7px) scale(0.72);
   transform-origin: bottom center;
   z-index: 1;
@@ -349,7 +349,7 @@ body {
   width: 100%;
   height: 100%;
   filter: grayscale(100%) brightness(0.65);
-  opacity: 0.68;
+  opacity: 1;
   transform: translateY(-4px) scale(0.86);
   transform-origin: bottom center;
   z-index: 2;
@@ -518,7 +518,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background-image: url('./assets/ui/shelf_plank.svg?v=1.7.9');
+  background-image: url('./assets/ui/shelf_plank.svg?v=1.7.10');
   background-size: 100% clamp(36px, 50%, 54px);
   background-repeat: no-repeat;
   background-position: bottom;
@@ -734,16 +734,15 @@ body.hammer-mode {
   right: 0;
   bottom: 0;
   background: rgba(99, 122, 157, 0.34);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 200;
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease-out;
 }
 
 .modal-overlay.open {
+  display: flex;
   opacity: 1;
   pointer-events: auto;
   backdrop-filter: blur(4px);

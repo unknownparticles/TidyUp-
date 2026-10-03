@@ -1,24 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140" width="100" height="140" preserveAspectRatio="xMidYMid meet">
   <title>黄帽雪人</title>
   <defs><radialGradient id="snow" cx="33%" cy="28%" r="80%"><stop stop-color="#fff"/><stop offset=".58" stop-color="#f0f5fc"/><stop offset="1" stop-color="#c0d4ee"/></radialGradient>
-<linearGradient id="hat" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#ffdc75"/><stop offset="1" stop-color="#eabd4b"/></linearGradient>
-<linearGradient id="scarf"><stop stop-color="#ffdc75"/><stop offset="1" stop-color="#eabd4b"/></linearGradient>
-<radialGradient id="button" cx="30%" cy="25%" r="80%"><stop stop-color="#fff0b0"/><stop offset=".7" stop-color="#ffdc75"/><stop offset="1" stop-color="#eabd4b"/></radialGradient>
+<linearGradient id="hat" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#ffd15b"/><stop offset="1" stop-color="#dfae32"/></linearGradient>
+<linearGradient id="scarf"><stop stop-color="#ffd15b"/><stop offset="1" stop-color="#dfae32"/></linearGradient>
+<radialGradient id="button" cx="30%" cy="25%" r="80%"><stop stop-color="#fff0b0"/><stop offset=".7" stop-color="#ffd15b"/><stop offset="1" stop-color="#dfae32"/></radialGradient>
 <radialGradient id="nose" cx="30%" cy="25%"><stop stop-color="#ffcf72"/><stop offset="1" stop-color="#f3bb82"/></radialGradient>
 <radialGradient id="blush"><stop stop-color="#ffb9d2" stop-opacity=".65"/><stop offset="1" stop-color="#edb5b8" stop-opacity="0"/></radialGradient><radialGradient id="floor-shadow"><stop stop-color="#6486ad" stop-opacity=".2"/><stop offset=".5" stop-color="#6486ad" stop-opacity=".1"/><stop offset="1" stop-color="#6486ad" stop-opacity="0"/></radialGradient></defs>
-  <ellipse cx="50.0" cy="134" rx="28.000000000000004" ry="1.8" fill="url(#floor-shadow)"/><g id="item-model" transform="translate(12.985075 5.223881) scale(0.925373)"><path d="M20 77 C7 87 2 107 7 121 C12 137 30 137 48 137 C68 137 77 130 77 117 C78 103 72 88 64 80Z" fill="url(#snow)"/>
-<path d="M14 53 C17 47 29 44 42 45 C56 46 69 48 72 56 C77 64 72 76 64 79 C48 84 29 82 17 77 C9 71 10 59 14 53Z" fill="url(#snow)"/>
-<ellipse cx="19" cy="68" rx="6" ry="5" fill="url(#blush)"/><ellipse cx="61" cy="68" rx="6" ry="5" fill="url(#blush)"/>
-<ellipse cx="29" cy="59" rx="3.2" ry="3" fill="#424d51"/><ellipse cx="50" cy="60" rx="3.2" ry="3" fill="#424d51"/>
-<circle cx="28.1" cy="58.2" r=".85" fill="#fff"/><circle cx="49.1" cy="59.2" r=".85" fill="#fff"/>
-<ellipse cx="40" cy="66" rx="4" ry="3.6" fill="url(#nose)"/>
-<g fill="#485252"><circle cx="32" cy="73" r="1.1"/><circle cx="37" cy="75" r="1.2"/><circle cx="43" cy="75" r="1.2"/><circle cx="49" cy="73" r="1.1"/></g>
-<path d="M16 79 C12 85 6 101 3 119 Q8 123 17 122 L26 91Z" fill="url(#scarf)"/>
-<path d="M16 82 C34 86 52 85 68 79 C73 82 74 86 73 92 C58 98 35 98 17 94 Q12 89 16 82Z" fill="url(#scarf)"/>
-<path d="M18 84 Q43 91 68 82" fill="none" stroke="#fff0b0" stroke-width="1.2" opacity=".65"/>
-<path d="M10 48 C15 32 29 20 44 16 C57 16 67 32 72 46 Q75 51 70 55 C53 47 33 46 14 52 Q8 56 10 48Z" fill="url(#hat)"/>
-<path d="M12 47 C27 40 48 41 69 48 Q73 50 70 55 C54 48 30 47 14 52 Q9 54 12 47Z" fill="url(#scarf)"/>
-<path d="M44 16 C49 13 53 14 53 10 C54 6 50 6 49 3 C55 4 59 10 55 15 Q52 18 44 16Z" fill="url(#snow)"/>
-<circle cx="34" cy="104" r="4.4" fill="url(#button)"/><circle cx="33" cy="103" r="1.1" fill="#fff" opacity=".8"/>
-<circle cx="33" cy="121" r="4.6" fill="url(#button)"/><circle cx="32" cy="120" r="1.1" fill="#fff" opacity=".8"/></g>
+  <ellipse cx="50.0" cy="134" rx="28.000000000000004" ry="1.8" fill="url(#floor-shadow)"/><g id="item-model" transform="translate(12.985075 5.223881) scale(0.925373)"><path d="M20 77 C7 87 2 107 7 121 C12 137 30 137 48 137 C68 137 77 130 77 117 C78 103 72 88 64 80Z" fill="url(#snow)" stroke="#c0d4ee" stroke-width=".65" stroke-linejoin="round" />
+<path d="M14 53 C17 47 29 44 42 45 C56 46 69 48 72 56 C77 64 72 76 64 79 C48 84 29 82 17 77 C9 71 10 59 14 53Z" fill="url(#snow)" stroke="#c0d4ee" stroke-width=".65" stroke-linejoin="round" />
+<ellipse cx="19" cy="68" rx="6" ry="5" fill="url(#blush)" /><ellipse cx="61" cy="68" rx="6" ry="5" fill="url(#blush)" />
+<ellipse cx="29" cy="59" rx="3.2" ry="3" fill="#424d51" /><ellipse cx="50" cy="60" rx="3.2" ry="3" fill="#424d51" />
+<circle cx="28.1" cy="58.2" r=".85" fill="#fff" /><circle cx="49.1" cy="59.2" r=".85" fill="#fff" />
+<ellipse cx="40" cy="66" rx="4" ry="3.6" fill="url(#nose)" stroke="#f3bb82" stroke-width=".65" stroke-linejoin="round" />
+<g fill="#485252"><circle cx="32" cy="73" r="1.1" /><circle cx="37" cy="75" r="1.2" /><circle cx="43" cy="75" r="1.2" /><circle cx="49" cy="73" r="1.1" /></g>
+<path d="M16 79 C12 85 6 101 3 119 Q8 123 17 122 L26 91Z" fill="url(#scarf)" stroke="#dfae32" stroke-width=".65" stroke-linejoin="round" />
+<path d="M16 82 C34 86 52 85 68 79 C73 82 74 86 73 92 C58 98 35 98 17 94 Q12 89 16 82Z" fill="url(#scarf)" stroke="#dfae32" stroke-width=".65" stroke-linejoin="round" />
+<path d="M10 48 C15 32 29 20 44 16 C57 16 67 32 72 46 Q75 51 70 55 C53 47 33 46 14 52 Q8 56 10 48Z" fill="url(#hat)" stroke="#dfae32" stroke-width=".65" stroke-linejoin="round" />
+<path d="M12 47 C27 40 48 41 69 48 Q73 50 70 55 C54 48 30 47 14 52 Q9 54 12 47Z" fill="url(#scarf)" stroke="#dfae32" stroke-width=".65" stroke-linejoin="round" />
+<path d="M44 16 C49 13 53 14 53 10 C54 6 50 6 49 3 C55 4 59 10 55 15 Q52 18 44 16Z" fill="url(#snow)" stroke="#c0d4ee" stroke-width=".65" stroke-linejoin="round" />
+<circle cx="34" cy="104" r="4.4" fill="url(#button)" stroke="#dfae32" stroke-width=".65" stroke-linejoin="round" /><circle cx="33" cy="121" r="4.6" fill="url(#button)" stroke="#dfae32" stroke-width=".65" stroke-linejoin="round" /></g>
 </svg>

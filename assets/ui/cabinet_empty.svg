@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 720" preserveAspectRatio="none"><defs>
-<linearGradient id="frame" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#d4f4e8"/><stop offset=".55" stop-color="#b3e1cf"/><stop offset="1" stop-color="#89c6b0"/></linearGradient>
-<linearGradient id="back" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#eef3fa"/><stop offset="1" stop-color="#e1eaf6"/></linearGradient>
-<linearGradient id="shelf" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#cdeedc"/><stop offset="1" stop-color="#a4d4be"/></linearGradient>
+<linearGradient id="frame" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#a9dfc9"/><stop offset=".55" stop-color="#93ceb7"/><stop offset="1" stop-color="#71b79d"/></linearGradient>
+<linearGradient id="back" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#edf2f8"/><stop offset="1" stop-color="#edf2f8"/></linearGradient>
+<linearGradient id="shelf" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#aad7be"/><stop offset="1" stop-color="#89c1a4"/></linearGradient>
 <linearGradient id="inset" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#87aaba" stop-opacity=".10"/><stop offset="1" stop-color="#87aaba" stop-opacity="0"/></linearGradient>
 </defs>
 <rect width="1040" height="720" rx="12" fill="url(#frame)"/>
