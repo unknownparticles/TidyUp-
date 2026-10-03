@@ -17,6 +17,7 @@ const packageJsonPath = path.join(rootDir, 'package.json');
 const appJsPath = path.join(rootDir, 'app.js');
 const indexHtmlPath = path.join(rootDir, 'index.html');
 const swJsPath = path.join(rootDir, 'sw.js');
+const styleCssPath = path.join(rootDir, 'style.css');
 
 function readCurrentVersion() {
   const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
@@ -91,7 +92,14 @@ function bumpVersion(type, msg = '') {
       /(<div class="modal-version-badge" id="pause-modal-version">).*?(<\/div>)/,
       `$1版本号：v${nextVer}$2`
     );
+    htmlContent = htmlContent.replace(/\?v=[\d.]+/g, `?v=${nextVer}`);
     fs.writeFileSync(indexHtmlPath, htmlContent, 'utf8');
+  }
+
+  // Keep stylesheet background assets in the same release as the HTML and app.
+  if (fs.existsSync(styleCssPath)) {
+    const cssContent = fs.readFileSync(styleCssPath, 'utf8').replace(/\?v=[\d.]+/g, `?v=${nextVer}`);
+    fs.writeFileSync(styleCssPath, cssContent, 'utf8');
   }
 
   // 4. 更新 sw.js 中的 CACHE_VERSION
@@ -139,8 +147,8 @@ if (command === 'hook-pre-commit') {
   const envType = process.env.BUMP || 'minor';
   bumpVersion(envType);
   try {
-    execSync('git add package.json app.js index.html sw.js', { cwd: rootDir });
-    console.log('[Version Hook] 已自动更新并暂存 package.json, app.js, index.html, sw.js');
+    execSync('git add package.json app.js index.html style.css sw.js', { cwd: rootDir });
+    console.log('[Version Hook] 已自动更新并暂存 package.json, app.js, index.html, style.css, sw.js');
   } catch (err) {
     console.error('[Version Hook] Git add failed:', err.message);
   }
@@ -154,8 +162,8 @@ bumpVersion(command, messageArg);
 
 if (shouldStage) {
   try {
-    execSync('git add package.json app.js index.html sw.js', { cwd: rootDir });
-    console.log('[Git Stage] package.json, app.js, index.html, sw.js 已自动暂存');
+    execSync('git add package.json app.js index.html style.css sw.js', { cwd: rootDir });
+    console.log('[Git Stage] package.json, app.js, index.html, style.css, sw.js 已自动暂存');
   } catch (err) {
     console.error('Git add failed:', err.message);
   }

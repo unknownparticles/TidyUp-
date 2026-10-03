@@ -2,18 +2,18 @@
   <defs>
     <linearGradient id="btn-bg-pause" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="50%" stop-color="#fcedd9"/>
-      <stop offset="100%" stop-color="#ebd3b8"/>
+      <stop offset="50%" stop-color="#f2f1ff"/>
+      <stop offset="100%" stop-color="#ded9f8"/>
     </linearGradient>
     <linearGradient id="pause-bars" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#9c5225"/>
-      <stop offset="50%" stop-color="#843d14"/>
-      <stop offset="100%" stop-color="#662908"/>
+      <stop offset="0%" stop-color="#b8a4de"/>
+      <stop offset="50%" stop-color="#9a86c4"/>
+      <stop offset="100%" stop-color="#806fb1"/>
     </linearGradient>
   </defs>
 
   <!-- Circular Tactile Button -->
-  <circle cx="44" cy="44" r="39" fill="url(#btn-bg-pause)" stroke="#c29f77" stroke-width="2.8"/>
+  <circle cx="44" cy="44" r="39" fill="url(#btn-bg-pause)" stroke="#c9bfeb" stroke-width="2.8"/>
   <!-- Inner Rim -->
   <circle cx="44" cy="44" r="36.5" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.9"/>
 
@@ -22,11 +22,11 @@
 
   <!-- Pause Bars (Two warm chocolate vertical rounded pills) -->
   <g transform="translate(44, 44)">
-    <rect x="-16" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#4e1e04" stroke-width="1.2"/>
+    <rect x="-16" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#9181be" stroke-width="1.2"/>
     <!-- Left bar highlight -->
     <rect x="-14" y="-15" width="3" height="14" rx="1.5" fill="#ffffff" opacity="0.4"/>
 
-    <rect x="4" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#4e1e04" stroke-width="1.2"/>
+    <rect x="4" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#9181be" stroke-width="1.2"/>
     <!-- Right bar highlight -->
     <rect x="6" y="-15" width="3" height="14" rx="1.5" fill="#ffffff" opacity="0.4"/>
   </g>

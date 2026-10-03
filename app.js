@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.7.5';
+  const APP_VERSION = '1.7.6';
 
   // Bright geometric vector assets with clean shapes and soft shadows.
   const ITEMS = {
@@ -64,6 +64,10 @@
     watermelon_slice: { id: 'watermelon_slice', name: '夏日甜西瓜', archetype: 'watermelon', colorGroup: 'red_green', img: './assets/items/watermelon_slice.svg' },
   };
 
+  // Each release uses its own asset URLs instead of displaying stale cached colours.
+  Object.values(ITEMS).forEach(item => {
+    item.img = `${item.img}?v=${APP_VERSION}`;
+  });
   const ITEM_KEYS = Object.keys(ITEMS);
 
   // Smart selection ensuring maximum silhouette diversity and high-contrast color distinction
@@ -344,7 +348,7 @@
     }
 
     emit(x, y, count = 24, type = 'star') {
-      const colors = ['#f1c40f', '#e67e22', '#e74c3c', '#2ecc71', '#3498db', '#9b59b6', '#ffffff'];
+      const colors = ['#ffe7ab', '#ffd7b7', '#ffb8ca', '#a1e9c8', '#adddff', '#dac7f6', '#ffffff'];
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const speed = Math.random() * 5 + 2;
@@ -630,7 +634,7 @@
       const verifyBadge = document.getElementById('verify-badge');
       if (verifyBadge) {
         verifyBadge.textContent = '可解性校验：已通过 ✔';
-        verifyBadge.style.color = '#27ae60';
+        verifyBadge.style.color = '#579d87';
       }
 
       this.renderBoard();
@@ -1761,13 +1765,13 @@
 
       this.isFrozen = true;
       this.freezeOverlay.classList.add('active');
-      this.timerEl.style.color = '#00d2d3';
+      this.timerEl.style.color = '#6ea6cd';
 
       clearTimeout(this.freezeTimeout);
       this.freezeTimeout = setTimeout(() => {
         this.isFrozen = false;
         this.freezeOverlay.classList.remove('active');
-        this.timerEl.style.color = '#fff';
+        this.timerEl.style.removeProperty('color');
       }, 25000);
     }
 

@@ -1,27 +1,28 @@
 // Service Worker for 收纳整理师 - 货柜消除 3D
-const CACHE_VERSION = 'v1.7.5';
+const CACHE_VERSION = 'v1.7.6';
 const CACHE_NAME = `organizer-pwa-${CACHE_VERSION}`;
+const ASSET_VERSION = CACHE_VERSION.slice(1);
 
 // Core assets required for offline gameplay
 const PRECACHE_ASSETS = [
   './',
   './index.html',
-  './style.css',
-  './app.js',
-  './manifest.json',
+  `./style.css?v=${ASSET_VERSION}`,
+  `./app.js?v=${ASSET_VERSION}`,
+  `./manifest.json?v=${ASSET_VERSION}`,
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
   './assets/icons/icon-192-maskable.png',
   './assets/icons/icon-512-maskable.png',
   './assets/icons/apple-touch-icon.png',
-  './assets/ui/logo.svg',
-  './assets/ui/btn_hammer.svg',
-  './assets/ui/btn_wand.svg',
-  './assets/ui/btn_freeze.svg',
-  './assets/ui/btn_shuffle.svg',
-  './assets/ui/btn_pause.svg',
-  './assets/ui/cabinet_empty.svg',
-  './assets/ui/shelf_plank.svg',
+  `./assets/ui/logo.svg?v=${ASSET_VERSION}`,
+  `./assets/ui/btn_hammer.svg?v=${ASSET_VERSION}`,
+  `./assets/ui/btn_wand.svg?v=${ASSET_VERSION}`,
+  `./assets/ui/btn_freeze.svg?v=${ASSET_VERSION}`,
+  `./assets/ui/btn_shuffle.svg?v=${ASSET_VERSION}`,
+  `./assets/ui/btn_pause.svg?v=${ASSET_VERSION}`,
+  `./assets/ui/cabinet_empty.svg?v=${ASSET_VERSION}`,
+  `./assets/ui/shelf_plank.svg?v=${ASSET_VERSION}`,
   './assets/items/items_data.json'
 ];
 

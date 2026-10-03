@@ -6,8 +6,8 @@
   <title>收纳整理师 - 货柜消除 3D</title>
   
   <!-- PWA & Mobile Web App Meta -->
-  <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#8e44ad">
+  <link rel="manifest" href="./manifest.json?v=1.7.6">
+  <meta name="theme-color" content="#ded2f6">
   <meta name="color-scheme" content="light">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,11 +15,11 @@
   <meta name="apple-mobile-web-app-title" content="收纳整理师">
 
   <!-- Favicons and Touch Icons -->
-  <link rel="icon" type="image/svg+xml" href="./assets/ui/logo.svg">
+  <link rel="icon" type="image/svg+xml" href="./assets/ui/logo.svg?v=1.7.6">
   <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css?v=1.7.6">
 </head>
 <body>
 
@@ -43,14 +43,14 @@
     <header class="header-bar">
       <!-- Mascot Avatar Logo (Self-Generated Crisp SVG) -->
       <div class="avatar-badge">
-        <img src="./assets/ui/logo.svg" alt="收纳大师">
+        <img src="./assets/ui/logo.svg?v=1.7.6" alt="收纳大师">
       </div>
 
       <!-- Main Pill Container -->
       <div class="header-center-pill">
         <!-- Timer -->
         <div class="timer-box">
-          <svg class="timer-icon" viewBox="0 0 24 24" fill="none" stroke="#00d2d3" stroke-width="2.5">
+          <svg class="timer-icon" viewBox="0 0 24 24" fill="none" stroke="#89b8db" stroke-width="2.5">
             <circle cx="12" cy="12" r="9"/>
             <polyline points="12 7 12 12 15 15"/>
           </svg>
@@ -63,7 +63,7 @@
         <!-- Star Score -->
         <div class="score-badge">
           <svg class="star-icon" viewBox="0 0 24 24">
-            <polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#f1c40f" stroke="#d68910" stroke-width="1.5"/>
+            <polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#ffe4a9" stroke="#d6b17e" stroke-width="1.5"/>
           </svg>
           <span id="score-value">0</span>
         </div>
@@ -95,31 +95,31 @@
     <footer class="bottom-tools-bar">
       <!-- Hammer Tool (19) -->
       <div class="tool-btn" id="btn-tool-hammer" title="锤子：强制清除指定物品">
-        <img src="./assets/ui/btn_hammer.svg" alt="锤子">
+        <img src="./assets/ui/btn_hammer.svg?v=1.7.6" alt="锤子">
         <div class="tool-count-badge" id="count-hammer">19</div>
       </div>
 
       <!-- Magic Wand Tool (41) -->
       <div class="tool-btn" id="btn-tool-wand" title="魔棒：自动寻找并匹配消除一组物品">
-        <img src="./assets/ui/btn_wand.svg" alt="魔棒">
+        <img src="./assets/ui/btn_wand.svg?v=1.7.6" alt="魔棒">
         <div class="tool-count-badge" id="count-wand">41</div>
       </div>
 
       <!-- Freeze Tool (67) -->
       <div class="tool-btn" id="btn-tool-freeze" title="冰冻：暂停倒计时计时器">
-        <img src="./assets/ui/btn_freeze.svg" alt="冰冻">
+        <img src="./assets/ui/btn_freeze.svg?v=1.7.6" alt="冰冻">
         <div class="tool-count-badge" id="count-freeze">67</div>
       </div>
 
       <!-- Shuffle Tool (+) -->
       <div class="tool-btn plus" id="btn-tool-shuffle" title="重排：打乱并重新排列当前可见物品">
-        <img src="./assets/ui/btn_shuffle.svg" alt="重排">
+        <img src="./assets/ui/btn_shuffle.svg?v=1.7.6" alt="重排">
         <div class="tool-count-badge">+</div>
       </div>
 
       <!-- Pause Button -->
       <div class="pause-btn" id="btn-pause" title="暂停游戏">
-        <img src="./assets/ui/btn_pause.svg" alt="暂停">
+        <img src="./assets/ui/btn_pause.svg?v=1.7.6" alt="暂停">
       </div>
     </footer>
 
@@ -130,11 +130,11 @@
       <div class="modal-card">
         <h2>🎉 整理大成功！</h2>
         <div class="modal-stars">
-          <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#f1c40f"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#f1c40f"/></svg>
-          <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#f1c40f"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#ffe4a9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#ffe4a9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15,9 23,9 17,14 19,22 12,17 5,22 7,14 1,9 9,9" fill="#ffe4a9"/></svg>
         </div>
-        <p class="modal-desc">货架已被全部整理清空！<br>最终积分: <strong id="win-final-score" style="color: #e67e22; font-size: 20px;">0</strong></p>
+        <p class="modal-desc">货架已被全部整理清空！<br>最终积分: <strong id="win-final-score" style="color: #bf8c9e; font-size: 20px;">0</strong></p>
         <div class="modal-btn-row">
           <button class="btn-primary" id="btn-next-level">进入下一关</button>
         </div>
@@ -144,10 +144,10 @@
     <!-- Game Over Modal -->
     <div id="modal-gameover" class="modal-overlay">
       <div class="modal-card">
-        <h2 style="color: #e74c3c;">挑战失败</h2>
+        <h2 style="color: #c87791;">挑战失败</h2>
         <p class="modal-desc" id="gameover-reason">货架已无多余位置周转！</p>
         <div class="modal-btn-row">
-          <button class="btn-primary" id="btn-revive" style="background: linear-gradient(180deg, #3498db, #2980b9);">⚡ 立即复活 (+90秒)</button>
+          <button class="btn-primary" id="btn-revive" style="background: linear-gradient(180deg, #d5edff, #b6dafa); color: #547ba0;">⚡ 立即复活 (+90秒)</button>
           <button class="btn-secondary" id="btn-restart">重新开始挑战</button>
         </div>
       </div>
@@ -157,7 +157,7 @@
     <div id="modal-pause" class="modal-overlay">
       <div class="modal-card">
         <h2>游戏暂停</h2>
-        <div class="modal-version-badge" id="pause-modal-version">版本号：v1.7.5</div>
+        <div class="modal-version-badge" id="pause-modal-version">版本号：v1.7.6</div>
         <p class="modal-desc">
           <strong>收纳小技巧：</strong><br>
           • 凑齐 3 个相同物品放在同一格可消除<br>
@@ -167,13 +167,13 @@
         </p>
         <div class="modal-btn-row">
           <button class="btn-primary" id="btn-resume">继续游戏</button>
-          <button class="btn-secondary" id="btn-install-pwa" style="display: none; background: linear-gradient(180deg, #9b59b6, #8e44ad); color: white; border: none; font-weight: bold;">📲 安装为独立桌面/手机应用</button>
+          <button class="btn-secondary" id="btn-install-pwa" style="display: none; background: linear-gradient(180deg, #eee3ff, #d9c6f4); color: #8064a8; border: none; font-weight: bold;">📲 安装为独立桌面/手机应用</button>
         </div>
       </div>
     </div>
 
   </div>
 
-  <script src="./app.js"></script>
+  <script src="./app.js?v=1.7.6"></script>
 </body>
 </html>

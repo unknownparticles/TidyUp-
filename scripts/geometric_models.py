@@ -1,23 +1,24 @@
 """Small, authored SVG forms; no bitmap tracing or fragmented colour regions."""
 import math
 
+# Ice-cream colours keep the gradient's shaded end in the same bright hue.
 PALETTES = {
-    'white': ('#ffffff', '#f5f8fc', '#cbd9e7'),
-    'cream': ('#fffce8', '#fff0bc', '#ddc587'),
-    'blue': ('#b4e9ff', '#54b7f1', '#2d88cc'),
-    'navy': ('#a9d5ff', '#5b99dc', '#396dac'),
-    'cyan': ('#b2f4f5', '#54d2df', '#28a0ba'),
-    'teal': ('#a9efdf', '#48c7b7', '#22988e'),
-    'green': ('#d4f6aa', '#85ce60', '#4b9a48'),
-    'red': ('#ffb8aa', '#ff6c68', '#df454d'),
-    'pink': ('#ffd6e5', '#ff8ab5', '#e45f93'),
-    'yellow': ('#fff5b6', '#ffdc68', '#eab23d'),
-    'gold': ('#fff1aa', '#ffd264', '#dfa23c'),
-    'orange': ('#ffddb5', '#ffb465', '#e88743'),
-    'purple': ('#e8d6ff', '#b799ec', '#8568bf'),
-    'brown': ('#f7d6a5', '#dba575', '#ad784f'),
-    'dark': ('#79828a', '#485360', '#2c3642'),
-    'coral': ('#ffd6b7', '#ffa276', '#e7755b'),
+    'white': ('#ffffff', '#fafcff', '#e1ecfa'),
+    'cream': ('#fffef1', '#fff4cf', '#f5e3b3'),
+    'blue': ('#e4f7ff', '#adddff', '#83c5f2'),
+    'navy': ('#e3f0ff', '#afcef5', '#87b2e7'),
+    'cyan': ('#e5fcff', '#afeaf3', '#86d7e8'),
+    'teal': ('#e1fff7', '#a3ebdd', '#77d4cb'),
+    'green': ('#e0fff2', '#a1e9c8', '#72d4ad'),
+    'red': ('#ffe9e5', '#ffb8b3', '#f496a1'),
+    'pink': ('#ffedf5', '#ffc7e0', '#f5a6ce'),
+    'yellow': ('#fffbe3', '#ffeba8', '#f8d784'),
+    'gold': ('#fff9df', '#ffe7ab', '#f3ce86'),
+    'orange': ('#fff0df', '#ffd7b7', '#f8bd9c'),
+    'purple': ('#f4edff', '#dac7f6', '#bea6e9'),
+    'brown': ('#fff3e5', '#eed4bd', '#dfba9e'),
+    'dark': ('#8996ad', '#63738d', '#455775'),
+    'coral': ('#ffefe5', '#ffd0bb', '#f6af9f'),
 }
 
 
@@ -180,14 +181,14 @@ def tree(d, source):
 
 
 def reindeer(d):
-    body = line('M30 31 L22 16 L17 5 M23 18 L12 15 M21 13 L24 6 M70 31 L78 16 L83 5 M77 18 L88 15 M79 13 L76 6', '#a47653', 5)
+    body = line('M30 31 L22 16 L17 5 M23 18 L12 15 M21 13 L24 6 M70 31 L78 16 L83 5 M77 18 L88 15 M79 13 L76 6', '#d8b7a5', 5)
     body += rect(32,101,12,27,5,d.paint('brown')) + rect(57,101,12,27,5,d.paint('brown'))
     body += ellipse(36,125,8,4,d.paint('brown')) + ellipse(64,125,8,4,d.paint('brown'))
     body += ellipse(50,92,26,28,d.paint('orange')) + ellipse(50,99,16,20,d.paint('cream'))
     body += ellipse(21,44,11,7,d.paint('orange'),'transform="rotate(20 21 44)"') + ellipse(79,44,11,7,d.paint('orange'),'transform="rotate(-20 79 44)"')
     body += ellipse(50,57,30,27,d.paint('orange')) + eyes(d,38,62,52,3.6) + cheeks(d,29,71,64,7)
     body += ellipse(50,65,8,6,d.paint('red')) + ellipse(47,63,2.5,1.5,'#fff','opacity=".75"')
-    body += line('M32 83 Q50 90 68 83', '#e25a57', 6) + circle(50,92,5,d.paint('gold')) + circle(50,94,1,'#b88637')
+    body += line('M32 83 Q50 90 68 83', '#f496a1', 6) + circle(50,92,5,d.paint('gold')) + circle(50,94,1,'#dbb975')
     return body
 
 
@@ -225,7 +226,7 @@ def pouch(d):
 
 def bell(d, bronze=False):
     body = path('M34 42 C34 63 28 84 18 101 Q14 109 50 113 Q86 109 82 101 C72 84 66 63 66 42Z',d.paint('orange' if bronze else 'gold'))
-    body += ellipse(50,110,34,11,d.linear('gold')) + ellipse(50,109,27,7,'#c89436') + ellipse(50,108,25,5.5,'#eeb748')
+    body += ellipse(50,110,34,11,d.linear('gold')) + ellipse(50,109,27,7,'#e7bd77') + ellipse(50,108,25,5.5,'#f6d594')
     body += ellipse(50,109,8,7,d.paint('gold')) + line('M31 60 Q28 78 23 87','#fff3af',3,'opacity=".75"')
     body += bow(d,50,34,'red',1.03)
     return body
@@ -274,7 +275,7 @@ def bottle(d, source, bear=False):
         body += eyes(d,42,58,95,2.7) + ellipse(50,105,9,6,d.paint('cream'))
         body += ellipse(50,102,2.6,1.6,'#5c4b37') + smile(50,106,3)
     else:
-        body += rect(17,72,66,35,2,PALETTES[name][2]) + label('DONE',50,80,49,'#fff5be',1.7)
+        body += rect(17,72,66,35,2,PALETTES[name][2]) + label('DONE',50,80,49,{'cyan':'#4e829b','pink':'#aa648c','teal':'#4c8a83'}[name],1.7)
     body += rect(24,120,52,3,1.5,PALETTES[name][0],'opacity=".65"')
     return body
 
@@ -311,15 +312,15 @@ def chick(d):
     body += ellipse(39,57,7,9,d.paint('dark')) + ellipse(68,53,6.5,8,d.paint('dark'))
     body += circle(36,52,3,'#fff') + circle(65,49,2.7,'#fff')
     body += path('M47 66 Q53 61 59 65 L52 76Z',d.paint('orange'))
-    body += line('M34 127 L32 133 M34 127 L42 131 M67 127 L65 133 M67 127 L75 131','#d79856',3)
+    body += line('M34 127 L32 133 M34 127 L42 131 M67 127 L65 133 M67 127 L75 131','#e5bc95',3)
     return body
 
 
 def cookie_bucket(d):
     body = path('M16 54 L20 117 Q20 131 50 133 Q80 131 80 117 L84 54Z',d.paint('red'))
-    body += ellipse(50,55,35,9,d.paint('cyan')) + ellipse(50,53,27,6,'#479faf')
+    body += ellipse(50,55,35,9,d.paint('cyan')) + ellipse(50,53,27,6,'#86c9d6')
     body += ellipse(38,36,12,24,d.paint('cream'),'transform="rotate(-18 38 36)"') + ellipse(68,32,13,24,d.paint('gold'),'transform="rotate(20 68 32)"')
-    body += line('M31 22 Q36 21 42 29','#e6d29c',2)
+    body += line('M31 22 Q36 21 42 29','#f1dfb7',2)
     body += snowflake(68,31,8,'#fff3cc')
     body += path('M15 53 Q50 68 85 53 L84 62 Q50 78 16 62Z',d.paint('cyan'))
     body += snowflake(50,100,17) + snowflake(29,81,5) + snowflake(73,84,5) + snowflake(27,117,5)
@@ -330,7 +331,7 @@ def milk(d, source):
     if source == 'farm_cow_milk':
         body = path('M32 23 L68 23 C68 36 79 42 83 54 L83 121 Q83 130 72 130 L28 130 Q17 130 17 121 L17 54 C21 42 32 36 32 23Z',d.paint('white'))
         body += rect(30,11,40,13,4,d.paint('blue')) + rect(17,72,66,41,1,d.linear('blue'))
-        body += label('MILK',50,77,32,'#fff',1.25)
+        body += label('MILK',50,77,32,'#5b85ac',1.45)
         body += ellipse(37,96,6,5,d.paint('white'),'transform="rotate(-20 37 96)"') + ellipse(63,96,6,5,d.paint('white'),'transform="rotate(20 63 96)"')
         body += ellipse(50,102,15,12,d.paint('white')) + ellipse(50,106,11,6,d.paint('pink'))
         body += eyes(d,44,56,99,1.5) + circle(45,106,1,'#896176') + circle(55,106,1,'#896176')
@@ -341,7 +342,7 @@ def milk(d, source):
     body += path('M13 8 H80 Q87 8 87 15 V127 Q87 132 80 132 L78 20Z',d.linear('navy' if classic else 'blue'))
     if classic:
         body += path('M13 48 Q21 55 28 47 Q35 53 42 45 Q49 54 56 47 Q63 53 70 46 L78 49 L78 130 H13Z',d.paint('blue'))
-        body += label('MILK',47,92,47,'#fff',1.8)
+        body += label('MILK',47,92,47,'#5b85ac',1.8)
         body += ellipse(44,71,12,12,d.paint('white')) + ellipse(33,65,5,4,d.paint('white')) + ellipse(55,65,5,4,d.paint('white'))
         body += ellipse(44,75,8,5,d.paint('pink')) + eyes(d,39,49,69,1.3)
     else:
@@ -360,7 +361,7 @@ def bear(d, colour):
     body += circle(24,26,13,d.paint(colour)) + circle(76,26,13,d.paint(colour))
     body += circle(24,26,7,d.paint('cream')) + circle(76,26,7,d.paint('cream'))
     body += ellipse(50,58,35,35,d.paint(colour)) + cheeks(d,26,74,68,8)
-    body += eyes(d,38,62,58,3.3) + ellipse(50,71,11,10,d.paint('cream')) + ellipse(50,68,3.7,2.5,'#68503e') + smile(50,73,3)
+    body += eyes(d,38,62,58,3.3) + ellipse(50,71,11,10,d.paint('cream')) + ellipse(50,68,3.7,2.5,'#706784') + smile(50,73,3)
     body += ellipse(38,101,7,10,d.paint(colour)) + ellipse(62,101,7,10,d.paint(colour))
     for x in (31,69):
         body += ellipse(x,126,13,9,d.paint(colour)) + ellipse(x,128,7,5,d.paint('cream'))
@@ -395,7 +396,7 @@ def candle(d):
 def cheese(d):
     body = ellipse(51,74,38,59,d.paint('gold')) + path('M65 19 C90 32 97 88 76 124 Q88 109 85 77 Q84 42 65 19Z',d.linear('orange'))
     for x,y,rx,ry in [(35,39,7,9),(28,81,8,12),(51,61,6,7),(72,105,6,8),(47,122,5,5),(73,47,4,6)]:
-        body += ellipse(x,y,rx,ry,'#dc9e36') + ellipse(x+1,y+1,rx-1,ry-1,d.paint('yellow'))
+        body += ellipse(x,y,rx,ry,'#edc37d') + ellipse(x+1,y+1,rx-1,ry-1,d.paint('yellow'))
     body += line('M28 48 Q22 60 22 70','#fff1a9',2,'opacity=".7"')
     return body
 
@@ -403,8 +404,8 @@ def cheese(d):
 def crab(d):
     body = ''
     for left,right,yy in [(23,77,97),(21,79,110),(30,70,121)]:
-        body += line(f'M{left} {yy-12} Q{left-14} {yy-10} {left-12} {yy+1} M{right} {yy-12} Q{right+14} {yy-10} {right+12} {yy+1}', '#ef9571',5)
-    body += line('M27 78 Q11 68 17 46 M73 78 Q89 68 83 46','#ef9571',7)
+        body += line(f'M{left} {yy-12} Q{left-14} {yy-10} {left-12} {yy+1} M{right} {yy-12} Q{right+14} {yy-10} {right+12} {yy+1}', '#f6b6a5',5)
+    body += line('M27 78 Q11 68 17 46 M73 78 Q89 68 83 46','#f6b6a5',7)
     body += path('M17 56 C1 41 8 18 20 11 L20 29 L31 23 C36 38 31 49 17 56Z',d.paint('coral'))
     body += path('M83 56 C99 41 92 18 80 11 L80 29 L69 23 C64 38 69 49 83 56Z',d.paint('coral'))
     body += ellipse(50,86,33,31,d.paint('coral')) + eyes(d,38,62,81,3.6) + cheeks(d,29,72,91,7) + smile(50,94,5)
@@ -413,7 +414,7 @@ def crab(d):
 
 
 def clover(d):
-    body = line('M51 78 Q46 111 53 132','#60a252',4)
+    body = line('M51 78 Q46 111 53 132','#83cfb1',4)
     leaf = path('M50 70 C20 57 12 40 24 24 C37 9 50 22 50 33 C50 22 63 9 76 24 C88 40 80 57 50 70Z',d.paint('green'))
     body += ''.join(f'<g transform="rotate({angle} 50 70)">{leaf}</g>' for angle in (0,90,180,270))
     body += ''.join(f'<g transform="rotate({angle} 50 70)">' + line('M50 67 L50 36','#ddf6b6',1.6,'opacity=".6"') + '</g>' for angle in (0,90,180,270))
@@ -423,7 +424,7 @@ def clover(d):
 
 def calendar(d, colour):
     body = path('M14 27 H80 L88 124 H13Z',d.linear(colour)) + rect(12,25,72,102,7,d.paint(colour))
-    body += rect(19,54,58,59,7,d.paint('cream')) + label('25',48,65,44,PALETTES[colour][2],1.85)
+    body += rect(19,54,58,59,7,d.paint('cream')) + label('25',48,65,44,'#509b81' if colour=='green' else '#cf7e92',1.85)
     for x in (29,48,67):
         body += rect(x-5,13,10,30,5,d.paint('dark' if colour=='green' else 'gold'))
         body += line(f'M{x-1} 18 V33', '#eaf0f3' if colour=='green' else '#fff3bb',1.7,'opacity=".85"')
@@ -437,11 +438,11 @@ def chips(d, source):
     body = shape + path('M14 13 Q49 18 86 13 L84 23 Q49 26 16 23Z',d.paint(name)) + path('M16 119 Q49 122 84 119 L86 129 Q49 124 14 129Z',d.paint(name))
     body += line('M20 18 Q48 22 80 18',PALETTES[name][0],1.5,'opacity=".7"')
     if name == 'purple':
-        body += label(text,50,39,39,'#593f82',1.7)
+        body += label(text,50,39,39,'#8770b7',1.7)
         body += rect(26,63,48,4,2,'#e9dcff') + rect(32,74,37,3,1.5,'#e9dcff') + rect(29,84,43,3,1.5,'#e9dcff')
-        body += rect(33,102,34,10,3,'#f0e5ff') + label('100',50,103,22,'#8c6aba',1)
+        body += rect(33,102,34,10,3,'#f0e5ff') + label('100',50,103,22,'#9f83c9',1)
     else:
-        body += ellipse(50,61,29,22,d.paint('cream')) + label(text,50,53,45,'#b5583e' if name=='yellow' else PALETTES[name][2],1.6)
+        body += ellipse(50,61,29,22,d.paint('cream')) + label(text,50,53,45,{'yellow':'#bf8c71','red':'#c77c91','green':'#539b80'}[name],1.6)
         body += ellipse(39,104,13,8,d.paint('gold'),'transform="rotate(-25 39 104)"') + ellipse(61,104,13,8,d.paint('gold'),'transform="rotate(25 61 104)"')
         body += line('M30 102 L44 97 M33 106 L47 101 M55 99 L69 104 M52 103 L65 108','#fff0a4',1.5)
     body += line('M23 34 Q20 72 23 108',PALETTES[name][0],2,'opacity=".65"')
@@ -452,8 +453,8 @@ def watermelon(d):
     body = ellipse(50,77,40,53,d.paint('green')) + ellipse(50,64,37,41,d.paint('cream')) + ellipse(50,63,33,37,d.paint('red'))
     for x,y,angle in [(35,49,-20),(57,44,10),(70,59,25),(46,67,-10),(29,71,-25),(59,79,10),(41,88,-10)]:
         body += ellipse(x,y,1.8,3,d.paint('dark'),f'transform="rotate({angle} {x} {y})"')
-    body += ''.join(line(f'M{x} 111 Q{x+3} 119 {x+1} 126','#4d9951',3,'opacity=".8"') for x in (26,41,57,72))
-    body += path('M50 23 Q49 13 55 10',d.paint('green'), 'stroke="#73b95b" stroke-width="3" stroke-linecap="round"')
+    body += ''.join(line(f'M{x} 111 Q{x+3} 119 {x+1} 126','#7bc9a7',3,'opacity=".8"') for x in (26,41,57,72))
+    body += path('M50 23 Q49 13 55 10',d.paint('green'), 'stroke="#86d6b0" stroke-width="3" stroke-linecap="round"')
     body += path('M52 23 Q35 19 25 28 Q43 26 49 32Z M54 23 Q67 19 79 31 Q63 25 58 33Z',d.paint('green'))
     return body
 
