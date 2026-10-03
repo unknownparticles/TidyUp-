@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Common drop shadow for depth -->
+    <filter id="shadow-boba_blueberry" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <radialGradient id="base-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    
+    <linearGradient id="cup-liquid-boba_blueberry" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a29bfe"/>
+      <stop offset="100%" stop-color="#6c5ce7"/>
+    </linearGradient>
+    <linearGradient id="cup-glare" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  
+  </defs>
+  <!-- Floor Contact Shadow -->
+  <ellipse cx="50" cy="94" rx="34" ry="5.5" fill="url(#base-shadow)"/>
+  <g filter="url(#shadow-boba_blueberry)">
+    
+    <!-- Angled Straw -->
+    <path d="M50,30 L64,8" stroke="#6c5ce7" stroke-width="5" stroke-linecap="round"/>
+    <path d="M50,30 L64,8" stroke="#fff" stroke-width="1.2" stroke-dasharray="3,3" stroke-linecap="round"/>
+
+    <!-- Cup Liquid Body -->
+    <path d="M30,36 L36,86 Q50,91 64,86 L70,36 Z" fill="url(#cup-liquid-boba_blueberry)" stroke="#222" stroke-width="1.2"/>
+
+    <!-- Toppings & Extras -->
+    
+      <!-- Ice Cubes -->
+      <rect x="40" y="45" width="10" height="10" rx="2" fill="rgba(255,255,255,0.4)" stroke="#fff" stroke-width="0.6"/>
+      <rect x="52" y="52" width="11" height="11" rx="2" fill="rgba(255,255,255,0.4)" stroke="#fff" stroke-width="0.6"/>
+      <!-- Floating glitter stars -->
+      <polygon points="45,68 47,72 51,72 48,74 49,78 45,75 41,78 42,74 39,72 43,72" fill="#ffeaa7"/>
+      <polygon points="57,75 58,78 61,78 59,80 60,83 57,81 54,83 55,80 53,78 56,78" fill="#ffeaa7"/>
+    
+
+    <!-- Translucent Cup Shell & Glare -->
+    <path d="M28,34 L35,88 Q50,93 65,88 L72,34 Z" fill="none" stroke="#dfe6e9" stroke-width="1.5"/>
+    <path d="M31,37 L36,85 Q40,86 42,85 L37,37 Z" fill="url(#cup-glare)"/>
+
+    <!-- Cup Dome Lid -->
+    <path d="M26,34 Q50,22 74,34 Z" fill="rgba(255,255,255,0.75)" stroke="#b2bec3" stroke-width="1.2"/>
+    <rect x="25" y="32" width="50" height="4" rx="2" fill="#ecf0f1" stroke="#95a5a6" stroke-width="1"/>
+  
+  </g>
+</svg>

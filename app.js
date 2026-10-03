@@ -3,104 +3,133 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.4.1';
+  const APP_VERSION = '1.5.0';
 
-  // 1. High-Resolution 3D Rendered Item Assets (Extracted directly from sprite sheet)
+  // 1. High-Resolution Vector 3D Rendered Item Assets (Procedural SVG with Parameterized Variations)
   const ITEMS = {
-    pea_bunny: { id: 'pea_bunny', name: '豌豆小兔', img: './assets/items/pea_bunny.png' },
-    red_pouch: { id: 'red_pouch', name: '圣诞福袋', img: './assets/items/red_pouch.png' },
-    xmas_gnome: { id: 'xmas_gnome', name: '圣诞小矮人', img: './assets/items/xmas_gnome.png' },
-    polka_stocking: { id: 'polka_stocking', name: '红白长袜', img: './assets/items/polka_stocking.png' },
-    xmas_tree: { id: 'xmas_tree', name: '圣诞绿树', img: './assets/items/xmas_tree.png' },
-    xmas_reindeer: { id: 'xmas_reindeer', name: '圣诞小鹿', img: './assets/items/xmas_reindeer.png' },
-    blue_snowman: { id: 'blue_snowman', name: '蓝帽雪人', img: './assets/items/blue_snowman.png' },
-    pink_gift_box: { id: 'pink_gift_box', name: '金带粉礼盒', img: './assets/items/pink_gift_box.png' },
-    pink_lollipop: { id: 'pink_lollipop', name: '粉色棒棒糖', img: './assets/items/pink_lollipop.png' },
-    blue_milk_carton: { id: 'blue_milk_carton', name: '蓝盒鲜牛奶', img: './assets/items/blue_milk_carton.png' },
-    cyan_done_bottle: { id: 'cyan_done_bottle', name: '蓝Done水杯', img: './assets/items/cyan_done_bottle.png' },
-    yellow_juice_bottle: { id: 'yellow_juice_bottle', name: '橙味果汁瓶', img: './assets/items/yellow_juice_bottle.png' },
-    bear_bottle: { id: 'bear_bottle', name: '小熊饮料瓶', img: './assets/items/bear_bottle.png' },
-    green_frog: { id: 'green_frog', name: '萌萌小青蛙', img: './assets/items/green_frog.png' },
-    yellow_chick: { id: 'yellow_chick', name: '金黄小鸡公仔', img: './assets/items/yellow_chick.png' },
-    yellow_gift_box: { id: 'yellow_gift_box', name: '暖黄红带礼盒', img: './assets/items/yellow_gift_box.png' },
-    red_cookie_bucket: { id: 'red_cookie_bucket', name: '雪花饼干罐', img: './assets/items/red_cookie_bucket.png' },
-    white_gift_box: { id: 'white_gift_box', name: '红带白礼盒', img: './assets/items/white_gift_box.png' },
-    green_gift_box: { id: 'green_gift_box', name: '黄带绿礼盒', img: './assets/items/green_gift_box.png' },
-    gold_bell: { id: 'gold_bell', name: '圣诞金铃', img: './assets/items/gold_bell.png' },
-    cookie_box: { id: 'cookie_box', name: '曲奇饼干盒', img: './assets/items/cookie_box.png' },
-    bronze_bell: { id: 'bronze_bell', name: '铜色金铃', img: './assets/items/bronze_bell.png' },
-    mango_juice: { id: 'mango_juice', name: '芒果果汁', img: './assets/items/mango_juice.png' },
-    pink_lamp: { id: 'pink_lamp', name: '粉红小台灯', img: './assets/items/pink_lamp.png' },
-    blue_lorem: { id: 'blue_lorem', name: '蓝色洗护瓶', img: './assets/items/blue_lorem.png' },
-    pink_lorem: { id: 'pink_lorem', name: '粉红洗护瓶', img: './assets/items/pink_lorem.png' },
-    orange_coffee_cup: { id: 'orange_coffee_cup', name: '随行咖啡杯', img: './assets/items/orange_coffee_cup.png' },
-    yellow_cheese: { id: 'yellow_cheese', name: '黄金奶酪块', img: './assets/items/yellow_cheese.png' },
-    teddy_bear: { id: 'teddy_bear', name: '毛绒泰迪熊', img: './assets/items/teddy_bear.png' },
-    green_chips_bag: { id: 'green_chips_bag', name: '青柠薯片袋', img: './assets/items/green_chips_bag.png' },
-    green_red_gift: { id: 'green_red_gift', name: '绿盒红带礼盒', img: './assets/items/green_red_gift.png' },
-    red_yellow_gift: { id: 'red_yellow_gift', name: '红盒黄带礼盒', img: './assets/items/red_yellow_gift.png' },
-    striped_gift_box: { id: 'striped_gift_box', name: '条纹节日礼盒', img: './assets/items/striped_gift_box.png' },
-    red_snack_bag: { id: 'red_snack_bag', name: '红色小零食', img: './assets/items/red_snack_bag.png' },
-    hot_cocoa_mug: { id: 'hot_cocoa_mug', name: '雪花热可可', img: './assets/items/hot_cocoa_mug.png' },
-    red_candle: { id: 'red_candle', name: '节日红蜡烛', img: './assets/items/red_candle.png' },
-    green_lollipop: { id: 'green_lollipop', name: '抹茶棒棒糖', img: './assets/items/green_lollipop.png' },
-    pink_fan: { id: 'pink_fan', name: '粉色小电扇', img: './assets/items/pink_fan.png' },
-    peach_juice: { id: 'peach_juice', name: '黄桃鲜果汁', img: './assets/items/peach_juice.png' },
-    green_mitten: { id: 'green_mitten', name: '雪花绿手套', img: './assets/items/green_mitten.png' },
-    classic_milk: { id: 'classic_milk', name: '醇香全脂奶', img: './assets/items/classic_milk.png' },
-    panda_bear: { id: 'panda_bear', name: '国宝小熊猫', img: './assets/items/panda_bear.png' },
-    pink_done_bottle: { id: 'pink_done_bottle', name: '粉Done水杯', img: './assets/items/pink_done_bottle.png' },
-    teal_done_bottle: { id: 'teal_done_bottle', name: '蓝Done水壶', img: './assets/items/teal_done_bottle.png' },
-    kiwi_jar: { id: 'kiwi_jar', name: '猕猴桃果泥', img: './assets/items/kiwi_jar.png' },
-    strawberry_yogurt: { id: 'strawberry_yogurt', name: '草莓甜心乳', img: './assets/items/strawberry_yogurt.png' },
-    blue_roast_box: { id: 'blue_roast_box', name: '浅蓝烘焙盒', img: './assets/items/blue_roast_box.png' },
-    roast_sauce_bottle: { id: 'roast_sauce_bottle', name: '浓郁烘焙酱', img: './assets/items/roast_sauce_bottle.png' },
-    orange_drink_box: { id: 'orange_drink_box', name: '橙味鲜果饮', img: './assets/items/orange_drink_box.png' },
-    gold_durian: { id: 'gold_durian', name: '金枕头榴莲', img: './assets/items/gold_durian.png' },
-    watermelon_slice: { id: 'watermelon_slice', name: '夏日甜西瓜', img: './assets/items/watermelon_slice.png' },
-    mangosteen_bottle: { id: 'mangosteen_bottle', name: '紫山竹果汁', img: './assets/items/mangosteen_bottle.png' },
-    blue_dots_tumbler: { id: 'blue_dots_tumbler', name: '蓝波点吸管杯', img: './assets/items/blue_dots_tumbler.png' },
-    purple_snack_bag: { id: 'purple_snack_bag', name: '香芋零食包', img: './assets/items/purple_snack_bag.png' },
-    cute_crab: { id: 'cute_crab', name: '可爱小螃蟹', img: './assets/items/cute_crab.png' },
-    kiwi_drink: { id: 'kiwi_drink', name: '奇异果清爽饮', img: './assets/items/kiwi_drink.png' },
-    block_chocolate: { id: 'block_chocolate', name: '夹心巧克力盒', img: './assets/items/block_chocolate.png' },
-    lemon_soda_bottle: { id: 'lemon_soda_bottle', name: '青柠气泡水', img: './assets/items/lemon_soda_bottle.png' },
-    yellow_lemon_drink: { id: 'yellow_lemon_drink', name: '鲜柠檬果汁', img: './assets/items/yellow_lemon_drink.png' },
-    red_cherry_jam: { id: 'red_cherry_jam', name: '红樱桃鲜果酱', img: './assets/items/red_cherry_jam.png' },
-    red_wish_tree: { id: 'red_wish_tree', name: '红愿圣诞树', img: './assets/items/red_wish_tree.png' },
-    purple_sneaker: { id: 'purple_sneaker', name: '潮酷紫球鞋', img: './assets/items/purple_sneaker.png' },
-    yellow_rainboots: { id: 'yellow_rainboots', name: '暖黄小雨靴', img: './assets/items/yellow_rainboots.png' },
-    fresh_strawberry: { id: 'fresh_strawberry', name: '鲜美红草莓', img: './assets/items/fresh_strawberry.png' },
-    lucky_clover: { id: 'lucky_clover', name: '幸运四叶草', img: './assets/items/lucky_clover.png' },
-    pink_gold_gift: { id: 'pink_gold_gift', name: '典雅粉金盒', img: './assets/items/pink_gold_gift.png' },
-    red_calendar: { id: 'red_calendar', name: '圣诞日历25', img: './assets/items/red_calendar.png' },
-    carrot_jam: { id: 'carrot_jam', name: '胡萝卜果酱', img: './assets/items/carrot_jam.png' },
-    peach_jam: { id: 'peach_jam', name: '黄桃鲜蜜酱', img: './assets/items/peach_jam.png' },
-    candle_cake: { id: 'candle_cake', name: '蜡烛奶油蛋糕', img: './assets/items/candle_cake.png' },
-    blue_berry_drink: { id: 'blue_berry_drink', name: '蓝莓气泡饮', img: './assets/items/blue_berry_drink.png' },
-    lemon_honey_jar: { id: 'lemon_honey_jar', name: '青柠蜂蜜露', img: './assets/items/lemon_honey_jar.png' },
-    grape_juice_bottle: { id: 'grape_juice_bottle', name: '紫葡萄清汁', img: './assets/items/grape_juice_bottle.png' },
-    stick_fries: { id: 'stick_fries', name: 'Stick香脆薯条', img: './assets/items/stick_fries.png' },
-    tiered_green_tree: { id: 'tiered_green_tree', name: '多层圣诞树', img: './assets/items/tiered_green_tree.png' },
-    kiwi_green_jar: { id: 'kiwi_green_jar', name: '鲜奇异果罐', img: './assets/items/kiwi_green_jar.png' },
-    yellow_chips: { id: 'yellow_chips', name: '黄金波浪薯片', img: './assets/items/yellow_chips.png' },
-    red_crisp_snack: { id: 'red_crisp_snack', name: '香脆小红袋', img: './assets/items/red_crisp_snack.png' },
-    holly_berries: { id: 'holly_berries', name: '圣诞冬青红果', img: './assets/items/holly_berries.png' },
-    purple_bear: { id: 'purple_bear', name: '紫色小玩偶', img: './assets/items/purple_bear.png' },
-    pink_rabbit_cup: { id: 'pink_rabbit_cup', name: '萌兔粉水杯', img: './assets/items/pink_rabbit_cup.png' },
-    green_calendar: { id: 'green_calendar', name: '绿色日历25', img: './assets/items/green_calendar.png' },
-    orange_vitamin_bottle: { id: 'orange_vitamin_bottle', name: '鲜橙果汁饮', img: './assets/items/orange_vitamin_bottle.png' },
-    farm_cow_milk: { id: 'farm_cow_milk', name: '高钙牧场奶', img: './assets/items/farm_cow_milk.png' },
-    piece_cookie_box: { id: 'piece_cookie_box', name: 'Piece曲奇盒', img: './assets/items/piece_cookie_box.png' },
-    fresh_starfruit: { id: 'fresh_starfruit', name: '金黄鲜杨桃', img: './assets/items/fresh_starfruit.png' },
-    bee_honey_jar: { id: 'bee_honey_jar', name: '小蜜蜂纯蜂蜜', img: './assets/items/bee_honey_jar.png' },
-    white_red_chips: { id: 'white_red_chips', name: '红白原味薯片', img: './assets/items/white_red_chips.png' },
-    pink_sport_bottle: { id: 'pink_sport_bottle', name: '活力运动水壶', img: './assets/items/pink_sport_bottle.png' },
-    roast_coffee_bag: { id: 'roast_coffee_bag', name: '烘焙咖啡袋', img: './assets/items/roast_coffee_bag.png' },
-    green_xmas_sock: { id: 'green_xmas_sock', name: '红边绿长袜', img: './assets/items/green_xmas_sock.png' }
+    snowman_red: { id: 'snowman_red', name: '圣诞红帽雪人', archetype: 'snowman', colorGroup: 'red', img: './assets/items/snowman_red.svg' },
+    snowman_blue: { id: 'snowman_blue', name: '冰蓝毛线雪人', archetype: 'snowman', colorGroup: 'blue', img: './assets/items/snowman_blue.svg' },
+    snowman_green: { id: 'snowman_green', name: '精灵绿帽雪人', archetype: 'snowman', colorGroup: 'green', img: './assets/items/snowman_green.svg' },
+    snowman_purple: { id: 'snowman_purple', name: '绅士礼帽雪人', archetype: 'snowman', colorGroup: 'purple', img: './assets/items/snowman_purple.svg' },
+    snowman_yellow: { id: 'snowman_yellow', name: '暖阳针织雪人', archetype: 'snowman', colorGroup: 'yellow', img: './assets/items/snowman_yellow.svg' },
+    snowman_pink: { id: 'snowman_pink', name: '甜心粉耳雪人', archetype: 'snowman', colorGroup: 'pink', img: './assets/items/snowman_pink.svg' },
+    boba_strawberry: { id: 'boba_strawberry', name: '草莓波波奶茶', archetype: 'boba', colorGroup: 'pink', img: './assets/items/boba_strawberry.svg' },
+    boba_matcha: { id: 'boba_matcha', name: '翡翠抹茶奶绿', archetype: 'boba', colorGroup: 'green', img: './assets/items/boba_matcha.svg' },
+    boba_orange: { id: 'boba_orange', name: '鲜橙柠檬气泡', archetype: 'boba', colorGroup: 'yellow', img: './assets/items/boba_orange.svg' },
+    boba_blueberry: { id: 'boba_blueberry', name: '星空蓝莓冰饮', archetype: 'boba', colorGroup: 'purple', img: './assets/items/boba_blueberry.svg' },
+    boba_chocolate: { id: 'boba_chocolate', name: '浓醇巧乐厚乳', archetype: 'boba', colorGroup: 'brown', img: './assets/items/boba_chocolate.svg' },
+    boba_cyan: { id: 'boba_cyan', name: '蓝柑海盐苏打', archetype: 'boba', colorGroup: 'blue', img: './assets/items/boba_cyan.svg' },
+    gift_pink_gold: { id: 'gift_pink_gold', name: '樱粉金带礼盒', archetype: 'gift_box', colorGroup: 'pink', img: './assets/items/gift_pink_gold.svg' },
+    gift_blue_white: { id: 'gift_blue_white', name: '宝石蓝白礼盒', archetype: 'gift_box', colorGroup: 'blue', img: './assets/items/gift_blue_white.svg' },
+    gift_green_red: { id: 'gift_green_red', name: '翡翠红带礼盒', archetype: 'gift_box', colorGroup: 'green', img: './assets/items/gift_green_red.svg' },
+    gift_yellow_purple: { id: 'gift_yellow_purple', name: '暖黄紫带礼盒', archetype: 'gift_box', colorGroup: 'yellow', img: './assets/items/gift_yellow_purple.svg' },
+    gift_red_gold: { id: 'gift_red_gold', name: '正红金带礼盒', archetype: 'gift_box', colorGroup: 'red', img: './assets/items/gift_red_gold.svg' },
+    gift_purple_yellow: { id: 'gift_purple_yellow', name: '魅惑紫黄礼盒', archetype: 'gift_box', colorGroup: 'purple', img: './assets/items/gift_purple_yellow.svg' },
+    milk_classic: { id: 'milk_classic', name: '纯香鲜牛奶', archetype: 'milk_carton', colorGroup: 'blue', img: './assets/items/milk_classic.svg' },
+    milk_strawberry: { id: 'milk_strawberry', name: '草莓甜心奶', archetype: 'milk_carton', colorGroup: 'pink', img: './assets/items/milk_strawberry.svg' },
+    milk_banana: { id: 'milk_banana', name: '浓香香蕉奶', archetype: 'milk_carton', colorGroup: 'yellow', img: './assets/items/milk_banana.svg' },
+    milk_matcha: { id: 'milk_matcha', name: '宇治抹茶乳', archetype: 'milk_carton', colorGroup: 'green', img: './assets/items/milk_matcha.svg' },
+    milk_chocolate: { id: 'milk_chocolate', name: '丝滑巧克力奶', archetype: 'milk_carton', colorGroup: 'brown', img: './assets/items/milk_chocolate.svg' },
+    milk_blueberry: { id: 'milk_blueberry', name: '蓝莓营养奶', archetype: 'milk_carton', colorGroup: 'purple', img: './assets/items/milk_blueberry.svg' },
+    bear_brown: { id: 'bear_brown', name: '焦糖泰迪熊', archetype: 'teddy_bear', colorGroup: 'brown', img: './assets/items/bear_brown.svg' },
+    bear_polar: { id: 'bear_polar', name: '极地雪白熊', archetype: 'teddy_bear', colorGroup: 'white', img: './assets/items/bear_polar.svg' },
+    bear_pink: { id: 'bear_pink', name: '粉樱草莓熊', archetype: 'teddy_bear', colorGroup: 'pink', img: './assets/items/bear_pink.svg' },
+    bear_panda: { id: 'bear_panda', name: '国宝小熊猫', archetype: 'teddy_bear', colorGroup: 'black_white', img: './assets/items/bear_panda.svg' },
+    bear_purple: { id: 'bear_purple', name: '梦幻紫星熊', archetype: 'teddy_bear', colorGroup: 'purple', img: './assets/items/bear_purple.svg' },
+    bear_mint: { id: 'bear_mint', name: '薄荷清凉熊', archetype: 'teddy_bear', colorGroup: 'green', img: './assets/items/bear_mint.svg' },
+    bunny_white: { id: 'bunny_white', name: '胡萝卜白兔', archetype: 'bunny', colorGroup: 'white', img: './assets/items/bunny_white.svg' },
+    bunny_pink: { id: 'bunny_pink', name: '草莓甜心兔', archetype: 'bunny', colorGroup: 'pink', img: './assets/items/bunny_pink.svg' },
+    bunny_mint: { id: 'bunny_mint', name: '薄荷幸运兔', archetype: 'bunny', colorGroup: 'green', img: './assets/items/bunny_mint.svg' },
+    bunny_yellow: { id: 'bunny_yellow', name: '暖黄铃铛兔', archetype: 'bunny', colorGroup: 'yellow', img: './assets/items/bunny_yellow.svg' },
+    bunny_purple: { id: 'bunny_purple', name: '浅紫星星兔', archetype: 'bunny', colorGroup: 'purple', img: './assets/items/bunny_purple.svg' },
+    lollipop_rainbow: { id: 'lollipop_rainbow', name: '彩虹旋涡糖', archetype: 'lollipop', colorGroup: 'red', img: './assets/items/lollipop_rainbow.svg' },
+    lollipop_pink: { id: 'lollipop_pink', name: '草莓奶霜糖', archetype: 'lollipop', colorGroup: 'pink', img: './assets/items/lollipop_pink.svg' },
+    lollipop_green: { id: 'lollipop_green', name: '青柠抹茶糖', archetype: 'lollipop', colorGroup: 'green', img: './assets/items/lollipop_green.svg' },
+    lollipop_blue: { id: 'lollipop_blue', name: '海风蓝云糖', archetype: 'lollipop', colorGroup: 'blue', img: './assets/items/lollipop_blue.svg' },
+    lollipop_purple: { id: 'lollipop_purple', name: '蓝莓香芋糖', archetype: 'lollipop', colorGroup: 'purple', img: './assets/items/lollipop_purple.svg' },
+    jam_strawberry: { id: 'jam_strawberry', name: '鲜红草莓酱', archetype: 'jam_jar', colorGroup: 'red', img: './assets/items/jam_strawberry.svg' },
+    jam_honey: { id: 'jam_honey', name: '金黄纯蜂蜜', archetype: 'jam_jar', colorGroup: 'yellow', img: './assets/items/jam_honey.svg' },
+    jam_blueberry: { id: 'jam_blueberry', name: '浓醇蓝莓酱', archetype: 'jam_jar', colorGroup: 'purple', img: './assets/items/jam_blueberry.svg' },
+    jam_kiwi: { id: 'jam_kiwi', name: '奇异果青酱', archetype: 'jam_jar', colorGroup: 'green', img: './assets/items/jam_kiwi.svg' },
+    jam_orange: { id: 'jam_orange', name: '糖渍甜橙酱', archetype: 'jam_jar', colorGroup: 'orange', img: './assets/items/jam_orange.svg' },
+    cupcake_strawberry: { id: 'cupcake_strawberry', name: '草莓粉杯糕', archetype: 'cupcake', colorGroup: 'pink', img: './assets/items/cupcake_strawberry.svg' },
+    cupcake_chocolate: { id: 'cupcake_chocolate', name: '薄荷巧乐糕', archetype: 'cupcake', colorGroup: 'brown', img: './assets/items/cupcake_chocolate.svg' },
+    cupcake_lemon: { id: 'cupcake_lemon', name: '柠檬金星糕', archetype: 'cupcake', colorGroup: 'yellow', img: './assets/items/cupcake_lemon.svg' },
+    cupcake_blueberry: { id: 'cupcake_blueberry', name: '蓝莓紫晶糕', archetype: 'cupcake', colorGroup: 'purple', img: './assets/items/cupcake_blueberry.svg' },
+    cupcake_matcha: { id: 'cupcake_matcha', name: '抹茶红豆糕', archetype: 'cupcake', colorGroup: 'green', img: './assets/items/cupcake_matcha.svg' },
+    tree_classic: { id: 'tree_classic', name: '常青圣诞树', archetype: 'xmas_tree', colorGroup: 'green', img: './assets/items/tree_classic.svg' },
+    tree_snow: { id: 'tree_snow', name: '冰晶雪松树', archetype: 'xmas_tree', colorGroup: 'blue', img: './assets/items/tree_snow.svg' },
+    tree_pink: { id: 'tree_pink', name: '梦幻粉晶树', archetype: 'xmas_tree', colorGroup: 'pink', img: './assets/items/tree_pink.svg' },
+    tree_golden: { id: 'tree_golden', name: '璀璨金辉树', archetype: 'xmas_tree', colorGroup: 'yellow', img: './assets/items/tree_golden.svg' },
+    bell_gold: { id: 'bell_gold', name: '璀璨金铃', archetype: 'bell', colorGroup: 'yellow', img: './assets/items/bell_gold.svg' },
+    bell_silver: { id: 'bell_silver', name: '皎洁银铃', archetype: 'bell', colorGroup: 'white', img: './assets/items/bell_silver.svg' },
+    bell_bronze: { id: 'bell_bronze', name: '古典铜铃', archetype: 'bell', colorGroup: 'brown', img: './assets/items/bell_bronze.svg' },
+    bell_rose: { id: 'bell_rose', name: '粉玫金铃', archetype: 'bell', colorGroup: 'pink', img: './assets/items/bell_rose.svg' },
+    frog_crown: { id: 'frog_crown', name: '金冠翠蛙', archetype: 'frog', colorGroup: 'gold_green', img: './assets/items/frog_crown.svg' },
+    frog_flower: { id: 'frog_flower', name: '睡莲粉花蛙', archetype: 'frog', colorGroup: 'pink_lime', img: './assets/items/frog_flower.svg' },
+    frog_bowtie: { id: 'frog_bowtie', name: '红领结绅士蛙', archetype: 'frog', colorGroup: 'red_mint', img: './assets/items/frog_bowtie.svg' },
+    frog_blue: { id: 'frog_blue', name: '冰川箭毒蛙', archetype: 'frog', colorGroup: 'blue', img: './assets/items/frog_blue.svg' },
+    snack_red: { id: 'snack_red', name: '麻辣香脆薯片', archetype: 'snack_bag', colorGroup: 'red', img: './assets/items/snack_red.svg' },
+    snack_green: { id: 'snack_green', name: '青柠海苔脆片', archetype: 'snack_bag', colorGroup: 'green', img: './assets/items/snack_green.svg' },
+    snack_yellow: { id: 'snack_yellow', name: '浓香芝士脆片', archetype: 'snack_bag', colorGroup: 'yellow', img: './assets/items/snack_yellow.svg' },
+    snack_purple: { id: 'snack_purple', name: '紫薯风味薯片', archetype: 'snack_bag', colorGroup: 'purple', img: './assets/items/snack_purple.svg' },
+    mug_red_cocoa: { id: 'mug_red_cocoa', name: '暖冬热可可', archetype: 'coffee_mug', colorGroup: 'red', img: './assets/items/mug_red_cocoa.svg' },
+    mug_teal_latte: { id: 'mug_teal_latte', name: '青瓷心拉花', archetype: 'coffee_mug', colorGroup: 'blue', img: './assets/items/mug_teal_latte.svg' },
+    mug_yellow_citrus: { id: 'mug_yellow_citrus', name: '暖阳蜂蜜柚', archetype: 'coffee_mug', colorGroup: 'yellow', img: './assets/items/mug_yellow_citrus.svg' },
+    mug_purple_taro: { id: 'mug_purple_taro', name: '香芋紫奶油杯', archetype: 'coffee_mug', colorGroup: 'purple', img: './assets/items/mug_purple_taro.svg' },
+    potion_red: { id: 'potion_red', name: '生命活力红药水', archetype: 'potion_bottle', colorGroup: 'red', img: './assets/items/potion_red.svg' },
+    potion_blue: { id: 'potion_blue', name: '冰霜魔力蓝药水', archetype: 'potion_bottle', colorGroup: 'blue', img: './assets/items/potion_blue.svg' },
+    potion_green: { id: 'potion_green', name: '自然治愈绿药水', archetype: 'potion_bottle', colorGroup: 'green', img: './assets/items/potion_green.svg' },
+    potion_purple: { id: 'potion_purple', name: '星辰奇迹紫药水', archetype: 'potion_bottle', colorGroup: 'purple', img: './assets/items/potion_purple.svg' },
   };
 
   const ITEM_KEYS = Object.keys(ITEMS);
+
+  // Smart selection ensuring maximum silhouette diversity and high-contrast color distinction
+  function selectDistinguishableItemTypes(count) {
+    const byArchetype = {};
+    for (let k in ITEMS) {
+      const a = ITEMS[k].archetype || 'other';
+      if (!byArchetype[a]) byArchetype[a] = [];
+      byArchetype[a].push(ITEMS[k]);
+    }
+    const archetypeList = Object.keys(byArchetype);
+    const chosen = [];
+    const chosenByArchetype = {};
+    archetypeList.forEach(a => chosenByArchetype[a] = []);
+
+    // Pass 1: Pick 1 variant from each archetype (ensuring diverse base silhouettes)
+    const shuffledArch = [...archetypeList].sort(() => Math.random() - 0.5);
+    for (let a of shuffledArch) {
+      if (chosen.length >= count) break;
+      const available = byArchetype[a].sort(() => Math.random() - 0.5);
+      const pick = available[0];
+      chosen.push(pick.id);
+      chosenByArchetype[a].push(pick);
+    }
+
+    // Pass 2+: Distribute across archetypes with guaranteed color contrast
+    while (chosen.length < count) {
+      const candidates = [...archetypeList].filter(a => chosenByArchetype[a].length < byArchetype[a].length);
+      if (candidates.length === 0) {
+        const remaining = ITEM_KEYS.filter(k => !chosen.includes(k));
+        if (remaining.length === 0) break;
+        chosen.push(remaining[Math.floor(Math.random() * remaining.length)]);
+        continue;
+      }
+      candidates.sort((a, b) => chosenByArchetype[a].length - chosenByArchetype[b].length || (Math.random() - 0.5));
+      const arch = candidates[0];
+      const alreadyPickedColors = new Set(chosenByArchetype[arch].map(x => x.colorGroup));
+      const pool = byArchetype[arch].filter(x => !chosenByArchetype[arch].some(p => p.id === x.id));
+      let best = pool.filter(x => !alreadyPickedColors.has(x.colorGroup));
+      if (best.length === 0) best = pool;
+      const pick = best[Math.floor(Math.random() * best.length)];
+      chosen.push(pick.id);
+      chosenByArchetype[arch].push(pick);
+    }
+
+    return chosen;
+  }
 
   // Canonical visual matching key (ensures items that look identical match reliably)
   function getItemMatchKey(key) {
@@ -657,12 +686,8 @@
       const tripletCounts = [36, 46, 56];
       const totalTriplets = tripletCounts[Math.min(levelNumber - 1, 2)] || 46;
 
-      // Pick distinct item types
-      const shuffledTypes = [...ITEM_KEYS].sort(() => Math.random() - 0.5);
-      const chosenTypes = [];
-      for (let i = 0; i < totalTriplets; i++) {
-        chosenTypes.push(shuffledTypes[i % shuffledTypes.length]);
-      }
+      // Pick distinct item types with guaranteed visual diversity & contrast
+      const chosenTypes = selectDistinguishableItemTypes(totalTriplets);
 
       const itemPool = [];
       chosenTypes.forEach(type => {
@@ -854,6 +879,7 @@
           const backKey = backItems[pos];
           const backItemEl = document.createElement('div');
           backItemEl.className = 'good-item layer-back';
+          backItemEl.title = ITEMS[backKey].name;
           backItemEl.innerHTML = `<img src="${ITEMS[backKey].img}" alt="${ITEMS[backKey].name}" draggable="false">`;
           itemContainer.appendChild(backItemEl);
         }
@@ -869,6 +895,7 @@
           frontItemEl.dataset.rowIndex = slotIdx;
           frontItemEl.dataset.shelfIndex = shelfIdx;
           frontItemEl.dataset.itemIndex = pos;
+          frontItemEl.title = ITEMS[frontKey].name;
           frontItemEl.innerHTML = `<img src="${ITEMS[frontKey].img}" alt="${ITEMS[frontKey].name}" draggable="false">`;
 
           if (this.selectedItemInfo &&

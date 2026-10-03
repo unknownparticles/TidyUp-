@@ -1,9 +1,10 @@
 {
   "name": "zls",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "generate:svg": "node scripts/generate_svg_items.js",
     "bump:major": "node scripts/bump-version.js major",
     "bump:minor": "node scripts/bump-version.js minor",
     "bump:patch": "node scripts/bump-version.js patch",

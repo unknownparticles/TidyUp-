@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Common drop shadow for depth -->
+    <filter id="shadow-cupcake_blueberry" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <radialGradient id="base-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    
+    <linearGradient id="cupcake-frost-cupcake_blueberry" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a29bfe"/>
+      <stop offset="100%" stop-color="#6c5ce7"/>
+    </linearGradient>
+  
+  </defs>
+  <!-- Floor Contact Shadow -->
+  <ellipse cx="50" cy="94" rx="34" ry="5.5" fill="url(#base-shadow)"/>
+  <g filter="url(#shadow-cupcake_blueberry)">
+    
+    <!-- Pleated Baking Paper Cup -->
+    <polygon points="28,54 34,88 66,88 72,54" fill="#fd79a8" stroke="#222" stroke-width="1.2"/>
+    <!-- Pleat ridges -->
+    <line x1="36" y1="54" x2="40" y2="88" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+    <line x1="44" y1="54" x2="47" y2="88" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+    <line x1="52" y1="54" x2="53" y2="88" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+    <line x1="60" y1="54" x2="60" y2="88" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+
+    <!-- Sponge Cake Rim -->
+    <ellipse cx="50" cy="54" rx="23" ry="5" fill="#f5cd79" stroke="#eccc68" stroke-width="1"/>
+
+    <!-- Frosting Swirl Layers -->
+    <!-- Bottom swirl tier -->
+    <path d="M24,53 Q32,44 50,44 Q68,44 76,53 Q66,57 50,57 Q34,57 24,53 Z" fill="url(#cupcake-frost-cupcake_blueberry)" stroke="#222" stroke-width="1"/>
+    <!-- Middle swirl tier -->
+    <path d="M29,45 Q37,34 50,34 Q63,34 71,45 Q62,48 50,48 Q38,48 29,45 Z" fill="url(#cupcake-frost-cupcake_blueberry)" stroke="#222" stroke-width="1"/>
+    <!-- Top peak swirl -->
+    <path d="M36,36 Q44,24 50,22 Q56,24 64,36 Q56,38 50,38 Q44,38 36,36 Z" fill="url(#cupcake-frost-cupcake_blueberry)" stroke="#222" stroke-width="1"/>
+
+    <!-- Colorful Sprinkles -->
+    <rect x="36" y="47" width="3" height="1.5" rx="0.5" fill="#ff4757" transform="rotate(25 36 47)"/>
+    <rect x="62" y="48" width="3" height="1.5" rx="0.5" fill="#2ed573" transform="rotate(-30 62 48)"/>
+    <rect x="44" y="38" width="3" height="1.5" rx="0.5" fill="#ffa502" transform="rotate(40 44 38)"/>
+    <rect x="56" y="37" width="3" height="1.5" rx="0.5" fill="#1e90ff" transform="rotate(-15 56 37)"/>
+
+    <!-- Peak Topping -->
+    
+      <circle cx="47" cy="22" r="3.5" fill="#6c5ce7"/>
+      <circle cx="53" cy="22" r="3.5" fill="#a29bfe"/>
+      <circle cx="50" cy="18" r="3.5" fill="#fd79a8"/>
+    
+  
+  </g>
+</svg>
