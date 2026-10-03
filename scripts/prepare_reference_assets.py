@@ -14,7 +14,7 @@ import json
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 
 TARGET_HUES = {
@@ -24,6 +24,8 @@ TARGET_HUES = {
     "purple": 0.78,
     "pink": 0.92,
 }
+
+UPSCALE = 3
 
 
 def repair_cutout(image, source):
@@ -38,6 +40,49 @@ def repair_cutout(image, source):
     backing.putalpha(Image.composite(backing.getchannel("A"), Image.new("L", image.size), mask))
     backing.alpha_composite(image)
     return backing
+
+
+def remove_cutout_fragments(image, source):
+    """Discard tiny detached matte fragments left outside the main sprite."""
+    width, height = image.size
+    alpha = image.getchannel("A")
+    pixels = alpha.load()
+    visited = set()
+    components = []
+    for y in range(height):
+        for x in range(width):
+            if (x, y) in visited or pixels[x, y] <= 16:
+                continue
+            stack = [(x, y)]
+            visited.add((x, y))
+            points = []
+            while stack:
+                px, py = stack.pop()
+                points.append((px, py))
+                for dx in (-1, 0, 1):
+                    for dy in (-1, 0, 1):
+                        nx, ny = px + dx, py + dy
+                        if (nx, ny) in visited or not (0 <= nx < width and 0 <= ny < height):
+                            continue
+                        if pixels[nx, ny] > 16:
+                            visited.add((nx, ny))
+                            stack.append((nx, ny))
+            components.append(points)
+    if not components:
+        return image
+    keep_largest = source.stem in {"tiered_green_tree", "classic_milk"}
+    largest = max(components, key=len)
+    keep = {id(point) for point in largest} if keep_largest else set()
+    for component in components:
+        if keep_largest:
+            should_remove = component is not largest
+        else:
+            should_remove = len(component) < 12
+        if should_remove:
+            for x, y in component:
+                pixels[x, y] = 0
+    image.putalpha(alpha)
+    return image
 
 
 def clean_edges(image):
@@ -82,7 +127,73 @@ def clean_edges(image):
                 if 0 <= nx < image.width and 0 <= ny < image.height and core_pixels[nx, ny]:
                     pixels[x, y] = (*original[nx, ny][:3], pixels[x, y][3])
                     break
+    # Opaque white pixels can still be matte contamination when they sit
+    # directly on a transparent boundary. Replace only those edge pixels with
+    # a nearby saturated interior colour; white details away from the edge are
+    # intentionally preserved.
+    original_image = image.copy()
+    source_pixels = original_image.load()
+    pixels = image.load()
+    for y in range(image.height):
+        for x in range(image.width):
+            r, g, b, alpha = source_pixels[x, y]
+            if alpha == 0 or (min(r, g, b) < 150 and max(r, g, b) - min(r, g, b) > 35):
+                continue
+            near_transparent = any(
+                0 <= x + dx < image.width
+                and 0 <= y + dy < image.height
+                and source_pixels[x + dx, y + dy][3] < 40
+                for dx in (-1, 0, 1)
+                for dy in (-1, 0, 1)
+            )
+            if not near_transparent:
+                continue
+            candidates = []
+            for radius in (1, 2, 3):
+                for dx in range(-radius, radius + 1):
+                    for dy in range(-radius, radius + 1):
+                        nx, ny = x + dx, y + dy
+                        if not (0 <= nx < image.width and 0 <= ny < image.height):
+                            continue
+                        nr, ng, nb, na = source_pixels[nx, ny]
+                        _, saturation, _ = colorsys.rgb_to_hsv(nr / 255, ng / 255, nb / 255)
+                        if na > 180 and saturation > 0.18:
+                            candidates.append((radius, nr, ng, nb))
+                if candidates:
+                    break
+            if candidates:
+                _, nr, ng, nb = min(candidates)
+                pixels[x, y] = (nr, ng, nb, alpha)
     return image
+
+
+def smooth_resize(image, scale):
+    """Supersample RGB and alpha separately, with RGB premultiplied by alpha."""
+    if scale == 1:
+        return image
+    width, height = image.size
+    alpha = image.getchannel("A")
+    channels = []
+    for channel in image.convert("RGB").split():
+        channels.append(ImageChops.multiply(channel, alpha))
+    target = (width * scale, height * scale)
+    alpha = alpha.resize(target, Image.Resampling.LANCZOS)
+    resized = [channel.resize(target, Image.Resampling.LANCZOS) for channel in channels]
+    output = Image.new("RGBA", target)
+    out = output.load()
+    alpha_pixels = alpha.load()
+    channel_pixels = [channel.load() for channel in resized]
+    for y in range(target[1]):
+        for x in range(target[0]):
+            a = alpha_pixels[x, y]
+            if a == 0:
+                out[x, y] = (0, 0, 0, 0)
+                continue
+            out[x, y] = tuple(
+                min(255, round(channel_pixels[index][x, y] * 255 / a))
+                for index in range(3)
+            ) + (a,)
+    return output
 
 
 def recolour(image, hue_map):
@@ -120,14 +231,22 @@ def main():
     result = {}
     for item_id, spec in specs.items():
         source = Path(spec["source"])
-        image = clean_edges(Image.open(source))
+        source_image = Image.open(source).convert("RGBA")
+        source_width, source_height = source_image.size
+        image = clean_edges(source_image)
         image = repair_cutout(image, source)
+        image = remove_cutout_fragments(image, source)
         image = recolour(image, spec.get("hueMap"))
+        # Upscale only after repairs and colour mapping, while all masks still
+        # use the source image's original coordinate system.
+        image = smooth_resize(image, UPSCALE)
         output = io.BytesIO()
         image.save(output, format="PNG", optimize=True)
         result[item_id] = {
-            "width": image.width,
-            "height": image.height,
+            "width": source_width,
+            "height": source_height,
+            "pixelWidth": image.width,
+            "pixelHeight": image.height,
             "data": "data:image/png;base64," + base64.b64encode(output.getvalue()).decode("ascii"),
         }
     json.dump(result, sys.stdout, separators=(",", ":"))

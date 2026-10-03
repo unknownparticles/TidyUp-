@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.7.1';
+  const APP_VERSION = '1.7.2';
 
   // Reference-faithful SVG assets with embedded, cleaned PNG artwork.
   const ITEMS = {
