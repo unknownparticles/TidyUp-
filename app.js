@@ -3,9 +3,9 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.7.0';
+  const APP_VERSION = '1.7.1';
 
-    // 1. Authentic 3D Figurines & Clay-Style Item Assets (Procedural Vector SVG Modeled after original PNGs)
+  // Reference-faithful SVG assets with embedded, cleaned PNG artwork.
   const ITEMS = {
     blue_snowman: { id: 'blue_snowman', name: '蓝帽雪人', archetype: 'snowman', colorGroup: 'blue', img: './assets/items/blue_snowman.svg' },
     red_snowman: { id: 'red_snowman', name: '红帽雪人', archetype: 'snowman', colorGroup: 'red', img: './assets/items/red_snowman.svg' },
