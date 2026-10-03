@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Generate bright geometric SVG illustrations from authored shape recipes.
- * PNG references provide dimensions; generated SVGs never embed raster images.
+ * All models share one canvas and fitting envelope; no embedded raster images.
  */
 const fs = require('fs');
 const path = require('path');
@@ -39,7 +39,7 @@ function loadReferenceAssets(items) {
 
 function renderReferenceSvg(item, asset) {
   const { width, height, defs, content } = asset;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -3 ${width + 8} ${height + 10}" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet">
   <title>${item.name}</title>
   <defs>${defs}</defs>
   ${content}

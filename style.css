@@ -12,7 +12,7 @@
 
   /* Unified Item Dimensions: Dynamically adapt to container width, perfectly matching top cabinet, conveyor shelves, and drag ghost */
   --item-w: clamp(42px, 12vw, 80px);
-  --item-h: calc(var(--item-w) * 1.44);
+  --item-h: calc(var(--item-w) * 1.4);
   --plank-w: clamp(134px, 34vw, 220px);
 }
 
@@ -247,7 +247,7 @@ body {
   aspect-ratio: 1040 / 720;
   max-height: min(400px, 49vh, 49%);
   margin: 0 auto;
-  background-image: url('./assets/ui/cabinet_empty.svg?v=1.7.6');
+  background-image: url('./assets/ui/cabinet_empty.svg?v=1.7.7');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: relative;
@@ -308,10 +308,9 @@ body {
 
 /* Item Layer Container (Holds Front + Back Layer) - Strictly Uniform Across All Slots */
 .item-layer-container {
-  flex: 1;
-  width: calc((100% - 2px) / 3);
-  max-width: none;
-  height: 98%;
+  flex: 0 0 var(--item-w);
+  width: var(--item-w);
+  height: var(--item-h);
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -323,8 +322,8 @@ body {
 .good-item.layer-deep {
   position: absolute;
   bottom: 3px;
-  width: 72%;
-  height: 72%;
+  width: 100%;
+  height: 100%;
   filter: grayscale(100%) brightness(0.55) contrast(0.65);
   opacity: 0.42;
   transform: translateY(-7px) scale(0.72);
@@ -349,8 +348,8 @@ body {
 .good-item.layer-back {
   position: absolute;
   bottom: 2px;
-  width: 86%;
-  height: 86%;
+  width: 100%;
+  height: 100%;
   filter: grayscale(100%) brightness(0.75) contrast(0.65);
   opacity: 0.68;
   transform: translateY(-4px) scale(0.86);
@@ -521,7 +520,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background-image: url('./assets/ui/shelf_plank.svg?v=1.7.6');
+  background-image: url('./assets/ui/shelf_plank.svg?v=1.7.7');
   background-size: 100% clamp(36px, 50%, 54px);
   background-repeat: no-repeat;
   background-position: bottom;

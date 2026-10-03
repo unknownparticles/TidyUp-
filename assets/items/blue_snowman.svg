@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -3 90 150" width="82" height="140" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140" width="100" height="140" preserveAspectRatio="xMidYMid meet">
   <title>蓝帽雪人</title>
   <defs><radialGradient id="snow" cx="33%" cy="28%" r="80%"><stop stop-color="#fff"/><stop offset=".58" stop-color="#fbfdff"/><stop offset="1" stop-color="#e2ecf9"/></radialGradient>
 <linearGradient id="hat" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#e4f7ff"/><stop offset=".55" stop-color="#adddff"/><stop offset="1" stop-color="#83c5f2"/></linearGradient>
@@ -6,8 +6,8 @@
 <radialGradient id="button" cx="30%" cy="25%" r="80%"><stop stop-color="#e4f7ff"/><stop offset=".7" stop-color="#adddff"/><stop offset="1" stop-color="#83c5f2"/></radialGradient>
 <radialGradient id="nose" cx="30%" cy="25%"><stop stop-color="#ffcf72"/><stop offset="1" stop-color="#f3bb82"/></radialGradient>
 <radialGradient id="blush"><stop stop-color="#ffb9d2" stop-opacity=".65"/><stop offset="1" stop-color="#edb5b8" stop-opacity="0"/></radialGradient><radialGradient id="floor-shadow"><stop stop-color="#9db9d8" stop-opacity=".12"/><stop offset=".6" stop-color="#9db9d8" stop-opacity=".05"/><stop offset="1" stop-color="#9db9d8" stop-opacity="0"/></radialGradient>
-<filter id="object-shadow" filterUnits="userSpaceOnUse" x="-10" y="-10" width="102" height="164" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation=".85" result="soft-shadow"/><feOffset in="soft-shadow" dy="1.4" result="offset-shadow"/><feFlood flood-color="#96acce" flood-opacity=".10"/><feComposite in2="offset-shadow" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-  <ellipse cx="41.0" cy="139" rx="26.240000000000002" ry="2.7" fill="url(#floor-shadow)"/><g filter="url(#object-shadow)"><path d="M20 77 C7 87 2 107 7 121 C12 137 30 137 48 137 C68 137 77 130 77 117 C78 103 72 88 64 80Z" fill="url(#snow)"/>
+<filter id="object-shadow" filterUnits="userSpaceOnUse" x="-10" y="-10" width="120" height="164" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation=".85" result="soft-shadow"/><feOffset in="soft-shadow" dy="1.4" result="offset-shadow"/><feFlood flood-color="#96acce" flood-opacity=".10"/><feComposite in2="offset-shadow" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <ellipse cx="50.0" cy="139" rx="32.0" ry="2.7" fill="url(#floor-shadow)"/><g filter="url(#object-shadow)"><g id="item-model" transform="translate(12.985075 5.223881) scale(0.925373)"><path d="M20 77 C7 87 2 107 7 121 C12 137 30 137 48 137 C68 137 77 130 77 117 C78 103 72 88 64 80Z" fill="url(#snow)"/>
 <path d="M14 53 C17 47 29 44 42 45 C56 46 69 48 72 56 C77 64 72 76 64 79 C48 84 29 82 17 77 C9 71 10 59 14 53Z" fill="url(#snow)"/>
 <ellipse cx="19" cy="68" rx="6" ry="5" fill="url(#blush)"/><ellipse cx="61" cy="68" rx="6" ry="5" fill="url(#blush)"/>
 <ellipse cx="29" cy="59" rx="3.2" ry="3" fill="#424d51"/><ellipse cx="50" cy="60" rx="3.2" ry="3" fill="#424d51"/>
@@ -21,5 +21,5 @@
 <path d="M12 47 C27 40 48 41 69 48 Q73 50 70 55 C54 48 30 47 14 52 Q9 54 12 47Z" fill="url(#scarf)"/>
 <path d="M44 16 C49 13 53 14 53 10 C54 6 50 6 49 3 C55 4 59 10 55 15 Q52 18 44 16Z" fill="url(#snow)"/>
 <circle cx="34" cy="104" r="4.4" fill="url(#button)"/><circle cx="33" cy="103" r="1.1" fill="#fff" opacity=".8"/>
-<circle cx="33" cy="121" r="4.6" fill="url(#button)"/><circle cx="32" cy="120" r="1.1" fill="#fff" opacity=".8"/></g>
+<circle cx="33" cy="121" r="4.6" fill="url(#button)"/><circle cx="32" cy="120" r="1.1" fill="#fff" opacity=".8"/></g></g>
 </svg>

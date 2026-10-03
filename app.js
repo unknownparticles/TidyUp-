@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.7.6';
+  const APP_VERSION = '1.7.7';
 
   // Bright geometric vector assets with clean shapes and soft shadows.
   const ITEMS = {
@@ -590,14 +590,22 @@
       const pitch = Math.max(plankWidth + plankGap, minPitchForLoop);
       const totalSpan = 4 * pitch;
 
-      // Item dimensions: 3 items fit snugly inside compartment with minimal gap
-      const itemWidth = Math.max(42, Math.min(84, Math.floor((compWidth - 4) / 3)));
-      const itemHeight = Math.round(itemWidth * 1.44);
+      // Cabinet, conveyor and ghost use one box, constrained by both lane
+      // width and available height. Shorter rows must not shrink only their items.
+      const cabinetHeight = cabinetWrapper ? cabinetWrapper.clientHeight * 0.298 - 4 : 96;
+      const rowEl = document.querySelector('.conveyor-row-wrapper');
+      const rowHeight = rowEl ? rowEl.clientHeight : Math.min(102, Math.max(52, (this.conveyorSectionEl.clientHeight - 6) / 3));
+      const availableHeight = Math.max(20, Math.min(cabinetHeight, rowHeight - 6, 90));
+      const itemWidth = Math.max(12, Math.min(84, Math.floor((compWidth - 4) / 3), Math.floor(availableHeight / 1.4)));
+      const itemHeight = itemWidth * 1.4;
 
       // Set CSS variables on container
       container.style.setProperty('--item-w', `${itemWidth}px`);
       container.style.setProperty('--item-h', `${itemHeight}px`);
       container.style.setProperty('--plank-w', `${plankWidth}px`);
+      // The ghost is a child of body, so it does not inherit container variables.
+      this.dragGhost.style.width = `${itemWidth}px`;
+      this.dragGhost.style.height = `${itemHeight}px`;
 
       const oldPitch = this.conveyorMetrics ? this.conveyorMetrics.pitch : pitch;
       this.conveyorMetrics = {
@@ -795,6 +803,7 @@
 
     renderBoard() {
       this.initBoardDOM();
+      this.updateLayoutMetrics();
       this.updateAllSlots();
       this.checkMatches();
       this.checkGameWinOrLoss();

@@ -6,6 +6,7 @@ Run: python3 scripts/verify_svg_assets.py
 """
 import io
 import json
+import re
 import subprocess
 import unittest
 import xml.etree.ElementTree as ET
@@ -28,7 +29,36 @@ def render(item_id, scale=4):
     return Image.open(io.BytesIO(output)).convert('RGBA')
 
 
+def model_pixel(item_id, point):
+    root = ET.parse(ITEMS / f'{item_id}.svg').getroot()
+    model = root.find('.//' + NAMESPACE + 'g[@id="item-model"]')
+    tx, ty, scale = map(float, re.findall(r'-?\d+\.\d+', model.get('transform')))
+    return tuple(round((offset + value * scale) * 4) for offset, value in zip((tx, ty), point))
+
+
 class VectorAssetRegressionTests(unittest.TestCase):
+    def test_uniform_canvas_and_visible_fitting_envelope(self):
+        for item in json.loads((ROOT / 'scripts' / 'item_catalog.json').read_text()):
+            with self.subTest(item=item['id']):
+                root = ET.parse(ITEMS / (item['id'] + '.svg')).getroot()
+                self.assertEqual(root.get('viewBox'), '0 0 100 140')
+                self.assertEqual((root.get('width'), root.get('height')), ('100', '140'))
+                # Measure the rendered artwork, excluding its transparent shadows.
+                for node in root.iter():
+                    node.attrib.pop('filter', None)
+                floor = root.find(NAMESPACE + 'ellipse')
+                root.remove(floor)
+                output = subprocess.run(['rsvg-convert', '-w', '400', '-h', '560'],
+                                        input=ET.tostring(root), capture_output=True, check=True).stdout
+                alpha = Image.open(io.BytesIO(output)).getchannel('A').point(lambda a: 255 if a > 127 else 0)
+                left, top, right, bottom = alpha.getbbox()
+                width, height = (right - left) / 4, (bottom - top) / 4
+                self.assertAlmostEqual((left + right) / 8, 50, delta=.7)
+                self.assertAlmostEqual(bottom / 4, 132, delta=.7)
+                self.assertLessEqual(width, 89)
+                self.assertLessEqual(height, 125)
+                self.assertAlmostEqual(max(width / 88, height / 124), 1, delta=.015)
+
     def test_geometry_is_simple_and_materials_are_not_blurred(self):
         for item in json.loads((ROOT / 'scripts' / 'item_catalog.json').read_text()):
             with self.subTest(item=item['id']):
@@ -74,17 +104,17 @@ class VectorAssetRegressionTests(unittest.TestCase):
         probes = {
             'blue_snowman': [(18, 66), (24, 69), (22, 73), (45, 116)],
             'panda_bear': [(48, 16), (76, 59), (82, 54), (50, 100)],
-            'polka_stocking': [(32, 16), (40, 24)],
-            'classic_milk': [(25, 18), (60, 25)],
-            'pea_bunny': [(62, 45), (73, 58)],
+            'polka_stocking': [(39, 16), (48, 24)],
+            'classic_milk': [(30, 18), (70, 25)],
+            'pea_bunny': [(60, 48), (70, 63)],
         }
         for item_id, points in probes.items():
             image = render(item_id)
             for x, y in points:
                 with self.subTest(item=item_id, point=(x, y)):
-                    self.assertGreater(image.getpixel((x * 4, y * 4))[3], 245)
+                    self.assertGreater(image.getpixel(model_pixel(item_id, (x, y)))[3], 245)
         snow = render('blue_snowman')
-        self.assertGreater(min(snow.getpixel((24 * 4, 69 * 4))[:3]), 200)
+        self.assertGreater(min(snow.getpixel(model_pixel('blue_snowman', (24, 69)))[:3]), 200)
 
     def test_coloured_silhouettes_have_no_white_matte_outline(self):
         for item_id in ['pink_gift_box', 'xmas_tree', 'lucky_clover', 'red_pouch']:
