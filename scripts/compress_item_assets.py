@@ -21,6 +21,9 @@ def main():
         path = ROOT / item['img'][2:]
         if path.suffix == '.webp':
             item['revision'] = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+            with Image.open(path) as photo:
+                left, top, right, bottom = photo.convert('RGBA').getbbox()
+                item['bounds'] = [left, top, right - left, bottom - top]
             continue
         with Image.open(path) as source:
             rgba = source.convert('RGBA')
@@ -31,6 +34,8 @@ def main():
                     raise ValueError(f'Dimensions or transparency changed: {target}')
         item['img'] = './' + target.relative_to(ROOT).as_posix()
         item['revision'] = hashlib.sha256(target.read_bytes()).hexdigest()[:12]
+        left, top, right, bottom = rgba.getbbox()
+        item['bounds'] = [left, top, right - left, bottom - top]
         originals.append(path)
 
     serialized = json.dumps(catalog, ensure_ascii=False, indent=2)

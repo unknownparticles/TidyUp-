@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.8.3';
+  const APP_VERSION = '1.8.5';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -13,7 +13,13 @@
       "archetype": "stocking",
       "colorGroup": "810",
       "img": "./assets/items/photos/item_810.webp",
-      "revision": "bd4f57b7ba00"
+      "revision": "bd4f57b7ba00",
+      "bounds": [
+        27,
+        16,
+        146,
+        248
+      ]
     },
     "item_811": {
       "id": "item_811",
@@ -21,7 +27,13 @@
       "archetype": "stocking",
       "colorGroup": "811",
       "img": "./assets/items/photos/item_811.webp",
-      "revision": "02e1675e127e"
+      "revision": "02e1675e127e",
+      "bounds": [
+        27,
+        16,
+        146,
+        248
+      ]
     },
     "item_812": {
       "id": "item_812",
@@ -29,7 +41,13 @@
       "archetype": "stocking",
       "colorGroup": "812",
       "img": "./assets/items/photos/item_812.webp",
-      "revision": "3f2f2a8b9701"
+      "revision": "3f2f2a8b9701",
+      "bounds": [
+        26,
+        16,
+        147,
+        248
+      ]
     },
     "item_813": {
       "id": "item_813",
@@ -37,7 +55,13 @@
       "archetype": "stocking",
       "colorGroup": "813",
       "img": "./assets/items/photos/item_813.webp",
-      "revision": "77e6bf0837db"
+      "revision": "77e6bf0837db",
+      "bounds": [
+        27,
+        16,
+        145,
+        248
+      ]
     },
     "item_814": {
       "id": "item_814",
@@ -45,7 +69,13 @@
       "archetype": "stocking",
       "colorGroup": "814",
       "img": "./assets/items/photos/item_814.webp",
-      "revision": "83ac9e8c5e98"
+      "revision": "83ac9e8c5e98",
+      "bounds": [
+        27,
+        16,
+        145,
+        248
+      ]
     },
     "item_815": {
       "id": "item_815",
@@ -53,7 +83,13 @@
       "archetype": "stocking",
       "colorGroup": "815",
       "img": "./assets/items/photos/item_815.webp",
-      "revision": "6dc205ac57bf"
+      "revision": "6dc205ac57bf",
+      "bounds": [
+        25,
+        16,
+        150,
+        248
+      ]
     },
     "item_816": {
       "id": "item_816",
@@ -61,7 +97,13 @@
       "archetype": "gift",
       "colorGroup": "816",
       "img": "./assets/items/photos/item_816.webp",
-      "revision": "ae975db09d62"
+      "revision": "ae975db09d62",
+      "bounds": [
+        8,
+        19,
+        184,
+        245
+      ]
     },
     "item_817": {
       "id": "item_817",
@@ -69,7 +111,13 @@
       "archetype": "gift",
       "colorGroup": "817",
       "img": "./assets/items/photos/item_817.webp",
-      "revision": "487ebc55d5ca"
+      "revision": "487ebc55d5ca",
+      "bounds": [
+        8,
+        16,
+        183,
+        248
+      ]
     },
     "item_818": {
       "id": "item_818",
@@ -77,7 +125,13 @@
       "archetype": "gift",
       "colorGroup": "818",
       "img": "./assets/items/photos/item_818.webp",
-      "revision": "5ecf21f1fccc"
+      "revision": "5ecf21f1fccc",
+      "bounds": [
+        8,
+        18,
+        184,
+        246
+      ]
     },
     "item_819": {
       "id": "item_819",
@@ -85,7 +139,13 @@
       "archetype": "gift",
       "colorGroup": "819",
       "img": "./assets/items/photos/item_819.webp",
-      "revision": "2a15f0d9d6a9"
+      "revision": "2a15f0d9d6a9",
+      "bounds": [
+        8,
+        16,
+        184,
+        248
+      ]
     },
     "item_820": {
       "id": "item_820",
@@ -93,7 +153,13 @@
       "archetype": "gift",
       "colorGroup": "820",
       "img": "./assets/items/photos/item_820.webp",
-      "revision": "124bc1e1dfdd"
+      "revision": "124bc1e1dfdd",
+      "bounds": [
+        9,
+        16,
+        182,
+        248
+      ]
     },
     "item_821": {
       "id": "item_821",
@@ -101,7 +167,13 @@
       "archetype": "gift",
       "colorGroup": "821",
       "img": "./assets/items/photos/item_821.webp",
-      "revision": "89860d0148ae"
+      "revision": "89860d0148ae",
+      "bounds": [
+        8,
+        19,
+        184,
+        245
+      ]
     },
     "item_822": {
       "id": "item_822",
@@ -109,7 +181,13 @@
       "archetype": "gift",
       "colorGroup": "822",
       "img": "./assets/items/photos/item_822.webp",
-      "revision": "5ea3ee55873b"
+      "revision": "5ea3ee55873b",
+      "bounds": [
+        8,
+        27,
+        184,
+        237
+      ]
     },
     "item_823": {
       "id": "item_823",
@@ -117,7 +195,13 @@
       "archetype": "candle",
       "colorGroup": "823",
       "img": "./assets/items/photos/item_823.webp",
-      "revision": "74f035e2421a"
+      "revision": "74f035e2421a",
+      "bounds": [
+        24,
+        16,
+        152,
+        248
+      ]
     },
     "item_824": {
       "id": "item_824",
@@ -125,7 +209,13 @@
       "archetype": "candle",
       "colorGroup": "824",
       "img": "./assets/items/photos/item_824.webp",
-      "revision": "7d5fecd4db18"
+      "revision": "7d5fecd4db18",
+      "bounds": [
+        30,
+        16,
+        139,
+        248
+      ]
     },
     "item_825": {
       "id": "item_825",
@@ -133,7 +223,13 @@
       "archetype": "candle",
       "colorGroup": "825",
       "img": "./assets/items/photos/item_825.webp",
-      "revision": "199c06a093e0"
+      "revision": "199c06a093e0",
+      "bounds": [
+        27,
+        16,
+        145,
+        248
+      ]
     },
     "item_826": {
       "id": "item_826",
@@ -141,7 +237,13 @@
       "archetype": "candle",
       "colorGroup": "826",
       "img": "./assets/items/photos/item_826.webp",
-      "revision": "206931ec644f"
+      "revision": "206931ec644f",
+      "bounds": [
+        26,
+        16,
+        147,
+        248
+      ]
     },
     "item_827": {
       "id": "item_827",
@@ -149,7 +251,13 @@
       "archetype": "cat",
       "colorGroup": "827",
       "img": "./assets/items/photos/item_827.webp",
-      "revision": "9d5f2a97c88a"
+      "revision": "9d5f2a97c88a",
+      "bounds": [
+        8,
+        16,
+        184,
+        248
+      ]
     },
     "item_828": {
       "id": "item_828",
@@ -157,7 +265,13 @@
       "archetype": "cat",
       "colorGroup": "828",
       "img": "./assets/items/photos/item_828.webp",
-      "revision": "5587615a53a1"
+      "revision": "5587615a53a1",
+      "bounds": [
+        8,
+        20,
+        184,
+        244
+      ]
     },
     "item_829": {
       "id": "item_829",
@@ -165,7 +279,13 @@
       "archetype": "cat",
       "colorGroup": "829",
       "img": "./assets/items/photos/item_829.webp",
-      "revision": "567070f12d06"
+      "revision": "567070f12d06",
+      "bounds": [
+        8,
+        17,
+        184,
+        247
+      ]
     },
     "item_830": {
       "id": "item_830",
@@ -173,7 +293,13 @@
       "archetype": "cat",
       "colorGroup": "830",
       "img": "./assets/items/photos/item_830.webp",
-      "revision": "5a0695c65d81"
+      "revision": "5a0695c65d81",
+      "bounds": [
+        9,
+        16,
+        181,
+        248
+      ]
     },
     "item_831": {
       "id": "item_831",
@@ -181,7 +307,13 @@
       "archetype": "plant",
       "colorGroup": "831",
       "img": "./assets/items/photos/item_831.webp",
-      "revision": "6da68d3b5c2c"
+      "revision": "6da68d3b5c2c",
+      "bounds": [
+        8,
+        21,
+        184,
+        243
+      ]
     },
     "item_832": {
       "id": "item_832",
@@ -189,7 +321,13 @@
       "archetype": "plant",
       "colorGroup": "832",
       "img": "./assets/items/photos/item_832.webp",
-      "revision": "c107fd7aa724"
+      "revision": "c107fd7aa724",
+      "bounds": [
+        8,
+        57,
+        184,
+        207
+      ]
     },
     "item_833": {
       "id": "item_833",
@@ -197,7 +335,13 @@
       "archetype": "plant",
       "colorGroup": "833",
       "img": "./assets/items/photos/item_833.webp",
-      "revision": "d5a27babb4eb"
+      "revision": "d5a27babb4eb",
+      "bounds": [
+        11,
+        16,
+        178,
+        248
+      ]
     },
     "item_834": {
       "id": "item_834",
@@ -205,7 +349,13 @@
       "archetype": "plant",
       "colorGroup": "834",
       "img": "./assets/items/photos/item_834.webp",
-      "revision": "9a9f6eb7d625"
+      "revision": "9a9f6eb7d625",
+      "bounds": [
+        8,
+        45,
+        184,
+        219
+      ]
     },
     "item_835": {
       "id": "item_835",
@@ -213,7 +363,13 @@
       "archetype": "plant",
       "colorGroup": "835",
       "img": "./assets/items/photos/item_835.webp",
-      "revision": "6492fa46505b"
+      "revision": "6492fa46505b",
+      "bounds": [
+        8,
+        50,
+        184,
+        214
+      ]
     },
     "item_836": {
       "id": "item_836",
@@ -221,7 +377,13 @@
       "archetype": "plant",
       "colorGroup": "836",
       "img": "./assets/items/photos/item_836.webp",
-      "revision": "49475aa14530"
+      "revision": "49475aa14530",
+      "bounds": [
+        8,
+        34,
+        184,
+        230
+      ]
     },
     "item_837": {
       "id": "item_837",
@@ -229,7 +391,13 @@
       "archetype": "plant",
       "colorGroup": "837",
       "img": "./assets/items/photos/item_837.webp",
-      "revision": "1b93b06031ff"
+      "revision": "1b93b06031ff",
+      "bounds": [
+        12,
+        16,
+        175,
+        248
+      ]
     },
     "item_838": {
       "id": "item_838",
@@ -237,7 +405,13 @@
       "archetype": "plant",
       "colorGroup": "838",
       "img": "./assets/items/photos/item_838.webp",
-      "revision": "ee66417fd067"
+      "revision": "ee66417fd067",
+      "bounds": [
+        8,
+        49,
+        184,
+        215
+      ]
     },
     "item_839": {
       "id": "item_839",
@@ -245,7 +419,13 @@
       "archetype": "plant",
       "colorGroup": "839",
       "img": "./assets/items/photos/item_839.webp",
-      "revision": "003285aa3064"
+      "revision": "003285aa3064",
+      "bounds": [
+        23,
+        16,
+        153,
+        248
+      ]
     },
     "item_840": {
       "id": "item_840",
@@ -253,7 +433,13 @@
       "archetype": "plant",
       "colorGroup": "840",
       "img": "./assets/items/photos/item_840.webp",
-      "revision": "f04c7c90a3d6"
+      "revision": "f04c7c90a3d6",
+      "bounds": [
+        22,
+        16,
+        156,
+        248
+      ]
     },
     "item_841": {
       "id": "item_841",
@@ -261,7 +447,13 @@
       "archetype": "plant",
       "colorGroup": "841",
       "img": "./assets/items/photos/item_841.webp",
-      "revision": "55fc239e27a4"
+      "revision": "55fc239e27a4",
+      "bounds": [
+        14,
+        16,
+        171,
+        248
+      ]
     },
     "item_842": {
       "id": "item_842",
@@ -269,7 +461,13 @@
       "archetype": "plant",
       "colorGroup": "842",
       "img": "./assets/items/photos/item_842.webp",
-      "revision": "e04f3643ab06"
+      "revision": "e04f3643ab06",
+      "bounds": [
+        8,
+        42,
+        184,
+        222
+      ]
     },
     "item_843": {
       "id": "item_843",
@@ -277,7 +475,13 @@
       "archetype": "plant",
       "colorGroup": "843",
       "img": "./assets/items/photos/item_843.webp",
-      "revision": "b2099867260a"
+      "revision": "b2099867260a",
+      "bounds": [
+        24,
+        16,
+        151,
+        248
+      ]
     },
     "item_845": {
       "id": "item_845",
@@ -285,7 +489,13 @@
       "archetype": "rabbit",
       "colorGroup": "845",
       "img": "./assets/items/photos/item_845.webp",
-      "revision": "daec0c443ff9"
+      "revision": "daec0c443ff9",
+      "bounds": [
+        8,
+        39,
+        184,
+        225
+      ]
     },
     "item_846": {
       "id": "item_846",
@@ -293,7 +503,13 @@
       "archetype": "rabbit",
       "colorGroup": "846",
       "img": "./assets/items/photos/item_846.webp",
-      "revision": "974ae0dca265"
+      "revision": "974ae0dca265",
+      "bounds": [
+        8,
+        24,
+        184,
+        240
+      ]
     },
     "item_847": {
       "id": "item_847",
@@ -301,7 +517,13 @@
       "archetype": "rabbit",
       "colorGroup": "847",
       "img": "./assets/items/photos/item_847.webp",
-      "revision": "5f7d4e330b86"
+      "revision": "5f7d4e330b86",
+      "bounds": [
+        21,
+        16,
+        158,
+        248
+      ]
     },
     "item_848": {
       "id": "item_848",
@@ -309,7 +531,13 @@
       "archetype": "bear",
       "colorGroup": "848",
       "img": "./assets/items/photos/item_848.webp",
-      "revision": "a586d48dc62c"
+      "revision": "a586d48dc62c",
+      "bounds": [
+        8,
+        41,
+        184,
+        223
+      ]
     },
     "item_849": {
       "id": "item_849",
@@ -317,7 +545,13 @@
       "archetype": "bear",
       "colorGroup": "849",
       "img": "./assets/items/photos/item_849.webp",
-      "revision": "e296ca32d869"
+      "revision": "e296ca32d869",
+      "bounds": [
+        8,
+        43,
+        184,
+        221
+      ]
     },
     "item_850": {
       "id": "item_850",
@@ -325,7 +559,13 @@
       "archetype": "bear",
       "colorGroup": "850",
       "img": "./assets/items/photos/item_850.webp",
-      "revision": "2e7c75e854d3"
+      "revision": "2e7c75e854d3",
+      "bounds": [
+        8,
+        36,
+        184,
+        228
+      ]
     },
     "item_851": {
       "id": "item_851",
@@ -333,7 +573,13 @@
       "archetype": "bear",
       "colorGroup": "851",
       "img": "./assets/items/photos/item_851.webp",
-      "revision": "c8c98408b965"
+      "revision": "c8c98408b965",
+      "bounds": [
+        8,
+        43,
+        184,
+        221
+      ]
     },
     "item_852": {
       "id": "item_852",
@@ -341,7 +587,13 @@
       "archetype": "bear",
       "colorGroup": "852",
       "img": "./assets/items/photos/item_852.webp",
-      "revision": "c570bb9d8719"
+      "revision": "c570bb9d8719",
+      "bounds": [
+        8,
+        46,
+        184,
+        218
+      ]
     },
     "item_853": {
       "id": "item_853",
@@ -349,7 +601,13 @@
       "archetype": "bear",
       "colorGroup": "853",
       "img": "./assets/items/photos/item_853.webp",
-      "revision": "f10c76cdb2f9"
+      "revision": "f10c76cdb2f9",
+      "bounds": [
+        8,
+        45,
+        184,
+        219
+      ]
     },
     "item_854": {
       "id": "item_854",
@@ -357,7 +615,13 @@
       "archetype": "bear",
       "colorGroup": "854",
       "img": "./assets/items/photos/item_854.webp",
-      "revision": "8884c58a0bde"
+      "revision": "8884c58a0bde",
+      "bounds": [
+        8,
+        42,
+        184,
+        222
+      ]
     },
     "item_855": {
       "id": "item_855",
@@ -365,7 +629,13 @@
       "archetype": "bear",
       "colorGroup": "855",
       "img": "./assets/items/photos/item_855.webp",
-      "revision": "e10345ac8c26"
+      "revision": "e10345ac8c26",
+      "bounds": [
+        8,
+        43,
+        184,
+        221
+      ]
     },
     "item_856": {
       "id": "item_856",
@@ -373,7 +643,13 @@
       "archetype": "carton",
       "colorGroup": "856",
       "img": "./assets/items/photos/item_856.webp",
-      "revision": "9eb866b78dca"
+      "revision": "9eb866b78dca",
+      "bounds": [
+        26,
+        16,
+        148,
+        248
+      ]
     },
     "item_857": {
       "id": "item_857",
@@ -381,7 +657,13 @@
       "archetype": "carton",
       "colorGroup": "857",
       "img": "./assets/items/photos/item_857.webp",
-      "revision": "44592e0ffbce"
+      "revision": "44592e0ffbce",
+      "bounds": [
+        25,
+        16,
+        149,
+        248
+      ]
     },
     "item_858": {
       "id": "item_858",
@@ -389,7 +671,13 @@
       "archetype": "carton",
       "colorGroup": "858",
       "img": "./assets/items/photos/item_858.webp",
-      "revision": "e79da15a5710"
+      "revision": "e79da15a5710",
+      "bounds": [
+        25,
+        16,
+        149,
+        248
+      ]
     },
     "item_859": {
       "id": "item_859",
@@ -397,7 +685,13 @@
       "archetype": "carton",
       "colorGroup": "859",
       "img": "./assets/items/photos/item_859.webp",
-      "revision": "a4c1a31ebdca"
+      "revision": "a4c1a31ebdca",
+      "bounds": [
+        26,
+        16,
+        148,
+        248
+      ]
     },
     "item_860": {
       "id": "item_860",
@@ -405,7 +699,13 @@
       "archetype": "snack",
       "colorGroup": "860",
       "img": "./assets/items/photos/item_860.webp",
-      "revision": "74f52ad45c20"
+      "revision": "74f52ad45c20",
+      "bounds": [
+        8,
+        16,
+        183,
+        248
+      ]
     },
     "item_861": {
       "id": "item_861",
@@ -413,7 +713,13 @@
       "archetype": "snack",
       "colorGroup": "861",
       "img": "./assets/items/photos/item_861.webp",
-      "revision": "bfa59fc99549"
+      "revision": "bfa59fc99549",
+      "bounds": [
+        10,
+        16,
+        179,
+        248
+      ]
     },
     "item_862": {
       "id": "item_862",
@@ -421,7 +727,13 @@
       "archetype": "snack",
       "colorGroup": "862",
       "img": "./assets/items/photos/item_862.webp",
-      "revision": "50e3afb2bdf0"
+      "revision": "50e3afb2bdf0",
+      "bounds": [
+        10,
+        16,
+        180,
+        248
+      ]
     },
     "item_863": {
       "id": "item_863",
@@ -429,7 +741,13 @@
       "archetype": "snack",
       "colorGroup": "863",
       "img": "./assets/items/photos/item_863.webp",
-      "revision": "3c8c1752d94d"
+      "revision": "3c8c1752d94d",
+      "bounds": [
+        9,
+        16,
+        181,
+        248
+      ]
     },
     "item_864": {
       "id": "item_864",
@@ -437,7 +755,13 @@
       "archetype": "snack",
       "colorGroup": "864",
       "img": "./assets/items/photos/item_864.webp",
-      "revision": "bd51b6f88f1c"
+      "revision": "bd51b6f88f1c",
+      "bounds": [
+        9,
+        16,
+        181,
+        248
+      ]
     },
     "item_865": {
       "id": "item_865",
@@ -445,7 +769,13 @@
       "archetype": "carton",
       "colorGroup": "865",
       "img": "./assets/items/photos/item_865.webp",
-      "revision": "e73583991b65"
+      "revision": "e73583991b65",
+      "bounds": [
+        14,
+        16,
+        172,
+        248
+      ]
     },
     "item_866": {
       "id": "item_866",
@@ -453,7 +783,13 @@
       "archetype": "carton",
       "colorGroup": "866",
       "img": "./assets/items/photos/item_866.webp",
-      "revision": "4125c0de3a3d"
+      "revision": "4125c0de3a3d",
+      "bounds": [
+        17,
+        16,
+        165,
+        248
+      ]
     },
     "item_867": {
       "id": "item_867",
@@ -461,7 +797,13 @@
       "archetype": "carton",
       "colorGroup": "867",
       "img": "./assets/items/photos/item_867.webp",
-      "revision": "a3ac3d3c3734"
+      "revision": "a3ac3d3c3734",
+      "bounds": [
+        17,
+        16,
+        165,
+        248
+      ]
     },
     "item_869": {
       "id": "item_869",
@@ -469,7 +811,13 @@
       "archetype": "snack",
       "colorGroup": "869",
       "img": "./assets/items/photos/item_869.webp",
-      "revision": "6a0652c58279"
+      "revision": "6a0652c58279",
+      "bounds": [
+        8,
+        34,
+        184,
+        230
+      ]
     },
     "item_870": {
       "id": "item_870",
@@ -477,7 +825,13 @@
       "archetype": "snack",
       "colorGroup": "870",
       "img": "./assets/items/photos/item_870.webp",
-      "revision": "f03ea0c8955b"
+      "revision": "f03ea0c8955b",
+      "bounds": [
+        8,
+        33,
+        184,
+        231
+      ]
     },
     "item_871": {
       "id": "item_871",
@@ -485,7 +839,13 @@
       "archetype": "snack",
       "colorGroup": "871",
       "img": "./assets/items/photos/item_871.webp",
-      "revision": "a64c97fb84fd"
+      "revision": "a64c97fb84fd",
+      "bounds": [
+        8,
+        35,
+        184,
+        229
+      ]
     },
     "item_872": {
       "id": "item_872",
@@ -493,7 +853,13 @@
       "archetype": "carton",
       "colorGroup": "872",
       "img": "./assets/items/photos/item_872.webp",
-      "revision": "a248da7a8870"
+      "revision": "a248da7a8870",
+      "bounds": [
+        10,
+        16,
+        179,
+        248
+      ]
     },
     "item_873": {
       "id": "item_873",
@@ -501,7 +867,13 @@
       "archetype": "carton",
       "colorGroup": "873",
       "img": "./assets/items/photos/item_873.webp",
-      "revision": "c3e3834cd3b6"
+      "revision": "c3e3834cd3b6",
+      "bounds": [
+        11,
+        16,
+        178,
+        248
+      ]
     },
     "item_874": {
       "id": "item_874",
@@ -509,7 +881,13 @@
       "archetype": "carton",
       "colorGroup": "874",
       "img": "./assets/items/photos/item_874.webp",
-      "revision": "90b53b76b2ce"
+      "revision": "90b53b76b2ce",
+      "bounds": [
+        11,
+        16,
+        178,
+        248
+      ]
     },
     "item_875": {
       "id": "item_875",
@@ -517,7 +895,13 @@
       "archetype": "carton",
       "colorGroup": "875",
       "img": "./assets/items/photos/item_875.webp",
-      "revision": "d97a83d8aaa6"
+      "revision": "d97a83d8aaa6",
+      "bounds": [
+        12,
+        16,
+        176,
+        248
+      ]
     },
     "item_876": {
       "id": "item_876",
@@ -525,7 +909,13 @@
       "archetype": "snack",
       "colorGroup": "876",
       "img": "./assets/items/photos/item_876.webp",
-      "revision": "4755b6b73def"
+      "revision": "4755b6b73def",
+      "bounds": [
+        8,
+        26,
+        184,
+        238
+      ]
     },
     "item_878": {
       "id": "item_878",
@@ -533,7 +923,13 @@
       "archetype": "snack",
       "colorGroup": "878",
       "img": "./assets/items/photos/item_878.webp",
-      "revision": "4f22b8130b2a"
+      "revision": "4f22b8130b2a",
+      "bounds": [
+        8,
+        28,
+        184,
+        236
+      ]
     },
     "item_879": {
       "id": "item_879",
@@ -541,7 +937,13 @@
       "archetype": "snack",
       "colorGroup": "879",
       "img": "./assets/items/photos/item_879.webp",
-      "revision": "e83d20383b64"
+      "revision": "e83d20383b64",
+      "bounds": [
+        12,
+        16,
+        175,
+        248
+      ]
     },
     "item_880": {
       "id": "item_880",
@@ -549,7 +951,13 @@
       "archetype": "snack",
       "colorGroup": "880",
       "img": "./assets/items/photos/item_880.webp",
-      "revision": "4d2a16ad61fe"
+      "revision": "4d2a16ad61fe",
+      "bounds": [
+        12,
+        16,
+        175,
+        248
+      ]
     },
     "item_881": {
       "id": "item_881",
@@ -557,7 +965,13 @@
       "archetype": "bottle",
       "colorGroup": "881",
       "img": "./assets/items/photos/item_881.webp",
-      "revision": "12f19f159d0c"
+      "revision": "12f19f159d0c",
+      "bounds": [
+        64,
+        16,
+        72,
+        248
+      ]
     },
     "item_882": {
       "id": "item_882",
@@ -565,7 +979,13 @@
       "archetype": "bottle",
       "colorGroup": "882",
       "img": "./assets/items/photos/item_882.webp",
-      "revision": "0c354b194a55"
+      "revision": "0c354b194a55",
+      "bounds": [
+        64,
+        16,
+        72,
+        248
+      ]
     },
     "item_883": {
       "id": "item_883",
@@ -573,7 +993,13 @@
       "archetype": "bottle",
       "colorGroup": "883",
       "img": "./assets/items/photos/item_883.webp",
-      "revision": "fe05c7269c19"
+      "revision": "fe05c7269c19",
+      "bounds": [
+        64,
+        16,
+        71,
+        248
+      ]
     },
     "item_884": {
       "id": "item_884",
@@ -581,7 +1007,13 @@
       "archetype": "bottle",
       "colorGroup": "884",
       "img": "./assets/items/photos/item_884.webp",
-      "revision": "d87b9b0f2ff3"
+      "revision": "d87b9b0f2ff3",
+      "bounds": [
+        63,
+        16,
+        73,
+        248
+      ]
     },
     "item_885": {
       "id": "item_885",
@@ -589,7 +1021,13 @@
       "archetype": "bottle",
       "colorGroup": "885",
       "img": "./assets/items/photos/item_885.webp",
-      "revision": "a3178b82f858"
+      "revision": "a3178b82f858",
+      "bounds": [
+        15,
+        16,
+        169,
+        248
+      ]
     },
     "item_886": {
       "id": "item_886",
@@ -597,7 +1035,13 @@
       "archetype": "bottle",
       "colorGroup": "886",
       "img": "./assets/items/photos/item_886.webp",
-      "revision": "9c0ec53170cd"
+      "revision": "9c0ec53170cd",
+      "bounds": [
+        18,
+        16,
+        163,
+        248
+      ]
     },
     "item_887": {
       "id": "item_887",
@@ -605,7 +1049,13 @@
       "archetype": "bottle",
       "colorGroup": "887",
       "img": "./assets/items/photos/item_887.webp",
-      "revision": "980c98845d29"
+      "revision": "980c98845d29",
+      "bounds": [
+        10,
+        16,
+        180,
+        248
+      ]
     },
     "item_889": {
       "id": "item_889",
@@ -613,7 +1063,13 @@
       "archetype": "bottle",
       "colorGroup": "889",
       "img": "./assets/items/photos/item_889.webp",
-      "revision": "c504fbbde8f0"
+      "revision": "c504fbbde8f0",
+      "bounds": [
+        60,
+        16,
+        80,
+        248
+      ]
     },
     "item_890": {
       "id": "item_890",
@@ -621,7 +1077,13 @@
       "archetype": "bottle",
       "colorGroup": "890",
       "img": "./assets/items/photos/item_890.webp",
-      "revision": "12f222928803"
+      "revision": "12f222928803",
+      "bounds": [
+        60,
+        16,
+        80,
+        248
+      ]
     },
     "item_891": {
       "id": "item_891",
@@ -629,7 +1091,13 @@
       "archetype": "bottle",
       "colorGroup": "891",
       "img": "./assets/items/photos/item_891.webp",
-      "revision": "9ea3dd0dd931"
+      "revision": "9ea3dd0dd931",
+      "bounds": [
+        60,
+        16,
+        80,
+        248
+      ]
     },
     "item_892": {
       "id": "item_892",
@@ -637,7 +1105,13 @@
       "archetype": "bottle",
       "colorGroup": "892",
       "img": "./assets/items/photos/item_892.webp",
-      "revision": "a0bcaef3b9fb"
+      "revision": "a0bcaef3b9fb",
+      "bounds": [
+        58,
+        16,
+        83,
+        248
+      ]
     },
     "item_893": {
       "id": "item_893",
@@ -645,7 +1119,13 @@
       "archetype": "stocking",
       "colorGroup": "893",
       "img": "./assets/items/photos/item_893.webp",
-      "revision": "015fd37cf753"
+      "revision": "015fd37cf753",
+      "bounds": [
+        41,
+        16,
+        118,
+        248
+      ]
     },
     "item_894": {
       "id": "item_894",
@@ -653,7 +1133,13 @@
       "archetype": "stocking",
       "colorGroup": "894",
       "img": "./assets/items/photos/item_894.webp",
-      "revision": "81f4afd34b89"
+      "revision": "81f4afd34b89",
+      "bounds": [
+        43,
+        16,
+        114,
+        248
+      ]
     },
     "item_895": {
       "id": "item_895",
@@ -661,7 +1147,13 @@
       "archetype": "lamp",
       "colorGroup": "895",
       "img": "./assets/items/photos/item_895.webp",
-      "revision": "acd1eef63f8a"
+      "revision": "acd1eef63f8a",
+      "bounds": [
+        8,
+        21,
+        184,
+        243
+      ]
     },
     "item_896": {
       "id": "item_896",
@@ -669,7 +1161,13 @@
       "archetype": "drink",
       "colorGroup": "896",
       "img": "./assets/items/photos/item_896.webp",
-      "revision": "541cfb37e433"
+      "revision": "541cfb37e433",
+      "bounds": [
+        12,
+        16,
+        175,
+        248
+      ]
     },
     "item_897": {
       "id": "item_897",
@@ -677,7 +1175,13 @@
       "archetype": "calculator",
       "colorGroup": "897",
       "img": "./assets/items/photos/item_897.webp",
-      "revision": "27a893369c3c"
+      "revision": "27a893369c3c",
+      "bounds": [
+        8,
+        42,
+        184,
+        222
+      ]
     },
     "item_898": {
       "id": "item_898",
@@ -685,7 +1189,13 @@
       "archetype": "coffee_maker",
       "colorGroup": "898",
       "img": "./assets/items/photos/item_898.webp",
-      "revision": "e0e401fd5697"
+      "revision": "e0e401fd5697",
+      "bounds": [
+        15,
+        16,
+        170,
+        248
+      ]
     },
     "item_899": {
       "id": "item_899",
@@ -693,7 +1203,13 @@
       "archetype": "coffee_maker",
       "colorGroup": "899",
       "img": "./assets/items/photos/item_899.webp",
-      "revision": "adb3e18bab89"
+      "revision": "adb3e18bab89",
+      "bounds": [
+        15,
+        16,
+        170,
+        248
+      ]
     },
     "item_900": {
       "id": "item_900",
@@ -701,7 +1217,13 @@
       "archetype": "bowling",
       "colorGroup": "900",
       "img": "./assets/items/photos/item_900.webp",
-      "revision": "093facba25ee"
+      "revision": "093facba25ee",
+      "bounds": [
+        16,
+        16,
+        168,
+        248
+      ]
     },
     "item_901": {
       "id": "item_901",
@@ -709,7 +1231,13 @@
       "archetype": "racket",
       "colorGroup": "901",
       "img": "./assets/items/photos/item_901.webp",
-      "revision": "0f7e17e14089"
+      "revision": "0f7e17e14089",
+      "bounds": [
+        39,
+        16,
+        121,
+        248
+      ]
     },
     "item_902": {
       "id": "item_902",
@@ -717,7 +1245,13 @@
       "archetype": "flask",
       "colorGroup": "902",
       "img": "./assets/items/photos/item_902.webp",
-      "revision": "5ebd4772ffb2"
+      "revision": "5ebd4772ffb2",
+      "bounds": [
+        27,
+        16,
+        145,
+        248
+      ]
     },
     "item_905": {
       "id": "item_905",
@@ -725,7 +1259,13 @@
       "archetype": "bin",
       "colorGroup": "905",
       "img": "./assets/items/photos/item_905.webp",
-      "revision": "b382c3543273"
+      "revision": "b382c3543273",
+      "bounds": [
+        9,
+        16,
+        181,
+        248
+      ]
     },
     "item_906": {
       "id": "item_906",
@@ -733,7 +1273,13 @@
       "archetype": "bin",
       "colorGroup": "906",
       "img": "./assets/items/photos/item_906.webp",
-      "revision": "b7086e5eba08"
+      "revision": "b7086e5eba08",
+      "bounds": [
+        9,
+        16,
+        181,
+        248
+      ]
     },
     "item_907": {
       "id": "item_907",
@@ -741,7 +1287,13 @@
       "archetype": "brush",
       "colorGroup": "907",
       "img": "./assets/items/photos/item_907.webp",
-      "revision": "60323b948006"
+      "revision": "60323b948006",
+      "bounds": [
+        8,
+        42,
+        184,
+        222
+      ]
     },
     "item_908": {
       "id": "item_908",
@@ -749,7 +1301,13 @@
       "archetype": "cleaner",
       "colorGroup": "908",
       "img": "./assets/items/photos/item_908.webp",
-      "revision": "e12281e9829a"
+      "revision": "e12281e9829a",
+      "bounds": [
+        33,
+        16,
+        133,
+        248
+      ]
     },
     "item_909": {
       "id": "item_909",
@@ -757,7 +1315,13 @@
       "archetype": "cleaner",
       "colorGroup": "909",
       "img": "./assets/items/photos/item_909.webp",
-      "revision": "ccd625ff3705"
+      "revision": "ccd625ff3705",
+      "bounds": [
+        16,
+        16,
+        167,
+        248
+      ]
     },
     "item_910": {
       "id": "item_910",
@@ -765,7 +1329,13 @@
       "archetype": "cleaner",
       "colorGroup": "910",
       "img": "./assets/items/photos/item_910.webp",
-      "revision": "3179b955553a"
+      "revision": "3179b955553a",
+      "bounds": [
+        12,
+        16,
+        176,
+        248
+      ]
     },
     "item_911": {
       "id": "item_911",
@@ -773,7 +1343,13 @@
       "archetype": "cleaner",
       "colorGroup": "911",
       "img": "./assets/items/photos/item_911.webp",
-      "revision": "f513384697fa"
+      "revision": "f513384697fa",
+      "bounds": [
+        8,
+        19,
+        184,
+        245
+      ]
     },
     "item_912": {
       "id": "item_912",
@@ -781,7 +1357,13 @@
       "archetype": "toothbrush_cup",
       "colorGroup": "912",
       "img": "./assets/items/photos/item_912.webp",
-      "revision": "c86e0969168f"
+      "revision": "c86e0969168f",
+      "bounds": [
+        8,
+        22,
+        184,
+        242
+      ]
     },
     "item_913": {
       "id": "item_913",
@@ -789,7 +1371,13 @@
       "archetype": "toothbrush_cup",
       "colorGroup": "913",
       "img": "./assets/items/photos/item_913.webp",
-      "revision": "ed1f1cb17c93"
+      "revision": "ed1f1cb17c93",
+      "bounds": [
+        8,
+        21,
+        184,
+        243
+      ]
     },
     "item_914": {
       "id": "item_914",
@@ -797,7 +1385,13 @@
       "archetype": "dryer",
       "colorGroup": "914",
       "img": "./assets/items/photos/item_914.webp",
-      "revision": "d0f81e8bbfb6"
+      "revision": "d0f81e8bbfb6",
+      "bounds": [
+        8,
+        37,
+        184,
+        227
+      ]
     },
     "item_915": {
       "id": "item_915",
@@ -805,7 +1399,13 @@
       "archetype": "dryer",
       "colorGroup": "915",
       "img": "./assets/items/photos/item_915.webp",
-      "revision": "7cc2f6311b92"
+      "revision": "7cc2f6311b92",
+      "bounds": [
+        8,
+        37,
+        184,
+        227
+      ]
     },
     "item_916": {
       "id": "item_916",
@@ -813,7 +1413,13 @@
       "archetype": "vacuum",
       "colorGroup": "916",
       "img": "./assets/items/photos/item_916.webp",
-      "revision": "0ce892a48bff"
+      "revision": "0ce892a48bff",
+      "bounds": [
+        8,
+        69,
+        184,
+        195
+      ]
     },
     "item_917": {
       "id": "item_917",
@@ -821,7 +1427,13 @@
       "archetype": "vacuum",
       "colorGroup": "917",
       "img": "./assets/items/photos/item_917.webp",
-      "revision": "766ddbf00610"
+      "revision": "766ddbf00610",
+      "bounds": [
+        8,
+        68,
+        184,
+        196
+      ]
     },
     "item_918": {
       "id": "item_918",
@@ -829,7 +1441,13 @@
       "archetype": "tree",
       "colorGroup": "918",
       "img": "./assets/items/photos/item_918.webp",
-      "revision": "c4b97ea09321"
+      "revision": "c4b97ea09321",
+      "bounds": [
+        10,
+        16,
+        179,
+        248
+      ]
     },
     "item_919": {
       "id": "item_919",
@@ -837,7 +1455,13 @@
       "archetype": "lantern",
       "colorGroup": "919",
       "img": "./assets/items/photos/item_919.webp",
-      "revision": "5eea2f62e8aa"
+      "revision": "5eea2f62e8aa",
+      "bounds": [
+        8,
+        21,
+        184,
+        243
+      ]
     },
     "item_920": {
       "id": "item_920",
@@ -845,7 +1469,13 @@
       "archetype": "lantern",
       "colorGroup": "920",
       "img": "./assets/items/photos/item_920.webp",
-      "revision": "91d442fad80c"
+      "revision": "91d442fad80c",
+      "bounds": [
+        8,
+        22,
+        184,
+        242
+      ]
     },
     "item_921": {
       "id": "item_921",
@@ -853,7 +1483,13 @@
       "archetype": "lantern",
       "colorGroup": "921",
       "img": "./assets/items/photos/item_921.webp",
-      "revision": "8539b930b5e4"
+      "revision": "8539b930b5e4",
+      "bounds": [
+        8,
+        22,
+        184,
+        242
+      ]
     },
     "item_922": {
       "id": "item_922",
@@ -861,7 +1497,13 @@
       "archetype": "wreath",
       "colorGroup": "922",
       "img": "./assets/items/photos/item_922.webp",
-      "revision": "7dc56ec60f30"
+      "revision": "7dc56ec60f30",
+      "bounds": [
+        8,
+        77,
+        184,
+        187
+      ]
     },
     "item_923": {
       "id": "item_923",
@@ -869,7 +1511,13 @@
       "archetype": "wreath",
       "colorGroup": "923",
       "img": "./assets/items/photos/item_923.webp",
-      "revision": "6f34e1cb9364"
+      "revision": "6f34e1cb9364",
+      "bounds": [
+        8,
+        78,
+        184,
+        186
+      ]
     },
     "item_924": {
       "id": "item_924",
@@ -877,7 +1525,13 @@
       "archetype": "wreath",
       "colorGroup": "924",
       "img": "./assets/items/photos/item_924.webp",
-      "revision": "bc30fe384d7e"
+      "revision": "bc30fe384d7e",
+      "bounds": [
+        8,
+        78,
+        184,
+        186
+      ]
     },
     "item_925": {
       "id": "item_925",
@@ -885,7 +1539,13 @@
       "archetype": "wreath",
       "colorGroup": "925",
       "img": "./assets/items/photos/item_925.webp",
-      "revision": "d2396d9dfc6e"
+      "revision": "d2396d9dfc6e",
+      "bounds": [
+        8,
+        82,
+        184,
+        182
+      ]
     },
     "item_926": {
       "id": "item_926",
@@ -893,7 +1553,13 @@
       "archetype": "pouch",
       "colorGroup": "926",
       "img": "./assets/items/photos/item_926.webp",
-      "revision": "8621af0c4d3e"
+      "revision": "8621af0c4d3e",
+      "bounds": [
+        8,
+        52,
+        184,
+        212
+      ]
     },
     "item_927": {
       "id": "item_927",
@@ -901,7 +1567,13 @@
       "archetype": "pouch",
       "colorGroup": "927",
       "img": "./assets/items/photos/item_927.webp",
-      "revision": "a19233182095"
+      "revision": "a19233182095",
+      "bounds": [
+        8,
+        48,
+        184,
+        216
+      ]
     },
     "item_928": {
       "id": "item_928",
@@ -909,7 +1581,13 @@
       "archetype": "party_popper",
       "colorGroup": "928",
       "img": "./assets/items/photos/item_928.webp",
-      "revision": "6b6ee8cbabdf"
+      "revision": "6b6ee8cbabdf",
+      "bounds": [
+        8,
+        48,
+        184,
+        216
+      ]
     },
     "item_929": {
       "id": "item_929",
@@ -917,7 +1595,13 @@
       "archetype": "party_popper",
       "colorGroup": "929",
       "img": "./assets/items/photos/item_929.webp",
-      "revision": "2958057de29b"
+      "revision": "2958057de29b",
+      "bounds": [
+        8,
+        62,
+        184,
+        202
+      ]
     },
     "item_930": {
       "id": "item_930",
@@ -925,7 +1609,13 @@
       "archetype": "gift",
       "colorGroup": "930",
       "img": "./assets/items/photos/item_930.webp",
-      "revision": "a36b607eee60"
+      "revision": "a36b607eee60",
+      "bounds": [
+        8,
+        74,
+        184,
+        190
+      ]
     },
     "item_931": {
       "id": "item_931",
@@ -933,7 +1623,13 @@
       "archetype": "gift",
       "colorGroup": "931",
       "img": "./assets/items/photos/item_931.webp",
-      "revision": "7d081665b093"
+      "revision": "7d081665b093",
+      "bounds": [
+        8,
+        74,
+        184,
+        190
+      ]
     },
     "item_932": {
       "id": "item_932",
@@ -941,7 +1637,13 @@
       "archetype": "shoe",
       "colorGroup": "932",
       "img": "./assets/items/photos/item_932.webp",
-      "revision": "c74afdc07736"
+      "revision": "c74afdc07736",
+      "bounds": [
+        8,
+        38,
+        184,
+        226
+      ]
     },
     "item_933": {
       "id": "item_933",
@@ -949,7 +1651,13 @@
       "archetype": "shoe",
       "colorGroup": "933",
       "img": "./assets/items/photos/item_933.webp",
-      "revision": "d9e285ba6bb2"
+      "revision": "d9e285ba6bb2",
+      "bounds": [
+        8,
+        36,
+        184,
+        228
+      ]
     },
     "item_934": {
       "id": "item_934",
@@ -957,7 +1665,13 @@
       "archetype": "scarf",
       "colorGroup": "934",
       "img": "./assets/items/photos/item_934.webp",
-      "revision": "8bc5ec8da6f2"
+      "revision": "8bc5ec8da6f2",
+      "bounds": [
+        8,
+        31,
+        184,
+        233
+      ]
     },
     "item_935": {
       "id": "item_935",
@@ -965,7 +1679,13 @@
       "archetype": "scarf",
       "colorGroup": "935",
       "img": "./assets/items/photos/item_935.webp",
-      "revision": "b88143c7fecf"
+      "revision": "b88143c7fecf",
+      "bounds": [
+        8,
+        29,
+        184,
+        235
+      ]
     },
     "item_936": {
       "id": "item_936",
@@ -973,7 +1693,13 @@
       "archetype": "scarf",
       "colorGroup": "936",
       "img": "./assets/items/photos/item_936.webp",
-      "revision": "cb423ea560cf"
+      "revision": "cb423ea560cf",
+      "bounds": [
+        8,
+        30,
+        184,
+        234
+      ]
     },
     "item_937": {
       "id": "item_937",
@@ -981,7 +1707,13 @@
       "archetype": "handbag",
       "colorGroup": "937",
       "img": "./assets/items/photos/item_937.webp",
-      "revision": "e3a7582e2cbd"
+      "revision": "e3a7582e2cbd",
+      "bounds": [
+        8,
+        44,
+        184,
+        220
+      ]
     },
     "item_938": {
       "id": "item_938",
@@ -989,7 +1721,13 @@
       "archetype": "handbag",
       "colorGroup": "938",
       "img": "./assets/items/photos/item_938.webp",
-      "revision": "ed54420093d8"
+      "revision": "ed54420093d8",
+      "bounds": [
+        8,
+        43,
+        184,
+        221
+      ]
     },
     "item_939": {
       "id": "item_939",
@@ -997,7 +1735,13 @@
       "archetype": "perfume",
       "colorGroup": "939",
       "img": "./assets/items/photos/item_939.webp",
-      "revision": "154ea4d106e0"
+      "revision": "154ea4d106e0",
+      "bounds": [
+        17,
+        16,
+        165,
+        248
+      ]
     },
     "item_940": {
       "id": "item_940",
@@ -1005,7 +1749,13 @@
       "archetype": "perfume",
       "colorGroup": "940",
       "img": "./assets/items/photos/item_940.webp",
-      "revision": "07f67074cc78"
+      "revision": "07f67074cc78",
+      "bounds": [
+        17,
+        16,
+        165,
+        248
+      ]
     },
     "item_941": {
       "id": "item_941",
@@ -1013,7 +1763,13 @@
       "archetype": "backpack",
       "colorGroup": "941",
       "img": "./assets/items/photos/item_941.webp",
-      "revision": "7a7c31d7897b"
+      "revision": "7a7c31d7897b",
+      "bounds": [
+        8,
+        27,
+        184,
+        237
+      ]
     },
     "item_942": {
       "id": "item_942",
@@ -1021,7 +1777,13 @@
       "archetype": "backpack",
       "colorGroup": "942",
       "img": "./assets/items/photos/item_942.webp",
-      "revision": "32349af939d5"
+      "revision": "32349af939d5",
+      "bounds": [
+        8,
+        26,
+        184,
+        238
+      ]
     },
     "item_943": {
       "id": "item_943",
@@ -1029,7 +1791,13 @@
       "archetype": "scooter",
       "colorGroup": "943",
       "img": "./assets/items/photos/item_943.webp",
-      "revision": "f8389ec0102c"
+      "revision": "f8389ec0102c",
+      "bounds": [
+        8,
+        80,
+        184,
+        184
+      ]
     },
     "item_944": {
       "id": "item_944",
@@ -1037,7 +1805,13 @@
       "archetype": "scooter",
       "colorGroup": "944",
       "img": "./assets/items/photos/item_944.webp",
-      "revision": "8c51aa548b06"
+      "revision": "8c51aa548b06",
+      "bounds": [
+        8,
+        80,
+        184,
+        184
+      ]
     },
     "item_945": {
       "id": "item_945",
@@ -1045,7 +1819,13 @@
       "archetype": "skateboard",
       "colorGroup": "945",
       "img": "./assets/items/photos/item_945.webp",
-      "revision": "4760c70f35fc"
+      "revision": "4760c70f35fc",
+      "bounds": [
+        14,
+        16,
+        172,
+        248
+      ]
     },
     "item_946": {
       "id": "item_946",
@@ -1053,7 +1833,13 @@
       "archetype": "balloon",
       "colorGroup": "946",
       "img": "./assets/items/photos/item_946.webp",
-      "revision": "865ec729cfb2"
+      "revision": "865ec729cfb2",
+      "bounds": [
+        18,
+        16,
+        163,
+        248
+      ]
     },
     "item_947": {
       "id": "item_947",
@@ -1061,7 +1847,13 @@
       "archetype": "balloon",
       "colorGroup": "947",
       "img": "./assets/items/photos/item_947.webp",
-      "revision": "1bc79a2149d9"
+      "revision": "1bc79a2149d9",
+      "bounds": [
+        18,
+        16,
+        163,
+        248
+      ]
     },
     "item_948": {
       "id": "item_948",
@@ -1069,7 +1861,13 @@
       "archetype": "balloon",
       "colorGroup": "948",
       "img": "./assets/items/photos/item_948.webp",
-      "revision": "8573549f7b9d"
+      "revision": "8573549f7b9d",
+      "bounds": [
+        18,
+        16,
+        163,
+        248
+      ]
     },
     "item_949": {
       "id": "item_949",
@@ -1077,7 +1875,13 @@
       "archetype": "train",
       "colorGroup": "949",
       "img": "./assets/items/photos/item_949.webp",
-      "revision": "26891fb5b78d"
+      "revision": "26891fb5b78d",
+      "bounds": [
+        8,
+        39,
+        184,
+        225
+      ]
     },
     "item_951": {
       "id": "item_951",
@@ -1085,7 +1889,13 @@
       "archetype": "notebook",
       "colorGroup": "951",
       "img": "./assets/items/photos/item_951.webp",
-      "revision": "05c01bd5fc34"
+      "revision": "05c01bd5fc34",
+      "bounds": [
+        8,
+        22,
+        184,
+        242
+      ]
     },
     "item_952": {
       "id": "item_952",
@@ -1093,7 +1903,13 @@
       "archetype": "calculator",
       "colorGroup": "952",
       "img": "./assets/items/photos/item_952.webp",
-      "revision": "dc2e21f2394d"
+      "revision": "dc2e21f2394d",
+      "bounds": [
+        8,
+        43,
+        184,
+        221
+      ]
     },
     "item_953": {
       "id": "item_953",
@@ -1101,7 +1917,13 @@
       "archetype": "dice",
       "colorGroup": "953",
       "img": "./assets/items/photos/item_953.webp",
-      "revision": "ec2bd00907d3"
+      "revision": "ec2bd00907d3",
+      "bounds": [
+        8,
+        81,
+        184,
+        183
+      ]
     },
     "item_954": {
       "id": "item_954",
@@ -1109,7 +1931,13 @@
       "archetype": "headphones",
       "colorGroup": "954",
       "img": "./assets/items/photos/item_954.webp",
-      "revision": "399212eb1d7c"
+      "revision": "399212eb1d7c",
+      "bounds": [
+        8,
+        67,
+        184,
+        197
+      ]
     },
     "item_955": {
       "id": "item_955",
@@ -1117,7 +1945,13 @@
       "archetype": "remote",
       "colorGroup": "955",
       "img": "./assets/items/photos/item_955.webp",
-      "revision": "a9abf90982fa"
+      "revision": "a9abf90982fa",
+      "bounds": [
+        12,
+        16,
+        175,
+        248
+      ]
     },
     "item_956": {
       "id": "item_956",
@@ -1125,7 +1959,13 @@
       "archetype": "laptop",
       "colorGroup": "956",
       "img": "./assets/items/photos/item_956.webp",
-      "revision": "a274c3bf32c7"
+      "revision": "a274c3bf32c7",
+      "bounds": [
+        8,
+        68,
+        184,
+        196
+      ]
     },
     "item_957": {
       "id": "item_957",
@@ -1133,7 +1973,13 @@
       "archetype": "flask",
       "colorGroup": "957",
       "img": "./assets/items/photos/item_957.webp",
-      "revision": "de9d19474365"
+      "revision": "de9d19474365",
+      "bounds": [
+        24,
+        16,
+        152,
+        248
+      ]
     },
     "item_958": {
       "id": "item_958",
@@ -1141,7 +1987,13 @@
       "archetype": "board",
       "colorGroup": "958",
       "img": "./assets/items/photos/item_958.webp",
-      "revision": "ac1dd44fe308"
+      "revision": "ac1dd44fe308",
+      "bounds": [
+        11,
+        16,
+        177,
+        248
+      ]
     },
     "item_959": {
       "id": "item_959",
@@ -1149,7 +2001,13 @@
       "archetype": "microwave",
       "colorGroup": "959",
       "img": "./assets/items/photos/item_959.webp",
-      "revision": "f0db8e3158bc"
+      "revision": "f0db8e3158bc",
+      "bounds": [
+        8,
+        114,
+        184,
+        150
+      ]
     },
     "item_960": {
       "id": "item_960",
@@ -1157,7 +2015,13 @@
       "archetype": "rice_cooker",
       "colorGroup": "960",
       "img": "./assets/items/photos/item_960.webp",
-      "revision": "741cf5639507"
+      "revision": "741cf5639507",
+      "bounds": [
+        8,
+        73,
+        184,
+        191
+      ]
     },
     "item_961": {
       "id": "item_961",
@@ -1165,7 +2029,13 @@
       "archetype": "toaster",
       "colorGroup": "961",
       "img": "./assets/items/photos/item_961.webp",
-      "revision": "42edbea5b3e1"
+      "revision": "42edbea5b3e1",
+      "bounds": [
+        8,
+        50,
+        184,
+        214
+      ]
     },
     "item_962": {
       "id": "item_962",
@@ -1173,7 +2043,13 @@
       "archetype": "coffee_maker",
       "colorGroup": "962",
       "img": "./assets/items/photos/item_962.webp",
-      "revision": "29af60913206"
+      "revision": "29af60913206",
+      "bounds": [
+        15,
+        16,
+        169,
+        248
+      ]
     },
     "item_963": {
       "id": "item_963",
@@ -1181,7 +2057,13 @@
       "archetype": "kettle",
       "colorGroup": "963",
       "img": "./assets/items/photos/item_963.webp",
-      "revision": "02d4fd0d3bdc"
+      "revision": "02d4fd0d3bdc",
+      "bounds": [
+        8,
+        34,
+        184,
+        230
+      ]
     },
     "item_964": {
       "id": "item_964",
@@ -1189,7 +2071,13 @@
       "archetype": "pan",
       "colorGroup": "964",
       "img": "./assets/items/photos/item_964.webp",
-      "revision": "717e505cff4c"
+      "revision": "717e505cff4c",
+      "bounds": [
+        8,
+        77,
+        184,
+        187
+      ]
     },
     "item_965": {
       "id": "item_965",
@@ -1197,7 +2085,13 @@
       "archetype": "stool",
       "colorGroup": "965",
       "img": "./assets/items/photos/item_965.webp",
-      "revision": "c419287cfac3"
+      "revision": "c419287cfac3",
+      "bounds": [
+        8,
+        82,
+        184,
+        182
+      ]
     },
     "item_966": {
       "id": "item_966",
@@ -1205,7 +2099,13 @@
       "archetype": "chair",
       "colorGroup": "966",
       "img": "./assets/items/photos/item_966.webp",
-      "revision": "19c0057d0b6f"
+      "revision": "19c0057d0b6f",
+      "bounds": [
+        8,
+        61,
+        184,
+        203
+      ]
     },
     "item_968": {
       "id": "item_968",
@@ -1213,7 +2113,13 @@
       "archetype": "washer",
       "colorGroup": "968",
       "img": "./assets/items/photos/item_968.webp",
-      "revision": "f13af3aedb37"
+      "revision": "f13af3aedb37",
+      "bounds": [
+        12,
+        16,
+        176,
+        248
+      ]
     },
     "item_969": {
       "id": "item_969",
@@ -1221,7 +2127,13 @@
       "archetype": "fan",
       "colorGroup": "969",
       "img": "./assets/items/photos/item_969.webp",
-      "revision": "e1cdbcb859e2"
+      "revision": "e1cdbcb859e2",
+      "bounds": [
+        8,
+        27,
+        184,
+        237
+      ]
     },
     "item_970": {
       "id": "item_970",
@@ -1229,7 +2141,13 @@
       "archetype": "fridge",
       "colorGroup": "970",
       "img": "./assets/items/photos/item_970.webp",
-      "revision": "2a1f06c1d2c6"
+      "revision": "2a1f06c1d2c6",
+      "bounds": [
+        8,
+        29,
+        184,
+        235
+      ]
     },
     "item_971": {
       "id": "item_971",
@@ -1237,7 +2155,13 @@
       "archetype": "clock",
       "colorGroup": "971",
       "img": "./assets/items/photos/item_971.webp",
-      "revision": "e7a107676c17"
+      "revision": "e7a107676c17",
+      "bounds": [
+        8,
+        19,
+        184,
+        245
+      ]
     },
     "item_972": {
       "id": "item_972",
@@ -1245,7 +2169,13 @@
       "archetype": "drink",
       "colorGroup": "972",
       "img": "./assets/items/photos/item_972.webp",
-      "revision": "fe474f25f989"
+      "revision": "fe474f25f989",
+      "bounds": [
+        17,
+        16,
+        166,
+        248
+      ]
     },
     "item_973": {
       "id": "item_973",
@@ -1253,7 +2183,13 @@
       "archetype": "drink",
       "colorGroup": "973",
       "img": "./assets/items/photos/item_973.webp",
-      "revision": "895edb910a6f"
+      "revision": "895edb910a6f",
+      "bounds": [
+        8,
+        39,
+        184,
+        225
+      ]
     },
     "item_974": {
       "id": "item_974",
@@ -1261,7 +2197,13 @@
       "archetype": "drink",
       "colorGroup": "974",
       "img": "./assets/items/photos/item_974.webp",
-      "revision": "d4e70f545afc"
+      "revision": "d4e70f545afc",
+      "bounds": [
+        8,
+        18,
+        184,
+        246
+      ]
     },
     "item_975": {
       "id": "item_975",
@@ -1269,7 +2211,13 @@
       "archetype": "drink",
       "colorGroup": "975",
       "img": "./assets/items/photos/item_975.webp",
-      "revision": "0e187ee32037"
+      "revision": "0e187ee32037",
+      "bounds": [
+        11,
+        16,
+        178,
+        248
+      ]
     },
     "item_976": {
       "id": "item_976",
@@ -1277,7 +2225,13 @@
       "archetype": "drink",
       "colorGroup": "976",
       "img": "./assets/items/photos/item_976.webp",
-      "revision": "7a2f1c6da8c4"
+      "revision": "7a2f1c6da8c4",
+      "bounds": [
+        16,
+        16,
+        167,
+        248
+      ]
     },
     "item_977": {
       "id": "item_977",
@@ -1285,7 +2239,13 @@
       "archetype": "drink",
       "colorGroup": "977",
       "img": "./assets/items/photos/item_977.webp",
-      "revision": "adaead643bbc"
+      "revision": "adaead643bbc",
+      "bounds": [
+        26,
+        16,
+        148,
+        248
+      ]
     },
     "item_978": {
       "id": "item_978",
@@ -1293,7 +2253,13 @@
       "archetype": "drink",
       "colorGroup": "978",
       "img": "./assets/items/photos/item_978.webp",
-      "revision": "93dd2a477d1a"
+      "revision": "93dd2a477d1a",
+      "bounds": [
+        11,
+        16,
+        178,
+        248
+      ]
     },
     "item_979": {
       "id": "item_979",
@@ -1301,7 +2267,13 @@
       "archetype": "drink",
       "colorGroup": "979",
       "img": "./assets/items/photos/item_979.webp",
-      "revision": "e55eca3dfeac"
+      "revision": "e55eca3dfeac",
+      "bounds": [
+        12,
+        16,
+        175,
+        248
+      ]
     },
     "item_980": {
       "id": "item_980",
@@ -1309,7 +2281,13 @@
       "archetype": "drink",
       "colorGroup": "980",
       "img": "./assets/items/photos/item_980.webp",
-      "revision": "3d2b94f4d0dd"
+      "revision": "3d2b94f4d0dd",
+      "bounds": [
+        12,
+        16,
+        175,
+        248
+      ]
     },
     "item_981": {
       "id": "item_981",
@@ -1317,7 +2295,13 @@
       "archetype": "drink",
       "colorGroup": "981",
       "img": "./assets/items/photos/item_981.webp",
-      "revision": "09fc1d39f876"
+      "revision": "09fc1d39f876",
+      "bounds": [
+        21,
+        16,
+        158,
+        248
+      ]
     },
     "item_982": {
       "id": "item_982",
@@ -1325,7 +2309,13 @@
       "archetype": "mitten",
       "colorGroup": "982",
       "img": "./assets/items/photos/item_982.webp",
-      "revision": "5ad855cb6d62"
+      "revision": "5ad855cb6d62",
+      "bounds": [
+        8,
+        49,
+        184,
+        215
+      ]
     },
     "item_983": {
       "id": "item_983",
@@ -1333,7 +2323,13 @@
       "archetype": "drink",
       "colorGroup": "983",
       "img": "./assets/items/photos/item_983.webp",
-      "revision": "cca4201d1784"
+      "revision": "cca4201d1784",
+      "bounds": [
+        42,
+        16,
+        116,
+        248
+      ]
     },
     "item_984": {
       "id": "item_984",
@@ -1341,7 +2337,13 @@
       "archetype": "lamp",
       "colorGroup": "984",
       "img": "./assets/items/photos/item_984.webp",
-      "revision": "7afaed5b1a02"
+      "revision": "7afaed5b1a02",
+      "bounds": [
+        11,
+        16,
+        178,
+        248
+      ]
     },
     "item_985": {
       "id": "item_985",
@@ -1349,7 +2351,13 @@
       "archetype": "leaf",
       "colorGroup": "985",
       "img": "./assets/items/photos/item_985.webp",
-      "revision": "a363b5be3950"
+      "revision": "a363b5be3950",
+      "bounds": [
+        8,
+        48,
+        184,
+        216
+      ]
     },
     "item_986": {
       "id": "item_986",
@@ -1357,7 +2365,13 @@
       "archetype": "carton",
       "colorGroup": "986",
       "img": "./assets/items/photos/item_986.webp",
-      "revision": "8d349c51954f"
+      "revision": "8d349c51954f",
+      "bounds": [
+        25,
+        16,
+        150,
+        248
+      ]
     },
     "item_987": {
       "id": "item_987",
@@ -1365,7 +2379,13 @@
       "archetype": "snack",
       "colorGroup": "987",
       "img": "./assets/items/photos/item_987.webp",
-      "revision": "70560ce0972f"
+      "revision": "70560ce0972f",
+      "bounds": [
+        8,
+        16,
+        183,
+        248
+      ]
     },
     "item_988": {
       "id": "item_988",
@@ -1373,7 +2393,13 @@
       "archetype": "snack",
       "colorGroup": "988",
       "img": "./assets/items/photos/item_988.webp",
-      "revision": "b49ec07d04b8"
+      "revision": "b49ec07d04b8",
+      "bounds": [
+        8,
+        16,
+        183,
+        248
+      ]
     },
     "item_989": {
       "id": "item_989",
@@ -1381,7 +2407,13 @@
       "archetype": "bottle",
       "colorGroup": "989",
       "img": "./assets/items/photos/item_989.webp",
-      "revision": "86fa014e1061"
+      "revision": "86fa014e1061",
+      "bounds": [
+        24,
+        16,
+        152,
+        248
+      ]
     },
     "item_990": {
       "id": "item_990",
@@ -1389,7 +2421,13 @@
       "archetype": "plant",
       "colorGroup": "990",
       "img": "./assets/items/photos/item_990.webp",
-      "revision": "90a0e832faff"
+      "revision": "90a0e832faff",
+      "bounds": [
+        20,
+        16,
+        160,
+        248
+      ]
     },
     "item_991": {
       "id": "item_991",
@@ -1397,7 +2435,13 @@
       "archetype": "plant",
       "colorGroup": "991",
       "img": "./assets/items/photos/item_991.webp",
-      "revision": "902158e343fa"
+      "revision": "902158e343fa",
+      "bounds": [
+        8,
+        83,
+        184,
+        181
+      ]
     },
     "item_992": {
       "id": "item_992",
@@ -1405,7 +2449,13 @@
       "archetype": "plant",
       "colorGroup": "992",
       "img": "./assets/items/photos/item_992.webp",
-      "revision": "b02effc9d98d"
+      "revision": "b02effc9d98d",
+      "bounds": [
+        8,
+        50,
+        184,
+        214
+      ]
     },
     "item_993": {
       "id": "item_993",
@@ -1413,7 +2463,13 @@
       "archetype": "plant",
       "colorGroup": "993",
       "img": "./assets/items/photos/item_993.webp",
-      "revision": "a4cfad57a8a1"
+      "revision": "a4cfad57a8a1",
+      "bounds": [
+        9,
+        16,
+        181,
+        248
+      ]
     },
     "item_995": {
       "id": "item_995",
@@ -1421,7 +2477,13 @@
       "archetype": "mitten",
       "colorGroup": "995",
       "img": "./assets/items/photos/item_995.webp",
-      "revision": "f08bda806588"
+      "revision": "f08bda806588",
+      "bounds": [
+        8,
+        20,
+        184,
+        244
+      ]
     },
     "item_996": {
       "id": "item_996",
@@ -1429,7 +2491,13 @@
       "archetype": "notebook",
       "colorGroup": "996",
       "img": "./assets/items/photos/item_996.webp",
-      "revision": "7170d1a1df69"
+      "revision": "7170d1a1df69",
+      "bounds": [
+        23,
+        16,
+        153,
+        248
+      ]
     },
     "item_997": {
       "id": "item_997",
@@ -1437,7 +2505,13 @@
       "archetype": "stocking",
       "colorGroup": "997",
       "img": "./assets/items/photos/item_997.webp",
-      "revision": "e33698acd8a7"
+      "revision": "e33698acd8a7",
+      "bounds": [
+        43,
+        16,
+        113,
+        248
+      ]
     },
     "item_998": {
       "id": "item_998",
@@ -1445,7 +2519,13 @@
       "archetype": "bottle",
       "colorGroup": "998",
       "img": "./assets/items/photos/item_998.webp",
-      "revision": "be890536aec9"
+      "revision": "be890536aec9",
+      "bounds": [
+        48,
+        16,
+        104,
+        248
+      ]
     },
     "item_999": {
       "id": "item_999",
@@ -1453,7 +2533,13 @@
       "archetype": "bottle",
       "colorGroup": "999",
       "img": "./assets/items/photos/item_999.webp",
-      "revision": "91c166582d5b"
+      "revision": "91c166582d5b",
+      "bounds": [
+        51,
+        16,
+        98,
+        248
+      ]
     },
     "item_8788": {
       "id": "item_8788",
@@ -1461,7 +2547,13 @@
       "archetype": "snack",
       "colorGroup": "8788",
       "img": "./assets/items/photos/item_8788.webp",
-      "revision": "d746691de785"
+      "revision": "d746691de785",
+      "bounds": [
+        8,
+        22,
+        184,
+        242
+      ]
     },
     "item_8871": {
       "id": "item_8871",
@@ -1469,7 +2561,13 @@
       "archetype": "carton",
       "colorGroup": "8871",
       "img": "./assets/items/photos/item_8871.webp",
-      "revision": "d224f40a73b3"
+      "revision": "d224f40a73b3",
+      "bounds": [
+        9,
+        16,
+        181,
+        248
+      ]
     },
     "item_8877": {
       "id": "item_8877",
@@ -1477,7 +2575,13 @@
       "archetype": "snack",
       "colorGroup": "8877",
       "img": "./assets/items/photos/item_8877.webp",
-      "revision": "da846d59049d"
+      "revision": "da846d59049d",
+      "bounds": [
+        8,
+        24,
+        184,
+        240
+      ]
     },
     "item_9771": {
       "id": "item_9771",
@@ -1485,7 +2589,13 @@
       "archetype": "lamp",
       "colorGroup": "9771",
       "img": "./assets/items/photos/item_9771.webp",
-      "revision": "2a5074a09632"
+      "revision": "2a5074a09632",
+      "bounds": [
+        8,
+        36,
+        184,
+        228
+      ]
     },
     "item_88868": {
       "id": "item_88868",
@@ -1493,7 +2603,13 @@
       "archetype": "snack",
       "colorGroup": "88868",
       "img": "./assets/items/photos/item_88868.webp",
-      "revision": "fb8ef5d3af11"
+      "revision": "fb8ef5d3af11",
+      "bounds": [
+        8,
+        32,
+        184,
+        232
+      ]
     }
   };
 
@@ -1560,6 +2676,14 @@
   function getItemMatchKey(key) {
     if (!key || !ITEMS[key]) return key;
     return ITEMS[key].img || key;
+  }
+
+  function itemImageMarkup(key, front = false, alt = ITEMS[key].name) {
+    const item = ITEMS[key];
+    const [left, top, width, height] = item.bounds || [0, 0, 200, 280];
+    const fit = `--photo-w:${width};--photo-h:${height};--photo-cx:${left + width / 2};--photo-bottom:${top + height}`;
+    const loading = front ? '' : ' loading="lazy" fetchpriority="low"';
+    return `<img src="${item.img}" alt="${alt}" width="200" height="280" decoding="async" style="${fit}"${loading} draggable="false">`;
   }
 
   // 2. Web Audio Synthesizer (Zero asset dependency, instant sound)
@@ -2016,14 +3140,19 @@
       // Cabinet, conveyor and ghost use one box, constrained by both lane
       // width and available height. The plank fits exactly three item positions,
       // including their 1px overlap and the 2px wooden edge on each side.
-      const cabinetHeight = cabinetWrapper ? cabinetWrapper.clientHeight * 0.298 - 8 : 96;
-      const rowEl = document.querySelector('.conveyor-row-wrapper');
-      const rowHeight = rowEl ? rowEl.clientHeight : Math.min(102, Math.max(52, (this.conveyorSectionEl.clientHeight - 6) / 3));
+      const compartment = document.querySelector('.compartment');
+      const cellHeight = compartment ? compartment.clientHeight : cabinetWrapper
+        ? (cabinetWrapper.clientHeight * 0.934 - actualCabinetWidth * 0.061) / 3 : 104;
+      const cabinetHeight = Math.max(12, cellHeight - 8);
+      // Use the section budget so a previous narrow-screen row cap does not
+      // prevent the items growing again when the screen gets wider.
+      const rowHeight = Math.max(24, (this.conveyorSectionEl.clientHeight - 6) / 3);
       const woodAspect = 23 / 228;
-      const rowItemWidth = (Math.min(rowHeight, 96) - 8 - 2 * woodAspect) / (1.4 + 3 * woodAspect);
-      const itemWidth = Math.max(12, Math.min(84, Math.floor((compWidth - 4) / 3), Math.floor(cabinetHeight / 1.4), Math.floor(rowItemWidth)));
-      const itemHeight = itemWidth * 1.4;
+      const itemWidth = Math.max(12, Math.floor((compWidth - 4) / 3));
       const plankWidth = itemWidth * 3 - 2 + 4;
+      // Fit actual subject bounds into a taller shared position, without the
+      // transparent photo margins reducing the visible object size.
+      const itemHeight = Math.max(12, Math.min(itemWidth * 1.85, cabinetHeight, rowHeight - plankWidth * woodAspect - 8));
       const plankGap = Math.max(6, Math.round(plankWidth * 0.05));
 
       // Four shelves still wrap beyond the visible track after narrowing them.
@@ -2038,6 +3167,8 @@
       // The ghost is a child of body, so it does not inherit container variables.
       this.dragGhost.style.width = `${itemWidth}px`;
       this.dragGhost.style.height = `${itemHeight}px`;
+      this.dragGhost.style.setProperty('--item-w', `${itemWidth}px`);
+      this.dragGhost.style.setProperty('--item-h', `${itemHeight}px`);
 
       const oldPitch = this.conveyorMetrics ? this.conveyorMetrics.pitch : pitch;
       this.conveyorMetrics = {
@@ -2320,7 +3451,7 @@
           const deepKey = deepItems[pos];
           const deepItemEl = document.createElement('div');
           deepItemEl.className = 'good-item layer-deep';
-          deepItemEl.innerHTML = `<img src="${ITEMS[deepKey].img}" alt="" width="200" height="280" decoding="async" loading="lazy" fetchpriority="low" draggable="false">`;
+          deepItemEl.innerHTML = itemImageMarkup(deepKey, false, '');
           itemContainer.appendChild(deepItemEl);
         }
 
@@ -2330,7 +3461,7 @@
           const backItemEl = document.createElement('div');
           backItemEl.className = 'good-item layer-back';
           backItemEl.title = ITEMS[backKey].name;
-          backItemEl.innerHTML = `<img src="${ITEMS[backKey].img}" alt="${ITEMS[backKey].name}" width="200" height="280" decoding="async" loading="lazy" fetchpriority="low" draggable="false">`;
+          backItemEl.innerHTML = itemImageMarkup(backKey);
           itemContainer.appendChild(backItemEl);
         }
 
@@ -2349,7 +3480,7 @@
           frontItemEl.dataset.shelfIndex = shelfIdx;
           frontItemEl.dataset.itemIndex = pos;
           frontItemEl.title = ITEMS[frontKey].name;
-          frontItemEl.innerHTML = `<img src="${ITEMS[frontKey].img}" alt="${ITEMS[frontKey].name}" width="200" height="280" decoding="async" draggable="false">`;
+          frontItemEl.innerHTML = itemImageMarkup(frontKey, true);
 
           if (this.selectedItemInfo &&
               this.selectedItemInfo.locationType === type &&
@@ -2898,7 +4029,7 @@
             document.querySelectorAll('.good-item.selected').forEach(el => el.classList.remove('selected'));
           }
 
-          this.dragGhost.innerHTML = `<img src="${ITEMS[draggedItemData.itemKey].img}" alt="" width="200" height="280" decoding="async" draggable="false">`;
+          this.dragGhost.innerHTML = itemImageMarkup(draggedItemData.itemKey, true, '');
           this.dragGhost.style.display = 'flex';
           this.dragGhost.style.transition = 'none';
           this.dragGhost.style.left = `${clientX}px`;
