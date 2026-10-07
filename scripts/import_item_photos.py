@@ -12,6 +12,7 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
+EXCLUDED_ITEM_NUMBERS = {912, 913}
 
 # Source numbers stay stable, including the unusually numbered source files.
 GROUPS = [
@@ -123,7 +124,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
     args = parser.parse_args()
-    files = sorted(args.source.glob('*.jpg'), key=lambda p: int(p.stem.rstrip('.')))
+    files = sorted((path for path in args.source.glob('*.jpg')
+                    if int(path.stem.rstrip('.')) not in EXCLUDED_ITEM_NUMBERS),
+                   key=lambda p: int(p.stem.rstrip('.')))
     if not files:
         parser.error('No JPG item photos found')
     output = ROOT / 'assets/items/photos'

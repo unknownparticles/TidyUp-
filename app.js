@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.8.9';
+  const APP_VERSION = '1.8.10';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -1405,34 +1405,6 @@
         19,
         184,
         245
-      ]
-    },
-    "item_912": {
-      "id": "item_912",
-      "name": "牙刷杯（912）",
-      "archetype": "toothbrush_cup",
-      "colorGroup": "912",
-      "img": "./assets/items/photos/item_912.webp",
-      "revision": "3fd47703d1be",
-      "bounds": [
-        8,
-        22,
-        184,
-        242
-      ]
-    },
-    "item_913": {
-      "id": "item_913",
-      "name": "牙刷杯（913）",
-      "archetype": "toothbrush_cup",
-      "colorGroup": "913",
-      "img": "./assets/items/photos/item_913.webp",
-      "revision": "ae32cc7e1579",
-      "bounds": [
-        8,
-        21,
-        184,
-        243
       ]
     },
     "item_914": {

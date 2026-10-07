@@ -1,6 +1,6 @@
 {
   "name": "zls",
-  "version": "1.8.9",
+  "version": "1.8.10",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
