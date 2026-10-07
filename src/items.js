@@ -2254,20 +2254,6 @@ export const ITEMS = {
       248
     ]
   },
-  "item_995": {
-    "id": "item_995",
-    "name": "雪花手套（995）",
-    "archetype": "mitten",
-    "colorGroup": "995",
-    "img": "./assets/items/photos/item_995.webp",
-    "revision": "e737a9050928",
-    "bounds": [
-      21,
-      16,
-      158,
-      248
-    ]
-  },
   "item_996": {
     "id": "item_996",
     "name": "彩色笔记本（996）",

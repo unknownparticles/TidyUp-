@@ -1,2 +1,2 @@
-# Photo importing and historical SVG render verification require Pillow.
+# Photo importing and compression require Pillow.
 Pillow>=10.0,<13.0

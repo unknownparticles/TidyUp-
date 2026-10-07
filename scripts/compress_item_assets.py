@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Compress the complete item library, retaining dimensions and lossless alpha."""
-import io
 import hashlib
 import json
 import re
@@ -52,14 +51,6 @@ def main():
     app_path.write_text(app)
     for original in originals:
         original.unlink()
-
-    # Historical PNG references stay compatible with the optional SVG generator.
-    for path in ITEMS_DIR.glob('*.png'):
-        with Image.open(path) as source:
-            buffer = io.BytesIO()
-            source.save(buffer, format='PNG', optimize=True, compress_level=9)
-        if buffer.tell() < path.stat().st_size:
-            path.write_bytes(buffer.getvalue())
 
     after = sum((ROOT / item['img'][2:]).stat().st_size for item in catalog.values())
     print(f'{len(catalog)} items: {before:,} -> {after:,} bytes ({(1-after/before)*100:.1f}% smaller)')

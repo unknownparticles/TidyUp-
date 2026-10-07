@@ -1,5 +1,5 @@
 // Small offline shell; item photos are cached separately by content revision.
-const CACHE_VERSION = 'v1.8.10';
+const CACHE_VERSION = 'v1.8.11';
 const CACHE_NAME = `organizer-pwa-${CACHE_VERSION}`;
 const ITEM_CACHE_NAME = 'organizer-items-v1';
 const ASSET_VERSION = CACHE_VERSION.slice(1);

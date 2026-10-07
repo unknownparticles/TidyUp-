@@ -12,7 +12,7 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDED_ITEM_NUMBERS = {912, 913}
+EXCLUDED_ITEM_NUMBERS = {912, 913, 995}
 
 # Source numbers stay stable, including the unusually numbered source files.
 GROUPS = [
@@ -145,7 +145,7 @@ def main():
                     print(f'Prepared {index}/{len(files)} items', flush=True)
         serialized = json.dumps(catalog, ensure_ascii=False, indent=2)
         app_path = ROOT / 'app.js'
-        app, count = re.subn(r'  // (?:Bright geometric[^\n]*|Imported photo[^\n]*)\n  const ITEMS = \{.*?\n  \};',
+        app, count = re.subn(r'  // Imported photo[^\n]*\n  const ITEMS = \{.*?\n  \};',
                             lambda _: '  // Imported photo assets, fitted to a shared transparent canvas.\n'
                             '  const ITEMS = ' + serialized.replace('\n', '\n  ') + ';',
                             app_path.read_text(), count=1, flags=re.S)

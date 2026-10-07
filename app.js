@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.8.10';
+  const APP_VERSION = '1.8.11';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -2258,20 +2258,6 @@
         23,
         16,
         154,
-        248
-      ]
-    },
-    "item_995": {
-      "id": "item_995",
-      "name": "雪花手套（995）",
-      "archetype": "mitten",
-      "colorGroup": "995",
-      "img": "./assets/items/photos/item_995.webp",
-      "revision": "e737a9050928",
-      "bounds": [
-        21,
-        16,
-        158,
         248
       ]
     },
