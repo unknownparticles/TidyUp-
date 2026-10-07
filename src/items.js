@@ -28,20 +28,6 @@ export const ITEMS = {
       248
     ]
   },
-  "item_801": {
-    "id": "item_801",
-    "name": "粉色草莓汽水罐（801）",
-    "archetype": "can",
-    "colorGroup": "801",
-    "img": "./assets/items/photos/item_801.webp",
-    "revision": "07f8d3b732db",
-    "bounds": [
-      27,
-      16,
-      145,
-      248
-    ]
-  },
   "item_802": {
     "id": "item_802",
     "name": "柠檬汽水罐（802）",
@@ -82,20 +68,6 @@ export const ITEMS = {
       19,
       184,
       245
-    ]
-  },
-  "item_805": {
-    "id": "item_805",
-    "name": "绿色糖果背包（805）",
-    "archetype": "backpack",
-    "colorGroup": "805",
-    "img": "./assets/items/photos/item_805.webp",
-    "revision": "995e9a88de60",
-    "bounds": [
-      8,
-      21,
-      184,
-      243
     ]
   },
   "item_806": {
@@ -420,20 +392,6 @@ export const ITEMS = {
       244
     ]
   },
-  "item_829": {
-    "id": "item_829",
-    "name": "小猫公仔（829）",
-    "archetype": "cat",
-    "colorGroup": "829",
-    "img": "./assets/items/photos/item_829.webp",
-    "revision": "62a88f325e84",
-    "bounds": [
-      8,
-      17,
-      184,
-      247
-    ]
-  },
   "item_830": {
     "id": "item_830",
     "name": "小猫公仔（830）",
@@ -446,34 +404,6 @@ export const ITEMS = {
       16,
       181,
       248
-    ]
-  },
-  "item_833": {
-    "id": "item_833",
-    "name": "绿植盆栽（833）",
-    "archetype": "plant",
-    "colorGroup": "833",
-    "img": "./assets/items/photos/item_833.webp",
-    "revision": "41966853f46d",
-    "bounds": [
-      11,
-      16,
-      178,
-      248
-    ]
-  },
-  "item_835": {
-    "id": "item_835",
-    "name": "绿植盆栽（835）",
-    "archetype": "plant",
-    "colorGroup": "835",
-    "img": "./assets/items/photos/item_835.webp",
-    "revision": "dd37d9a4c15a",
-    "bounds": [
-      8,
-      50,
-      184,
-      214
     ]
   },
   "item_837": {
@@ -530,20 +460,6 @@ export const ITEMS = {
       16,
       171,
       248
-    ]
-  },
-  "item_842": {
-    "id": "item_842",
-    "name": "绿植盆栽（842）",
-    "archetype": "plant",
-    "colorGroup": "842",
-    "img": "./assets/items/photos/item_842.webp",
-    "revision": "95afe6a357db",
-    "bounds": [
-      8,
-      42,
-      184,
-      222
     ]
   },
   "item_843": {
@@ -613,20 +529,6 @@ export const ITEMS = {
       14,
       16,
       171,
-      248
-    ]
-  },
-  "item_849": {
-    "id": "item_849",
-    "name": "小熊公仔（849）",
-    "archetype": "bear",
-    "colorGroup": "849",
-    "img": "./assets/items/photos/item_849.webp",
-    "revision": "4a6588620000",
-    "bounds": [
-      14,
-      16,
-      172,
       248
     ]
   },
@@ -728,20 +630,6 @@ export const ITEMS = {
       248
     ]
   },
-  "item_857": {
-    "id": "item_857",
-    "name": "饮品纸盒（857）",
-    "archetype": "carton",
-    "colorGroup": "857",
-    "img": "./assets/items/photos/item_857.webp",
-    "revision": "5ef05bb958fe",
-    "bounds": [
-      25,
-      16,
-      149,
-      248
-    ]
-  },
   "item_858": {
     "id": "item_858",
     "name": "饮品纸盒（858）",
@@ -753,20 +641,6 @@ export const ITEMS = {
       25,
       16,
       149,
-      248
-    ]
-  },
-  "item_859": {
-    "id": "item_859",
-    "name": "饮品纸盒（859）",
-    "archetype": "carton",
-    "colorGroup": "859",
-    "img": "./assets/items/photos/item_859.webp",
-    "revision": "5ef93c48362b",
-    "bounds": [
-      26,
-      16,
-      148,
       248
     ]
   },
@@ -1190,20 +1064,6 @@ export const ITEMS = {
       248
     ]
   },
-  "item_893": {
-    "id": "item_893",
-    "name": "条纹长袜（893）",
-    "archetype": "stocking",
-    "colorGroup": "893",
-    "img": "./assets/items/photos/item_893.webp",
-    "revision": "cf6a0b562e66",
-    "bounds": [
-      41,
-      16,
-      118,
-      248
-    ]
-  },
   "item_894": {
     "id": "item_894",
     "name": "条纹长袜（894）",
@@ -1309,20 +1169,6 @@ export const ITEMS = {
     "colorGroup": "905",
     "img": "./assets/items/photos/item_905.webp",
     "revision": "8afe324c367a",
-    "bounds": [
-      23,
-      16,
-      154,
-      248
-    ]
-  },
-  "item_906": {
-    "id": "item_906",
-    "name": "收纳桶（906）",
-    "archetype": "bin",
-    "colorGroup": "906",
-    "img": "./assets/items/photos/item_906.webp",
-    "revision": "519313ac3c91",
     "bounds": [
       23,
       16,
@@ -1582,20 +1428,6 @@ export const ITEMS = {
       233
     ]
   },
-  "item_935": {
-    "id": "item_935",
-    "name": "彩色围巾（935）",
-    "archetype": "scarf",
-    "colorGroup": "935",
-    "img": "./assets/items/photos/item_935.webp",
-    "revision": "ce9fc1af58a0",
-    "bounds": [
-      8,
-      29,
-      184,
-      235
-    ]
-  },
   "item_936": {
     "id": "item_936",
     "name": "彩色围巾（936）",
@@ -1608,34 +1440,6 @@ export const ITEMS = {
       30,
       184,
       234
-    ]
-  },
-  "item_937": {
-    "id": "item_937",
-    "name": "手提包（937）",
-    "archetype": "handbag",
-    "colorGroup": "937",
-    "img": "./assets/items/photos/item_937.webp",
-    "revision": "2e4e8300377c",
-    "bounds": [
-      8,
-      44,
-      184,
-      220
-    ]
-  },
-  "item_938": {
-    "id": "item_938",
-    "name": "手提包（938）",
-    "archetype": "handbag",
-    "colorGroup": "938",
-    "img": "./assets/items/photos/item_938.webp",
-    "revision": "f8087c4dafac",
-    "bounds": [
-      8,
-      43,
-      184,
-      221
     ]
   },
   "item_939": {
@@ -1764,20 +1568,6 @@ export const ITEMS = {
       221
     ]
   },
-  "item_954": {
-    "id": "item_954",
-    "name": "黄色耳机（954）",
-    "archetype": "headphones",
-    "colorGroup": "954",
-    "img": "./assets/items/photos/item_954.webp",
-    "revision": "3564e8ec4de0",
-    "bounds": [
-      8,
-      67,
-      184,
-      197
-    ]
-  },
   "item_955": {
     "id": "item_955",
     "name": "紫色遥控器（955）",
@@ -1859,62 +1649,6 @@ export const ITEMS = {
       15,
       16,
       169,
-      248
-    ]
-  },
-  "item_963": {
-    "id": "item_963",
-    "name": "蓝色水壶（963）",
-    "archetype": "kettle",
-    "colorGroup": "963",
-    "img": "./assets/items/photos/item_963.webp",
-    "revision": "2a6a3d5fe419",
-    "bounds": [
-      8,
-      34,
-      184,
-      230
-    ]
-  },
-  "item_965": {
-    "id": "item_965",
-    "name": "木色圆凳（965）",
-    "archetype": "stool",
-    "colorGroup": "965",
-    "img": "./assets/items/photos/item_965.webp",
-    "revision": "17d8811edc7e",
-    "bounds": [
-      8,
-      49,
-      184,
-      215
-    ]
-  },
-  "item_966": {
-    "id": "item_966",
-    "name": "黄色扶手椅（966）",
-    "archetype": "chair",
-    "colorGroup": "966",
-    "img": "./assets/items/photos/item_966.webp",
-    "revision": "f846c42f5ee3",
-    "bounds": [
-      8,
-      61,
-      184,
-      203
-    ]
-  },
-  "item_968": {
-    "id": "item_968",
-    "name": "洗衣机（968）",
-    "archetype": "washer",
-    "colorGroup": "968",
-    "img": "./assets/items/photos/item_968.webp",
-    "revision": "50e090f8f458",
-    "bounds": [
-      12,
-      16,
-      176,
       248
     ]
   },
@@ -2195,20 +1929,6 @@ export const ITEMS = {
       24,
       16,
       152,
-      248
-    ]
-  },
-  "item_990": {
-    "id": "item_990",
-    "name": "花草盆栽（990）",
-    "archetype": "plant",
-    "colorGroup": "990",
-    "img": "./assets/items/photos/item_990.webp",
-    "revision": "b16b8b3bb06d",
-    "bounds": [
-      20,
-      16,
-      160,
       248
     ]
   },

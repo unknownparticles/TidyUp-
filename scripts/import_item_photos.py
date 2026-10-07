@@ -12,7 +12,11 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDED_ITEM_NUMBERS = {912, 913, 995}
+EXCLUDED_ITEM_NUMBERS = {
+    801, 805, 829, 833, 835, 842, 849, 857, 859, 893,
+    906, 912, 913, 935, 937, 938, 954, 963, 965, 966,
+    968, 990, 995,
+}
 
 # Source numbers stay stable, including the unusually numbered source files.
 GROUPS = [
