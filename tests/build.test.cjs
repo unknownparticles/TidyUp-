@@ -11,7 +11,8 @@ test('production build keeps all revisioned items and hosting files, without leg
   execFileSync(process.execPath, ['scripts/build.js'], { cwd: root });
   const dist = path.join(root, 'dist');
   const catalog = JSON.parse(fs.readFileSync(path.join(dist, 'assets/items/items_data.json')));
-  assert.equal(Object.keys(catalog).length, 186);
+  const sourceCatalog = JSON.parse(fs.readFileSync(path.join(root, 'assets/items/items_data.json')));
+  assert.deepEqual(Object.keys(catalog), Object.keys(sourceCatalog));
   for (const item of Object.values(catalog)) {
     const bytes = fs.readFileSync(path.join(dist, item.img));
     assert.equal(item.revision, crypto.createHash('sha256').update(bytes).digest('hex').slice(0, 12));

@@ -1,12 +1,166 @@
 // Imported photo assets, fitted to a shared transparent canvas.
 export const ITEMS = {
+  "item_799": {
+    "id": "item_799",
+    "name": "复古小夜灯（799）",
+    "archetype": "lamp",
+    "colorGroup": "799",
+    "img": "./assets/items/photos/item_799.webp",
+    "revision": "4e18b9c0da82",
+    "bounds": [
+      17,
+      16,
+      165,
+      248
+    ]
+  },
+  "item_800": {
+    "id": "item_800",
+    "name": "草莓汽水罐（800）",
+    "archetype": "can",
+    "colorGroup": "800",
+    "img": "./assets/items/photos/item_800.webp",
+    "revision": "b4cd326a1ea2",
+    "bounds": [
+      25,
+      16,
+      150,
+      248
+    ]
+  },
+  "item_801": {
+    "id": "item_801",
+    "name": "粉色草莓汽水罐（801）",
+    "archetype": "can",
+    "colorGroup": "801",
+    "img": "./assets/items/photos/item_801.webp",
+    "revision": "07f8d3b732db",
+    "bounds": [
+      27,
+      16,
+      145,
+      248
+    ]
+  },
+  "item_802": {
+    "id": "item_802",
+    "name": "柠檬汽水罐（802）",
+    "archetype": "can",
+    "colorGroup": "802",
+    "img": "./assets/items/photos/item_802.webp",
+    "revision": "440206623404",
+    "bounds": [
+      28,
+      16,
+      144,
+      248
+    ]
+  },
+  "item_803": {
+    "id": "item_803",
+    "name": "蓝色海浪汽水罐（803）",
+    "archetype": "can",
+    "colorGroup": "803",
+    "img": "./assets/items/photos/item_803.webp",
+    "revision": "e3d2f3b9563b",
+    "bounds": [
+      28,
+      16,
+      143,
+      248
+    ]
+  },
+  "item_804": {
+    "id": "item_804",
+    "name": "紫色小兔背包（804）",
+    "archetype": "backpack",
+    "colorGroup": "804",
+    "img": "./assets/items/photos/item_804.webp",
+    "revision": "85092e8c67bd",
+    "bounds": [
+      8,
+      19,
+      184,
+      245
+    ]
+  },
+  "item_805": {
+    "id": "item_805",
+    "name": "绿色糖果背包（805）",
+    "archetype": "backpack",
+    "colorGroup": "805",
+    "img": "./assets/items/photos/item_805.webp",
+    "revision": "995e9a88de60",
+    "bounds": [
+      8,
+      21,
+      184,
+      243
+    ]
+  },
+  "item_806": {
+    "id": "item_806",
+    "name": "蓝色双肩背包（806）",
+    "archetype": "backpack",
+    "colorGroup": "806",
+    "img": "./assets/items/photos/item_806.webp",
+    "revision": "26bc6622ffee",
+    "bounds": [
+      8,
+      16,
+      183,
+      248
+    ]
+  },
+  "item_807": {
+    "id": "item_807",
+    "name": "奶黄色小猫背包（807）",
+    "archetype": "backpack",
+    "colorGroup": "807",
+    "img": "./assets/items/photos/item_807.webp",
+    "revision": "db64deaa3dcb",
+    "bounds": [
+      8,
+      18,
+      184,
+      246
+    ]
+  },
+  "item_808": {
+    "id": "item_808",
+    "name": "橙色胡萝卜背包（808）",
+    "archetype": "backpack",
+    "colorGroup": "808",
+    "img": "./assets/items/photos/item_808.webp",
+    "revision": "48bfff38eb16",
+    "bounds": [
+      11,
+      16,
+      178,
+      248
+    ]
+  },
+  "item_809": {
+    "id": "item_809",
+    "name": "深蓝星星背包（809）",
+    "archetype": "backpack",
+    "colorGroup": "809",
+    "img": "./assets/items/photos/item_809.webp",
+    "revision": "96886fb763a3",
+    "bounds": [
+      11,
+      16,
+      177,
+      248
+    ]
+  },
   "item_810": {
     "id": "item_810",
     "name": "彩色长袜（810）",
     "archetype": "stocking",
     "colorGroup": "810",
     "img": "./assets/items/photos/item_810.webp",
-    "revision": "bd4f57b7ba00",
+    "revision": "35fd5909a5be",
     "bounds": [
       27,
       16,
@@ -20,7 +174,7 @@ export const ITEMS = {
     "archetype": "stocking",
     "colorGroup": "811",
     "img": "./assets/items/photos/item_811.webp",
-    "revision": "02e1675e127e",
+    "revision": "9e08691ddebe",
     "bounds": [
       27,
       16,
@@ -34,7 +188,7 @@ export const ITEMS = {
     "archetype": "stocking",
     "colorGroup": "812",
     "img": "./assets/items/photos/item_812.webp",
-    "revision": "3f2f2a8b9701",
+    "revision": "28db7b8d0ea1",
     "bounds": [
       26,
       16,
@@ -48,7 +202,7 @@ export const ITEMS = {
     "archetype": "stocking",
     "colorGroup": "813",
     "img": "./assets/items/photos/item_813.webp",
-    "revision": "77e6bf0837db",
+    "revision": "ca3386ade414",
     "bounds": [
       27,
       16,
@@ -62,7 +216,7 @@ export const ITEMS = {
     "archetype": "stocking",
     "colorGroup": "814",
     "img": "./assets/items/photos/item_814.webp",
-    "revision": "83ac9e8c5e98",
+    "revision": "1d22fa968733",
     "bounds": [
       27,
       16,
@@ -76,7 +230,7 @@ export const ITEMS = {
     "archetype": "stocking",
     "colorGroup": "815",
     "img": "./assets/items/photos/item_815.webp",
-    "revision": "6dc205ac57bf",
+    "revision": "951a7e4ad936",
     "bounds": [
       25,
       16,
@@ -90,7 +244,7 @@ export const ITEMS = {
     "archetype": "gift",
     "colorGroup": "816",
     "img": "./assets/items/photos/item_816.webp",
-    "revision": "ae975db09d62",
+    "revision": "96d5954023be",
     "bounds": [
       8,
       19,
@@ -104,7 +258,7 @@ export const ITEMS = {
     "archetype": "gift",
     "colorGroup": "817",
     "img": "./assets/items/photos/item_817.webp",
-    "revision": "487ebc55d5ca",
+    "revision": "e5dc7b8e63b7",
     "bounds": [
       8,
       16,
@@ -118,12 +272,12 @@ export const ITEMS = {
     "archetype": "gift",
     "colorGroup": "818",
     "img": "./assets/items/photos/item_818.webp",
-    "revision": "5ecf21f1fccc",
+    "revision": "96e509b58f5e",
     "bounds": [
-      8,
-      18,
-      184,
-      246
+      21,
+      16,
+      158,
+      248
     ]
   },
   "item_819": {
@@ -132,7 +286,7 @@ export const ITEMS = {
     "archetype": "gift",
     "colorGroup": "819",
     "img": "./assets/items/photos/item_819.webp",
-    "revision": "2a15f0d9d6a9",
+    "revision": "e75866e091d6",
     "bounds": [
       8,
       16,
@@ -146,7 +300,7 @@ export const ITEMS = {
     "archetype": "gift",
     "colorGroup": "820",
     "img": "./assets/items/photos/item_820.webp",
-    "revision": "124bc1e1dfdd",
+    "revision": "ada762800673",
     "bounds": [
       9,
       16,
@@ -160,7 +314,7 @@ export const ITEMS = {
     "archetype": "gift",
     "colorGroup": "821",
     "img": "./assets/items/photos/item_821.webp",
-    "revision": "89860d0148ae",
+    "revision": "17a1a09837a2",
     "bounds": [
       8,
       19,
@@ -174,7 +328,7 @@ export const ITEMS = {
     "archetype": "gift",
     "colorGroup": "822",
     "img": "./assets/items/photos/item_822.webp",
-    "revision": "5ea3ee55873b",
+    "revision": "b2af09b51818",
     "bounds": [
       8,
       27,
@@ -188,7 +342,7 @@ export const ITEMS = {
     "archetype": "candle",
     "colorGroup": "823",
     "img": "./assets/items/photos/item_823.webp",
-    "revision": "74f035e2421a",
+    "revision": "a3a6cf0e1075",
     "bounds": [
       24,
       16,
@@ -202,7 +356,7 @@ export const ITEMS = {
     "archetype": "candle",
     "colorGroup": "824",
     "img": "./assets/items/photos/item_824.webp",
-    "revision": "7d5fecd4db18",
+    "revision": "5002cfe2d8bd",
     "bounds": [
       30,
       16,
@@ -216,7 +370,7 @@ export const ITEMS = {
     "archetype": "candle",
     "colorGroup": "825",
     "img": "./assets/items/photos/item_825.webp",
-    "revision": "199c06a093e0",
+    "revision": "1d871076198d",
     "bounds": [
       27,
       16,
@@ -230,7 +384,7 @@ export const ITEMS = {
     "archetype": "candle",
     "colorGroup": "826",
     "img": "./assets/items/photos/item_826.webp",
-    "revision": "206931ec644f",
+    "revision": "35450c280939",
     "bounds": [
       26,
       16,
@@ -244,7 +398,7 @@ export const ITEMS = {
     "archetype": "cat",
     "colorGroup": "827",
     "img": "./assets/items/photos/item_827.webp",
-    "revision": "9d5f2a97c88a",
+    "revision": "4e8448946549",
     "bounds": [
       8,
       16,
@@ -258,7 +412,7 @@ export const ITEMS = {
     "archetype": "cat",
     "colorGroup": "828",
     "img": "./assets/items/photos/item_828.webp",
-    "revision": "5587615a53a1",
+    "revision": "d5bf4fcdc891",
     "bounds": [
       8,
       20,
@@ -272,7 +426,7 @@ export const ITEMS = {
     "archetype": "cat",
     "colorGroup": "829",
     "img": "./assets/items/photos/item_829.webp",
-    "revision": "567070f12d06",
+    "revision": "62a88f325e84",
     "bounds": [
       8,
       17,
@@ -286,40 +440,12 @@ export const ITEMS = {
     "archetype": "cat",
     "colorGroup": "830",
     "img": "./assets/items/photos/item_830.webp",
-    "revision": "5a0695c65d81",
+    "revision": "d2809d1a26ff",
     "bounds": [
       9,
       16,
       181,
       248
-    ]
-  },
-  "item_831": {
-    "id": "item_831",
-    "name": "绿植盆栽（831）",
-    "archetype": "plant",
-    "colorGroup": "831",
-    "img": "./assets/items/photos/item_831.webp",
-    "revision": "6da68d3b5c2c",
-    "bounds": [
-      8,
-      21,
-      184,
-      243
-    ]
-  },
-  "item_832": {
-    "id": "item_832",
-    "name": "绿植盆栽（832）",
-    "archetype": "plant",
-    "colorGroup": "832",
-    "img": "./assets/items/photos/item_832.webp",
-    "revision": "c107fd7aa724",
-    "bounds": [
-      8,
-      57,
-      184,
-      207
     ]
   },
   "item_833": {
@@ -328,26 +454,12 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "833",
     "img": "./assets/items/photos/item_833.webp",
-    "revision": "d5a27babb4eb",
+    "revision": "41966853f46d",
     "bounds": [
       11,
       16,
       178,
       248
-    ]
-  },
-  "item_834": {
-    "id": "item_834",
-    "name": "绿植盆栽（834）",
-    "archetype": "plant",
-    "colorGroup": "834",
-    "img": "./assets/items/photos/item_834.webp",
-    "revision": "9a9f6eb7d625",
-    "bounds": [
-      8,
-      45,
-      184,
-      219
     ]
   },
   "item_835": {
@@ -356,26 +468,12 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "835",
     "img": "./assets/items/photos/item_835.webp",
-    "revision": "6492fa46505b",
+    "revision": "dd37d9a4c15a",
     "bounds": [
       8,
       50,
       184,
       214
-    ]
-  },
-  "item_836": {
-    "id": "item_836",
-    "name": "绿植盆栽（836）",
-    "archetype": "plant",
-    "colorGroup": "836",
-    "img": "./assets/items/photos/item_836.webp",
-    "revision": "49475aa14530",
-    "bounds": [
-      8,
-      34,
-      184,
-      230
     ]
   },
   "item_837": {
@@ -384,26 +482,12 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "837",
     "img": "./assets/items/photos/item_837.webp",
-    "revision": "1b93b06031ff",
+    "revision": "0d2bfccc0691",
     "bounds": [
       12,
       16,
       175,
       248
-    ]
-  },
-  "item_838": {
-    "id": "item_838",
-    "name": "绿植盆栽（838）",
-    "archetype": "plant",
-    "colorGroup": "838",
-    "img": "./assets/items/photos/item_838.webp",
-    "revision": "ee66417fd067",
-    "bounds": [
-      8,
-      49,
-      184,
-      215
     ]
   },
   "item_839": {
@@ -412,7 +496,7 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "839",
     "img": "./assets/items/photos/item_839.webp",
-    "revision": "003285aa3064",
+    "revision": "9e31cbcf2e0d",
     "bounds": [
       23,
       16,
@@ -426,7 +510,7 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "840",
     "img": "./assets/items/photos/item_840.webp",
-    "revision": "f04c7c90a3d6",
+    "revision": "7396aa3a0f4d",
     "bounds": [
       22,
       16,
@@ -440,7 +524,7 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "841",
     "img": "./assets/items/photos/item_841.webp",
-    "revision": "55fc239e27a4",
+    "revision": "f1714b534920",
     "bounds": [
       14,
       16,
@@ -454,7 +538,7 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "842",
     "img": "./assets/items/photos/item_842.webp",
-    "revision": "e04f3643ab06",
+    "revision": "95afe6a357db",
     "bounds": [
       8,
       42,
@@ -468,7 +552,7 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "843",
     "img": "./assets/items/photos/item_843.webp",
-    "revision": "b2099867260a",
+    "revision": "5e432b7635c0",
     "bounds": [
       24,
       16,
@@ -482,12 +566,12 @@ export const ITEMS = {
     "archetype": "rabbit",
     "colorGroup": "845",
     "img": "./assets/items/photos/item_845.webp",
-    "revision": "daec0c443ff9",
+    "revision": "96d613fbb6f3",
     "bounds": [
-      8,
-      39,
-      184,
-      225
+      16,
+      16,
+      168,
+      248
     ]
   },
   "item_846": {
@@ -496,12 +580,12 @@ export const ITEMS = {
     "archetype": "rabbit",
     "colorGroup": "846",
     "img": "./assets/items/photos/item_846.webp",
-    "revision": "974ae0dca265",
+    "revision": "0f074b588f0f",
     "bounds": [
-      8,
-      24,
-      184,
-      240
+      16,
+      16,
+      168,
+      248
     ]
   },
   "item_847": {
@@ -510,7 +594,7 @@ export const ITEMS = {
     "archetype": "rabbit",
     "colorGroup": "847",
     "img": "./assets/items/photos/item_847.webp",
-    "revision": "5f7d4e330b86",
+    "revision": "0a5e76e09536",
     "bounds": [
       21,
       16,
@@ -524,12 +608,12 @@ export const ITEMS = {
     "archetype": "bear",
     "colorGroup": "848",
     "img": "./assets/items/photos/item_848.webp",
-    "revision": "a586d48dc62c",
+    "revision": "dfc08b2c4c90",
     "bounds": [
-      8,
-      41,
-      184,
-      223
+      14,
+      16,
+      171,
+      248
     ]
   },
   "item_849": {
@@ -538,12 +622,12 @@ export const ITEMS = {
     "archetype": "bear",
     "colorGroup": "849",
     "img": "./assets/items/photos/item_849.webp",
-    "revision": "e296ca32d869",
+    "revision": "4a6588620000",
     "bounds": [
-      8,
-      43,
-      184,
-      221
+      14,
+      16,
+      172,
+      248
     ]
   },
   "item_850": {
@@ -552,12 +636,12 @@ export const ITEMS = {
     "archetype": "bear",
     "colorGroup": "850",
     "img": "./assets/items/photos/item_850.webp",
-    "revision": "2e7c75e854d3",
+    "revision": "9ee36fd944ab",
     "bounds": [
-      8,
-      36,
-      184,
-      228
+      16,
+      16,
+      168,
+      248
     ]
   },
   "item_851": {
@@ -566,12 +650,12 @@ export const ITEMS = {
     "archetype": "bear",
     "colorGroup": "851",
     "img": "./assets/items/photos/item_851.webp",
-    "revision": "c8c98408b965",
+    "revision": "87270e47f189",
     "bounds": [
-      8,
-      43,
-      184,
-      221
+      14,
+      16,
+      171,
+      248
     ]
   },
   "item_852": {
@@ -580,12 +664,12 @@ export const ITEMS = {
     "archetype": "bear",
     "colorGroup": "852",
     "img": "./assets/items/photos/item_852.webp",
-    "revision": "c570bb9d8719",
+    "revision": "ef4e1411243b",
     "bounds": [
-      8,
-      46,
-      184,
-      218
+      11,
+      16,
+      177,
+      248
     ]
   },
   "item_853": {
@@ -594,12 +678,12 @@ export const ITEMS = {
     "archetype": "bear",
     "colorGroup": "853",
     "img": "./assets/items/photos/item_853.webp",
-    "revision": "f10c76cdb2f9",
+    "revision": "1476ecab3605",
     "bounds": [
-      8,
-      45,
-      184,
-      219
+      12,
+      16,
+      176,
+      248
     ]
   },
   "item_854": {
@@ -608,12 +692,12 @@ export const ITEMS = {
     "archetype": "bear",
     "colorGroup": "854",
     "img": "./assets/items/photos/item_854.webp",
-    "revision": "8884c58a0bde",
+    "revision": "935c7f692581",
     "bounds": [
-      8,
-      42,
-      184,
-      222
+      12,
+      16,
+      175,
+      248
     ]
   },
   "item_855": {
@@ -622,12 +706,12 @@ export const ITEMS = {
     "archetype": "bear",
     "colorGroup": "855",
     "img": "./assets/items/photos/item_855.webp",
-    "revision": "e10345ac8c26",
+    "revision": "a3777bb6684b",
     "bounds": [
-      8,
-      43,
-      184,
-      221
+      12,
+      16,
+      176,
+      248
     ]
   },
   "item_856": {
@@ -636,7 +720,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "856",
     "img": "./assets/items/photos/item_856.webp",
-    "revision": "9eb866b78dca",
+    "revision": "841d4857f72b",
     "bounds": [
       26,
       16,
@@ -650,7 +734,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "857",
     "img": "./assets/items/photos/item_857.webp",
-    "revision": "44592e0ffbce",
+    "revision": "5ef05bb958fe",
     "bounds": [
       25,
       16,
@@ -664,7 +748,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "858",
     "img": "./assets/items/photos/item_858.webp",
-    "revision": "e79da15a5710",
+    "revision": "9f88ee3e26ce",
     "bounds": [
       25,
       16,
@@ -678,7 +762,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "859",
     "img": "./assets/items/photos/item_859.webp",
-    "revision": "a4c1a31ebdca",
+    "revision": "5ef93c48362b",
     "bounds": [
       26,
       16,
@@ -692,7 +776,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "860",
     "img": "./assets/items/photos/item_860.webp",
-    "revision": "74f52ad45c20",
+    "revision": "ff80223cdb2d",
     "bounds": [
       8,
       16,
@@ -706,7 +790,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "861",
     "img": "./assets/items/photos/item_861.webp",
-    "revision": "bfa59fc99549",
+    "revision": "7af93c8bc646",
     "bounds": [
       10,
       16,
@@ -720,7 +804,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "862",
     "img": "./assets/items/photos/item_862.webp",
-    "revision": "50e3afb2bdf0",
+    "revision": "7928b3ace13d",
     "bounds": [
       10,
       16,
@@ -734,7 +818,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "863",
     "img": "./assets/items/photos/item_863.webp",
-    "revision": "3c8c1752d94d",
+    "revision": "e74152bc22cd",
     "bounds": [
       9,
       16,
@@ -748,7 +832,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "864",
     "img": "./assets/items/photos/item_864.webp",
-    "revision": "bd51b6f88f1c",
+    "revision": "d785b6abc35f",
     "bounds": [
       9,
       16,
@@ -762,7 +846,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "865",
     "img": "./assets/items/photos/item_865.webp",
-    "revision": "e73583991b65",
+    "revision": "a7c7a407008a",
     "bounds": [
       14,
       16,
@@ -776,7 +860,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "866",
     "img": "./assets/items/photos/item_866.webp",
-    "revision": "4125c0de3a3d",
+    "revision": "3b5211500e31",
     "bounds": [
       17,
       16,
@@ -790,7 +874,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "867",
     "img": "./assets/items/photos/item_867.webp",
-    "revision": "a3ac3d3c3734",
+    "revision": "68b21b21bfc1",
     "bounds": [
       17,
       16,
@@ -804,7 +888,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "869",
     "img": "./assets/items/photos/item_869.webp",
-    "revision": "6a0652c58279",
+    "revision": "ad3497665b10",
     "bounds": [
       8,
       34,
@@ -818,7 +902,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "870",
     "img": "./assets/items/photos/item_870.webp",
-    "revision": "f03ea0c8955b",
+    "revision": "1c9ddb6344a0",
     "bounds": [
       8,
       33,
@@ -832,7 +916,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "871",
     "img": "./assets/items/photos/item_871.webp",
-    "revision": "a64c97fb84fd",
+    "revision": "256d1749805e",
     "bounds": [
       8,
       35,
@@ -846,7 +930,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "872",
     "img": "./assets/items/photos/item_872.webp",
-    "revision": "a248da7a8870",
+    "revision": "28f1006588dc",
     "bounds": [
       10,
       16,
@@ -860,7 +944,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "873",
     "img": "./assets/items/photos/item_873.webp",
-    "revision": "c3e3834cd3b6",
+    "revision": "b70136d1dcbd",
     "bounds": [
       11,
       16,
@@ -874,7 +958,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "874",
     "img": "./assets/items/photos/item_874.webp",
-    "revision": "90b53b76b2ce",
+    "revision": "916688a0e8ec",
     "bounds": [
       11,
       16,
@@ -888,7 +972,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "875",
     "img": "./assets/items/photos/item_875.webp",
-    "revision": "d97a83d8aaa6",
+    "revision": "09f962228246",
     "bounds": [
       12,
       16,
@@ -902,7 +986,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "876",
     "img": "./assets/items/photos/item_876.webp",
-    "revision": "4755b6b73def",
+    "revision": "85ea409f89d5",
     "bounds": [
       8,
       26,
@@ -916,7 +1000,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "878",
     "img": "./assets/items/photos/item_878.webp",
-    "revision": "4f22b8130b2a",
+    "revision": "c3553485432f",
     "bounds": [
       8,
       28,
@@ -930,7 +1014,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "879",
     "img": "./assets/items/photos/item_879.webp",
-    "revision": "e83d20383b64",
+    "revision": "85563388c0ee",
     "bounds": [
       12,
       16,
@@ -944,7 +1028,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "880",
     "img": "./assets/items/photos/item_880.webp",
-    "revision": "4d2a16ad61fe",
+    "revision": "c8b11a8c7bff",
     "bounds": [
       12,
       16,
@@ -958,7 +1042,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "881",
     "img": "./assets/items/photos/item_881.webp",
-    "revision": "12f19f159d0c",
+    "revision": "d7fe4d0c5ac2",
     "bounds": [
       64,
       16,
@@ -972,7 +1056,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "882",
     "img": "./assets/items/photos/item_882.webp",
-    "revision": "0c354b194a55",
+    "revision": "f0d1841e5ff9",
     "bounds": [
       64,
       16,
@@ -986,7 +1070,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "883",
     "img": "./assets/items/photos/item_883.webp",
-    "revision": "fe05c7269c19",
+    "revision": "18b90ffe9202",
     "bounds": [
       64,
       16,
@@ -1000,7 +1084,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "884",
     "img": "./assets/items/photos/item_884.webp",
-    "revision": "d87b9b0f2ff3",
+    "revision": "d24e0d6862f0",
     "bounds": [
       63,
       16,
@@ -1010,11 +1094,11 @@ export const ITEMS = {
   },
   "item_885": {
     "id": "item_885",
-    "name": "汽水瓶（885）",
-    "archetype": "bottle",
+    "name": "彩色波点零食袋（885）",
+    "archetype": "snack",
     "colorGroup": "885",
     "img": "./assets/items/photos/item_885.webp",
-    "revision": "a3178b82f858",
+    "revision": "5d7868255f88",
     "bounds": [
       15,
       16,
@@ -1024,11 +1108,11 @@ export const ITEMS = {
   },
   "item_886": {
     "id": "item_886",
-    "name": "汽水瓶（886）",
-    "archetype": "bottle",
+    "name": "绿色波纹零食袋（886）",
+    "archetype": "snack",
     "colorGroup": "886",
     "img": "./assets/items/photos/item_886.webp",
-    "revision": "9c0ec53170cd",
+    "revision": "f0b90f18627f",
     "bounds": [
       18,
       16,
@@ -1038,11 +1122,11 @@ export const ITEMS = {
   },
   "item_887": {
     "id": "item_887",
-    "name": "汽水瓶（887）",
-    "archetype": "bottle",
+    "name": "星光零食袋（887）",
+    "archetype": "snack",
     "colorGroup": "887",
     "img": "./assets/items/photos/item_887.webp",
-    "revision": "980c98845d29",
+    "revision": "192a53c953b1",
     "bounds": [
       10,
       16,
@@ -1056,7 +1140,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "889",
     "img": "./assets/items/photos/item_889.webp",
-    "revision": "c504fbbde8f0",
+    "revision": "9576db5ec315",
     "bounds": [
       60,
       16,
@@ -1070,7 +1154,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "890",
     "img": "./assets/items/photos/item_890.webp",
-    "revision": "12f222928803",
+    "revision": "aa0b72b4cc80",
     "bounds": [
       60,
       16,
@@ -1084,7 +1168,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "891",
     "img": "./assets/items/photos/item_891.webp",
-    "revision": "9ea3dd0dd931",
+    "revision": "c1c471c7797d",
     "bounds": [
       60,
       16,
@@ -1098,7 +1182,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "892",
     "img": "./assets/items/photos/item_892.webp",
-    "revision": "a0bcaef3b9fb",
+    "revision": "64895441ba32",
     "bounds": [
       58,
       16,
@@ -1112,7 +1196,7 @@ export const ITEMS = {
     "archetype": "stocking",
     "colorGroup": "893",
     "img": "./assets/items/photos/item_893.webp",
-    "revision": "015fd37cf753",
+    "revision": "cf6a0b562e66",
     "bounds": [
       41,
       16,
@@ -1126,7 +1210,7 @@ export const ITEMS = {
     "archetype": "stocking",
     "colorGroup": "894",
     "img": "./assets/items/photos/item_894.webp",
-    "revision": "81f4afd34b89",
+    "revision": "d76ed7acfe3a",
     "bounds": [
       43,
       16,
@@ -1140,7 +1224,7 @@ export const ITEMS = {
     "archetype": "lamp",
     "colorGroup": "895",
     "img": "./assets/items/photos/item_895.webp",
-    "revision": "acd1eef63f8a",
+    "revision": "1bee93563f2f",
     "bounds": [
       8,
       21,
@@ -1154,11 +1238,11 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "896",
     "img": "./assets/items/photos/item_896.webp",
-    "revision": "541cfb37e433",
+    "revision": "cba2b231f26e",
     "bounds": [
-      12,
+      25,
       16,
-      175,
+      149,
       248
     ]
   },
@@ -1168,12 +1252,12 @@ export const ITEMS = {
     "archetype": "calculator",
     "colorGroup": "897",
     "img": "./assets/items/photos/item_897.webp",
-    "revision": "27a893369c3c",
+    "revision": "7d58d4d8064c",
     "bounds": [
-      8,
-      42,
-      184,
-      222
+      12,
+      16,
+      175,
+      248
     ]
   },
   "item_898": {
@@ -1182,7 +1266,7 @@ export const ITEMS = {
     "archetype": "coffee_maker",
     "colorGroup": "898",
     "img": "./assets/items/photos/item_898.webp",
-    "revision": "e0e401fd5697",
+    "revision": "758c775a09e3",
     "bounds": [
       15,
       16,
@@ -1196,39 +1280,11 @@ export const ITEMS = {
     "archetype": "coffee_maker",
     "colorGroup": "899",
     "img": "./assets/items/photos/item_899.webp",
-    "revision": "adb3e18bab89",
+    "revision": "8b10232919ac",
     "bounds": [
       15,
       16,
       170,
-      248
-    ]
-  },
-  "item_900": {
-    "id": "item_900",
-    "name": "保龄球瓶（900）",
-    "archetype": "bowling",
-    "colorGroup": "900",
-    "img": "./assets/items/photos/item_900.webp",
-    "revision": "093facba25ee",
-    "bounds": [
-      16,
-      16,
-      168,
-      248
-    ]
-  },
-  "item_901": {
-    "id": "item_901",
-    "name": "网球拍（901）",
-    "archetype": "racket",
-    "colorGroup": "901",
-    "img": "./assets/items/photos/item_901.webp",
-    "revision": "0f7e17e14089",
-    "bounds": [
-      39,
-      16,
-      121,
       248
     ]
   },
@@ -1238,7 +1294,7 @@ export const ITEMS = {
     "archetype": "flask",
     "colorGroup": "902",
     "img": "./assets/items/photos/item_902.webp",
-    "revision": "5ebd4772ffb2",
+    "revision": "205cbe3aa1c5",
     "bounds": [
       27,
       16,
@@ -1252,11 +1308,11 @@ export const ITEMS = {
     "archetype": "bin",
     "colorGroup": "905",
     "img": "./assets/items/photos/item_905.webp",
-    "revision": "b382c3543273",
+    "revision": "8afe324c367a",
     "bounds": [
-      9,
+      23,
       16,
-      181,
+      154,
       248
     ]
   },
@@ -1266,11 +1322,11 @@ export const ITEMS = {
     "archetype": "bin",
     "colorGroup": "906",
     "img": "./assets/items/photos/item_906.webp",
-    "revision": "b7086e5eba08",
+    "revision": "519313ac3c91",
     "bounds": [
-      9,
+      23,
       16,
-      181,
+      154,
       248
     ]
   },
@@ -1280,12 +1336,12 @@ export const ITEMS = {
     "archetype": "brush",
     "colorGroup": "907",
     "img": "./assets/items/photos/item_907.webp",
-    "revision": "60323b948006",
+    "revision": "0e1bc1263436",
     "bounds": [
-      8,
-      42,
-      184,
-      222
+      10,
+      16,
+      179,
+      248
     ]
   },
   "item_908": {
@@ -1294,7 +1350,7 @@ export const ITEMS = {
     "archetype": "cleaner",
     "colorGroup": "908",
     "img": "./assets/items/photos/item_908.webp",
-    "revision": "e12281e9829a",
+    "revision": "299469cb251d",
     "bounds": [
       33,
       16,
@@ -1308,7 +1364,7 @@ export const ITEMS = {
     "archetype": "cleaner",
     "colorGroup": "909",
     "img": "./assets/items/photos/item_909.webp",
-    "revision": "ccd625ff3705",
+    "revision": "3afb48fa5867",
     "bounds": [
       16,
       16,
@@ -1322,7 +1378,7 @@ export const ITEMS = {
     "archetype": "cleaner",
     "colorGroup": "910",
     "img": "./assets/items/photos/item_910.webp",
-    "revision": "3179b955553a",
+    "revision": "488523f037d5",
     "bounds": [
       12,
       16,
@@ -1336,7 +1392,7 @@ export const ITEMS = {
     "archetype": "cleaner",
     "colorGroup": "911",
     "img": "./assets/items/photos/item_911.webp",
-    "revision": "f513384697fa",
+    "revision": "af9698a29111",
     "bounds": [
       8,
       19,
@@ -1350,7 +1406,7 @@ export const ITEMS = {
     "archetype": "toothbrush_cup",
     "colorGroup": "912",
     "img": "./assets/items/photos/item_912.webp",
-    "revision": "c86e0969168f",
+    "revision": "3fd47703d1be",
     "bounds": [
       8,
       22,
@@ -1364,7 +1420,7 @@ export const ITEMS = {
     "archetype": "toothbrush_cup",
     "colorGroup": "913",
     "img": "./assets/items/photos/item_913.webp",
-    "revision": "ed1f1cb17c93",
+    "revision": "ae32cc7e1579",
     "bounds": [
       8,
       21,
@@ -1378,7 +1434,7 @@ export const ITEMS = {
     "archetype": "dryer",
     "colorGroup": "914",
     "img": "./assets/items/photos/item_914.webp",
-    "revision": "d0f81e8bbfb6",
+    "revision": "1362831c0383",
     "bounds": [
       8,
       37,
@@ -1392,40 +1448,12 @@ export const ITEMS = {
     "archetype": "dryer",
     "colorGroup": "915",
     "img": "./assets/items/photos/item_915.webp",
-    "revision": "7cc2f6311b92",
+    "revision": "5042fa612e8d",
     "bounds": [
       8,
       37,
       184,
       227
-    ]
-  },
-  "item_916": {
-    "id": "item_916",
-    "name": "吸尘器（916）",
-    "archetype": "vacuum",
-    "colorGroup": "916",
-    "img": "./assets/items/photos/item_916.webp",
-    "revision": "0ce892a48bff",
-    "bounds": [
-      8,
-      69,
-      184,
-      195
-    ]
-  },
-  "item_917": {
-    "id": "item_917",
-    "name": "吸尘器（917）",
-    "archetype": "vacuum",
-    "colorGroup": "917",
-    "img": "./assets/items/photos/item_917.webp",
-    "revision": "766ddbf00610",
-    "bounds": [
-      8,
-      68,
-      184,
-      196
     ]
   },
   "item_918": {
@@ -1434,7 +1462,7 @@ export const ITEMS = {
     "archetype": "tree",
     "colorGroup": "918",
     "img": "./assets/items/photos/item_918.webp",
-    "revision": "c4b97ea09321",
+    "revision": "a0614a49d9f6",
     "bounds": [
       10,
       16,
@@ -1448,12 +1476,12 @@ export const ITEMS = {
     "archetype": "lantern",
     "colorGroup": "919",
     "img": "./assets/items/photos/item_919.webp",
-    "revision": "5eea2f62e8aa",
+    "revision": "5d3d53e57cbd",
     "bounds": [
-      8,
-      21,
-      184,
-      243
+      18,
+      16,
+      164,
+      248
     ]
   },
   "item_920": {
@@ -1462,12 +1490,12 @@ export const ITEMS = {
     "archetype": "lantern",
     "colorGroup": "920",
     "img": "./assets/items/photos/item_920.webp",
-    "revision": "91d442fad80c",
+    "revision": "8778360ee743",
     "bounds": [
-      8,
-      22,
-      184,
-      242
+      17,
+      16,
+      165,
+      248
     ]
   },
   "item_921": {
@@ -1476,68 +1504,12 @@ export const ITEMS = {
     "archetype": "lantern",
     "colorGroup": "921",
     "img": "./assets/items/photos/item_921.webp",
-    "revision": "8539b930b5e4",
+    "revision": "e809c65cfd0b",
     "bounds": [
-      8,
-      22,
-      184,
-      242
-    ]
-  },
-  "item_922": {
-    "id": "item_922",
-    "name": "节日花环（922）",
-    "archetype": "wreath",
-    "colorGroup": "922",
-    "img": "./assets/items/photos/item_922.webp",
-    "revision": "7dc56ec60f30",
-    "bounds": [
-      8,
-      77,
-      184,
-      187
-    ]
-  },
-  "item_923": {
-    "id": "item_923",
-    "name": "节日花环（923）",
-    "archetype": "wreath",
-    "colorGroup": "923",
-    "img": "./assets/items/photos/item_923.webp",
-    "revision": "6f34e1cb9364",
-    "bounds": [
-      8,
-      78,
-      184,
-      186
-    ]
-  },
-  "item_924": {
-    "id": "item_924",
-    "name": "节日花环（924）",
-    "archetype": "wreath",
-    "colorGroup": "924",
-    "img": "./assets/items/photos/item_924.webp",
-    "revision": "bc30fe384d7e",
-    "bounds": [
-      8,
-      78,
-      184,
-      186
-    ]
-  },
-  "item_925": {
-    "id": "item_925",
-    "name": "节日花环（925）",
-    "archetype": "wreath",
-    "colorGroup": "925",
-    "img": "./assets/items/photos/item_925.webp",
-    "revision": "d2396d9dfc6e",
-    "bounds": [
-      8,
-      82,
-      184,
-      182
+      17,
+      16,
+      165,
+      248
     ]
   },
   "item_926": {
@@ -1546,12 +1518,12 @@ export const ITEMS = {
     "archetype": "pouch",
     "colorGroup": "926",
     "img": "./assets/items/photos/item_926.webp",
-    "revision": "8621af0c4d3e",
+    "revision": "6253bee659e3",
     "bounds": [
-      8,
-      52,
-      184,
-      212
+      14,
+      16,
+      172,
+      248
     ]
   },
   "item_927": {
@@ -1560,12 +1532,12 @@ export const ITEMS = {
     "archetype": "pouch",
     "colorGroup": "927",
     "img": "./assets/items/photos/item_927.webp",
-    "revision": "a19233182095",
+    "revision": "01ac54253dca",
     "bounds": [
-      8,
-      48,
-      184,
-      216
+      13,
+      16,
+      174,
+      248
     ]
   },
   "item_928": {
@@ -1574,12 +1546,12 @@ export const ITEMS = {
     "archetype": "party_popper",
     "colorGroup": "928",
     "img": "./assets/items/photos/item_928.webp",
-    "revision": "6b6ee8cbabdf",
+    "revision": "fe3aa154fb68",
     "bounds": [
-      8,
-      48,
-      184,
-      216
+      10,
+      16,
+      180,
+      248
     ]
   },
   "item_929": {
@@ -1588,40 +1560,12 @@ export const ITEMS = {
     "archetype": "party_popper",
     "colorGroup": "929",
     "img": "./assets/items/photos/item_929.webp",
-    "revision": "2958057de29b",
+    "revision": "0c5146617624",
     "bounds": [
       8,
-      62,
+      28,
       184,
-      202
-    ]
-  },
-  "item_930": {
-    "id": "item_930",
-    "name": "节日礼盒（930）",
-    "archetype": "gift",
-    "colorGroup": "930",
-    "img": "./assets/items/photos/item_930.webp",
-    "revision": "a36b607eee60",
-    "bounds": [
-      8,
-      74,
-      184,
-      190
-    ]
-  },
-  "item_931": {
-    "id": "item_931",
-    "name": "节日礼盒（931）",
-    "archetype": "gift",
-    "colorGroup": "931",
-    "img": "./assets/items/photos/item_931.webp",
-    "revision": "7d081665b093",
-    "bounds": [
-      8,
-      74,
-      184,
-      190
+      236
     ]
   },
   "item_932": {
@@ -1630,7 +1574,7 @@ export const ITEMS = {
     "archetype": "shoe",
     "colorGroup": "932",
     "img": "./assets/items/photos/item_932.webp",
-    "revision": "c74afdc07736",
+    "revision": "c7bcfd28bd56",
     "bounds": [
       8,
       38,
@@ -1644,7 +1588,7 @@ export const ITEMS = {
     "archetype": "shoe",
     "colorGroup": "933",
     "img": "./assets/items/photos/item_933.webp",
-    "revision": "d9e285ba6bb2",
+    "revision": "cee19b035efb",
     "bounds": [
       8,
       36,
@@ -1658,7 +1602,7 @@ export const ITEMS = {
     "archetype": "scarf",
     "colorGroup": "934",
     "img": "./assets/items/photos/item_934.webp",
-    "revision": "8bc5ec8da6f2",
+    "revision": "818f337f63a1",
     "bounds": [
       8,
       31,
@@ -1672,7 +1616,7 @@ export const ITEMS = {
     "archetype": "scarf",
     "colorGroup": "935",
     "img": "./assets/items/photos/item_935.webp",
-    "revision": "b88143c7fecf",
+    "revision": "ce9fc1af58a0",
     "bounds": [
       8,
       29,
@@ -1686,7 +1630,7 @@ export const ITEMS = {
     "archetype": "scarf",
     "colorGroup": "936",
     "img": "./assets/items/photos/item_936.webp",
-    "revision": "cb423ea560cf",
+    "revision": "a7cb1191b11f",
     "bounds": [
       8,
       30,
@@ -1700,7 +1644,7 @@ export const ITEMS = {
     "archetype": "handbag",
     "colorGroup": "937",
     "img": "./assets/items/photos/item_937.webp",
-    "revision": "e3a7582e2cbd",
+    "revision": "2e4e8300377c",
     "bounds": [
       8,
       44,
@@ -1714,7 +1658,7 @@ export const ITEMS = {
     "archetype": "handbag",
     "colorGroup": "938",
     "img": "./assets/items/photos/item_938.webp",
-    "revision": "ed54420093d8",
+    "revision": "f8087c4dafac",
     "bounds": [
       8,
       43,
@@ -1728,7 +1672,7 @@ export const ITEMS = {
     "archetype": "perfume",
     "colorGroup": "939",
     "img": "./assets/items/photos/item_939.webp",
-    "revision": "154ea4d106e0",
+    "revision": "31cf7d2ef4f4",
     "bounds": [
       17,
       16,
@@ -1742,7 +1686,7 @@ export const ITEMS = {
     "archetype": "perfume",
     "colorGroup": "940",
     "img": "./assets/items/photos/item_940.webp",
-    "revision": "07f67074cc78",
+    "revision": "c8f074b0a6f3",
     "bounds": [
       17,
       16,
@@ -1756,7 +1700,7 @@ export const ITEMS = {
     "archetype": "backpack",
     "colorGroup": "941",
     "img": "./assets/items/photos/item_941.webp",
-    "revision": "7a7c31d7897b",
+    "revision": "4971496d9ee4",
     "bounds": [
       8,
       27,
@@ -1770,68 +1714,12 @@ export const ITEMS = {
     "archetype": "backpack",
     "colorGroup": "942",
     "img": "./assets/items/photos/item_942.webp",
-    "revision": "32349af939d5",
+    "revision": "ec7209cb1c13",
     "bounds": [
       8,
       26,
       184,
       238
-    ]
-  },
-  "item_943": {
-    "id": "item_943",
-    "name": "小摩托（943）",
-    "archetype": "scooter",
-    "colorGroup": "943",
-    "img": "./assets/items/photos/item_943.webp",
-    "revision": "f8389ec0102c",
-    "bounds": [
-      8,
-      80,
-      184,
-      184
-    ]
-  },
-  "item_944": {
-    "id": "item_944",
-    "name": "小摩托（944）",
-    "archetype": "scooter",
-    "colorGroup": "944",
-    "img": "./assets/items/photos/item_944.webp",
-    "revision": "8c51aa548b06",
-    "bounds": [
-      8,
-      80,
-      184,
-      184
-    ]
-  },
-  "item_945": {
-    "id": "item_945",
-    "name": "青色滑板（945）",
-    "archetype": "skateboard",
-    "colorGroup": "945",
-    "img": "./assets/items/photos/item_945.webp",
-    "revision": "4760c70f35fc",
-    "bounds": [
-      14,
-      16,
-      172,
-      248
-    ]
-  },
-  "item_946": {
-    "id": "item_946",
-    "name": "热气球（946）",
-    "archetype": "balloon",
-    "colorGroup": "946",
-    "img": "./assets/items/photos/item_946.webp",
-    "revision": "865ec729cfb2",
-    "bounds": [
-      18,
-      16,
-      163,
-      248
     ]
   },
   "item_947": {
@@ -1840,7 +1728,7 @@ export const ITEMS = {
     "archetype": "balloon",
     "colorGroup": "947",
     "img": "./assets/items/photos/item_947.webp",
-    "revision": "1bc79a2149d9",
+    "revision": "6135609291b0",
     "bounds": [
       18,
       16,
@@ -1854,7 +1742,7 @@ export const ITEMS = {
     "archetype": "balloon",
     "colorGroup": "948",
     "img": "./assets/items/photos/item_948.webp",
-    "revision": "8573549f7b9d",
+    "revision": "aed81ba0098e",
     "bounds": [
       18,
       16,
@@ -1868,7 +1756,7 @@ export const ITEMS = {
     "archetype": "train",
     "colorGroup": "949",
     "img": "./assets/items/photos/item_949.webp",
-    "revision": "26891fb5b78d",
+    "revision": "b0a0bacc497f",
     "bounds": [
       8,
       39,
@@ -1882,7 +1770,7 @@ export const ITEMS = {
     "archetype": "notebook",
     "colorGroup": "951",
     "img": "./assets/items/photos/item_951.webp",
-    "revision": "05c01bd5fc34",
+    "revision": "b46fa3a539b7",
     "bounds": [
       8,
       22,
@@ -1896,26 +1784,12 @@ export const ITEMS = {
     "archetype": "calculator",
     "colorGroup": "952",
     "img": "./assets/items/photos/item_952.webp",
-    "revision": "dc2e21f2394d",
+    "revision": "cef71a11e13e",
     "bounds": [
       8,
       43,
       184,
       221
-    ]
-  },
-  "item_953": {
-    "id": "item_953",
-    "name": "彩色骰子（953）",
-    "archetype": "dice",
-    "colorGroup": "953",
-    "img": "./assets/items/photos/item_953.webp",
-    "revision": "ec2bd00907d3",
-    "bounds": [
-      8,
-      81,
-      184,
-      183
     ]
   },
   "item_954": {
@@ -1924,7 +1798,7 @@ export const ITEMS = {
     "archetype": "headphones",
     "colorGroup": "954",
     "img": "./assets/items/photos/item_954.webp",
-    "revision": "399212eb1d7c",
+    "revision": "3564e8ec4de0",
     "bounds": [
       8,
       67,
@@ -1938,7 +1812,7 @@ export const ITEMS = {
     "archetype": "remote",
     "colorGroup": "955",
     "img": "./assets/items/photos/item_955.webp",
-    "revision": "a9abf90982fa",
+    "revision": "434768867a02",
     "bounds": [
       12,
       16,
@@ -1952,7 +1826,7 @@ export const ITEMS = {
     "archetype": "laptop",
     "colorGroup": "956",
     "img": "./assets/items/photos/item_956.webp",
-    "revision": "a274c3bf32c7",
+    "revision": "5ded795fe459",
     "bounds": [
       8,
       68,
@@ -1966,7 +1840,7 @@ export const ITEMS = {
     "archetype": "flask",
     "colorGroup": "957",
     "img": "./assets/items/photos/item_957.webp",
-    "revision": "de9d19474365",
+    "revision": "af37c12cc581",
     "bounds": [
       24,
       16,
@@ -1980,40 +1854,12 @@ export const ITEMS = {
     "archetype": "board",
     "colorGroup": "958",
     "img": "./assets/items/photos/item_958.webp",
-    "revision": "ac1dd44fe308",
+    "revision": "e3d9aa566400",
     "bounds": [
       11,
       16,
       177,
       248
-    ]
-  },
-  "item_959": {
-    "id": "item_959",
-    "name": "橙色微波炉（959）",
-    "archetype": "microwave",
-    "colorGroup": "959",
-    "img": "./assets/items/photos/item_959.webp",
-    "revision": "f0db8e3158bc",
-    "bounds": [
-      8,
-      114,
-      184,
-      150
-    ]
-  },
-  "item_960": {
-    "id": "item_960",
-    "name": "紫色电饭锅（960）",
-    "archetype": "rice_cooker",
-    "colorGroup": "960",
-    "img": "./assets/items/photos/item_960.webp",
-    "revision": "741cf5639507",
-    "bounds": [
-      8,
-      73,
-      184,
-      191
     ]
   },
   "item_961": {
@@ -2022,7 +1868,7 @@ export const ITEMS = {
     "archetype": "toaster",
     "colorGroup": "961",
     "img": "./assets/items/photos/item_961.webp",
-    "revision": "42edbea5b3e1",
+    "revision": "061183474f39",
     "bounds": [
       8,
       50,
@@ -2036,7 +1882,7 @@ export const ITEMS = {
     "archetype": "coffee_maker",
     "colorGroup": "962",
     "img": "./assets/items/photos/item_962.webp",
-    "revision": "29af60913206",
+    "revision": "8a6b171158d1",
     "bounds": [
       15,
       16,
@@ -2050,26 +1896,12 @@ export const ITEMS = {
     "archetype": "kettle",
     "colorGroup": "963",
     "img": "./assets/items/photos/item_963.webp",
-    "revision": "02d4fd0d3bdc",
+    "revision": "2a6a3d5fe419",
     "bounds": [
       8,
       34,
       184,
       230
-    ]
-  },
-  "item_964": {
-    "id": "item_964",
-    "name": "红色煎锅（964）",
-    "archetype": "pan",
-    "colorGroup": "964",
-    "img": "./assets/items/photos/item_964.webp",
-    "revision": "717e505cff4c",
-    "bounds": [
-      8,
-      77,
-      184,
-      187
     ]
   },
   "item_965": {
@@ -2078,12 +1910,12 @@ export const ITEMS = {
     "archetype": "stool",
     "colorGroup": "965",
     "img": "./assets/items/photos/item_965.webp",
-    "revision": "c419287cfac3",
+    "revision": "17d8811edc7e",
     "bounds": [
       8,
-      82,
+      49,
       184,
-      182
+      215
     ]
   },
   "item_966": {
@@ -2092,7 +1924,7 @@ export const ITEMS = {
     "archetype": "chair",
     "colorGroup": "966",
     "img": "./assets/items/photos/item_966.webp",
-    "revision": "19c0057d0b6f",
+    "revision": "f846c42f5ee3",
     "bounds": [
       8,
       61,
@@ -2106,7 +1938,7 @@ export const ITEMS = {
     "archetype": "washer",
     "colorGroup": "968",
     "img": "./assets/items/photos/item_968.webp",
-    "revision": "f13af3aedb37",
+    "revision": "50e090f8f458",
     "bounds": [
       12,
       16,
@@ -2120,7 +1952,7 @@ export const ITEMS = {
     "archetype": "fan",
     "colorGroup": "969",
     "img": "./assets/items/photos/item_969.webp",
-    "revision": "e1cdbcb859e2",
+    "revision": "18197a90bb2c",
     "bounds": [
       8,
       27,
@@ -2134,7 +1966,7 @@ export const ITEMS = {
     "archetype": "fridge",
     "colorGroup": "970",
     "img": "./assets/items/photos/item_970.webp",
-    "revision": "2a1f06c1d2c6",
+    "revision": "a76144f2fd2d",
     "bounds": [
       8,
       29,
@@ -2148,7 +1980,7 @@ export const ITEMS = {
     "archetype": "clock",
     "colorGroup": "971",
     "img": "./assets/items/photos/item_971.webp",
-    "revision": "e7a107676c17",
+    "revision": "44803ce0c909",
     "bounds": [
       8,
       19,
@@ -2162,7 +1994,7 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "972",
     "img": "./assets/items/photos/item_972.webp",
-    "revision": "fe474f25f989",
+    "revision": "4c5aa63ffb41",
     "bounds": [
       17,
       16,
@@ -2176,12 +2008,12 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "973",
     "img": "./assets/items/photos/item_973.webp",
-    "revision": "895edb910a6f",
+    "revision": "5fe85b9d1783",
     "bounds": [
-      8,
-      39,
-      184,
-      225
+      15,
+      16,
+      169,
+      248
     ]
   },
   "item_974": {
@@ -2190,7 +2022,7 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "974",
     "img": "./assets/items/photos/item_974.webp",
-    "revision": "d4e70f545afc",
+    "revision": "d72fd951c25e",
     "bounds": [
       8,
       18,
@@ -2204,7 +2036,7 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "975",
     "img": "./assets/items/photos/item_975.webp",
-    "revision": "0e187ee32037",
+    "revision": "1308ade7f677",
     "bounds": [
       11,
       16,
@@ -2218,7 +2050,7 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "976",
     "img": "./assets/items/photos/item_976.webp",
-    "revision": "7a2f1c6da8c4",
+    "revision": "32a1d9b4d0e3",
     "bounds": [
       16,
       16,
@@ -2232,7 +2064,7 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "977",
     "img": "./assets/items/photos/item_977.webp",
-    "revision": "adaead643bbc",
+    "revision": "e4db31e9bcb0",
     "bounds": [
       26,
       16,
@@ -2246,7 +2078,7 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "978",
     "img": "./assets/items/photos/item_978.webp",
-    "revision": "93dd2a477d1a",
+    "revision": "47c9d21b75c2",
     "bounds": [
       11,
       16,
@@ -2260,7 +2092,7 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "979",
     "img": "./assets/items/photos/item_979.webp",
-    "revision": "e55eca3dfeac",
+    "revision": "05f605dc38ae",
     "bounds": [
       12,
       16,
@@ -2274,11 +2106,11 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "980",
     "img": "./assets/items/photos/item_980.webp",
-    "revision": "3d2b94f4d0dd",
+    "revision": "8e373a36e2b7",
     "bounds": [
-      12,
+      25,
       16,
-      175,
+      149,
       248
     ]
   },
@@ -2288,11 +2120,11 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "981",
     "img": "./assets/items/photos/item_981.webp",
-    "revision": "09fc1d39f876",
+    "revision": "199e4042c7f6",
     "bounds": [
-      21,
+      31,
       16,
-      158,
+      138,
       248
     ]
   },
@@ -2302,7 +2134,7 @@ export const ITEMS = {
     "archetype": "mitten",
     "colorGroup": "982",
     "img": "./assets/items/photos/item_982.webp",
-    "revision": "5ad855cb6d62",
+    "revision": "3510a9d80599",
     "bounds": [
       8,
       49,
@@ -2316,7 +2148,7 @@ export const ITEMS = {
     "archetype": "drink",
     "colorGroup": "983",
     "img": "./assets/items/photos/item_983.webp",
-    "revision": "cca4201d1784",
+    "revision": "06560ba6ec4e",
     "bounds": [
       42,
       16,
@@ -2330,26 +2162,12 @@ export const ITEMS = {
     "archetype": "lamp",
     "colorGroup": "984",
     "img": "./assets/items/photos/item_984.webp",
-    "revision": "7afaed5b1a02",
+    "revision": "b720bad12c5d",
     "bounds": [
       11,
       16,
       178,
       248
-    ]
-  },
-  "item_985": {
-    "id": "item_985",
-    "name": "龟背竹叶（985）",
-    "archetype": "leaf",
-    "colorGroup": "985",
-    "img": "./assets/items/photos/item_985.webp",
-    "revision": "a363b5be3950",
-    "bounds": [
-      8,
-      48,
-      184,
-      216
     ]
   },
   "item_986": {
@@ -2358,7 +2176,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "986",
     "img": "./assets/items/photos/item_986.webp",
-    "revision": "8d349c51954f",
+    "revision": "0164d7833539",
     "bounds": [
       25,
       16,
@@ -2372,7 +2190,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "987",
     "img": "./assets/items/photos/item_987.webp",
-    "revision": "70560ce0972f",
+    "revision": "c1b8c07b981f",
     "bounds": [
       8,
       16,
@@ -2386,7 +2204,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "988",
     "img": "./assets/items/photos/item_988.webp",
-    "revision": "b49ec07d04b8",
+    "revision": "43c681d7b29f",
     "bounds": [
       8,
       16,
@@ -2400,7 +2218,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "989",
     "img": "./assets/items/photos/item_989.webp",
-    "revision": "86fa014e1061",
+    "revision": "36bd6f5a03fe",
     "bounds": [
       24,
       16,
@@ -2414,7 +2232,7 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "990",
     "img": "./assets/items/photos/item_990.webp",
-    "revision": "90a0e832faff",
+    "revision": "b16b8b3bb06d",
     "bounds": [
       20,
       16,
@@ -2424,11 +2242,11 @@ export const ITEMS = {
   },
   "item_991": {
     "id": "item_991",
-    "name": "花草盆栽（991）",
-    "archetype": "plant",
+    "name": "圆形饼干（991）",
+    "archetype": "cookie",
     "colorGroup": "991",
     "img": "./assets/items/photos/item_991.webp",
-    "revision": "902158e343fa",
+    "revision": "6f1817466229",
     "bounds": [
       8,
       83,
@@ -2442,12 +2260,12 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "992",
     "img": "./assets/items/photos/item_992.webp",
-    "revision": "b02effc9d98d",
+    "revision": "ef094bcd0fd4",
     "bounds": [
-      8,
-      50,
-      184,
-      214
+      9,
+      16,
+      181,
+      248
     ]
   },
   "item_993": {
@@ -2456,11 +2274,11 @@ export const ITEMS = {
     "archetype": "plant",
     "colorGroup": "993",
     "img": "./assets/items/photos/item_993.webp",
-    "revision": "a4cfad57a8a1",
+    "revision": "283f2ec0a57f",
     "bounds": [
-      9,
+      23,
       16,
-      181,
+      154,
       248
     ]
   },
@@ -2470,12 +2288,12 @@ export const ITEMS = {
     "archetype": "mitten",
     "colorGroup": "995",
     "img": "./assets/items/photos/item_995.webp",
-    "revision": "f08bda806588",
+    "revision": "e737a9050928",
     "bounds": [
-      8,
-      20,
-      184,
-      244
+      21,
+      16,
+      158,
+      248
     ]
   },
   "item_996": {
@@ -2484,7 +2302,7 @@ export const ITEMS = {
     "archetype": "notebook",
     "colorGroup": "996",
     "img": "./assets/items/photos/item_996.webp",
-    "revision": "7170d1a1df69",
+    "revision": "7d32679827bd",
     "bounds": [
       23,
       16,
@@ -2498,7 +2316,7 @@ export const ITEMS = {
     "archetype": "stocking",
     "colorGroup": "997",
     "img": "./assets/items/photos/item_997.webp",
-    "revision": "e33698acd8a7",
+    "revision": "9ea45c39f3b1",
     "bounds": [
       43,
       16,
@@ -2512,7 +2330,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "998",
     "img": "./assets/items/photos/item_998.webp",
-    "revision": "be890536aec9",
+    "revision": "82d17c24e544",
     "bounds": [
       48,
       16,
@@ -2526,7 +2344,7 @@ export const ITEMS = {
     "archetype": "bottle",
     "colorGroup": "999",
     "img": "./assets/items/photos/item_999.webp",
-    "revision": "91c166582d5b",
+    "revision": "33f984b4d49b",
     "bounds": [
       51,
       16,
@@ -2540,7 +2358,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "8788",
     "img": "./assets/items/photos/item_8788.webp",
-    "revision": "d746691de785",
+    "revision": "d2510c9699f2",
     "bounds": [
       8,
       22,
@@ -2554,7 +2372,7 @@ export const ITEMS = {
     "archetype": "carton",
     "colorGroup": "8871",
     "img": "./assets/items/photos/item_8871.webp",
-    "revision": "d224f40a73b3",
+    "revision": "9836f1987621",
     "bounds": [
       9,
       16,
@@ -2568,7 +2386,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "8877",
     "img": "./assets/items/photos/item_8877.webp",
-    "revision": "da846d59049d",
+    "revision": "11ebf613af4b",
     "bounds": [
       8,
       24,
@@ -2582,12 +2400,12 @@ export const ITEMS = {
     "archetype": "lamp",
     "colorGroup": "9771",
     "img": "./assets/items/photos/item_9771.webp",
-    "revision": "2a5074a09632",
+    "revision": "3bbc56f885c3",
     "bounds": [
-      8,
-      36,
-      184,
-      228
+      15,
+      16,
+      170,
+      248
     ]
   },
   "item_88868": {
@@ -2596,7 +2414,7 @@ export const ITEMS = {
     "archetype": "snack",
     "colorGroup": "88868",
     "img": "./assets/items/photos/item_88868.webp",
-    "revision": "fb8ef5d3af11",
+    "revision": "9b092e3b8f15",
     "bounds": [
       8,
       32,
