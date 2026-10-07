@@ -54,7 +54,7 @@ function fixture({ sourceCount = 1, targetCount = 1, location = 'cabinet' } = {}
   const window = { listeners: {}, addEventListener(name, callback) { this.listeners[name] = callback; } };
   vm.runInNewContext(source, { window, document, console, setTimeout: callback => { pending.push(callback); } });
   const game = Object.create(window.TestGame.prototype);
-  const slotData = count => ({ layers: [['blue_snowman', 'red_snowman', 'green_snowman'].slice(0, count), [], []] });
+  const slotData = count => ({ layers: [['item_810', 'item_811', 'item_812'].slice(0, count), [], []] });
   game.cabinetData = [slotData(sourceCount), slotData(targetCount)];
   game.conveyorRows = [[slotData(sourceCount), slotData(targetCount)]];
   const compartments = [new Element(), new Element({ left: 200, top: 0, width: 120, height: 100 })];
@@ -63,7 +63,7 @@ function fixture({ sourceCount = 1, targetCount = 1, location = 'cabinet' } = {}
   document.getElementById('conveyor-track-0').children = planks;
   const sourceEl = new Element({ left: 20, top: location === 'cabinet' ? 20 : 200, width: 40, height: 70 });
   sourceEl.classList.add('good-item', 'layer-front', 'entering');
-  sourceEl.dataset = { type: location, slotIndex: '0', rowIndex: '0', shelfIndex: '0', itemIndex: '0', itemKey: 'blue_snowman' };
+  sourceEl.dataset = { type: location, slotIndex: '0', rowIndex: '0', shelfIndex: '0', itemIndex: '0', itemKey: 'item_810' };
   (location === 'cabinet' ? compartments[0] : planks[0]).items = [sourceEl];
   elements.push(sourceEl, ...compartments, ...planks);
   game.dragGhost = new Element();

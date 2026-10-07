@@ -245,7 +245,7 @@ body {
   aspect-ratio: 1040 / 720;
   max-height: min(400px, 49vh, 49%);
   margin: 0 auto;
-  background-image: url('./assets/ui/cabinet_empty.svg?v=1.7.10');
+  background-image: url('./assets/ui/cabinet_wood.jpg?v=1.8.0');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: relative;
@@ -271,7 +271,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 2px;
+  padding-bottom: 6px;
   overflow: visible;
   transition: all 0.2s;
   box-sizing: border-box;
@@ -496,9 +496,7 @@ body {
   min-height: 52px;
   max-height: 102px;
   overflow: hidden;
-  background: #dbe8f9;
-  border-radius: 10px;
-  border-bottom: 2px solid rgba(146, 168, 186, 0.12);
+  background: transparent;
 }
 
 .conveyor-track {
@@ -518,11 +516,11 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background-image: url('./assets/ui/shelf_plank.svg?v=1.7.10');
-  background-size: 100% clamp(36px, 50%, 54px);
+  background-image: url('./assets/ui/shelf_wood.png?v=1.8.0');
+  background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: bottom;
-  padding: 0 2px 4px 2px;
+  padding: 0 2px calc(var(--plank-w) * 23 / 228 - 2px) 2px;
   box-sizing: border-box;
   will-change: transform;
 }

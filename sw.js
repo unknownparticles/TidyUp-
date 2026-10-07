@@ -1,5 +1,5 @@
 // Service Worker for 收纳整理师 - 货柜消除 3D
-const CACHE_VERSION = 'v1.7.10';
+const CACHE_VERSION = 'v1.8.0';
 const CACHE_NAME = `organizer-pwa-${CACHE_VERSION}`;
 const ASSET_VERSION = CACHE_VERSION.slice(1);
 
@@ -21,8 +21,8 @@ const PRECACHE_ASSETS = [
   `./assets/ui/btn_freeze.svg?v=${ASSET_VERSION}`,
   `./assets/ui/btn_shuffle.svg?v=${ASSET_VERSION}`,
   `./assets/ui/btn_pause.svg?v=${ASSET_VERSION}`,
-  `./assets/ui/cabinet_empty.svg?v=${ASSET_VERSION}`,
-  `./assets/ui/shelf_plank.svg?v=${ASSET_VERSION}`,
+  `./assets/ui/cabinet_wood.jpg?v=${ASSET_VERSION}`,
+  `./assets/ui/shelf_wood.png?v=${ASSET_VERSION}`,
   './assets/items/items_data.json'
 ];
 
@@ -31,7 +31,12 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log(`[SW ${CACHE_VERSION}] Precaching core offline assets...`);
-      return cache.addAll(PRECACHE_ASSETS);
+      return cache.addAll(PRECACHE_ASSETS).then(async () => {
+        // Every level can select from the complete photo catalog while offline.
+        const response = await cache.match('./assets/items/items_data.json');
+        const items = await response.json();
+        return cache.addAll(Object.values(items).map(item => `${item.img}?v=${ASSET_VERSION}`));
+      });
     }).then(() => {
       return self.skipWaiting();
     })

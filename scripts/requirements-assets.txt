@@ -1,2 +1,2 @@
-# Only the render verification script needs Pillow; generation uses Python's standard library.
+# Photo importing and historical SVG render verification require Pillow.
 Pillow>=10.0,<13.0
