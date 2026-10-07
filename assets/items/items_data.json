@@ -1,4 +1,214 @@
 {
+  "item_784": {
+    "id": "item_784",
+    "name": "橙色波点手提包（784）",
+    "archetype": "handbag",
+    "colorGroup": "784",
+    "img": "./assets/items/photos/item_784.webp",
+    "revision": "c3420a9ac67c",
+    "bounds": [
+      16,
+      16,
+      167,
+      248
+    ]
+  },
+  "item_785": {
+    "id": "item_785",
+    "name": "红色波点手提包（785）",
+    "archetype": "handbag",
+    "colorGroup": "785",
+    "img": "./assets/items/photos/item_785.webp",
+    "revision": "ab3364ce383f",
+    "bounds": [
+      18,
+      16,
+      163,
+      248
+    ]
+  },
+  "item_786": {
+    "id": "item_786",
+    "name": "黄色闪电游戏机（786）",
+    "archetype": "game_console",
+    "colorGroup": "786",
+    "img": "./assets/items/photos/item_786.webp",
+    "revision": "8dda7d918185",
+    "bounds": [
+      9,
+      16,
+      182,
+      248
+    ]
+  },
+  "item_787": {
+    "id": "item_787",
+    "name": "紫色月亮游戏机（787）",
+    "archetype": "game_console",
+    "colorGroup": "787",
+    "img": "./assets/items/photos/item_787.webp",
+    "revision": "dc8d5518702a",
+    "bounds": [
+      11,
+      16,
+      177,
+      248
+    ]
+  },
+  "item_788": {
+    "id": "item_788",
+    "name": "蓝色星星游戏机（788）",
+    "archetype": "game_console",
+    "colorGroup": "788",
+    "img": "./assets/items/photos/item_788.webp",
+    "revision": "33f3b3e7938a",
+    "bounds": [
+      8,
+      16,
+      183,
+      248
+    ]
+  },
+  "item_789": {
+    "id": "item_789",
+    "name": "绿色方块游戏机（789）",
+    "archetype": "game_console",
+    "colorGroup": "789",
+    "img": "./assets/items/photos/item_789.webp",
+    "revision": "8ec602a4b1f7",
+    "bounds": [
+      10,
+      16,
+      180,
+      248
+    ]
+  },
+  "item_790": {
+    "id": "item_790",
+    "name": "彩虹糖针饼干（790）",
+    "archetype": "cookie",
+    "colorGroup": "790",
+    "img": "./assets/items/photos/item_790.webp",
+    "revision": "f08c84475f16",
+    "bounds": [
+      13,
+      16,
+      173,
+      248
+    ]
+  },
+  "item_791": {
+    "id": "item_791",
+    "name": "坚果夹心饼干（791）",
+    "archetype": "cookie",
+    "colorGroup": "791",
+    "img": "./assets/items/photos/item_791.webp",
+    "revision": "90afd40681f0",
+    "bounds": [
+      15,
+      16,
+      169,
+      248
+    ]
+  },
+  "item_792": {
+    "id": "item_792",
+    "name": "蓝色糖霜饼干（792）",
+    "archetype": "cookie",
+    "colorGroup": "792",
+    "img": "./assets/items/photos/item_792.webp",
+    "revision": "44928f71d582",
+    "bounds": [
+      16,
+      16,
+      168,
+      248
+    ]
+  },
+  "item_793": {
+    "id": "item_793",
+    "name": "橙子糖霜饼干（793）",
+    "archetype": "cookie",
+    "colorGroup": "793",
+    "img": "./assets/items/photos/item_793.webp",
+    "revision": "0784faa3ab7d",
+    "bounds": [
+      17,
+      16,
+      165,
+      248
+    ]
+  },
+  "item_794": {
+    "id": "item_794",
+    "name": "巧克力坚果饼干（794）",
+    "archetype": "cookie",
+    "colorGroup": "794",
+    "img": "./assets/items/photos/item_794.webp",
+    "revision": "b490bbac57f3",
+    "bounds": [
+      14,
+      16,
+      172,
+      248
+    ]
+  },
+  "item_795": {
+    "id": "item_795",
+    "name": "金黄夹心饼干（795）",
+    "archetype": "cookie",
+    "colorGroup": "795",
+    "img": "./assets/items/photos/item_795.webp",
+    "revision": "8c6af64bc8fe",
+    "bounds": [
+      17,
+      16,
+      166,
+      248
+    ]
+  },
+  "item_796": {
+    "id": "item_796",
+    "name": "蓝色星空汽水罐（796）",
+    "archetype": "can",
+    "colorGroup": "796",
+    "img": "./assets/items/photos/item_796.webp",
+    "revision": "b19820142ffb",
+    "bounds": [
+      26,
+      16,
+      147,
+      248
+    ]
+  },
+  "item_797": {
+    "id": "item_797",
+    "name": "彩虹汽水罐（797）",
+    "archetype": "can",
+    "colorGroup": "797",
+    "img": "./assets/items/photos/item_797.webp",
+    "revision": "88993fdf03b2",
+    "bounds": [
+      27,
+      16,
+      145,
+      248
+    ]
+  },
+  "item_798": {
+    "id": "item_798",
+    "name": "绿色青柠汽水罐（798）",
+    "archetype": "can",
+    "colorGroup": "798",
+    "img": "./assets/items/photos/item_798.webp",
+    "revision": "770eb4caa4c0",
+    "bounds": [
+      29,
+      16,
+      142,
+      248
+    ]
+  },
   "item_799": {
     "id": "item_799",
     "name": "复古小夜灯（799）",

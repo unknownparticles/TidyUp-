@@ -40,6 +40,14 @@ GROUPS = [
     (987, 988, 'snack', '薯片袋'), (990, 993, 'plant', '花草盆栽'),
 ]
 SPECIAL = {
+    784: ('handbag', '橙色波点手提包'), 785: ('handbag', '红色波点手提包'),
+    786: ('game_console', '黄色闪电游戏机'), 787: ('game_console', '紫色月亮游戏机'),
+    788: ('game_console', '蓝色星星游戏机'), 789: ('game_console', '绿色方块游戏机'),
+    790: ('cookie', '彩虹糖针饼干'), 791: ('cookie', '坚果夹心饼干'),
+    792: ('cookie', '蓝色糖霜饼干'), 793: ('cookie', '橙子糖霜饼干'),
+    794: ('cookie', '巧克力坚果饼干'), 795: ('cookie', '金黄夹心饼干'),
+    796: ('can', '蓝色星空汽水罐'), 797: ('can', '彩虹汽水罐'),
+    798: ('can', '绿色青柠汽水罐'),
     799: ('lamp', '复古小夜灯'), 800: ('can', '草莓汽水罐'),
     801: ('can', '粉色草莓汽水罐'), 802: ('can', '柠檬汽水罐'),
     803: ('can', '蓝色海浪汽水罐'), 804: ('backpack', '紫色小兔背包'),
@@ -127,6 +135,7 @@ def prepare_item(source, staging):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
+    parser.add_argument('--append', action='store_true', help='Add or update photos while retaining existing items')
     args = parser.parse_args()
     files = sorted((path for path in args.source.glob('*.jpg')
                     if int(path.stem.rstrip('.')) not in EXCLUDED_ITEM_NUMBERS),
@@ -139,14 +148,17 @@ def main():
     # Finish and validate the entire batch before replacing the live library.
     with tempfile.TemporaryDirectory(prefix='zls-photo-import-') as temporary:
         staging = Path(temporary)
-        catalog = {}
+        imported = {}
         with ThreadPoolExecutor(max_workers=4) as executor:
             for index, (key, item) in enumerate(executor.map(lambda source: prepare_item(source, staging), files), 1):
-                if key in catalog:
+                if key in imported:
                     raise ValueError(f'Duplicate item number: {key}')
-                catalog[key] = item
+                imported[key] = item
                 if index % 24 == 0:
                     print(f'Prepared {index}/{len(files)} items', flush=True)
+        catalog = previous.copy() if args.append else {}
+        catalog.update(imported)
+        catalog = dict(sorted(catalog.items(), key=lambda entry: int(entry[0].removeprefix('item_'))))
         serialized = json.dumps(catalog, ensure_ascii=False, indent=2)
         app_path = ROOT / 'app.js'
         app, count = re.subn(r'  // Imported photo[^\n]*\n  const ITEMS = \{.*?\n  \};',
@@ -156,7 +168,7 @@ def main():
         if count != 1:
             raise ValueError('Could not locate the standalone app catalog')
         output.mkdir(exist_ok=True)
-        for key in catalog:
+        for key in imported:
             shutil.copyfile(staging / f'{key}.webp', output / f'{key}.webp')
         catalog_path.write_text(serialized + '\n')
         (ROOT / 'src/items.js').write_text('// Imported photo assets, fitted to a shared transparent canvas.\n'
@@ -168,8 +180,8 @@ def main():
             if key not in catalog and obsolete.parent == output and obsolete.exists():
                 obsolete.unlink()
     before = sum(source.stat().st_size for source in files)
-    after = sum((output / f'{key}.webp').stat().st_size for key in catalog)
-    print(f'Imported {len(catalog)} items: {before:,} -> {after:,} bytes ({(1-after/before)*100:.1f}% smaller)')
+    after = sum((output / f'{key}.webp').stat().st_size for key in imported)
+    print(f'Imported {len(imported)} items ({len(catalog)} total): {before:,} -> {after:,} bytes ({(1-after/before)*100:.1f}% smaller)')
 
 
 if __name__ == '__main__':

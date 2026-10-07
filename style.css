@@ -247,7 +247,7 @@ body {
   aspect-ratio: 1040 / 720;
   max-height: min(400px, 49vh, 49%);
   margin: 0 auto;
-  background-image: url('./assets/ui/cabinet_wood.webp?v=1.9.0');
+  background-image: url('./assets/ui/cabinet_wood.webp?v=1.10.0');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: relative;
@@ -489,7 +489,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background-image: url('./assets/ui/shelf_wood.png?v=1.9.0');
+  background-image: url('./assets/ui/shelf_wood.png?v=1.10.0');
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: bottom;
@@ -534,7 +534,7 @@ body {
   align-items: center;
   justify-content: space-around;
   background-color: #a9583d;
-  background-image: url('./assets/ui/toolbar_wood.webp?v=1.9.0');
+  background-image: url('./assets/ui/toolbar_wood.webp?v=1.10.0');
   background-size: auto 100%;
   background-repeat: repeat-x;
   border-top: 3px solid #cf9561;
