@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.8.6';
+  const APP_VERSION = '1.8.7';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -3227,17 +3227,6 @@
       return false;
     }
 
-    getSlotLayerCount(slotData) {
-      if (!slotData || !slotData.layers) return 0;
-      let count = 0;
-      for (let i = 0; i < slotData.layers.length; i++) {
-        if (slotData.layers[i] && slotData.layers[i].length > 0) {
-          count++;
-        }
-      }
-      return count;
-    }
-
     generateLevelData(levelNumber) {
       this.currentLevel = levelNumber;
       this.selectedItemInfo = null;
@@ -3455,7 +3444,7 @@
           itemContainer.appendChild(deepItemEl);
         }
 
-        // Back layer: Grayed out & darkened ("灰色代表在下一行")
+        // Back layer: reduced saturation, retaining the original colour.
         if (backItems[pos]) {
           const backKey = backItems[pos];
           const backItemEl = document.createElement('div');
@@ -3512,19 +3501,6 @@
       const slotData = this.cabinetData[compIdx];
       this.renderLane(lane, slotData.layers, 'cabinet', compIdx);
 
-      // Remaining layer depth indicator badge
-      let pill = compDiv.querySelector('.layer-depth-pill');
-      const count = this.getSlotLayerCount(slotData);
-      if (count > 1) {
-        if (!pill) {
-          pill = document.createElement('div');
-          pill.className = 'layer-depth-pill';
-          compDiv.appendChild(pill);
-        }
-        pill.textContent = `${count}层`;
-      } else if (pill) {
-        pill.remove();
-      }
     }
 
     // Granular update: update only one conveyor shelf plank
@@ -3538,19 +3514,6 @@
       const slotData = this.conveyorRows[rowIdx][shelfIdx];
       this.renderLane(lane, slotData.layers, 'conveyor', rowIdx, shelfIdx);
 
-      // Remaining layer depth indicator badge
-      let pill = plank.querySelector('.layer-depth-pill');
-      const count = this.getSlotLayerCount(slotData);
-      if (count > 1) {
-        if (!pill) {
-          pill = document.createElement('div');
-          pill.className = 'layer-depth-pill';
-          plank.appendChild(pill);
-        }
-        pill.textContent = `${count}层`;
-      } else if (pill) {
-        pill.remove();
-      }
     }
 
     // Granular update for any slot location
@@ -3714,7 +3677,7 @@
       setTimeout(() => {
         targetData.layers[0] = [];
 
-        // Deeper layer items promote to front layer! ("下一行变为上一行，灰色变为亮色")
+        // Deeper layer items promote to front layer! ("下一行变为上一行，恢复正常饱和度")
         this.promoteSlot(targetData);
 
         // Granular update only the affected slot

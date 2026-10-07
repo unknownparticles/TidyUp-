@@ -194,7 +194,7 @@ export class GoodsOrganizerGame {
         id: `cabinet-${i}`,
         layers: [
           [], // Layer 0: Front row (max 3 items, visible & interactable)
-          []  // Layer 1: Back row (max 3 items, GRAYED OUT "在下一行")
+          []  // Layer 1: Back row (max 3 items, REDUCED SATURATION "在下一行")
         ]
       });
     }
@@ -229,7 +229,7 @@ export class GoodsOrganizerGame {
       }
     });
 
-    // Fill cabinet back layer (GRAYED OUT):
+    // Fill cabinet back layer (REDUCED SATURATION):
     this.cabinetData.forEach(comp => {
       if (itemPool.length > 0 && Math.random() < 0.8) {
         const count = Math.random() < 0.6 ? 2 : 1;
@@ -249,7 +249,7 @@ export class GoodsOrganizerGame {
             shelf.layers[0].push(itemPool.pop());
           }
         }
-        // Back layer (GRAYED OUT): 1 or 2 items
+        // Back layer (REDUCED SATURATION): 1 or 2 items
         if (itemPool.length > 0 && Math.random() < 0.6) {
           const backCount = Math.random() < 0.5 ? 2 : 1;
           for (let k = 0; k < backCount && itemPool.length > 0; k++) {
@@ -302,7 +302,7 @@ export class GoodsOrganizerGame {
         const itemContainer = document.createElement('div');
         itemContainer.className = 'item-layer-container';
 
-        // Check if there is an item in the back layer ("灰色代表在下一行")
+        // Check if there is an item in the back layer ("低饱和度代表在下一行")
         if (backItems[pos]) {
           const backKey = backItems[pos];
           const backItemEl = document.createElement('div');
@@ -376,7 +376,7 @@ export class GoodsOrganizerGame {
           const itemContainer = document.createElement('div');
           itemContainer.className = 'item-layer-container';
 
-          // Back layer (GRAYED OUT "灰色代表在下一行")
+          // Back layer (reduced saturation indicates depth)
           if (backItems[pos]) {
             const backKey = backItems[pos];
             const backItemEl = document.createElement('div');
@@ -554,7 +554,7 @@ export class GoodsOrganizerGame {
     setTimeout(() => {
       targetData.layers[0] = [];
 
-      // Promote back layer items to front layer! ("下一行变为上一行，灰色变为亮色")
+      // Promote back layer items to front layer! ("下一行变为上一行，恢复正常饱和度")
       if (targetData.layers[1] && targetData.layers[1].length > 0) {
         targetData.layers[0] = [...targetData.layers[1]];
         targetData.layers[1] = [];
