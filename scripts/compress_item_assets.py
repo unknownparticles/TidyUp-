@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compress the complete item library, retaining dimensions and lossless alpha."""
 import io
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -19,6 +20,7 @@ def main():
     for item in catalog.values():
         path = ROOT / item['img'][2:]
         if path.suffix == '.webp':
+            item['revision'] = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
             continue
         with Image.open(path) as source:
             rgba = source.convert('RGBA')
@@ -28,6 +30,7 @@ def main():
                 if compressed.size != rgba.size or compressed.convert('RGBA').getchannel('A').tobytes() != rgba.getchannel('A').tobytes():
                     raise ValueError(f'Dimensions or transparency changed: {target}')
         item['img'] = './' + target.relative_to(ROOT).as_posix()
+        item['revision'] = hashlib.sha256(target.read_bytes()).hexdigest()[:12]
         originals.append(path)
 
     serialized = json.dumps(catalog, ensure_ascii=False, indent=2)

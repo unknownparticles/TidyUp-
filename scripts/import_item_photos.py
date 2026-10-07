@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Import the supplied white-background item photos without redrawing them."""
 import argparse
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -105,7 +106,8 @@ def main():
         photo = transparent_photo(source)
         photo.save(output / f'{key}.webp', format='WEBP', quality=82, method=6, exact=True)
         catalog[key] = dict(id=key, name=f'{name}（{number}）', archetype=group,
-                            colorGroup=str(number), img=f'./assets/items/photos/{key}.webp')
+                            colorGroup=str(number), img=f'./assets/items/photos/{key}.webp',
+                            revision=hashlib.sha256((output / f'{key}.webp').read_bytes()).hexdigest()[:12])
     serialized = json.dumps(catalog, ensure_ascii=False, indent=2)
     (ROOT / 'assets/items/items_data.json').write_text(serialized + '\n')
     (ROOT / 'src/items.js').write_text('// Imported photo assets, fitted to a shared transparent canvas.\n'

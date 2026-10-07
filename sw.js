@@ -1,121 +1,122 @@
-// Service Worker for 收纳整理师 - 货柜消除 3D
-const CACHE_VERSION = 'v1.8.2';
+// Small offline shell; item photos are cached separately by content revision.
+const CACHE_VERSION = 'v1.8.3';
 const CACHE_NAME = `organizer-pwa-${CACHE_VERSION}`;
+const ITEM_CACHE_NAME = 'organizer-items-v1';
 const ASSET_VERSION = CACHE_VERSION.slice(1);
-
-// Core assets required for offline gameplay
+const CATALOG_URL = `./assets/items/items_data.json?v=${ASSET_VERSION}`;
 const PRECACHE_ASSETS = [
-  './',
-  './index.html',
-  `./style.css?v=${ASSET_VERSION}`,
-  `./app.js?v=${ASSET_VERSION}`,
-  `./manifest.json?v=${ASSET_VERSION}`,
-  './assets/icons/icon-192.png',
-  './assets/icons/icon-512.png',
-  './assets/icons/icon-192-maskable.png',
-  './assets/icons/icon-512-maskable.png',
-  './assets/icons/apple-touch-icon.png',
-  `./assets/ui/logo.svg?v=${ASSET_VERSION}`,
-  `./assets/ui/cat_avatar.webp?v=${ASSET_VERSION}`,
+  './index.html', `./style.css?v=${ASSET_VERSION}`, `./app.js?v=${ASSET_VERSION}`,
+  `./manifest.json?v=${ASSET_VERSION}`, CATALOG_URL,
+  './assets/icons/icon-192.png', './assets/icons/apple-touch-icon.png',
+  `./assets/ui/logo.svg?v=${ASSET_VERSION}`, `./assets/ui/cat_avatar.webp?v=${ASSET_VERSION}`,
   `./assets/ui/toolbar_wood.webp?v=${ASSET_VERSION}`,
-  `./assets/ui/btn_hammer.svg?v=${ASSET_VERSION}`,
-  `./assets/ui/btn_wand.svg?v=${ASSET_VERSION}`,
-  `./assets/ui/btn_freeze.svg?v=${ASSET_VERSION}`,
-  `./assets/ui/btn_shuffle.svg?v=${ASSET_VERSION}`,
-  `./assets/ui/btn_pause.svg?v=${ASSET_VERSION}`,
-  `./assets/ui/cabinet_wood.jpg?v=${ASSET_VERSION}`,
-  `./assets/ui/shelf_wood.png?v=${ASSET_VERSION}`,
-  './assets/items/items_data.json'
+  ...['hammer', 'wand', 'freeze', 'shuffle', 'pause'].map(name => `./assets/ui/btn_${name}.svg?v=${ASSET_VERSION}`),
+  `./assets/ui/cabinet_wood.webp?v=${ASSET_VERSION}`, `./assets/ui/shelf_wood.png?v=${ASSET_VERSION}`
 ];
+const pending = new Map();
+const openedCaches = new Map();
+const scope = new URL(self.registration.scope);
+const absolute = url => new URL(url, scope).href;
+const itemPhoto = url => new URL(url).pathname.startsWith(`${scope.pathname}assets/items/photos/`);
 
-// Install: precache critical assets
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log(`[SW ${CACHE_VERSION}] Precaching core offline assets...`);
-      return cache.addAll(PRECACHE_ASSETS).then(async () => {
-        // Every level can select from the complete photo catalog while offline.
-        const response = await cache.match('./assets/items/items_data.json');
-        const items = await response.json();
-        return cache.addAll(Object.values(items).map(item => `${item.img}?v=${ASSET_VERSION}`));
-      });
-    }).then(() => {
-      return self.skipWaiting();
-    })
-  );
+function openCache(name) {
+  if (!openedCaches.has(name)) openedCaches.set(name, caches.open(name));
+  return openedCaches.get(name);
+}
+
+async function cachedAsset(request, event, options) {
+  const url = typeof request === 'string' ? absolute(request) : request.url;
+  const cache = await openCache(itemPhoto(url) ? ITEM_CACHE_NAME : CACHE_NAME);
+  const cached = await cache.match(url);
+  // A content revision or release version makes this URL immutable.
+  if (cached) return cached;
+  let task = pending.get(url);
+  if (!task) {
+    const response = fetch(request, options);
+    const complete = response.then(res => res.ok ? cache.put(url, res.clone()) : undefined);
+    task = { response, complete };
+    pending.set(url, task);
+    complete.catch(() => {}).finally(() => {
+      if (pending.get(url) === task) pending.delete(url);
+    });
+  }
+  event.waitUntil(task.complete.catch(() => {}));
+  return (await task.response).clone();
+}
+
+async function cacheBatch(urls, event, concurrency) {
+  let next = 0;
+  let ready = true;
+  const cache = await openCache(ITEM_CACHE_NAME);
+  await Promise.all(Array.from({ length: concurrency }, async () => {
+    while (next < urls.length) {
+      const url = urls[next++];
+      try {
+        if (await cache.match(url)) continue;
+        const response = await cachedAsset(url, event, { priority: 'low' });
+        const complete = pending.get(url)?.complete;
+        await response.arrayBuffer();
+        await complete;
+        if (!response.ok || !await cache.match(url)) ready = false;
+      } catch (_) { ready = false; /* Resume missing images on a later online visit. */ }
+    }
+  }));
+  return ready;
+}
+
+self.addEventListener('install', event => {
+  event.waitUntil(openCache(CACHE_NAME).then(cache => cache.addAll(PRECACHE_ASSETS)).then(() => self.skipWaiting()));
 });
 
-// Activate: clean up outdated caches
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((name) => {
-          if (name.startsWith('organizer-pwa-') && name !== CACHE_NAME) {
-            console.log(`[SW] Removing obsolete cache: ${name}`);
-            return caches.delete(name);
-          }
-        })
-      );
-    }).then(() => {
-      return self.clients.claim();
-    })
-  );
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(names => Promise.all(names.filter(name =>
+    name.startsWith('organizer-pwa-') && name !== CACHE_NAME
+  ).map(name => caches.delete(name)))).then(() => self.clients.claim()));
 });
 
-// Fetch: Stale-While-Revalidate with Cache-First for static assets
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
+self.addEventListener('message', event => {
+  const type = event.data?.type;
+  if (type !== 'CACHE_LEVEL' && type !== 'CACHE_LIBRARY') return;
+  event.waitUntil((async () => {
+    const cache = await openCache(CACHE_NAME);
+    const response = await cache.match(absolute(CATALOG_URL));
+    if (!response) return;
+    const catalog = await response.json();
+    const allowed = new Set(Object.values(catalog).map(item => absolute(`${item.img}?v=${item.revision || ASSET_VERSION}`)));
+    const urls = type === 'CACHE_LIBRARY' ? [...allowed] : [...new Set(event.data.urls || [])].map(absolute).filter(url => allowed.has(url));
+    const photos = await openCache(ITEM_CACHE_NAME);
+    const completeURL = absolute(`./assets/items/library-ready?v=${ASSET_VERSION}`);
+    if (type === 'CACHE_LIBRARY' && await photos.match(completeURL)) return;
+    const ready = await cacheBatch(urls, event, type === 'CACHE_LIBRARY' ? 2 : 3);
+    if (type === 'CACHE_LIBRARY' && ready) await photos.put(completeURL, new Response('ready'));
+  })());
+});
 
-  // Only handle GET requests and http/https scheme
-  if (req.method !== 'GET' || !req.url.startsWith('http')) {
-    return;
-  }
-
-  // Handle navigation requests (e.g. user opens the app or reloads)
-  if (req.mode === 'navigate') {
-    event.respondWith(
-      fetch(req).catch(() => {
-        return caches.match('./index.html') || caches.match('./');
-      })
-    );
-    return;
-  }
-
-  // Assets (images, scripts, styles): Cache-first with background revalidation & dynamic caching
-  event.respondWith(
-    caches.match(req).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Optional background refresh for updated assets
-        fetch(req).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const resClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
-          }
-        }).catch(() => {/* Offline fallback silently uses cachedResponse */});
-
-        return cachedResponse;
+self.addEventListener('fetch', event => {
+  const request = event.request;
+  if (request.method !== 'GET' || new URL(request.url).origin !== scope.origin) return;
+  if (request.mode === 'navigate') {
+    const network = fetch(request).then(async response => {
+      if (response.ok) {
+        const cache = await openCache(CACHE_NAME);
+        await cache.put(absolute('./index.html'), response.clone());
       }
-
-      // If not in cache, fetch from network and store in dynamic cache
-      return fetch(req).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200) {
-          return networkResponse;
-        }
-
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(req, responseToCache);
-        });
-
-        return networkResponse;
-      }).catch((err) => {
-        console.warn(`[SW] Fetch failed for: ${req.url}`, err);
-        return new Response('Network error occurred', {
-          status: 408,
-          headers: { 'Content-Type': 'text/plain; charset=utf-8' }
-        });
-      });
-    })
-  );
+      return response;
+    });
+    event.waitUntil(network.catch(() => {}));
+    event.respondWith((async () => {
+      const cache = await openCache(CACHE_NAME);
+      const fallback = await cache.match(absolute('./index.html'));
+      if (!fallback) return network;
+      let timeout;
+      try {
+        return await Promise.race([
+          network.catch(() => fallback),
+          new Promise(resolve => { timeout = setTimeout(() => resolve(fallback), 800); })
+        ]);
+      } finally { clearTimeout(timeout); }
+    })());
+    return;
+  }
+  event.respondWith(cachedAsset(request, event).catch(() => new Response('Offline resource unavailable', { status: 503 })));
 });

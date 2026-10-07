@@ -1,9 +1,11 @@
 {
   "name": "zls",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "build": "node scripts/build.js",
+    "preview": "node server.js --dist",
     "generate:svg": "node scripts/generate_svg_items.js",
     "import:items": "python3 scripts/import_item_photos.py",
     "compress:items": "python3 scripts/compress_item_assets.py",
@@ -16,5 +18,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "货柜消除 3D / Goods Sort 3D"
+  "description": "货柜消除 3D / Goods Sort 3D",
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
 }
