@@ -14,6 +14,7 @@
   --item-w: clamp(42px, 12vw, 80px);
   --item-h: calc(var(--item-w) * 1.4);
   --plank-w: clamp(134px, 34vw, 220px);
+  --item-overlap: 1px;
 }
 
 * {
@@ -111,7 +112,7 @@ body {
   align-items: center;
   gap: 8px;
   z-index: 20;
-  background: #ffffff;
+  background: linear-gradient(180deg, #24208c, #50427e);
 }
 
 .avatar-badge {
@@ -135,13 +136,13 @@ body {
 .header-center-pill {
   flex: 1;
   height: 44px;
-  background: linear-gradient(135deg, #faf7f2, #efe5d8);
-  border: 2.5px solid #ffffff;
+  background: transparent;
+  border: none;
   border-radius: 22px;
   display: flex;
   align-items: center;
   padding: 0 10px;
-  box-shadow: 0 4px 8px rgba(90, 66, 42, 0.13);
+  box-shadow: none;
   justify-content: space-between;
 }
 
@@ -149,7 +150,8 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: #ffffff;
+  background: #34316f;
+  border: 2px solid #e3b959;
   padding: 3px 8px;
   border-radius: 14px;
 }
@@ -161,7 +163,7 @@ body {
 }
 
 #timer-text {
-  color: var(--ink-color);
+  color: #ffffff;
   font-weight: 800;
   font-size: 16px;
   letter-spacing: 0.5px;
@@ -170,8 +172,8 @@ body {
 }
 
 .mode-badge {
-  background: linear-gradient(180deg, #f2e6d6, var(--badge-color));
-  color: #79542e;
+  background: #f4c347;
+  color: #533813;
   font-size: 12px;
   font-weight: 800;
   padding: 3px 8px;
@@ -183,7 +185,7 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-  color: var(--ink-color);
+  color: #ffffff;
   font-weight: 800;
   font-size: 16px;
   text-shadow: none;
@@ -245,7 +247,7 @@ body {
   aspect-ratio: 1040 / 720;
   max-height: min(400px, 49vh, 49%);
   margin: 0 auto;
-  background-image: url('./assets/ui/cabinet_wood.jpg?v=1.8.1');
+  background-image: url('./assets/ui/cabinet_wood.jpg?v=1.8.2');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: relative;
@@ -305,7 +307,7 @@ body {
 }
 
 .slot-lane > .item-layer-container + .item-layer-container {
-  margin-left: -1px;
+  margin-left: calc(-1 * var(--item-overlap));
 }
 
 /* Item Layer Container (Holds Front + Back Layer) - Strictly Uniform Across All Slots */
@@ -520,7 +522,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background-image: url('./assets/ui/shelf_wood.png?v=1.8.1');
+  background-image: url('./assets/ui/shelf_wood.png?v=1.8.2');
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: bottom;
@@ -564,8 +566,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: #ffffff;
-  border-top: 2px solid #e6ddd1;
+  background-color: #a9583d;
+  background-image: url('./assets/ui/toolbar_wood.webp?v=1.8.2');
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  border-top: 3px solid #cf9561;
   box-shadow: 0 -4px 12px rgba(90, 66, 42, 0.13);
   z-index: 30;
 }
@@ -605,20 +610,20 @@ body {
 .tool-count-badge {
   position: absolute;
   bottom: -4px;
-  background: #ffffff;
+  background: #fff3cf;
   color: var(--ink-color);
   font-weight: 900;
   font-size: 13px;
   padding: 1px 7px;
   border-radius: 10px;
-  border: 1.5px solid #cfb89d;
+  border: 1.5px solid #bf8628;
   box-shadow: 0 2px 4px rgba(90,66,42,0.12);
 }
 
 .tool-btn.plus .tool-count-badge {
-  background: #47734b;
+  background: #a833c5;
   color: #ffffff;
-  border-color: #315535;
+  border-color: #742290;
   font-size: 14px;
 }
 

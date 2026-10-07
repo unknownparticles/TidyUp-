@@ -1,5 +1,5 @@
 // Service Worker for 收纳整理师 - 货柜消除 3D
-const CACHE_VERSION = 'v1.8.1';
+const CACHE_VERSION = 'v1.8.2';
 const CACHE_NAME = `organizer-pwa-${CACHE_VERSION}`;
 const ASSET_VERSION = CACHE_VERSION.slice(1);
 
@@ -16,6 +16,8 @@ const PRECACHE_ASSETS = [
   './assets/icons/icon-512-maskable.png',
   './assets/icons/apple-touch-icon.png',
   `./assets/ui/logo.svg?v=${ASSET_VERSION}`,
+  `./assets/ui/cat_avatar.webp?v=${ASSET_VERSION}`,
+  `./assets/ui/toolbar_wood.webp?v=${ASSET_VERSION}`,
   `./assets/ui/btn_hammer.svg?v=${ASSET_VERSION}`,
   `./assets/ui/btn_wand.svg?v=${ASSET_VERSION}`,
   `./assets/ui/btn_freeze.svg?v=${ASSET_VERSION}`,

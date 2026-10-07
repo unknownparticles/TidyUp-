@@ -1,11 +1,12 @@
 {
   "name": "zls",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "generate:svg": "node scripts/generate_svg_items.js",
     "import:items": "python3 scripts/import_item_photos.py",
+    "compress:items": "python3 scripts/compress_item_assets.py",
     "bump:major": "node scripts/bump-version.js major",
     "bump:minor": "node scripts/bump-version.js minor",
     "bump:patch": "node scripts/bump-version.js patch",

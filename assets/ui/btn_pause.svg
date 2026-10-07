@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="100%" height="100%">
   <defs>
     <linearGradient id="btn-bg-pause" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#f4e9d9"/>
-      <stop offset="50%" stop-color="#e5c9a4"/>
-      <stop offset="100%" stop-color="#cfaa79"/>
+      <stop offset="0%" stop-color="#ffeac5"/>
+      <stop offset="50%" stop-color="#f6d7a4"/>
+      <stop offset="100%" stop-color="#e3b97f"/>
     </linearGradient>
     <linearGradient id="pause-bars" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#946838"/>
-      <stop offset="50%" stop-color="#785127"/>
-      <stop offset="100%" stop-color="#603c1d"/>
+      <stop offset="0%" stop-color="#d67643"/>
+      <stop offset="50%" stop-color="#bb542f"/>
+      <stop offset="100%" stop-color="#964127"/>
     </linearGradient>
   </defs>
 
@@ -22,11 +22,11 @@
 
   <!-- Pause Bars (Two warm chocolate vertical rounded pills) -->
   <g transform="translate(44, 44)">
-    <rect x="-16" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#5c3c20" stroke-width="1.2"/>
+    <rect x="-16" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#8d3d23" stroke-width="1.2"/>
     <!-- Left bar highlight -->
 
 
-    <rect x="4" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#5c3c20" stroke-width="1.2"/>
+    <rect x="4" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#8d3d23" stroke-width="1.2"/>
     <!-- Right bar highlight -->
 
   </g>

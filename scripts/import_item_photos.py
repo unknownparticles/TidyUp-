@@ -103,9 +103,9 @@ def main():
                 group, name = category, label
                 break
         photo = transparent_photo(source)
-        photo.save(output / f'{key}.png', optimize=True)
+        photo.save(output / f'{key}.webp', format='WEBP', quality=82, method=6, exact=True)
         catalog[key] = dict(id=key, name=f'{name}（{number}）', archetype=group,
-                            colorGroup=str(number), img=f'./assets/items/photos/{key}.png')
+                            colorGroup=str(number), img=f'./assets/items/photos/{key}.webp')
     serialized = json.dumps(catalog, ensure_ascii=False, indent=2)
     (ROOT / 'assets/items/items_data.json').write_text(serialized + '\n')
     (ROOT / 'src/items.js').write_text('// Imported photo assets, fitted to a shared transparent canvas.\n'
