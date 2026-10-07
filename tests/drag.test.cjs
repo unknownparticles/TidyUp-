@@ -64,8 +64,15 @@ function fixture({ sourceCount = 1, targetCount = 1, location = 'cabinet' } = {}
   const sourceEl = new Element({ left: 20, top: location === 'cabinet' ? 20 : 200, width: 40, height: 70 });
   sourceEl.classList.add('good-item', 'layer-front', 'entering');
   sourceEl.dataset = { type: location, slotIndex: '0', rowIndex: '0', shelfIndex: '0', itemIndex: '0', itemKey: 'item_810' };
-  (location === 'cabinet' ? compartments[0] : planks[0]).items = [sourceEl];
-  elements.push(sourceEl, ...compartments, ...planks);
+  const sourceItems = [sourceEl];
+  for (let itemIndex = 1; itemIndex < sourceCount; itemIndex++) {
+    const itemEl = new Element({ left: 30 + itemIndex * 30, top: sourceEl.rect.top, width: 25, height: 70 });
+    itemEl.classList.add('good-item', 'layer-front');
+    itemEl.dataset = { ...sourceEl.dataset, itemIndex: String(itemIndex), itemKey: `item_${810 + itemIndex}` };
+    sourceItems.push(itemEl);
+  }
+  (location === 'cabinet' ? compartments[0] : planks[0]).items = sourceItems;
+  elements.push(...sourceItems, ...compartments, ...planks);
   game.dragGhost = new Element();
   game.selectedItemInfo = null;
   game.particles = { emit() {} };
@@ -76,12 +83,90 @@ function fixture({ sourceCount = 1, targetCount = 1, location = 'cabinet' } = {}
   game.renderCount = 0;
   game.renderBoard = () => { game.renderCount++; };
   game.bindEvents();
-  function event(type, x = 40, y = location === 'cabinet' ? 50 : 230, pointerId = 1) {
+  let pointerX = 40;
+  let pointerY = location === 'cabinet' ? 50 : 230;
+  function event(type, x = pointerX, y = pointerY, pointerId = 1, target = sourceEl) {
+    pointerX = x;
+    pointerY = y;
     const handler = type === 'pointerdown' ? container.listeners[type] : window.listeners[type];
-    handler({ target: sourceEl, clientX: x, clientY: y, pointerId, pointerType: 'mouse', preventDefault() {} });
+    handler({ target, clientX: x, clientY: y, pointerId, pointerType: 'mouse', preventDefault() {} });
   }
-  return { game, sourceEl, event, pending, flush: () => { while (pending.length) pending.shift()(); } };
+  return { game, sourceEl, sourceItems, event, pending, flush: () => { while (pending.length) pending.shift()(); } };
 }
+
+for (const location of ['cabinet', 'conveyor']) {
+  for (const sourceCount of [2, 3]) {
+    for (const targetIndex of Array.from({ length: sourceCount - 1 }, (_, i) => i + 1)) {
+      for (const gesture of ['drag', 'tap']) {
+        test(`${gesture} swaps item 0 and ${targetIndex} within ${location} with ${sourceCount} items`, () => {
+          const f = fixture({ location, sourceCount });
+          const slot = location === 'cabinet' ? f.game.cabinetData[0] : f.game.conveyorRows[0][0];
+          slot.layers[1] = ['item_813'];
+          slot.layers[2] = ['item_814'];
+          const before = JSON.parse(JSON.stringify([f.game.cabinetData, f.game.conveyorRows]));
+          const expected = JSON.parse(JSON.stringify(before));
+          const front = (location === 'cabinet' ? expected[0][0] : expected[1][0][0]).layers[0];
+          [front[0], front[targetIndex]] = [front[targetIndex], front[0]];
+          const rect = f.sourceItems[targetIndex].rect;
+          const x = rect.left + rect.width / 2;
+          const y = rect.top + rect.height / 2;
+          f.event('pointerdown');
+          if (gesture === 'drag') {
+            f.event('pointermove', x, y);
+            f.event('pointerup');
+            assert.equal(JSON.stringify([f.game.cabinetData, f.game.conveyorRows]), JSON.stringify(before));
+          } else {
+            f.event('pointerup');
+            f.event('pointerdown', x, y, 1, f.sourceItems[targetIndex]);
+            f.event('pointerup');
+          }
+          f.flush();
+          assert.equal(JSON.stringify([f.game.cabinetData, f.game.conveyorRows]), JSON.stringify(expected));
+          assert.equal(f.game.updates.length, 1);
+          assert.equal(f.game.renderCount, 0);
+          assert.equal(f.game.selectedItemInfo, null);
+          assert.equal(f.sourceEl.style.visibility, undefined);
+          assert.ok(f.sourceItems.every(el => !el.classes.has('selected')));
+          if (gesture === 'drag') assert.equal(f.game.dragGhost.style.display, 'none');
+        });
+      }
+    }
+  }
+
+  test(`dropping on empty space within ${location} preserves item order`, () => {
+    const f = fixture({ location, sourceCount: 2 });
+    const before = JSON.stringify([f.game.cabinetData, f.game.conveyorRows]);
+    f.event('pointerdown');
+    f.event('pointermove', 110, location === 'cabinet' ? 50 : 230);
+    f.event('pointerup');
+    f.flush();
+    assert.equal(JSON.stringify([f.game.cabinetData, f.game.conveyorRows]), before);
+    assert.equal(f.game.updates.length, 0);
+    assert.equal(f.sourceEl.style.visibility, undefined);
+  });
+}
+
+test('drop uses release position when it differs from the last pointermove', () => {
+  const f = fixture({ sourceCount: 3 });
+  f.event('pointerdown');
+  f.event('pointermove', 240, 50);
+  f.event('pointerup', 102, 50);
+  f.flush();
+  assert.equal(JSON.stringify(f.game.cabinetData[0].layers[0]), JSON.stringify(['item_812', 'item_811', 'item_810']));
+  assert.equal(f.game.cabinetData[1].layers[0].length, 1);
+  assert.equal(f.game.updates.length, 1);
+});
+
+test('same-slot move without a valid destination item preserves data', () => {
+  const f = fixture({ sourceCount: 3 });
+  const before = JSON.stringify(f.game.cabinetData);
+  const from = { type: 'cabinet', slotIndex: 0, itemIndex: 0 };
+  for (const itemIndex of [undefined, -1, 0, 3, NaN]) {
+    assert.equal(f.game.moveItem(from, { ...from, itemIndex }), false);
+  }
+  assert.equal(JSON.stringify(f.game.cabinetData), before);
+  assert.equal(f.game.updates.length, 0);
+});
 
 for (const location of ['cabinet', 'conveyor']) {
   for (const sourceCount of [1, 3]) {

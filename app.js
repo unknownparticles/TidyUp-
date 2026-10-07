@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.10.0';
+  const APP_VERSION = '1.11.0';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -3416,6 +3416,20 @@
         targetArray = targetSlotData.layers[0];
       }
 
+      if (sourceArray === targetArray) {
+        const fromIndex = fromLocation.itemIndex;
+        const toIndex = toLocation.itemIndex;
+        if (!Number.isInteger(fromIndex) || !Number.isInteger(toIndex) ||
+            fromIndex === toIndex || !sourceArray[fromIndex] || !sourceArray[toIndex]) return false;
+
+        [sourceArray[fromIndex], sourceArray[toIndex]] = [sourceArray[toIndex], sourceArray[fromIndex]];
+        sound.playDrop();
+        this.selectedItemInfo = null;
+        document.querySelectorAll('.good-item.selected').forEach(el => el.classList.remove('selected'));
+        this.updateLocation(fromLocation);
+        return true;
+      }
+
       if (targetArray.length >= 3) {
         sound.playDrop();
         return false;
@@ -3454,7 +3468,6 @@
       let isDragging = false;
       let draggedItemData = null;
       let draggedItemEl = null;
-      let currentSnapTarget = null;
       let isSettlingDrag = false;
 
       const isSameLocation = (from, to) => from && to && from.type === to.type &&
@@ -3466,7 +3479,6 @@
         isDragging = false;
         draggedItemData = null;
         draggedItemEl = null;
-        currentSnapTarget = null;
       };
 
       const restoreDragVisuals = (sourceEl) => {
@@ -3561,6 +3573,22 @@
         return bestTarget;
       };
 
+      const findSwapItem = (snap, clientX, clientY) => {
+        if (!isSameLocation(draggedItemData, snap)) return null;
+        let closestItem = null;
+        let minDistance = Infinity;
+        snap.el.querySelectorAll('.good-item.layer-front').forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) return;
+          const distance = Math.hypot(clientX - rect.left - rect.width / 2, clientY - rect.top - rect.height / 2);
+          if (distance < minDistance) {
+            closestItem = el;
+            minDistance = distance;
+          }
+        });
+        return closestItem;
+      };
+
       const handleItemTap = (itemData) => {
         // 1. If clicking on already selected item, deselect it
         if (this.selectedItemInfo &&
@@ -3588,7 +3616,8 @@
               type: itemData.type,
               slotIndex: itemData.slotIndex,
               rowIndex: itemData.rowIndex,
-              shelfIndex: itemData.shelfIndex
+              shelfIndex: itemData.shelfIndex,
+              itemIndex: itemData.itemIndex
             }
           );
           if (moved) return;
@@ -3719,7 +3748,6 @@
 
           clearSnapHighlights();
           const target = findBestSnapTarget(clientX, clientY);
-          currentSnapTarget = target;
 
           if (target) {
             if (target.canPlace) {
@@ -3750,19 +3778,20 @@
         const sourceData = { ...draggedItemData };
 
         // Auto-snap upon release ("松手要自吸附")
-        const snap = currentSnapTarget && currentSnapTarget.canPlace ? currentSnapTarget : null;
+        const releaseTarget = findBestSnapTarget(e.clientX, e.clientY);
+        const snap = releaseTarget && releaseTarget.canPlace ? releaseTarget : null;
 
         if (snap) {
           const isSameSlot = isSameLocation(sourceData, snap);
+          const swapItem = findSwapItem(snap, e.clientX, e.clientY);
+          const swapIndex = swapItem ? parseInt(swapItem.dataset.itemIndex) : null;
 
-          if (isSameSlot) {
+          if (isSameSlot && (swapIndex === null || swapIndex === sourceData.itemIndex)) {
             restoreDragVisuals(sourceEl);
           } else {
             // Magnetic Snap Animation into target slot!
             const emptyIndicator = snap.el.querySelector('.empty-slot-indicator');
-            const targetRect = emptyIndicator 
-              ? emptyIndicator.getBoundingClientRect() 
-              : snap.el.getBoundingClientRect();
+            const targetRect = (swapItem || emptyIndicator || snap.el).getBoundingClientRect();
 
             const targetX = targetRect.left + targetRect.width / 2;
             const targetY = targetRect.top + targetRect.height / 2;
@@ -3779,7 +3808,8 @@
               type: snap.type,
               slotIndex: snap.slotIndex,
               rowIndex: snap.rowIndex,
-              shelfIndex: snap.shelfIndex
+              shelfIndex: snap.shelfIndex,
+              itemIndex: swapIndex
             };
 
             settleDrag(() => {
