@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.8.5';
+  const APP_VERSION = '1.8.6';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {

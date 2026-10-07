@@ -45,9 +45,13 @@ function fixture(fetcher = async () => new Response('image bytes')) {
 test('installation caches the small shell and does not download the full item library', async () => {
   const f = fixture();
   await f.dispatch('install');
-  assert.ok(f.added.length < 20);
+  assert.ok(f.added.length < 24);
   assert.ok(!f.added.some(url => url.includes('/photos/')));
   assert.equal(f.requests.length, 0);
+  const version = require('../package.json').version;
+  for (const icon of ['icon-192.png', 'icon-512.png', 'icon-192-maskable.png', 'icon-512-maskable.png', 'apple-touch-icon.png']) {
+    assert.ok(f.added.includes(`./assets/icons/${icon}?v=${version}`), `missing install icon: ${icon}`);
+  }
 });
 
 test('cached image is read locally without a revalidation network request', async () => {

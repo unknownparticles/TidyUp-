@@ -1,5 +1,5 @@
 // Small offline shell; item photos are cached separately by content revision.
-const CACHE_VERSION = 'v1.8.5';
+const CACHE_VERSION = 'v1.8.6';
 const CACHE_NAME = `organizer-pwa-${CACHE_VERSION}`;
 const ITEM_CACHE_NAME = 'organizer-items-v1';
 const ASSET_VERSION = CACHE_VERSION.slice(1);
@@ -7,7 +7,9 @@ const CATALOG_URL = `./assets/items/items_data.json?v=${ASSET_VERSION}`;
 const PRECACHE_ASSETS = [
   './index.html', `./style.css?v=${ASSET_VERSION}`, `./app.js?v=${ASSET_VERSION}`,
   `./manifest.json?v=${ASSET_VERSION}`, CATALOG_URL,
-  './assets/icons/icon-192.png', './assets/icons/apple-touch-icon.png',
+  // Android launchers and installation need both normal and adaptive PNG icons.
+  ...['icon-192.png', 'icon-512.png', 'icon-192-maskable.png', 'icon-512-maskable.png', 'apple-touch-icon.png']
+    .map(name => `./assets/icons/${name}?v=${ASSET_VERSION}`),
   `./assets/ui/logo.svg?v=${ASSET_VERSION}`, `./assets/ui/cat_avatar.webp?v=${ASSET_VERSION}`,
   `./assets/ui/toolbar_wood.webp?v=${ASSET_VERSION}`,
   ...['hammer', 'wand', 'freeze', 'shuffle', 'pause'].map(name => `./assets/ui/btn_${name}.svg?v=${ASSET_VERSION}`),

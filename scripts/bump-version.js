@@ -18,6 +18,14 @@ const appJsPath = path.join(rootDir, 'app.js');
 const indexHtmlPath = path.join(rootDir, 'index.html');
 const swJsPath = path.join(rootDir, 'sw.js');
 const styleCssPath = path.join(rootDir, 'style.css');
+const manifestJsonPath = path.join(rootDir, 'manifest.json');
+const packageLockPath = path.join(rootDir, 'package-lock.json');
+
+function stageVersionFiles() {
+  const files = ['package.json', 'app.js', 'index.html', 'style.css', 'sw.js', 'manifest.json', 'package-lock.json']
+    .filter(file => fs.existsSync(path.join(rootDir, file)));
+  execSync(`git add ${files.join(' ')}`, { cwd: rootDir });
+}
 
 function readCurrentVersion() {
   const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
@@ -67,6 +75,12 @@ function bumpVersion(type, msg = '') {
   const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
   pkg.version = nextVer;
   fs.writeFileSync(packageJsonPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
+  if (fs.existsSync(packageLockPath)) {
+    const lock = JSON.parse(fs.readFileSync(packageLockPath, 'utf8'));
+    lock.version = nextVer;
+    if (lock.packages?.['']) lock.packages[''].version = nextVer;
+    fs.writeFileSync(packageLockPath, JSON.stringify(lock, null, 2) + '\n', 'utf8');
+  }
 
   // 2. 更新 app.js 中的 APP_VERSION
   if (fs.existsSync(appJsPath)) {
@@ -100,6 +114,15 @@ function bumpVersion(type, msg = '') {
   if (fs.existsSync(styleCssPath)) {
     const cssContent = fs.readFileSync(styleCssPath, 'utf8').replace(/\?v=[\d.]+/g, `?v=${nextVer}`);
     fs.writeFileSync(styleCssPath, cssContent, 'utf8');
+  }
+
+  // Icon URLs must also change when a release invalidates Android's old cache.
+  if (fs.existsSync(manifestJsonPath)) {
+    const manifest = JSON.parse(fs.readFileSync(manifestJsonPath, 'utf8'));
+    for (const icon of manifest.icons || []) {
+      icon.src = icon.src.replace(/\?v=[\d.]+/g, `?v=${nextVer}`);
+    }
+    fs.writeFileSync(manifestJsonPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
   }
 
   // 4. 更新 sw.js 中的 CACHE_VERSION
@@ -147,8 +170,8 @@ if (command === 'hook-pre-commit') {
   const envType = process.env.BUMP || 'minor';
   bumpVersion(envType);
   try {
-    execSync('git add package.json app.js index.html style.css sw.js', { cwd: rootDir });
-    console.log('[Version Hook] 已自动更新并暂存 package.json, app.js, index.html, style.css, sw.js');
+    stageVersionFiles();
+    console.log('[Version Hook] 已自动更新并暂存版本、图标清单及缓存配置');
   } catch (err) {
     console.error('[Version Hook] Git add failed:', err.message);
   }
@@ -162,8 +185,8 @@ bumpVersion(command, messageArg);
 
 if (shouldStage) {
   try {
-    execSync('git add package.json app.js index.html style.css sw.js', { cwd: rootDir });
-    console.log('[Git Stage] package.json, app.js, index.html, style.css, sw.js 已自动暂存');
+    stageVersionFiles();
+    console.log('[Git Stage] 版本、图标清单及缓存配置已自动暂存');
   } catch (err) {
     console.error('Git add failed:', err.message);
   }
