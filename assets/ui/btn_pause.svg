@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="100%" height="100%">
   <defs>
     <linearGradient id="btn-bg-pause" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="50%" stop-color="#e7e2fc"/>
-      <stop offset="100%" stop-color="#c8bdf0"/>
+      <stop offset="0%" stop-color="#f4e9d9"/>
+      <stop offset="50%" stop-color="#e5c9a4"/>
+      <stop offset="100%" stop-color="#cfaa79"/>
     </linearGradient>
     <linearGradient id="pause-bars" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#b8a4de"/>
-      <stop offset="50%" stop-color="#9a86c4"/>
-      <stop offset="100%" stop-color="#806fb1"/>
+      <stop offset="0%" stop-color="#946838"/>
+      <stop offset="50%" stop-color="#785127"/>
+      <stop offset="100%" stop-color="#603c1d"/>
     </linearGradient>
   </defs>
 
   <!-- Circular Tactile Button -->
-  <circle cx="44" cy="44" r="39" fill="url(#btn-bg-pause)" stroke="#c9bfeb" stroke-width="2.8"/>
+  <circle cx="44" cy="44" r="39" fill="url(#btn-bg-pause)" stroke="#ad8250" stroke-width="2.8"/>
   <!-- Inner Rim -->
 
 
@@ -22,11 +22,11 @@
 
   <!-- Pause Bars (Two warm chocolate vertical rounded pills) -->
   <g transform="translate(44, 44)">
-    <rect x="-16" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#9181be" stroke-width="1.2"/>
+    <rect x="-16" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#5c3c20" stroke-width="1.2"/>
     <!-- Left bar highlight -->
 
 
-    <rect x="4" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#9181be" stroke-width="1.2"/>
+    <rect x="4" y="-18" width="12" height="36" rx="6" fill="url(#pause-bars)" stroke="#5c3c20" stroke-width="1.2"/>
     <!-- Right bar highlight -->
 
   </g>

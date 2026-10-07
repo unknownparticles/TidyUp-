@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.8.0';
+  const APP_VERSION = '1.8.1';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -1595,7 +1595,7 @@
     }
 
     emit(x, y, count = 24, type = 'star') {
-      const colors = ['#ffe7ab', '#ffd7b7', '#ffb8ca', '#a1e9c8', '#adddff', '#dac7f6', '#ffffff'];
+      const colors = ['#dba537', '#cb7b36', '#b84532', '#498957', '#2c83a9', '#705195', '#ffffff'];
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const speed = Math.random() * 5 + 2;
@@ -1890,7 +1890,7 @@
       const verifyBadge = document.getElementById('verify-badge');
       if (verifyBadge) {
         verifyBadge.textContent = '可解性校验：已通过 ✔';
-        verifyBadge.style.color = '#579d87';
+        verifyBadge.style.color = '#446b45';
       }
 
       this.renderBoard();
@@ -3022,7 +3022,7 @@
 
       this.isFrozen = true;
       this.freezeOverlay.classList.add('active');
-      this.timerEl.style.color = '#6ea6cd';
+      this.timerEl.style.color = '#b4422b';
 
       clearTimeout(this.freezeTimeout);
       this.freezeTimeout = setTimeout(() => {

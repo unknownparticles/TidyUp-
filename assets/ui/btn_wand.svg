@@ -1,29 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="100%" height="100%">
   <defs>
     <linearGradient id="btn-bg-wand" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffedf5"/>
-      <stop offset="40%" stop-color="#f8cce1"/>
-      <stop offset="100%" stop-color="#eba9cb"/>
+      <stop offset="0%" stop-color="#8662ae"/>
+      <stop offset="40%" stop-color="#704b97"/>
+      <stop offset="100%" stop-color="#583572"/>
     </linearGradient>
     <linearGradient id="wand-stick" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f8d784"/>
-      <stop offset="50%" stop-color="#ffe7ab"/>
-      <stop offset="100%" stop-color="#e6bf98"/>
+      <stop offset="0%" stop-color="#d7a448"/>
+      <stop offset="50%" stop-color="#f5d17a"/>
+      <stop offset="100%" stop-color="#b6812b"/>
     </linearGradient>
     <linearGradient id="outer-star-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fff59d"/>
-      <stop offset="50%" stop-color="#ffe7ab"/>
-      <stop offset="100%" stop-color="#e6bf98"/>
+      <stop offset="0%" stop-color="#ffe08a"/>
+      <stop offset="50%" stop-color="#efbb43"/>
+      <stop offset="100%" stop-color="#cc9027"/>
     </linearGradient>
     <linearGradient id="pink-crystal" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ffe4f3"/>
-      <stop offset="50%" stop-color="#efb1d9"/>
-      <stop offset="100%" stop-color="#f496a1"/>
+      <stop offset="0%" stop-color="#ffb06b"/>
+      <stop offset="50%" stop-color="#ed794b"/>
+      <stop offset="100%" stop-color="#c9512d"/>
     </linearGradient>
   </defs>
 
   <!-- Squircle Base -->
-  <rect x="3" y="3" width="82" height="82" rx="22" ry="22" fill="url(#btn-bg-wand)" stroke="#d793b7" stroke-width="2.5"/>
+  <rect x="3" y="3" width="82" height="82" rx="22" ry="22" fill="url(#btn-bg-wand)" stroke="#4c2a69" stroke-width="2.5"/>
   <!-- Top Bevel Gloss -->
 
 
@@ -38,15 +38,15 @@
     <path d="M16,3 Q26,4 24,12 Q18,14 12,8 Z" fill="#f5f6fa" stroke="#dcdde1" stroke-width="1"/>
 
     <!-- Handle Wand Stick -->
-    <rect x="-4.5" y="8" width="9" height="27" rx="4.5" fill="url(#wand-stick)" stroke="#dfbc93" stroke-width="1.2"/>
-    <ellipse cx="0" cy="34" rx="5.5" ry="3" fill="#e6bf98"/>
+    <rect x="-4.5" y="8" width="9" height="27" rx="4.5" fill="url(#wand-stick)" stroke="#a47527" stroke-width="1.2"/>
+    <ellipse cx="0" cy="34" rx="5.5" ry="3" fill="#b6812b"/>
     <line x1="-1.5" y1="10" x2="-1.5" y2="32" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
 
     <!-- 5-Point Outer Chubby Golden Star -->
-    <polygon points="0,-25 6.5,-11 22,-10 10.5,1 15,16 0,8 -15,16 -10.5,1 -22,-10 -6.5,-11" fill="url(#outer-star-gold)" stroke="#dfbc93" stroke-width="1.8" stroke-linejoin="round"/>
+    <polygon points="0,-25 6.5,-11 22,-10 10.5,1 15,16 0,8 -15,16 -10.5,1 -22,-10 -6.5,-11" fill="url(#outer-star-gold)" stroke="#a47527" stroke-width="1.8" stroke-linejoin="round"/>
 
     <!-- Inner Faceted Pink Crystal Star -->
-    <polygon points="0,-20 4.5,-9 16,-8 7.5,0 10.5,11 0,5 -10.5,11 -7.5,0 -16,-8 -4.5,-9" fill="url(#pink-crystal)" stroke="#d78ba6" stroke-width="1" stroke-linejoin="round"/>
+    <polygon points="0,-20 4.5,-9 16,-8 7.5,0 10.5,11 0,5 -10.5,11 -7.5,0 -16,-8 -4.5,-9" fill="url(#pink-crystal)" stroke="#a43b25" stroke-width="1" stroke-linejoin="round"/>
 
     <!-- Facet Highlight Lines -->
     <line x1="0" y1="-20" x2="0" y2="-1" stroke="#ffffff" stroke-width="1.5" opacity="0.85"/>
@@ -55,6 +55,6 @@
 
     <!-- Magic Glint Sparkles -->
     <path d="M18,-18 Q19,-22 22,-23 Q19,-24 18,-28 Q17,-24 14,-23 Q17,-22 18,-18 Z" fill="#ffffff"/>
-    <path d="M-18,-19 Q-17,-21 -15,-22 Q-17,-23 -18,-25 Q-19,-23 -21,-22 Q-19,-21 -18,-19 Z" fill="#fff59d"/>
+    <path d="M-18,-19 Q-17,-21 -15,-22 Q-17,-23 -18,-25 Q-19,-23 -21,-22 Q-19,-21 -18,-19 Z" fill="#efbb43"/>
   </g>
 </svg>

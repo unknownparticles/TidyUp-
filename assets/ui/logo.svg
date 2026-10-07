@@ -2,31 +2,31 @@
   <defs>
     <!-- Outer Hexagon Gradient -->
     <linearGradient id="logo-hex-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ecdfff"/>
-      <stop offset="50%" stop-color="#d9c5f5"/>
-      <stop offset="100%" stop-color="#baa4e6"/>
+      <stop offset="0%" stop-color="#dbb280"/>
+      <stop offset="50%" stop-color="#bf8d50"/>
+      <stop offset="100%" stop-color="#98642e"/>
     </linearGradient>
     <!-- Gold Rim Gradient -->
     <linearGradient id="logo-gold-rim" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fff4d6"/>
-      <stop offset="50%" stop-color="#ffe4b8"/>
-      <stop offset="100%" stop-color="#f0c79f"/>
+      <stop offset="0%" stop-color="#ffedbd"/>
+      <stop offset="50%" stop-color="#e4b359"/>
+      <stop offset="100%" stop-color="#bd8a4a"/>
     </linearGradient>
     <!-- Dark Inner Violet -->
     <radialGradient id="logo-inner-bg" cx="50%" cy="45%" r="55%">
-      <stop offset="0%" stop-color="#f0fbff"/>
-      <stop offset="100%" stop-color="#d6edfa"/>
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f4e9d8"/>
     </radialGradient>
     <!-- Box Body Warm Wood -->
     <linearGradient id="box-wood-front" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#fff8ed"/>
-      <stop offset="50%" stop-color="#ffe7cd"/>
-      <stop offset="100%" stop-color="#f7cebb"/>
+      <stop offset="0%" stop-color="#fff3d7"/>
+      <stop offset="50%" stop-color="#e9c997"/>
+      <stop offset="100%" stop-color="#d0a66d"/>
     </linearGradient>
     <!-- Box Inner Recess -->
     <linearGradient id="box-recess" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#f0c79f"/>
-      <stop offset="100%" stop-color="#ecc4b6"/>
+      <stop offset="0%" stop-color="#bd8a4a"/>
+      <stop offset="100%" stop-color="#c69b62"/>
     </linearGradient>
     <!-- Cheeks Glow -->
     <radialGradient id="cheek-glow" cx="50%" cy="50%" r="50%">
@@ -36,7 +36,7 @@
   </defs>
 
   <!-- 1. Hexagon Outer Base -->
-  <polygon points="50,4 93,27 93,73 50,96 7,73 7,27" fill="url(#logo-hex-grad)" stroke="#b4a3d9" stroke-width="1.5"/>
+  <polygon points="50,4 93,27 93,73 50,96 7,73 7,27" fill="url(#logo-hex-grad)" stroke="#835628" stroke-width="1.5"/>
   <!-- 2. Hexagon Gold Rim -->
   <polygon points="50,9 88,29 88,71 50,91 12,71 12,29" fill="none" stroke="url(#logo-gold-rim)" stroke-width="3.5" stroke-linejoin="round"/>
   <!-- 3. Hexagon Inner Plate -->
@@ -46,20 +46,20 @@
   <g transform="translate(50, 52)">
     <!-- Waving Arms -->
     <!-- Left Hand -->
-    <ellipse cx="-27" cy="-1" rx="6.5" ry="4.5" fill="#ecc4b6" transform="rotate(-25 -27 -1)" stroke="#d3a9a4" stroke-width="1"/>
+    <ellipse cx="-27" cy="-1" rx="6.5" ry="4.5" fill="#c69b62" transform="rotate(-25 -27 -1)" stroke="#9a703d" stroke-width="1"/>
     <!-- Right Waving Hand -->
-    <ellipse cx="27" cy="-5" rx="6.5" ry="4.5" fill="#ecc4b6" transform="rotate(35 27 -5)" stroke="#d3a9a4" stroke-width="1"/>
+    <ellipse cx="27" cy="-5" rx="6.5" ry="4.5" fill="#c69b62" transform="rotate(35 27 -5)" stroke="#9a703d" stroke-width="1"/>
 
     <!-- Stubby Little Feet -->
-    <ellipse cx="-11" cy="22" rx="5.5" ry="4" fill="#e1b4a6" stroke="#d3a9a4" stroke-width="1"/>
-    <ellipse cx="11" cy="22" rx="5.5" ry="4" fill="#e1b4a6" stroke="#d3a9a4" stroke-width="1"/>
+    <ellipse cx="-11" cy="22" rx="5.5" ry="4" fill="#b08349" stroke="#9a703d" stroke-width="1"/>
+    <ellipse cx="11" cy="22" rx="5.5" ry="4" fill="#b08349" stroke="#9a703d" stroke-width="1"/>
 
     <!-- 3D Box Perspective Top & Left -->
-    <path d="M-21,-19 L-16,-24 L22,-24 L19,-19 Z" fill="#fae5d3" stroke="#e1b4a6" stroke-width="1"/>
-    <path d="M-24,-17 L-19,-22 L-19,16 L-24,19 Z" fill="#f7cebb" stroke="#e1b4a6" stroke-width="1"/>
+    <path d="M-21,-19 L-16,-24 L22,-24 L19,-19 Z" fill="#fae5d3" stroke="#b08349" stroke-width="1"/>
+    <path d="M-24,-17 L-19,-22 L-19,16 L-24,19 Z" fill="#d0a66d" stroke="#b08349" stroke-width="1"/>
 
     <!-- Main Front Face of Cabinet -->
-    <rect x="-22" y="-19" width="43" height="39" rx="6" ry="6" fill="url(#box-wood-front)" stroke="#e1b4a6" stroke-width="1.5"/>
+    <rect x="-22" y="-19" width="43" height="39" rx="6" ry="6" fill="url(#box-wood-front)" stroke="#b08349" stroke-width="1.5"/>
 
     <!-- Side Screws/Rivets -->
     <circle cx="-19.5" cy="-11" r="1.2" fill="#ffffff" stroke="#abc0d1" stroke-width="0.6"/>

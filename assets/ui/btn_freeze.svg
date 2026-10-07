@@ -1,25 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="100%" height="100%">
   <defs>
     <linearGradient id="btn-bg-freeze" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#e5f3ff"/>
-      <stop offset="40%" stop-color="#c5e2fc"/>
-      <stop offset="100%" stop-color="#9ccbf0"/>
+      <stop offset="0%" stop-color="#399ac1"/>
+      <stop offset="40%" stop-color="#247fac"/>
+      <stop offset="100%" stop-color="#17648f"/>
     </linearGradient>
     <linearGradient id="ice-crystal" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f0fcff"/>
-      <stop offset="30%" stop-color="#d2f6ff"/>
-      <stop offset="70%" stop-color="#a7e3ef"/>
-      <stop offset="100%" stop-color="#9bbde7"/>
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#edfaff"/>
+      <stop offset="70%" stop-color="#b6e2f1"/>
+      <stop offset="100%" stop-color="#7ec0db"/>
     </linearGradient>
     <radialGradient id="ice-glow" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="50%" stop-color="#f0fcff"/>
-      <stop offset="100%" stop-color="#a7e3ef" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#dbf5ff"/>
+      <stop offset="100%" stop-color="#83cde2" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
   <!-- Squircle Base -->
-  <rect x="3" y="3" width="82" height="82" rx="22" ry="22" fill="url(#btn-bg-freeze)" stroke="#81aed5" stroke-width="2.5"/>
+  <rect x="3" y="3" width="82" height="82" rx="22" ry="22" fill="url(#btn-bg-freeze)" stroke="#155574" stroke-width="2.5"/>
   <!-- Top Bevel Gloss -->
 
 
@@ -32,11 +32,11 @@
     <g id="snowflake-full">
       <!-- Arm 0 deg -->
       <g id="flake-branch">
-        <path d="M-2.5,0 L-2.5,-25 L0,-29 L2.5,-25 L2.5,0 Z" fill="url(#ice-crystal)" stroke="#9bbde7" stroke-width="0.8"/>
-        <path d="M-2.5,-16 L-10,-22 L-8,-24 L-2.5,-19 Z" fill="url(#ice-crystal)" stroke="#9bbde7" stroke-width="0.8"/>
-        <path d="M2.5,-16 L10,-22 L8,-24 L2.5,-19 Z" fill="url(#ice-crystal)" stroke="#9bbde7" stroke-width="0.8"/>
+        <path d="M-2.5,0 L-2.5,-25 L0,-29 L2.5,-25 L2.5,0 Z" fill="url(#ice-crystal)" stroke="#5596b3" stroke-width="0.8"/>
+        <path d="M-2.5,-16 L-10,-22 L-8,-24 L-2.5,-19 Z" fill="url(#ice-crystal)" stroke="#5596b3" stroke-width="0.8"/>
+        <path d="M2.5,-16 L10,-22 L8,-24 L2.5,-19 Z" fill="url(#ice-crystal)" stroke="#5596b3" stroke-width="0.8"/>
         <!-- Diamond tip -->
-        <polygon points="0,-30 4.5,-24 0,-18 -4.5,-24" fill="#f0fcff" stroke="#afd5f2" stroke-width="0.8"/>
+        <polygon points="0,-30 4.5,-24 0,-18 -4.5,-24" fill="#f0fcff" stroke="#6caccc" stroke-width="0.8"/>
         <!-- Specular Highlight Line -->
         <line x1="-0.5" y1="-2" x2="-0.5" y2="-27" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" opacity="0.85"/>
       </g>
@@ -48,7 +48,7 @@
     </g>
 
     <!-- Center Hexagonal Gem Plate -->
-    <polygon points="0,-10 8.6,-5 8.6,5 0,10 -8.6,5 -8.6,-5" fill="#ffffff" stroke="#9bbde7" stroke-width="1.5"/>
+    <polygon points="0,-10 8.6,-5 8.6,5 0,10 -8.6,5 -8.6,-5" fill="#ffffff" stroke="#5596b3" stroke-width="1.5"/>
     <polygon points="0,-7 6,-3.5 6,3.5 0,7 -6,3.5 -6,-3.5" fill="url(#ice-crystal)"/>
 
   </g>
