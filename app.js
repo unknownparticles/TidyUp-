@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.11.0';
+  const APP_VERSION = '1.11.1';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -2389,7 +2389,45 @@
     const [left, top, width, height] = item.bounds || [0, 0, 200, 280];
     const fit = `--photo-w:${width};--photo-h:${height};--photo-cx:${left + width / 2};--photo-bottom:${top + height}`;
     const loading = front ? '' : ' loading="lazy" fetchpriority="low"';
-    return `<img src="${item.img}" alt="${alt}" width="200" height="280" decoding="async" style="${fit}"${loading} draggable="false">`;
+    return `<img data-item-image src="${item.img}" alt="${alt}" width="200" height="280" decoding="async" style="${fit}"${loading} draggable="false">`;
+  }
+
+  // Capturing handles errors from dynamically inserted cabinet and drag images too.
+  function setupImageRecovery() {
+    const retries = new WeakMap();
+    const failed = new Set();
+    function retry(image) {
+      const state = retries.get(image);
+      if (!state || state.timer || state.attempts >= 2 || !image.isConnected) return;
+      state.timer = setTimeout(() => {
+        state.timer = null;
+        if (!image.isConnected) { failed.delete(image); return; }
+        state.attempts++;
+        const url = new URL(state.source, document.baseURI);
+        url.searchParams.set('_image_retry', state.attempts);
+        image.loading = 'eager';
+        image.src = url.href;
+      }, 500 * (2 ** state.attempts));
+    }
+    document.addEventListener('error', event => {
+      const image = event.target;
+      if (image.tagName !== 'IMG' || !image.hasAttribute('data-item-image')) return;
+      if (!retries.has(image)) retries.set(image, { source: image.src, attempts: 0, timer: null });
+      failed.add(image);
+      // Detached images should not be retained while moving between levels.
+      for (const previous of failed) if (!previous.isConnected) failed.delete(previous);
+      retry(image);
+    }, true);
+    document.addEventListener('load', event => {
+      if (event.target.tagName === 'IMG') failed.delete(event.target);
+    }, true);
+    window.addEventListener('online', () => {
+      for (const image of failed) {
+        if (!image.isConnected) { failed.delete(image); continue; }
+        retries.get(image).attempts = 0;
+        retry(image);
+      }
+    });
   }
 
   // 2. Web Audio Synthesizer (Zero asset dependency, instant sound)
@@ -4177,6 +4215,7 @@
   }
 
   window.addEventListener('DOMContentLoaded', () => {
+    setupImageRecovery();
     window.game = new GoodsOrganizerGame();
 
     // ================== PWA Installation & Service Worker ==================
@@ -4217,6 +4256,10 @@
     // Register Service Worker for offline capability
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.addEventListener('controllerchange', () => window.game.cacheCurrentLevel());
+      window.addEventListener('online', () => {
+        window.game.cachedLevelSignature = null;
+        window.game.cacheCurrentLevel();
+      });
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
           .then((reg) => {

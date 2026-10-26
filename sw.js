@@ -1,5 +1,5 @@
 // Small offline shell; item photos are cached separately by content revision.
-const CACHE_VERSION = 'v1.11.0';
+const CACHE_VERSION = 'v1.11.1';
 const CACHE_NAME = `organizer-pwa-${CACHE_VERSION}`;
 const ITEM_CACHE_NAME = 'organizer-items-v1';
 const ASSET_VERSION = CACHE_VERSION.slice(1);
@@ -22,24 +22,43 @@ const absolute = url => new URL(url, scope).href;
 const itemPhoto = url => new URL(url).pathname.startsWith(`${scope.pathname}assets/items/photos/`);
 
 function openCache(name) {
-  if (!openedCaches.has(name)) openedCaches.set(name, caches.open(name));
+  if (!openedCaches.has(name)) {
+    const opening = caches.open(name).catch(error => {
+      openedCaches.delete(name);
+      throw error;
+    });
+    openedCaches.set(name, opening);
+  }
   return openedCaches.get(name);
 }
 
+// Browser storage can be disabled, evicted or full. It must never gate a download.
+async function readCache(name, url) {
+  try { return await (await openCache(name)).match(url); } catch (_) { return undefined; }
+}
+
+async function storeCache(name, url, response) {
+  try { await (await openCache(name)).put(url, response); } catch (_) { /* Network response remains usable. */ }
+}
+
 async function cachedAsset(request, event, options) {
-  const url = typeof request === 'string' ? absolute(request) : request.url;
-  const cache = await openCache(itemPhoto(url) ? ITEM_CACHE_NAME : CACHE_NAME);
-  const cached = await cache.match(url);
-  // A content revision or release version makes this URL immutable.
+  const url = new URL(typeof request === 'string' ? absolute(request) : request.url);
+  const retry = url.searchParams.has('_image_retry');
+  url.searchParams.delete('_image_retry');
+  const key = url.href;
+  const name = itemPhoto(key) ? ITEM_CACHE_NAME : CACHE_NAME;
+  const cached = retry ? undefined : await readCache(name, key);
   if (cached) return cached;
-  let task = pending.get(url);
+  // A recovery request must not share the previous failed or stalled download.
+  const pendingKey = retry ? `${key}:retry` : key;
+  let task = pending.get(pendingKey);
   if (!task) {
-    const response = fetch(request, options);
-    const complete = response.then(res => res.ok ? cache.put(url, res.clone()) : undefined);
+    const response = fetch(request, retry ? { ...options, cache: 'reload' } : options);
+    const complete = response.then(res => res.ok ? storeCache(name, key, res.clone()) : undefined);
     task = { response, complete };
-    pending.set(url, task);
+    pending.set(pendingKey, task);
     complete.catch(() => {}).finally(() => {
-      if (pending.get(url) === task) pending.delete(url);
+      if (pending.get(pendingKey) === task) pending.delete(pendingKey);
     });
   }
   event.waitUntil(task.complete.catch(() => {}));
@@ -88,7 +107,8 @@ self.addEventListener('message', event => {
     const urls = type === 'CACHE_LIBRARY' ? [...allowed] : [...new Set(event.data.urls || [])].map(absolute).filter(url => allowed.has(url));
     const photos = await openCache(ITEM_CACHE_NAME);
     const completeURL = absolute(`./assets/items/library-ready?v=${ASSET_VERSION}`);
-    if (type === 'CACHE_LIBRARY' && await photos.match(completeURL)) return;
+    // A ready marker can outlive individual entries after browser storage eviction.
+    // Always check the catalog; cacheBatch only downloads missing photos.
     const ready = await cacheBatch(urls, event, type === 'CACHE_LIBRARY' ? 2 : 3);
     if (type === 'CACHE_LIBRARY' && ready) await photos.put(completeURL, new Response('ready'));
   })());
@@ -100,15 +120,13 @@ self.addEventListener('fetch', event => {
   if (request.mode === 'navigate') {
     const network = fetch(request).then(async response => {
       if (response.ok) {
-        const cache = await openCache(CACHE_NAME);
-        await cache.put(absolute('./index.html'), response.clone());
+        await storeCache(CACHE_NAME, absolute('./index.html'), response.clone());
       }
       return response;
     });
     event.waitUntil(network.catch(() => {}));
     event.respondWith((async () => {
-      const cache = await openCache(CACHE_NAME);
-      const fallback = await cache.match(absolute('./index.html'));
+      const fallback = await readCache(CACHE_NAME, absolute('./index.html'));
       if (!fallback) return network;
       let timeout;
       try {

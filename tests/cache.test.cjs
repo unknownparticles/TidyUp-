@@ -125,3 +125,63 @@ test('library warming uses two requests at a time and skips an already completed
   const photos = await f.caches.open('organizer-items-v1');
   assert.ok(await photos.match(f.scope + `assets/items/library-ready?v=${version}`));
 });
+
+test('image download survives unavailable browser storage and retries opening it later', async () => {
+  const f = fixture();
+  const open = f.caches.open;
+  f.caches.open = async () => { throw new Error('Storage disabled'); };
+  const request = { url: f.scope + 'assets/items/photos/item_810.webp?v=abcdef123456', method: 'GET' };
+  const response = await f.dispatch('fetch', { request });
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), 'image bytes');
+  f.caches.open = open;
+  await f.dispatch('fetch', { request });
+  assert.ok(await (await f.caches.open('organizer-items-v1')).match(request.url));
+});
+
+test('a full cache does not turn successful images or navigation into failures', async () => {
+  const f = fixture();
+  const open = f.caches.open;
+  f.caches.open = async name => ({ ...await open(name), put: async () => { throw new Error('Quota exceeded'); } });
+  for (const request of [
+    { url: f.scope + 'assets/items/photos/item_810.webp?v=abcdef123456', method: 'GET' },
+    { url: f.scope, method: 'GET', mode: 'navigate' }
+  ]) {
+    const response = await f.dispatch('fetch', { request });
+    assert.equal(response.status, 200);
+    assert.equal(await response.text(), 'image bytes');
+  }
+});
+
+test('image recovery bypasses a bad cached response and stores the canonical URL', async () => {
+  let options;
+  const f = fixture(async (_, input) => { options = input; return new Response('recovered pixels'); });
+  const url = f.scope + 'assets/items/photos/item_810.webp?v=abcdef123456';
+  const photos = await f.caches.open('organizer-items-v1');
+  await photos.put(url, new Response('broken pixels'));
+  const response = await f.dispatch('fetch', { request: { url: url + '&_image_retry=1', method: 'GET' } });
+  assert.equal(await response.text(), 'recovered pixels');
+  assert.equal(options.cache, 'reload');
+  assert.equal(await (await photos.match(url)).text(), 'recovered pixels');
+  assert.equal(f.maps.get('organizer-items-v1').size, 1);
+});
+
+test('library warming repairs missing photos even when its ready marker survives', async () => {
+  const f = fixture();
+  const version = require('../package.json').version;
+  const shell = await f.caches.open(`organizer-pwa-v${version}`);
+  await shell.put(f.scope + `assets/items/items_data.json?v=${version}`, new Response(JSON.stringify({ a: { img: './assets/items/photos/item_810.webp', revision: 'abcdef123456' } })));
+  const photos = await f.caches.open('organizer-items-v1');
+  await photos.put(f.scope + `assets/items/library-ready?v=${version}`, new Response('ready'));
+  await f.dispatch('message', { data: { type: 'CACHE_LIBRARY' } });
+  assert.deepEqual(f.requests, [f.scope + 'assets/items/photos/item_810.webp?v=abcdef123456']);
+});
+
+test('transient failures are not cached and a subsequent image request can recover', async () => {
+  let attempts = 0;
+  const f = fixture(async () => ++attempts === 1 ? new Response('temporary failure', { status: 503 }) : new Response('pixels'));
+  const request = { url: f.scope + 'assets/items/photos/item_810.webp?v=abcdef123456', method: 'GET' };
+  assert.equal((await f.dispatch('fetch', { request })).status, 503);
+  assert.equal((await f.dispatch('fetch', { request })).status, 200);
+  assert.equal(attempts, 2);
+});
