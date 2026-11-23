@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.12.0';
+  const APP_VERSION = '1.12.1';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -3379,34 +3379,43 @@
       }
     };
 
-    // BFS / Greedy simulation of elimination steps
+    // Simulate legal front moves and clear any completed triplets.
     let maxSteps = 300;
     while (maxSteps-- > 0) {
-      // 1. Count items in front layer across all slots
-      const counts = {};
+      const complete = slots.find(({ layers: [front] }) =>
+        front.length === 3 && front.every(item => getItemMatchKey(item) === getItemMatchKey(front[0])));
+      if (complete) {
+        complete.layers[0] = [];
+        promoteSimSlot(complete);
+        continue;
+      }
+
+      const counts = new Map();
       slots.forEach(slot => {
         slot.layers[0].forEach(item => {
           const k = getItemMatchKey(item);
-          counts[k] = (counts[k] || 0) + 1;
+          counts.set(k, (counts.get(k) || 0) + 1);
         });
       });
 
-      // Find any item type with count >= 3 in front layer
-      const matchableMatchKey = Object.keys(counts).find(key => counts[key] >= 3);
-      if (matchableMatchKey) {
-        // We can match this item!
-        let needed = 3;
-        for (let i = 0; i < slots.length && needed > 0; i++) {
-          const slot = slots[i];
-          for (let j = slot.layers[0].length - 1; j >= 0 && needed > 0; j--) {
-            if (getItemMatchKey(slot.layers[0][j]) === matchableMatchKey) {
-              slot.layers[0].splice(j, 1);
-              needed--;
-              promoteSimSlot(slot);
-            }
+      const empty = slots.find(slot => slot.layers[0].length === 0);
+      const partial = slots.find(({ layers: [front] }) => {
+        const key = getItemMatchKey(front[0]);
+        return front.length > 0 && counts.get(key) >= 3 && front.every(item => getItemMatchKey(item) === key);
+      });
+      const matchKey = partial ? getItemMatchKey(partial.layers[0][0]) : [...counts.keys()].find(key => counts.get(key) >= 3);
+      const destination = partial || empty;
+      if (destination && matchKey) {
+        for (const source of slots) {
+          if (source === destination) continue;
+          const front = source.layers[0];
+          for (let i = front.length - 1; i >= 0 && destination.layers[0].length < 3; i--) {
+            if (getItemMatchKey(front[i]) !== matchKey) continue;
+            destination.layers[0].push(front.splice(i, 1)[0]);
+            promoteSimSlot(source);
           }
         }
-        continue; // Next round of elimination
+        continue;
       }
 
       // 2. If no direct 3-match in front, check if emptying a slot to reveal deeper items helps
@@ -3564,7 +3573,6 @@
       }
     }
 
-    // Generate level with strict Reverse Triplet Generation and Solvability Verification
     initLevelWithVerification(levelNumber) {
       let attempts = 0;
       let valid = false;
@@ -3575,7 +3583,13 @@
         valid = verifySolvability(this.cabinetData, this.conveyorRows);
       }
 
-      console.log(`[Level Generator] Level ${levelNumber} generated & verified in ${attempts} attempts! Solvable: ${valid}`);
+      if (!valid) {
+        this.generateLevelData(levelNumber, true);
+        valid = verifySolvability(this.cabinetData, this.conveyorRows);
+        if (!valid) throw new Error('Could not generate a solvable board');
+      }
+
+      console.log(`[Level Generator] Level ${levelNumber} verified after ${attempts} random deals`);
       const verifyBadge = document.getElementById('verify-badge');
       if (verifyBadge) {
         verifyBadge.textContent = '可解性校验：已通过 ✔';
@@ -3601,7 +3615,7 @@
       return false;
     }
 
-    generateLevelData(levelNumber) {
+    generateLevelData(levelNumber, useGuaranteedDeal = false) {
       this.currentLevel = levelNumber;
       this.selectedItemInfo = null;
       this.timerSeconds = 988; // 16:28
@@ -3614,13 +3628,6 @@
 
       // Pick distinct item types with guaranteed visual diversity & contrast
       const chosenTypes = selectDistinguishableItemTypes(totalTriplets);
-
-      const itemPool = [];
-      chosenTypes.forEach(type => {
-        itemPool.push(type, type, type);
-      });
-      // Shuffle pool
-      itemPool.sort(() => Math.random() - 0.5);
 
       // Setup 3x3 Upper Cabinet: 9 cubbies, each with 4 layers
       this.cabinetData = [];
@@ -3660,6 +3667,30 @@
       // Active populated cabinet cubbies: 0, 1, 3, 4, 5, 7, 8 (7 cubbies)
       // Cubbies 2 and 6 remain open buffer compartments across all layers for sorting
       const populatedCabinet = [0, 1, 3, 4, 5, 7, 8];
+
+      if (useGuaranteedDeal) {
+        // Leave the two buffer cabinets empty. Each batch puts one copy of
+        // every type on three exposed shelves, so players can clear the batch
+        // in a buffer before revealing the next layer on those shelves.
+        const slots = [...this.conveyorRows.flat(), ...populatedCabinet.map(index => this.cabinetData[index])]
+          .sort(() => Math.random() - 0.5);
+        const batchCount = Math.floor(slots.length / 3);
+        let nextType = 0;
+        let remainingBatches = batchCount * 4;
+        for (let layer = 0; layer < 4; layer++) {
+          for (let batch = 0; batch < batchCount; batch++) {
+            const count = Math.ceil((totalTriplets - nextType) / remainingBatches--);
+            const types = chosenTypes.slice(nextType, nextType + count);
+            nextType += count;
+            for (const slot of slots.slice(batch * 3, batch * 3 + 3)) {
+              slot.layers[layer] = [...types].sort(() => Math.random() - 0.5);
+            }
+          }
+        }
+        return;
+      }
+
+      const itemPool = chosenTypes.flatMap(type => [type, type, type]).sort(() => Math.random() - 0.5);
 
       // 1. Layer 0 (Front interactive layer):
       // Conveyor: all 12 shelves get 2 to 3 items
@@ -3868,24 +3899,26 @@
 
     // Granular update: update only one compartment
     updateCompartment(compIdx) {
+      const slotData = this.cabinetData[compIdx];
+      if (slotData?.animating) return;
       const compDiv = this.cabinetEl.children[compIdx];
       if (!compDiv) return;
       const lane = compDiv.querySelector('.slot-lane');
       if (!lane) return;
-      const slotData = this.cabinetData[compIdx];
       this.renderLane(lane, slotData.layers, 'cabinet', compIdx);
 
     }
 
     // Granular update: update only one conveyor shelf plank
     updateShelf(rowIdx, shelfIdx) {
+      const slotData = this.conveyorRows[rowIdx][shelfIdx];
+      if (slotData.animating) return;
       const track = document.getElementById(`conveyor-track-${rowIdx}`);
       if (!track) return;
       const plank = track.children[shelfIdx];
       if (!plank) return;
       const lane = plank.querySelector('.slot-lane');
       if (!lane) return;
-      const slotData = this.conveyorRows[rowIdx][shelfIdx];
       this.renderLane(lane, slotData.layers, 'conveyor', rowIdx, shelfIdx);
 
     }
@@ -3898,6 +3931,14 @@
       } else {
         this.updateShelf(loc.rowIndex, loc.shelfIndex);
       }
+    }
+
+    getSlotData({ type, slotIndex, rowIndex, shelfIndex }) {
+      return type === 'cabinet' ? this.cabinetData[slotIndex] : this.conveyorRows[rowIndex]?.[shelfIndex];
+    }
+
+    getBoardSlots() {
+      return [...this.cabinetData, ...this.conveyorRows.flat()];
     }
 
     // Update all slots across cabinet and conveyors without destroying DOM nodes
@@ -3980,6 +4021,7 @@
 
       // 1. Check Cabinet Compartments
       this.cabinetData.forEach((comp, idx) => {
+        if (comp.animating) return;
         const front = comp.layers[0];
         if (front.length === 3) {
           const m0 = getItemMatchKey(front[0]);
@@ -3987,7 +4029,7 @@
           const m2 = getItemMatchKey(front[2]);
           if (m0 === m1 && m1 === m2) {
             matchedAny = true;
-            this.triggerMatchElimination('cabinet', idx, null, front[0]);
+            this.triggerMatchElimination('cabinet', idx, null);
           }
         }
       });
@@ -3995,6 +4037,7 @@
       // 2. Check Conveyor Shelves
       this.conveyorRows.forEach((row, rIdx) => {
         row.forEach((shelf, sIdx) => {
+          if (shelf.animating) return;
           const front = shelf.layers[0];
           if (front.length === 3) {
             const m0 = getItemMatchKey(front[0]);
@@ -4002,7 +4045,7 @@
             const m2 = getItemMatchKey(front[2]);
             if (m0 === m1 && m1 === m2) {
               matchedAny = true;
-              this.triggerMatchElimination('conveyor', rIdx, sIdx, front[0]);
+              this.triggerMatchElimination('conveyor', rIdx, sIdx);
             }
           }
         });
@@ -4011,22 +4054,18 @@
       return matchedAny;
     }
 
-    triggerMatchElimination(type, idx1, idx2, itemKey) {
+    triggerMatchElimination(type, idx1, idx2) {
+      const location = { type, slotIndex: idx1, rowIndex: idx1, shelfIndex: idx2 };
+      const targetData = this.getSlotData(location);
+      if (targetData.animating) return;
+      targetData.animating = true;
+
       sound.playMatch();
       this.score += 100;
       this.scoreEl.textContent = this.score;
 
-      let targetEl;
-      let targetData;
-
-      if (type === 'cabinet') {
-        targetEl = this.cabinetEl.children[idx1];
-        targetData = this.cabinetData[idx1];
-      } else {
-        const track = document.getElementById(`conveyor-track-${idx1}`);
-        if (track) targetEl = track.children[idx2];
-        targetData = this.conveyorRows[idx1][idx2];
-      }
+      const targetEl = type === 'cabinet' ? this.cabinetEl.children[idx1] :
+        document.getElementById(`conveyor-track-${idx1}`)?.children[idx2];
 
       if (targetEl) {
         const rect = targetEl.getBoundingClientRect();
@@ -4049,40 +4088,25 @@
       }
 
       setTimeout(() => {
+        if (this.getSlotData(location) !== targetData) return;
         targetData.layers[0] = [];
-
-        // Deeper layer items promote to front layer! ("下一行变为上一行，恢复正常饱和度")
+        targetData.animating = false;
         this.promoteSlot(targetData);
-
-        // Granular update only the affected slot
-        if (type === 'cabinet') {
-          this.updateCompartment(idx1);
-        } else {
-          this.updateShelf(idx1, idx2);
-        }
-
+        this.updateLocation(location);
         this.checkMatches();
         this.checkGameWinOrLoss();
       }, 320);
     }
 
     moveItem(fromLocation, toLocation) {
-      let sourceArray;
-      if (fromLocation.type === 'cabinet') {
-        sourceArray = this.cabinetData[fromLocation.slotIndex].layers[0];
-      } else {
-        sourceArray = this.conveyorRows[fromLocation.rowIndex][fromLocation.shelfIndex].layers[0];
-      }
+      const sourceSlotData = this.getSlotData(fromLocation);
+      const targetSlotData = this.getSlotData(toLocation);
+      if (!sourceSlotData || sourceSlotData.animating || !targetSlotData || targetSlotData.animating) return false;
+      if (fromLocation.slot && fromLocation.slot !== sourceSlotData) return false;
 
-      let targetArray;
-      let targetSlotData;
-      if (toLocation.type === 'cabinet') {
-        targetSlotData = this.cabinetData[toLocation.slotIndex];
-        targetArray = targetSlotData.layers[0];
-      } else {
-        targetSlotData = this.conveyorRows[toLocation.rowIndex][toLocation.shelfIndex];
-        targetArray = targetSlotData.layers[0];
-      }
+      const sourceArray = sourceSlotData.layers[0];
+      const targetArray = targetSlotData.layers[0];
+      if (fromLocation.itemKey && sourceArray[fromLocation.itemIndex] !== fromLocation.itemKey) return false;
 
       if (sourceArray === targetArray) {
         const fromIndex = fromLocation.itemIndex;
@@ -4108,10 +4132,6 @@
 
       targetArray.push(item);
       sound.playDrop();
-
-      let sourceSlotData = fromLocation.type === 'cabinet' 
-        ? this.cabinetData[fromLocation.slotIndex]
-        : this.conveyorRows[fromLocation.rowIndex][fromLocation.shelfIndex];
 
       this.promoteSlot(sourceSlotData);
 
@@ -4188,7 +4208,7 @@
             slotIndex: idx,
             rowIndex: idx,
             shelfIndex: 0,
-            canPlace: count < 3 || isSameLocation(draggedItemData, { type: 'cabinet', slotIndex: idx }),
+            canPlace: !comp.animating && (count < 3 || isSameLocation(draggedItemData, { type: 'cabinet', slotIndex: idx })),
             rect: el.getBoundingClientRect()
           });
         });
@@ -4207,7 +4227,7 @@
               slotIndex: rIdx,
               rowIndex: rIdx,
               shelfIndex: sIdx,
-              canPlace: count < 3 || isSameLocation(draggedItemData, { type: 'conveyor', rowIndex: rIdx, shelfIndex: sIdx }),
+              canPlace: !shelf.animating && (count < 3 || isSameLocation(draggedItemData, { type: 'conveyor', rowIndex: rIdx, shelfIndex: sIdx })),
               rect: el.getBoundingClientRect()
             });
           });
@@ -4258,6 +4278,9 @@
       };
 
       const handleItemTap = (itemData) => {
+        if (this.getSlotData(itemData) !== itemData.slot || itemData.slot.animating ||
+            itemData.slot.layers[0][itemData.itemIndex] !== itemData.itemKey) return;
+
         // 1. If clicking on already selected item, deselect it
         if (this.selectedItemInfo &&
             this.selectedItemInfo.locationType === itemData.type &&
@@ -4278,7 +4301,8 @@
               slotIndex: this.selectedItemInfo.slotIndex,
               rowIndex: this.selectedItemInfo.rowIndex,
               shelfIndex: this.selectedItemInfo.shelfIndex,
-              itemIndex: this.selectedItemInfo.itemIndex
+              itemIndex: this.selectedItemInfo.itemIndex,
+              itemKey: this.selectedItemInfo.itemKey
             },
             {
               type: itemData.type,
@@ -4341,7 +4365,8 @@
                   slotIndex: this.selectedItemInfo.slotIndex,
                   rowIndex: this.selectedItemInfo.rowIndex,
                   shelfIndex: this.selectedItemInfo.shelfIndex,
-                  itemIndex: this.selectedItemInfo.itemIndex
+                  itemIndex: this.selectedItemInfo.itemIndex,
+                  itemKey: this.selectedItemInfo.itemKey
                 },
                 {
                   type,
@@ -4355,29 +4380,24 @@
           return;
         }
 
-        e.preventDefault();
-        // Selection and deselection must not restart the entry animation.
-        itemEl.classList.remove('entering');
-
-        activePointerId = e.pointerId;
-        startPointerPos = { x: e.clientX, y: e.clientY };
-        isDragging = false;
-        draggedItemEl = itemEl;
-
         const type = itemEl.dataset.type;
         const slotIdx = parseInt(itemEl.dataset.slotIndex || itemEl.dataset.rowIndex);
         const shelfIdx = parseInt(itemEl.dataset.shelfIndex || '0');
         const itemIdx = parseInt(itemEl.dataset.itemIndex);
         const itemKey = itemEl.dataset.itemKey;
 
-        draggedItemData = {
-          type,
-          slotIndex: slotIdx,
-          rowIndex: slotIdx,
-          shelfIndex: shelfIdx,
-          itemIndex: itemIdx,
-          itemKey
-        };
+        const location = { type, slotIndex: slotIdx, rowIndex: slotIdx, shelfIndex: shelfIdx, itemIndex: itemIdx, itemKey };
+        const slot = this.getSlotData(location);
+        if (!slot || slot.animating || slot.layers[0][itemIdx] !== itemKey) return;
+
+        e.preventDefault();
+        // Selection and deselection must not restart the entry animation.
+        itemEl.classList.remove('entering');
+        activePointerId = e.pointerId;
+        startPointerPos = { x: e.clientX, y: e.clientY };
+        isDragging = false;
+        draggedItemEl = itemEl;
+        draggedItemData = { ...location, slot };
       };
 
       const onPointerMove = (e) => {
@@ -4482,16 +4502,7 @@
 
             settleDrag(() => {
               restoreDragVisuals(sourceEl);
-              this.moveItem(
-                {
-                  type: sourceData.type,
-                  slotIndex: sourceData.slotIndex,
-                  rowIndex: sourceData.rowIndex,
-                  shelfIndex: sourceData.shelfIndex,
-                  itemIndex: sourceData.itemIndex
-                },
-                targetLocation
-              );
+              this.moveItem(sourceData, targetLocation);
             }, 140);
           }
         } else {
@@ -4588,11 +4599,44 @@
       this.hammerBanner.style.display = 'none';
     }
 
+    collectItemPositions() {
+      const groups = new Map();
+      for (const slot of this.getBoardSlots()) {
+        if (slot.animating) continue;
+        slot.layers.forEach((layer, depth) => layer.forEach((item, index) => {
+          const key = getItemMatchKey(item);
+          if (!groups.has(key)) groups.set(key, []);
+          groups.get(key).push({ slot, depth, index });
+        }));
+      }
+      for (const positions of groups.values()) {
+        positions.sort((a, b) => a.depth - b.depth);
+      }
+      return groups;
+    }
+
+    removeTriplet(positions) {
+      const affected = new Set();
+      // Remove higher indices first so positions in a shared layer stay valid.
+      positions.sort((a, b) => b.index - a.index);
+      for (const { slot, depth, index } of positions) {
+        slot.layers[depth].splice(index, 1);
+        affected.add(slot);
+      }
+      affected.forEach(slot => this.promoteSlot(slot));
+      this.selectedItemInfo = null;
+    }
+
     executeHammer(itemEl) {
-      const type = itemEl.dataset.type;
-      const slotIdx = parseInt(itemEl.dataset.slotIndex || itemEl.dataset.rowIndex);
-      const shelfIdx = parseInt(itemEl.dataset.shelfIndex || '0');
-      const itemIdx = parseInt(itemEl.dataset.itemIndex);
+      const { type, slotIndex, rowIndex, shelfIndex, itemIndex, itemKey } = itemEl.dataset;
+      const location = { type, slotIndex: Number(slotIndex), rowIndex: Number(rowIndex), shelfIndex: Number(shelfIndex) };
+      const slot = this.getSlotData(location);
+      const index = Number(itemIndex);
+      if (this.propCounts.hammer <= 0 || !slot || slot.animating || slot.layers[0][index] !== itemKey || !itemKey) return;
+
+      const positions = this.collectItemPositions().get(getItemMatchKey(itemKey));
+      if (positions.length < 3) return;
+      const others = positions.filter(pos => pos.slot !== slot || pos.depth !== 0 || pos.index !== index);
 
       sound.playHammer();
       this.propCounts.hammer--;
@@ -4602,22 +4646,18 @@
       const rect = itemEl.getBoundingClientRect();
       const parentRect = document.getElementById('game-container').getBoundingClientRect();
       this.particles.emit(rect.left - parentRect.left + 25, rect.top - parentRect.top + 25, 30, 'star');
-
       itemEl.classList.add('smashed');
 
+      // Remove the entire group now. Only the clicked slot's redraw waits for the animation.
+      slot.animating = true;
+      this.removeTriplet([{ slot, depth: 0, index }, ...others.slice(0, 2)]);
+      this.updateAllSlots();
+      this.checkMatches();
+
       setTimeout(() => {
-        let slotData = type === 'cabinet' 
-          ? this.cabinetData[slotIdx] 
-          : this.conveyorRows[slotIdx][shelfIdx];
-
-        slotData.layers[0].splice(itemIdx, 1);
-        this.promoteSlot(slotData);
-
-        if (type === 'cabinet') {
-          this.updateCompartment(slotIdx);
-        } else {
-          this.updateShelf(slotIdx, shelfIdx);
-        }
+        if (this.getSlotData(location) !== slot) return;
+        slot.animating = false;
+        this.updateLocation(location);
         this.checkMatches();
         this.checkGameWinOrLoss();
       }, 280);
@@ -4626,87 +4666,20 @@
     activateWand() {
       if (this.propCounts.wand <= 0) return;
 
-      const visibleItemMap = {};
-      
-      this.cabinetData.forEach((comp, cIdx) => {
-        comp.layers[0].forEach((key, pos) => {
-          if (!visibleItemMap[key]) visibleItemMap[key] = [];
-          visibleItemMap[key].push({ type: 'cabinet', slotIndex: cIdx, itemIndex: pos });
-        });
-      });
-
-      this.conveyorRows.forEach((row, rIdx) => {
-        row.forEach((shelf, sIdx) => {
-          shelf.layers[0].forEach((key, pos) => {
-            if (!visibleItemMap[key]) visibleItemMap[key] = [];
-            visibleItemMap[key].push({ type: 'conveyor', rowIndex: rIdx, shelfIndex: sIdx, itemIndex: pos });
-          });
-        });
-      });
-
-      let targetKey = Object.keys(visibleItemMap).find(key => visibleItemMap[key].length >= 3);
-      if (!targetKey) targetKey = Object.keys(visibleItemMap)[0];
-      if (!targetKey) return;
+      const triplets = [...this.collectItemPositions().values()]
+        .filter(positions => positions.length >= 3 && positions[0].depth === 0);
+      const chosen = triplets.find(positions => positions[2].depth === 0) || triplets[0];
+      if (!chosen) return;
 
       sound.playWand();
       this.propCounts.wand--;
       document.getElementById('count-wand').textContent = this.propCounts.wand;
-
-      let removedCount = 0;
-      for (let key in visibleItemMap) {
-        if (key === targetKey) {
-          visibleItemMap[key].slice(0, 3).forEach(loc => {
-            let slotData = loc.type === 'cabinet' 
-              ? this.cabinetData[loc.slotIndex]
-              : this.conveyorRows[loc.rowIndex][loc.shelfIndex];
-            const idx = slotData.layers[0].indexOf(targetKey);
-            if (idx !== -1) {
-              slotData.layers[0].splice(idx, 1);
-              removedCount++;
-            }
-          });
-        }
-      }
-
-      if (removedCount < 3) {
-        // Also look into deeper layers if needed
-        for (let l = 1; l < 4 && removedCount < 3; l++) {
-          this.cabinetData.forEach(comp => {
-            if (comp.layers[l] && removedCount < 3) {
-              const idx = comp.layers[l].indexOf(targetKey);
-              if (idx !== -1) {
-                comp.layers[l].splice(idx, 1);
-                removedCount++;
-              }
-            }
-          });
-          this.conveyorRows.forEach(row => {
-            row.forEach(shelf => {
-              if (shelf.layers[l] && removedCount < 3) {
-                const idx = shelf.layers[l].indexOf(targetKey);
-                if (idx !== -1) {
-                  shelf.layers[l].splice(idx, 1);
-                  removedCount++;
-                }
-              }
-            });
-          });
-        }
-      }
+      this.removeTriplet(chosen.slice(0, 3));
 
       this.score += 150;
       this.scoreEl.textContent = this.score;
       const parentRect = document.getElementById('game-container').getBoundingClientRect();
       this.particles.emit(parentRect.width / 2, parentRect.height / 2, 40, 'star');
-
-      this.cabinetData.forEach(c => {
-        this.promoteSlot(c);
-      });
-      this.conveyorRows.forEach(row => {
-        row.forEach(shelf => {
-          this.promoteSlot(shelf);
-        });
-      });
 
       this.updateAllSlots();
       this.checkMatches();
@@ -4732,46 +4705,23 @@
     }
 
     activateShuffle() {
+      const slots = this.getBoardSlots().filter(slot => !slot.animating);
+      const frontItems = slots.flatMap(slot => slot.layers[0]);
+      if (frontItems.length < 2) return;
       sound.playShuffle();
 
-      const allFrontItems = [];
-      this.cabinetData.forEach(comp => {
-        allFrontItems.push(...comp.layers[0]);
-        comp.layers[0] = [];
-      });
-      this.conveyorRows.forEach(row => {
-        row.forEach(shelf => {
-          allFrontItems.push(...shelf.layers[0]);
-          shelf.layers[0] = [];
-        });
-      });
-
-      allFrontItems.sort(() => Math.random() - 0.5);
-
-      // Redistribute to fill cabinet first
-      let itemIdx = 0;
-      this.cabinetData.forEach(comp => {
-        for (let k = 0; k < 3 && itemIdx < allFrontItems.length; k++) {
-          comp.layers[0].push(allFrontItems[itemIdx++]);
-        }
-      });
-
-      this.conveyorRows.forEach(row => {
-        row.forEach(shelf => {
-          const take = Math.min(2, allFrontItems.length - itemIdx);
-          for (let k = 0; k < take; k++) {
-            shelf.layers[0].push(allFrontItems[itemIdx++]);
-          }
-        });
-      });
-
-      while (itemIdx < allFrontItems.length) {
-        const item = allFrontItems[itemIdx++];
-        const openSlot = this.cabinetData.find(c => c.layers[0].length < 3) ||
-                         this.conveyorRows[0].find(s => s.layers[0].length < 3);
-        if (openSlot) openSlot.layers[0].push(item);
+      for (let i = frontItems.length - 1; i > 0; i--) {
+        const other = Math.floor(Math.random() * (i + 1));
+        [frontItems[i], frontItems[other]] = [frontItems[other], frontItems[i]];
       }
 
+      // Shuffle the occupied positions across all shelves without changing occupancy.
+      let nextItem = 0;
+      for (const slot of slots) {
+        slot.layers[0] = slot.layers[0].map(() => frontItems[nextItem++]);
+      }
+
+      this.selectedItemInfo = null;
       this.updateAllSlots();
       this.checkMatches();
       this.checkGameWinOrLoss();
@@ -4795,6 +4745,8 @@
     }
 
     checkGameWinOrLoss() {
+      if (this.getBoardSlots().some(slot => slot.animating)) return;
+
       let totalItems = 0;
       this.cabinetData.forEach(comp => {
         comp.layers.forEach(l => totalItems += l.length);
