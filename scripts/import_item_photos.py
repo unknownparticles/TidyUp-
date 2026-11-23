@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Import the supplied white-background item photos without redrawing them."""
+"""Import numbered PNG and JPG item photos into the game."""
 import argparse
 import hashlib
 import json
@@ -12,7 +12,7 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDED_ITEM_NUMBERS = {
+LEGACY_JPG_EXCLUSIONS = {
     801, 805, 829, 833, 835, 842, 849, 857, 859, 893,
     906, 912, 913, 935, 937, 938, 954, 963, 965, 966,
     968, 990, 995,
@@ -83,8 +83,7 @@ SPECIAL = {
 }
 
 
-def transparent_photo(path):
-    rgb = Image.open(path).convert('RGB')
+def remove_white_background(rgb):
     r, g, b = rgb.split()
     lightest = ImageChops.lighter(ImageChops.lighter(r, g), b)
     darkest = ImageChops.darker(ImageChops.darker(r, g), b)
@@ -99,7 +98,15 @@ def transparent_photo(path):
     alpha = padded.crop((1, 1, rgb.width + 1, rgb.height + 1)).point(lambda v: 0 if v == 128 else 255)
     rgba = rgb.convert('RGBA')
     rgba.putalpha(alpha)
-    bounds = alpha.getbbox()
+    return rgba
+
+
+def transparent_photo(path):
+    with Image.open(path) as source:
+        rgba = source.convert('RGBA')
+    if rgba.getchannel('A').getextrema()[0] == 255:
+        rgba = remove_white_background(rgba.convert('RGB'))
+    bounds = rgba.getbbox()
     if bounds is None:
         raise ValueError(f'No subject found: {path}')
     subject = rgba.crop(bounds)
@@ -109,15 +116,17 @@ def transparent_photo(path):
     return canvas
 
 
-def prepare_item(source, staging):
+def prepare_item(source, staging, metadata):
     number = int(source.stem.rstrip('.'))
     key = f'item_{number}'
     group, name = 'object', '生活物品'
-    for start, end, category, label in GROUPS:
-        if start <= number <= end:
-            group, name = category, label
-            break
-    group, name = SPECIAL.get(number, (group, name))
+    if source.suffix.lower() in {'.jpg', '.jpeg'}:
+        for start, end, category, label in GROUPS:
+            if start <= number <= end:
+                group, name = category, label
+                break
+        group, name = SPECIAL.get(number, (group, name))
+    labels = metadata.get(key, {})
     photo = transparent_photo(source)
     target = staging / f'{key}.webp'
     photo.save(target, format='WEBP', quality=82, method=4, exact=True)
@@ -126,8 +135,9 @@ def prepare_item(source, staging):
         if decoded.size != photo.size or decoded.getchannel('A').tobytes() != photo.getchannel('A').tobytes():
             raise ValueError(f'Dimensions or transparency changed: {source}')
         left, top, right, bottom = decoded.getbbox()
-    return key, dict(id=key, name=f'{name}（{number}）', archetype=group,
-                     colorGroup=str(number), img=f'./assets/items/photos/{key}.webp',
+    return key, dict(id=key, name=labels.get('name', f'{name}（{number}）'),
+                     archetype=labels.get('archetype', group),
+                     colorGroup=labels.get('colorGroup', str(number)), img=f'./assets/items/photos/{key}.webp',
                      revision=hashlib.sha256(target.read_bytes()).hexdigest()[:12],
                      bounds=[left, top, right - left, bottom - top])
 
@@ -136,12 +146,20 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
     parser.add_argument('--append', action='store_true', help='Add or update photos while retaining existing items')
+    parser.add_argument('--metadata', type=Path, help='JSON catalog with item names, archetypes and color groups')
     args = parser.parse_args()
-    files = sorted((path for path in args.source.glob('*.jpg')
-                    if int(path.stem.rstrip('.')) not in EXCLUDED_ITEM_NUMBERS),
-                   key=lambda p: int(p.stem.rstrip('.')))
+    files = []
+    for path in args.source.iterdir():
+        suffix = path.suffix.lower()
+        if not path.is_file() or suffix not in {'.png', '.jpg', '.jpeg'} or not re.fullmatch(r'[0-9]+\.?', path.stem):
+            continue
+        if suffix != '.png' and int(path.stem.rstrip('.')) in LEGACY_JPG_EXCLUSIONS:
+            continue
+        files.append(path)
+    files.sort(key=lambda path: int(path.stem.rstrip('.')))
     if not files:
-        parser.error('No JPG item photos found')
+        parser.error('No numbered PNG or JPG item photos found')
+    metadata = json.loads(args.metadata.read_text(encoding='utf-8')) if args.metadata else {}
     output = ROOT / 'assets/items/photos'
     catalog_path = ROOT / 'assets/items/items_data.json'
     previous = json.loads(catalog_path.read_text()) if catalog_path.exists() else {}
@@ -150,7 +168,7 @@ def main():
         staging = Path(temporary)
         imported = {}
         with ThreadPoolExecutor(max_workers=4) as executor:
-            for index, (key, item) in enumerate(executor.map(lambda source: prepare_item(source, staging), files), 1):
+            for index, (key, item) in enumerate(executor.map(lambda source: prepare_item(source, staging, metadata), files), 1):
                 if key in imported:
                     raise ValueError(f'Duplicate item number: {key}')
                 imported[key] = item
