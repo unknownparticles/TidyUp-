@@ -6,7 +6,7 @@
   <title>收纳整理师 - 货柜消除 3D</title>
   
   <!-- PWA & Mobile Web App Meta -->
-  <link rel="manifest" href="./manifest.json?v=1.12.2">
+  <link rel="manifest" href="./manifest.json?v=1.13.0">
   <meta name="theme-color" content="#ffffff">
   <meta name="color-scheme" content="light">
   <meta name="mobile-web-app-capable" content="yes">
@@ -15,13 +15,13 @@
   <meta name="apple-mobile-web-app-title" content="收纳整理师">
 
   <!-- Favicons and Touch Icons -->
-  <link rel="icon" type="image/svg+xml" href="./assets/ui/logo.svg?v=1.12.2">
-  <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png?v=1.12.2">
-  <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png?v=1.12.2">
+  <link rel="icon" type="image/svg+xml" href="./assets/ui/logo.svg?v=1.13.0">
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png?v=1.13.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png?v=1.13.0">
 
-  <link rel="stylesheet" href="./style.css?v=1.12.2">
-  <link rel="preload" as="image" href="./assets/ui/cabinet_wood.webp?v=1.12.2" fetchpriority="high">
-  <link rel="preload" as="image" href="./assets/ui/cat_avatar.webp?v=1.12.2">
+  <link rel="stylesheet" href="./style.css?v=1.13.0">
+  <link rel="preload" as="image" href="./assets/ui/cabinet_wood.webp?v=1.13.0" fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/ui/cat_avatar.webp?v=1.13.0">
 </head>
 <body>
 
@@ -45,7 +45,7 @@
     <header class="header-bar">
       <!-- Mascot Avatar Logo (Self-Generated Crisp SVG) -->
       <div class="avatar-badge">
-        <img src="./assets/ui/cat_avatar.webp?v=1.12.2" width="168" height="160" decoding="async" alt="橘猫收纳大师">
+        <img src="./assets/ui/cat_avatar.webp?v=1.13.0" width="168" height="160" decoding="async" alt="橘猫收纳大师">
       </div>
 
       <!-- Main Pill Container -->
@@ -60,7 +60,7 @@
         </div>
 
         <!-- Mode Badge -->
-        <div class="mode-badge" id="level-mode-tag">精英挑战赛</div>
+        <button class="mode-badge" id="level-mode-tag" type="button" aria-haspopup="dialog">标准</button>
 
         <!-- Star Score -->
         <div class="score-badge">
@@ -97,31 +97,31 @@
     <footer class="bottom-tools-bar">
       <!-- Hammer Tool (19) -->
       <div class="tool-btn" id="btn-tool-hammer" title="锤子：按指定物品消除一组">
-        <img src="./assets/ui/btn_hammer.svg?v=1.12.2" alt="锤子">
-        <div class="tool-count-badge" id="count-hammer">19</div>
+        <img src="./assets/ui/btn_hammer.svg?v=1.13.0" alt="锤子">
+        <div class="tool-count-badge" id="count-hammer">5</div>
       </div>
 
       <!-- Magic Wand Tool (41) -->
       <div class="tool-btn" id="btn-tool-wand" title="魔棒：自动寻找并匹配消除一组物品">
-        <img src="./assets/ui/btn_wand.svg?v=1.12.2" alt="魔棒">
-        <div class="tool-count-badge" id="count-wand">41</div>
+        <img src="./assets/ui/btn_wand.svg?v=1.13.0" alt="魔棒">
+        <div class="tool-count-badge" id="count-wand">8</div>
       </div>
 
       <!-- Freeze Tool (67) -->
       <div class="tool-btn" id="btn-tool-freeze" title="冰冻：暂停倒计时计时器">
-        <img src="./assets/ui/btn_freeze.svg?v=1.12.2" alt="冰冻">
-        <div class="tool-count-badge" id="count-freeze">67</div>
+        <img src="./assets/ui/btn_freeze.svg?v=1.13.0" alt="冰冻">
+        <div class="tool-count-badge" id="count-freeze">4</div>
       </div>
 
       <!-- Shuffle Tool (+) -->
       <div class="tool-btn plus" id="btn-tool-shuffle" title="重排：打乱并重新排列当前可见物品">
-        <img src="./assets/ui/btn_shuffle.svg?v=1.12.2" alt="重排">
-        <div class="tool-count-badge">+</div>
+        <img src="./assets/ui/btn_shuffle.svg?v=1.13.0" alt="重排">
+        <div class="tool-count-badge" id="count-shuffle">∞</div>
       </div>
 
       <!-- Pause Button -->
       <div class="pause-btn" id="btn-pause" title="暂停游戏">
-        <img src="./assets/ui/btn_pause.svg?v=1.12.2" alt="暂停">
+        <img src="./assets/ui/btn_pause.svg?v=1.13.0" alt="暂停">
       </div>
     </footer>
 
@@ -138,7 +138,8 @@
         </div>
         <p class="modal-desc">货架已被全部整理清空！<br>最终积分: <strong id="win-final-score" style="color: #a66b32; font-size: 20px;">0</strong></p>
         <div class="modal-btn-row">
-          <button class="btn-primary" id="btn-next-level">进入下一关</button>
+          <button class="btn-primary" id="btn-next-level">再玩一局</button>
+          <button class="btn-secondary" id="btn-win-difficulty">选择难度</button>
         </div>
       </div>
     </div>
@@ -159,7 +160,7 @@
     <div id="modal-pause" class="modal-overlay">
       <div class="modal-card">
         <h2>游戏暂停</h2>
-        <div class="modal-version-badge" id="pause-modal-version">版本号：v1.12.2</div>
+        <div class="modal-version-badge" id="pause-modal-version">版本号：v1.13.0</div>
         <p class="modal-desc">
           <strong>收纳小技巧：</strong><br>
           • 凑齐 3 个相同物品放在同一格可消除<br>
@@ -176,6 +177,31 @@
 
   </div>
 
-  <script defer src="./app.js?v=1.12.2"></script>
+  <dialog class="difficulty-dialog" id="difficulty-dialog" aria-labelledby="difficulty-title" aria-describedby="difficulty-note">
+    <form id="difficulty-form">
+      <h2 id="difficulty-title">选择难度</h2>
+      <p id="difficulty-note">开启新局会替换当前牌面。</p>
+      <div class="difficulty-options">
+        <label>
+          <input type="radio" name="difficulty" value="1">
+          <span><strong>轻松</strong><small>54 件 · 两层 · 不限时</small></span>
+        </label>
+        <label>
+          <input type="radio" name="difficulty" value="2" checked>
+          <span><strong>标准</strong><small>138 件 · 四层 · 16 分 28 秒</small></span>
+        </label>
+        <label>
+          <input type="radio" name="difficulty" value="3">
+          <span><strong>大师</strong><small>216 件 · 六层 · 10 分钟 · 道具限量</small></span>
+        </label>
+      </div>
+      <div class="difficulty-actions">
+        <button class="btn-secondary" type="button" id="btn-cancel-difficulty">取消</button>
+        <button class="btn-primary" type="submit">开启新局</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script defer src="./app.js?v=1.13.0"></script>
 </body>
 </html>

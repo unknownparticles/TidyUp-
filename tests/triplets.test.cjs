@@ -26,6 +26,7 @@ function fixture() {
   const queued = [];
   const element = {
     classList: { add() {}, remove() {} },
+    setAttribute() {},
     style: {},
     getBoundingClientRect: () => ({ left: 0, top: 0, width: 120, height: 100 })
   };
@@ -183,12 +184,19 @@ test('all difficulties retain complete triplets across 90 consecutive rounds wit
   for (let round = 0; round < 90; round++) {
     const level = round % 3 + 1;
     game.initLevelWithVerification(level);
-    assert.equal(countItems().size, [36, 46, 56][level - 1]);
+    assert.equal(countItems().size, [18, 46, 72][level - 1]);
     assert.ok([...countItems().values()].every(count => count === 3));
     const types = [...countItems().keys()].map(key => `${catalog[key].archetype}:${catalog[key].colorGroup}`);
     assert.equal(new Set(types).size, types.length);
     assertDifferentShelfGroups(board());
     assert.ok(board().every(({ layers }) => layers.every(layer => layer.length <= 3)));
+    assert.equal(Math.max(...board().map(({ layers }) => layers.filter(layer => layer.length).length)),
+      [2, 4, 6][level - 1]);
+    if (level === 3) {
+      const fronts = board().flatMap(({ layers }) => [...layers[0]]);
+      const exposedTriplets = [...new Set(fronts)].filter(key => fronts.filter(item => item === key).length === 3);
+      assert.ok(exposedTriplets.length < 11, 'master deals expose fewer triplets than easy deals');
+    }
 
     game.propCounts = { hammer: 1, wand: 1 };
     game.activateShuffle();
@@ -216,16 +224,16 @@ test('a deal with repeated combinations is replaced by a varied deal that clears
       game.conveyorRows = [];
     }
   };
-  game.initLevelWithVerification(3);
+  game.initLevelWithVerification(2);
   assert.equal(fallbacks, 1);
-  assert.equal(items().length, 168);
+  assert.equal(items().length, 138);
   assertDifferentShelfGroups(board());
   const locations = [
     ...game.cabinetData.map((_, index) => cabinet(index)),
     ...game.conveyorRows.flatMap((row, rowIndex) => row.map((_, shelfIndex) =>
       ({ type: 'conveyor', rowIndex, shelfIndex })))
   ];
-  for (let cleared = 0; cleared < 56; cleared++) {
+  for (let cleared = 0; cleared < 46; cleared++) {
     const front = board().flatMap(({ layers }, index) => [...layers[0]].map((key, itemIndex) =>
       ({ key, itemIndex, location: locations[index] })));
     const key = front.find(item => front.filter(other => other.key === item.key).length === 3)?.key;

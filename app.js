@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.12.2';
+  const APP_VERSION = '1.13.0';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -3445,23 +3445,32 @@
     return totalRemaining === 0;
   }
 
+  const DIFFICULTIES = {
+    1: { label: '轻松', tiers: [11, 7], buffers: [2, 4, 6], time: null, speed: 0.65,
+      tools: { hammer: 10, wand: 12, freeze: 0, shuffle: Infinity } },
+    2: { label: '标准', tiers: [14, 12, 11, 9], buffers: [2, 6], time: 988, speed: 1,
+      tools: { hammer: 5, wand: 8, freeze: 4, shuffle: Infinity } },
+    3: { label: '大师', tiers: [17, 15, 13, 11, 9, 7], buffers: [2], time: 600, speed: 1.45,
+      tools: { hammer: 1, wand: 2, freeze: 1, shuffle: 2 } }
+  };
+
+  function countExposedTriplets(slots) {
+    const counts = new Map();
+    for (const { layers: [front] } of slots) {
+      for (const item of front) counts.set(item, (counts.get(item) || 0) + 1);
+    }
+    return [...counts.values()].filter(count => count === 3).length;
+  }
+
   // 5. Main Game Controller
   class GoodsOrganizerGame {
     constructor() {
-      this.currentLevel = 2; // Elite Challenge as in screenshot
       this.score = 0;
-      this.timerSeconds = 988; // 16:28 as in screenshot
       this.timerInterval = null;
       this.isFrozen = false;
       this.freezeTimeout = null;
       this.isPaused = false;
       this.hammerMode = false;
-
-      this.propCounts = {
-        hammer: 19,
-        wand: 41,
-        freeze: 67
-      };
 
       this.cabinetData = [];
       this.conveyorRows = [];
@@ -3474,9 +3483,8 @@
       this.initDOM();
       this.updateLayoutMetrics();
       this.particles = new ParticleSystem(document.getElementById('fx-canvas'));
-      this.initLevelWithVerification(this.currentLevel);
+      this.startRound(2);
       this.startConveyors();
-      this.startTimer();
       this.bindEvents();
     }
 
@@ -3489,9 +3497,31 @@
       this.freezeOverlay = document.getElementById('freeze-overlay');
       this.dragGhost = document.getElementById('drag-ghost');
 
-      document.getElementById('count-hammer').textContent = this.propCounts.hammer;
-      document.getElementById('count-wand').textContent = this.propCounts.wand;
-      document.getElementById('count-freeze').textContent = this.propCounts.freeze;
+      this.difficultyDialog = document.getElementById('difficulty-dialog');
+    }
+
+    startRound(levelNumber) {
+      const difficulty = DIFFICULTIES[levelNumber];
+      clearTimeout(this.freezeTimeout);
+      this.isFrozen = false;
+      this.freezeOverlay.classList.remove('active');
+      this.timerEl.style.removeProperty('color');
+      this.deactivateHammer();
+      this.propCounts = { ...difficulty.tools };
+      for (const tool of Object.keys(this.propCounts)) this.updateToolCount(tool);
+
+      this.timerSeconds = difficulty.time;
+      this.updateTimerDisplay();
+      document.getElementById('level-mode-tag').textContent = difficulty.label;
+      document.getElementById('btn-revive').hidden = levelNumber !== 2;
+      this.initLevelWithVerification(levelNumber);
+      this.startTimer();
+    }
+
+    updateToolCount(tool) {
+      const count = this.propCounts[tool];
+      document.getElementById(`count-${tool}`).textContent = count === Infinity ? '∞' : count;
+      document.getElementById(`btn-tool-${tool}`).setAttribute('aria-disabled', count === 0);
     }
 
     // Dynamically calculate and apply responsive metrics for mobile, iPad, and desktop
@@ -3566,8 +3596,9 @@
     initLevelWithVerification(levelNumber) {
       let attempts = 0;
       let valid = false;
+      const maxRandomDeals = levelNumber === 2 ? 15 : 0;
 
-      while (!valid && attempts < 15) {
+      while (!valid && attempts < maxRandomDeals) {
         attempts++;
         this.generateLevelData(levelNumber);
         valid = !hasRepeatedShelfGroups(this.getBoardSlots()) &&
@@ -3576,6 +3607,7 @@
 
       if (!valid) {
         this.generateLevelData(levelNumber, true);
+        if (levelNumber === 3) this.mixMasterLayers();
         valid = !hasRepeatedShelfGroups(this.getBoardSlots()) &&
           verifySolvability(this.cabinetData, this.conveyorRows);
         if (!valid) throw new Error('Could not generate a solvable board');
@@ -3589,6 +3621,29 @@
       }
 
       this.renderBoard();
+    }
+
+    mixMasterLayers() {
+      const slots = this.getBoardSlots();
+      let exposed = countExposedTriplets(slots);
+      // Bury some of the opening matches. Keep each swap only if the full
+      // board still has a solution and the shelf combinations stay distinct.
+      for (const { layers } of shuffleItems([...slots])) {
+        if (exposed <= 6) break;
+        const [front, back] = layers;
+        if (!back.length) continue;
+        for (const frontIndex of shuffleItems(front.map((_, index) => index))) {
+          const backIndex = Math.floor(Math.random() * back.length);
+          [front[frontIndex], back[backIndex]] = [back[backIndex], front[frontIndex]];
+          const nextExposed = countExposedTriplets(slots);
+          if (nextExposed < exposed && !hasRepeatedShelfGroups(slots) &&
+              verifySolvability(this.cabinetData, this.conveyorRows)) {
+            exposed = nextExposed;
+            break;
+          }
+          [front[frontIndex], back[backIndex]] = [back[backIndex], front[frontIndex]];
+        }
+      }
     }
 
     // Helper to promote deeper layers when layer 0 is completely empty
@@ -3610,23 +3665,17 @@
     generateLevelData(levelNumber, useGuaranteedDeal = false) {
       this.currentLevel = levelNumber;
       this.selectedItemInfo = null;
-      this.timerSeconds = 988; // 16:28
-      this.updateTimerDisplay();
-
-      // RICH MULTI-LAYER PACKING: 4 layers per slot (上下各多层货架)
-      // Total triplets: Level 1 = 36 triplets (108 items), Level 2 = 46 triplets (138 items), Level 3 = 56 triplets (168 items)
-      const tripletCounts = [36, 46, 56];
-      const totalTriplets = tripletCounts[Math.min(levelNumber - 1, 2)] || 46;
-
-      // Pick distinct item types with guaranteed visual diversity & contrast
+      const { tiers, buffers } = DIFFICULTIES[levelNumber];
+      const totalTriplets = tiers.reduce((sum, count) => sum + count, 0);
       const chosenTypes = selectDistinguishableItemTypes(totalTriplets);
+      const makeLayers = () => tiers.map(() => []);
 
       // Setup 3x3 Upper Cabinet: 9 cubbies, each with 4 layers
       this.cabinetData = [];
       for (let i = 0; i < 9; i++) {
         this.cabinetData.push({
           id: `cabinet-${i}`,
-          layers: [[], [], [], []]
+          layers: makeLayers()
         });
       }
 
@@ -3649,31 +3698,26 @@
             id: `conveyor-${r}-${s}`,
             rowIndex: r,
             shelfIndex: s,
-            layers: [[], [], [], []],
+            layers: makeLayers(),
             xPos: initX
           });
         }
         this.conveyorRows.push(shelves);
       }
 
-      // Active populated cabinet cubbies: 0, 1, 3, 4, 5, 7, 8 (7 cubbies)
-      // Cubbies 2 and 6 remain open buffer compartments across all layers for sorting
-      const populatedCabinet = [0, 1, 3, 4, 5, 7, 8];
-
+      const slots = [
+        ...this.conveyorRows.flat(),
+        ...this.cabinetData.filter((_, index) => !buffers.includes(index))
+      ];
       if (useGuaranteedDeal) {
-        const slots = [...this.conveyorRows.flat(), ...populatedCabinet.map(index => this.cabinetData[index])];
-        const tierSizes = [0.29, 0.27, 0.24].map(fraction => Math.round(totalTriplets * fraction));
-        tierSizes.push(totalTriplets - tierSizes.reduce((sum, size) => sum + size, 0));
         let nextType = 0;
-
-        for (const [depth, count] of tierSizes.entries()) {
+        for (const [depth, count] of tiers.entries()) {
           const order = shuffleItems([...slots]);
           const starts = shuffleItems(slots.map((_, index) => index));
           for (const start of starts.slice(0, count)) {
             const type = chosenTypes[nextType++];
-            // Each type goes on three different shelves in one tier. With
-            // offsets 0, 1, and 4, the six nonzero differences are distinct,
-            // so two types can share a shelf only once per tier.
+            // Offsets 0, 1 and 4 have distinct differences. Two types can
+            // therefore share only one shelf, keeping combinations distinct.
             for (const offset of [0, 1, 4]) {
               order[(start + offset) % slots.length].layers[depth].push(type);
             }
@@ -3681,79 +3725,23 @@
         }
 
         for (const slot of slots) {
-          // Expose the first occupied layer. Both buffer cabinets stay empty,
-          // giving the player room to match every exposed triplet in tier order.
+          // Expose the first occupied layer, leaving the buffer cabinets
+          // available to clear exposed triplets in tier order.
           slot.layers = slot.layers.filter(layer => layer.length > 0).map(shuffleItems);
-          while (slot.layers.length < 4) slot.layers.push([]);
+          while (slot.layers.length < tiers.length) slot.layers.push([]);
         }
         return;
       }
 
       const itemPool = shuffleItems(chosenTypes.flatMap(type => [type, type, type]));
-
-      // 1. Layer 0 (Front interactive layer):
-      // Conveyor: all 12 shelves get 2 to 3 items
-      this.conveyorRows.forEach(row => {
-        row.forEach(shelf => {
-          const count = Math.random() < 0.6 ? 3 : 2;
-          for (let k = 0; k < count && itemPool.length > 0; k++) {
-            shelf.layers[0].push(itemPool.pop());
-          }
+      for (const [depth, triplets] of tiers.entries()) {
+        const layerTotal = triplets * 3;
+        const base = Math.floor(layerTotal / slots.length);
+        const extras = layerTotal % slots.length;
+        shuffleItems([...slots]).forEach((slot, index) => {
+          const count = base + Number(index < extras);
+          slot.layers[depth] = itemPool.splice(itemPool.length - count, count);
         });
-      });
-      // Cabinet: 7 cubbies get 2 to 3 items
-      populatedCabinet.forEach(c => {
-        const count = Math.random() < 0.6 ? 3 : 2;
-        for (let k = 0; k < count && itemPool.length > 0; k++) {
-          this.cabinetData[c].layers[0].push(itemPool.pop());
-        }
-      });
-
-      // 2. Layer 1 (Back Layer 1):
-      this.conveyorRows.forEach(row => {
-        row.forEach(shelf => {
-          const count = Math.random() < 0.6 ? 3 : 2;
-          for (let k = 0; k < count && itemPool.length > 0; k++) {
-            shelf.layers[1].push(itemPool.pop());
-          }
-        });
-      });
-      populatedCabinet.forEach(c => {
-        const count = Math.random() < 0.6 ? 3 : 2;
-        for (let k = 0; k < count && itemPool.length > 0; k++) {
-          this.cabinetData[c].layers[1].push(itemPool.pop());
-        }
-      });
-
-      // 3. Layer 2 (Back Layer 2 / Deep Layer):
-      this.conveyorRows.forEach(row => {
-        row.forEach(shelf => {
-          const count = Math.random() < 0.5 ? 3 : 2;
-          for (let k = 0; k < count && itemPool.length > 0; k++) {
-            shelf.layers[2].push(itemPool.pop());
-          }
-        });
-      });
-      populatedCabinet.forEach(c => {
-        const count = Math.random() < 0.5 ? 3 : 2;
-        for (let k = 0; k < count && itemPool.length > 0; k++) {
-          this.cabinetData[c].layers[2].push(itemPool.pop());
-        }
-      });
-
-      // 4. Layer 3 (Deepest Layer 3):
-      while (itemPool.length > 0) {
-        const item = itemPool.pop();
-        const openSlot = populatedCabinet.map(c => this.cabinetData[c]).find(c => c.layers[3].length < 3) ||
-                         this.conveyorRows.flatMap(r => r).find(s => s.layers[3].length < 3) ||
-                         populatedCabinet.map(c => this.cabinetData[c]).find(c => c.layers[2].length < 3) ||
-                         this.conveyorRows.flatMap(r => r).find(s => s.layers[2].length < 3);
-        if (openSlot) {
-          const targetL = openSlot.layers[3].length < 3 ? 3 : 2;
-          openSlot.layers[targetL].push(item);
-        } else {
-          this.conveyorRows[0][0].layers[3].push(item);
-        }
       }
     }
 
@@ -3954,8 +3942,11 @@
 
     // Auto-scroll horizontal conveyor animation (Seamless cyclic 4-shelf train)
     startConveyors() {
-      const animate = () => {
-        if (!this.isPaused && !this.isFrozen) {
+      let previousFrame;
+      const animate = (now) => {
+        const elapsed = previousFrame === undefined ? 0 : Math.min(now - previousFrame, 50);
+        previousFrame = now;
+        if (!this.isPaused && !this.isFrozen && !this.difficultyDialog?.open) {
           const pitch = this.conveyorMetrics ? this.conveyorMetrics.pitch : 146;
           const totalSpan = this.conveyorMetrics ? this.conveyorMetrics.totalSpan : (4 * pitch);
 
@@ -3963,10 +3954,10 @@
             const track = document.getElementById(`conveyor-track-${rowIdx}`);
             if (!track) return;
 
-            const speed = this.conveyorSpeeds[rowIdx];
+            const speed = this.conveyorSpeeds[rowIdx] * DIFFICULTIES[this.currentLevel].speed;
 
             row.forEach(shelf => {
-              shelf.xPos += speed;
+              shelf.xPos += speed * elapsed / (1000 / 60);
 
               if (speed < 0) {
                 // Moving left: when shelf goes completely off-screen to the left
@@ -3998,8 +3989,10 @@
 
     startTimer() {
       clearInterval(this.timerInterval);
+      this.timerInterval = null;
+      if (this.timerSeconds === null) return;
       this.timerInterval = setInterval(() => {
-        if (this.isPaused || this.isFrozen) return;
+        if (this.isPaused || this.isFrozen || this.difficultyDialog?.open) return;
         this.timerSeconds--;
         this.updateTimerDisplay();
         if (this.timerSeconds <= 0) {
@@ -4010,6 +4003,10 @@
     }
 
     updateTimerDisplay() {
+      if (this.timerSeconds === null) {
+        this.timerEl.textContent = '不限时';
+        return;
+      }
       const mins = Math.floor(Math.max(0, this.timerSeconds) / 60);
       const secs = Math.max(0, this.timerSeconds) % 60;
       this.timerEl.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
@@ -4559,7 +4556,7 @@
       document.getElementById('btn-resume').addEventListener('click', () => this.togglePause());
       document.getElementById('btn-restart').addEventListener('click', () => {
         this.closeModals();
-        this.initLevelWithVerification(this.currentLevel);
+        this.startRound(this.currentLevel);
       });
       document.getElementById('btn-sound-toggle').addEventListener('click', () => {
         const isMuted = sound.toggleMute();
@@ -4567,13 +4564,25 @@
       });
       document.getElementById('btn-next-level').addEventListener('click', () => {
         this.closeModals();
-        this.initLevelWithVerification(this.currentLevel + 1);
+        this.startRound(this.currentLevel);
       });
       document.getElementById('btn-revive').addEventListener('click', () => {
         this.closeModals();
         this.timerSeconds = 90;
         this.startTimer();
       });
+
+      document.getElementById('level-mode-tag').addEventListener('click', () => this.openDifficultyPicker());
+      document.getElementById('btn-win-difficulty').addEventListener('click', () => this.openDifficultyPicker());
+      document.getElementById('difficulty-form').addEventListener('submit', event => {
+        event.preventDefault();
+        const selected = this.difficultyDialog.querySelector('input:checked');
+        this.difficultyDialog.close();
+        this.closeModals();
+        this.startRound(Number(selected.value));
+        document.getElementById('level-mode-tag').focus();
+      });
+      document.getElementById('btn-cancel-difficulty').addEventListener('click', () => this.difficultyDialog.close());
 
       // Window resize & orientation change listeners for dynamic mobile / iPad responsive adaptation
       const handleResize = () => {
@@ -4588,6 +4597,13 @@
           setTimeout(handleResize, 100);
         });
       }
+    }
+
+    openDifficultyPicker() {
+      const current = this.difficultyDialog.querySelector(`input[value="${this.currentLevel}"]`);
+      current.checked = true;
+      this.difficultyDialog.showModal();
+      current.focus();
     }
 
     activateHammer() {
@@ -4647,7 +4663,7 @@
 
       sound.playHammer();
       this.propCounts.hammer--;
-      document.getElementById('count-hammer').textContent = this.propCounts.hammer;
+      this.updateToolCount('hammer');
       this.deactivateHammer();
 
       const rect = itemEl.getBoundingClientRect();
@@ -4680,7 +4696,7 @@
 
       sound.playWand();
       this.propCounts.wand--;
-      document.getElementById('count-wand').textContent = this.propCounts.wand;
+      this.updateToolCount('wand');
       this.removeTriplet(chosen.slice(0, 3));
 
       this.score += 150;
@@ -4697,7 +4713,7 @@
       if (this.propCounts.freeze <= 0 || this.isFrozen) return;
       sound.playFreeze();
       this.propCounts.freeze--;
-      document.getElementById('count-freeze').textContent = this.propCounts.freeze;
+      this.updateToolCount('freeze');
 
       this.isFrozen = true;
       this.freezeOverlay.classList.add('active');
@@ -4712,10 +4728,15 @@
     }
 
     activateShuffle() {
+      if (this.propCounts.shuffle === 0) return;
       const slots = this.getBoardSlots().filter(slot => !slot.animating);
       const frontItems = slots.flatMap(slot => slot.layers[0]);
       if (frontItems.length < 2) return;
       sound.playShuffle();
+      if (Number.isFinite(this.propCounts.shuffle)) {
+        this.propCounts.shuffle--;
+        this.updateToolCount('shuffle');
+      }
 
       shuffleItems(frontItems);
 

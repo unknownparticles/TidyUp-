@@ -179,6 +179,27 @@ body {
   padding: 3px 8px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  min-height: 28px;
+  white-space: nowrap;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mode-badge::after {
+  content: '';
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  margin-left: 0.5em;
+  margin-bottom: 0.2em;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.mode-badge:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 
 .score-badge {
@@ -247,7 +268,7 @@ body {
   aspect-ratio: 1040 / 720;
   max-height: min(400px, 49vh, 49%);
   margin: 0 auto;
-  background-image: url('./assets/ui/cabinet_wood.webp?v=1.12.2');
+  background-image: url('./assets/ui/cabinet_wood.webp?v=1.13.0');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: relative;
@@ -489,7 +510,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background-image: url('./assets/ui/shelf_wood.png?v=1.12.2');
+  background-image: url('./assets/ui/shelf_wood.png?v=1.13.0');
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: bottom;
@@ -534,7 +555,7 @@ body {
   align-items: center;
   justify-content: space-around;
   background-color: #a9583d;
-  background-image: url('./assets/ui/toolbar_wood.webp?v=1.12.2');
+  background-image: url('./assets/ui/toolbar_wood.webp?v=1.13.0');
   background-size: auto 100%;
   background-repeat: repeat-x;
   border-top: 3px solid #cf9561;
@@ -804,6 +825,90 @@ body.hammer-mode {
   padding: 10px 16px;
   border-radius: 16px;
   cursor: pointer;
+}
+
+.difficulty-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(calc(100% - 32px), 360px);
+  max-height: calc(100dvh - var(--sat) - var(--sab) - 24px);
+  overflow-y: auto;
+  touch-action: pan-y;
+  border: 3px solid var(--frame-color);
+  border-radius: 24px;
+  background: #fffdf9;
+  color: var(--ink-color);
+  padding: clamp(14px, 5vw, 24px);
+  box-shadow: 0 16px 40px var(--surface-shadow);
+}
+
+.difficulty-dialog::backdrop {
+  background: rgba(57, 43, 30, 0.48);
+}
+
+.difficulty-dialog h2 {
+  font-size: 22px;
+}
+
+.difficulty-dialog p {
+  margin: 4px 0 14px;
+  font-size: 14px;
+  color: #6d5b4a;
+}
+
+.difficulty-options {
+  display: grid;
+  gap: 8px;
+}
+
+.difficulty-options label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  min-height: 52px;
+  border: 1px solid #d6c4ad;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.difficulty-options label:has(:checked) {
+  border-color: #9a662d;
+  background: #fff0d2;
+}
+
+.difficulty-options input {
+  flex: 0 0 auto;
+  accent-color: #8b5829;
+}
+
+.difficulty-options small {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #6d5b4a;
+}
+
+.difficulty-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.difficulty-actions button {
+  min-height: 44px;
+}
+
+.difficulty-actions .btn-primary {
+  font-size: 16px;
+  background: #895622;
+}
+
+.tool-btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: default;
 }
 
 /* Floating Match Score Particle */
