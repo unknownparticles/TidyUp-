@@ -24,10 +24,11 @@ function assertDifferentShelfGroups(board) {
 function fixture() {
   const window = { addEventListener() {} };
   const queued = [];
+  let tick;
   const element = {
     classList: { add() {}, remove() {} },
     setAttribute() {},
-    style: {},
+    style: { removeProperty() {} },
     getBoundingClientRect: () => ({ left: 0, top: 0, width: 120, height: 100 })
   };
   const document = {
@@ -43,11 +44,14 @@ function fixture() {
   };
   vm.runInNewContext(source, {
     window, document, Math: math, console: { log() {} },
-    setTimeout: callback => queued.push(callback), clearInterval() {}
+    setTimeout: callback => queued.push(callback),
+    clearTimeout() {},
+    setInterval: callback => { tick = callback; return 1; },
+    clearInterval: () => { tick = undefined; }
   });
   const game = Object.assign(Object.create(window.TestGame.prototype), {
     cabinetData: [], conveyorRows: [], cabinetEl: { children: [] },
-    score: 0, scoreEl: element, timerEl: element, hammerBanner: element,
+    score: 0, scoreEl: element, timerEl: element, hammerBanner: element, freezeOverlay: element,
     propCounts: { hammer: 19, wand: 41 }, particles: { emit() {} },
     conveyorMetrics: { pitch: 146 }, conveyorSpeeds: [-1, 1, -1],
     updateCompartment() {}, updateShelf() {}, renderBoard() {}
@@ -58,7 +62,7 @@ function fixture() {
   const clickHammer = (key, slotIndex = 0, itemIndex = 0) => game.executeHammer({
     ...element, dataset: { type: 'cabinet', slotIndex: String(slotIndex), itemIndex: String(itemIndex), itemKey: key }
   });
-  return { game, board, items, clickHammer, flush, queued };
+  return { game, board, items, clickHammer, flush, queued, tick: () => tick?.() };
 }
 
 test('wand clears a full group even when two copies share one hidden layer', () => {
@@ -244,4 +248,48 @@ test('a deal with repeated combinations is replaced by a varied deal that clears
     flush();
   }
   assert.deepEqual(items(), []);
+});
+
+test('endless waves increase variety before quantity and add time with each step', () => {
+  const { game, items, board } = fixture();
+  const waves = [
+    [1, 72, 306, 780], [2, 78, 306, 792], [6, 102, 306, 840], [7, 102, 324, 876],
+    [12, 102, 414, 1056], [50, 102, 489, 1206]
+  ];
+  for (const [wave, kinds, pieces, seconds] of waves) {
+    game.startRound(4, wave);
+    const counts = new Map();
+    for (const item of items()) counts.set(item, (counts.get(item) || 0) + 1);
+    assert.equal(counts.size, kinds, `kinds at wave ${wave}`);
+    assert.equal(items().length, pieces, `pieces at wave ${wave}`);
+    assert.equal(game.timerSeconds, seconds, `time at wave ${wave}`);
+    assert.ok([...counts.values()].every(count => count % 3 === 0));
+    assert.ok(board().every(({ layers }) => layers.every(layer => layer.length <= 3)));
+    assertDifferentShelfGroups(board());
+  }
+});
+
+test('endless progress advances only on a clear and times out with the run score intact', () => {
+  const { game, tick } = fixture();
+  game.startRound(4);
+  game.advanceRound();
+  assert.equal(game.endlessWave, 1);
+  game.score = 1234;
+  game.cabinetData = [slot()];
+  game.conveyorRows = [];
+  game.checkGameWinOrLoss();
+  game.advanceRound();
+  game.advanceRound();
+  assert.equal(game.endlessWave, 2);
+  assert.equal(game.score, 1234);
+  assert.equal(game.timerSeconds, 792);
+  game.timerSeconds = 1;
+  tick();
+  game.advanceRound();
+  assert.equal(game.roundOutcome, 'lost');
+  assert.equal(game.endlessWave, 2);
+  assert.equal(game.score, 1234);
+  game.startRound(4);
+  assert.equal(game.endlessWave, 1);
+  assert.equal(game.score, 0);
 });

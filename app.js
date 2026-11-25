@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.13.0';
+  const APP_VERSION = '1.14.0';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -3370,7 +3370,8 @@
     };
 
     // Simulate legal front moves and clear any completed triplets.
-    let maxSteps = 300;
+    const totalItems = slots.reduce((sum, slot) => sum + slot.layers.flat().length, 0);
+    let maxSteps = Math.max(300, totalItems * 2);
     while (maxSteps-- > 0) {
       const complete = slots.find(({ layers: [front] }) =>
         front.length === 3 && front.every(item => getItemMatchKey(item) === getItemMatchKey(front[0])));
@@ -3454,12 +3455,40 @@
       tools: { hammer: 1, wand: 2, freeze: 1, shuffle: 2 } }
   };
 
+  const ENDLESS_MODE = 4;
+
+  function roundSettings(levelNumber, wave = 1) {
+    if (levelNumber !== ENDLESS_MODE) return DIFFICULTIES[levelNumber];
+
+    const typeCount = 72 + Math.min(wave - 1, 5) * 6;
+    const quantityWaves = Math.max(0, wave - 6);
+    // The first six waves change variety alone. Later growth slows so long runs
+    // can keep adding items without the number of layers jumping every wave.
+    const extraTriplets = 6 * Math.min(quantityWaves, 6) +
+      Math.floor(6 * Math.log2(1 + Math.max(0, quantityWaves - 6) / 2));
+    const triplets = 102 + extraTriplets;
+    const tierCount = Math.ceil(triplets / 16);
+    const tiers = Array.from({ length: tierCount }, (_, depth) =>
+      Math.floor(triplets / tierCount) + Number(depth < triplets % tierCount));
+
+    return {
+      label: '无限',
+      typeCount,
+      triplets,
+      tiers,
+      buffers: [2],
+      time: 780 + 2 * (typeCount - 72) + 6 * extraTriplets,
+      speed: Math.min(1.9, 1.45 + (wave - 1) * 0.025),
+      tools: { hammer: 1, wand: 1, freeze: 1, shuffle: 1 }
+    };
+  }
+
   function countExposedTriplets(slots) {
     const counts = new Map();
     for (const { layers: [front] } of slots) {
       for (const item of front) counts.set(item, (counts.get(item) || 0) + 1);
     }
-    return [...counts.values()].filter(count => count === 3).length;
+    return [...counts.values()].filter(count => count >= 3).length;
   }
 
   // 5. Main Game Controller
@@ -3500,8 +3529,17 @@
       this.difficultyDialog = document.getElementById('difficulty-dialog');
     }
 
-    startRound(levelNumber) {
-      const difficulty = DIFFICULTIES[levelNumber];
+    startRound(levelNumber, wave = 1) {
+      const endless = levelNumber === ENDLESS_MODE;
+      const difficulty = roundSettings(levelNumber, wave);
+      this.endlessWave = endless ? wave : 0;
+      this.roundDifficulty = difficulty;
+      this.roundOutcome = null;
+      if (endless && wave === 1) {
+        this.score = 0;
+        this.scoreEl.textContent = '0';
+      }
+
       clearTimeout(this.freezeTimeout);
       this.isFrozen = false;
       this.freezeOverlay.classList.remove('active');
@@ -3514,8 +3552,17 @@
       this.updateTimerDisplay();
       document.getElementById('level-mode-tag').textContent = difficulty.label;
       document.getElementById('btn-revive').hidden = levelNumber !== 2;
+      document.getElementById('btn-gameover-difficulty').hidden = !endless;
+      document.getElementById('btn-restart').textContent = endless ? '从第一波重开' : '重新开始挑战';
+      document.getElementById('btn-next-level').textContent = endless ? `进入第 ${wave + 1} 波` : '再玩一局';
       this.initLevelWithVerification(levelNumber);
       this.startTimer();
+    }
+
+    advanceRound() {
+      if (this.roundOutcome !== 'won') return;
+      this.closeModals();
+      this.startRound(this.currentLevel, this.endlessWave + 1);
     }
 
     updateToolCount(tool) {
@@ -3606,30 +3653,36 @@
       }
 
       if (!valid) {
-        this.generateLevelData(levelNumber, true);
-        if (levelNumber === 3) this.mixMasterLayers();
-        valid = !hasRepeatedShelfGroups(this.getBoardSlots()) &&
-          verifySolvability(this.cabinetData, this.conveyorRows);
+        const tierSolution = this.generateLevelData(levelNumber, true);
+        if (levelNumber === 3) this.mixMasterLayers(6);
+        if (levelNumber === ENDLESS_MODE && tierSolution) this.mixMasterLayers(5);
+        // The constructed endless deal has a solution in tier order. Swaps
+        // that change that order are only kept if the move simulator solves them.
+        valid = levelNumber === ENDLESS_MODE ? tierSolution :
+          !hasRepeatedShelfGroups(this.getBoardSlots()) && verifySolvability(this.cabinetData, this.conveyorRows);
         if (!valid) throw new Error('Could not generate a solvable board');
       }
 
       console.log(`[Level Generator] Level ${levelNumber} verified after ${attempts} random deals`);
       const verifyBadge = document.getElementById('verify-badge');
       if (verifyBadge) {
-        verifyBadge.textContent = '可解性校验：已通过 ✔';
+        const difficulty = this.roundDifficulty;
+        verifyBadge.textContent = levelNumber === ENDLESS_MODE
+          ? `第 ${this.endlessWave} 波 · ${difficulty.typeCount} 种 · ${difficulty.triplets * 3} 件`
+          : '可解性校验：已通过 ✔';
         verifyBadge.style.color = '#446b45';
       }
 
       this.renderBoard();
     }
 
-    mixMasterLayers() {
+    mixMasterLayers(targetExposed) {
       const slots = this.getBoardSlots();
       let exposed = countExposedTriplets(slots);
       // Bury some of the opening matches. Keep each swap only if the full
       // board still has a solution and the shelf combinations stay distinct.
       for (const { layers } of shuffleItems([...slots])) {
-        if (exposed <= 6) break;
+        if (exposed <= targetExposed) break;
         const [front, back] = layers;
         if (!back.length) continue;
         for (const frontIndex of shuffleItems(front.map((_, index) => index))) {
@@ -3665,12 +3718,13 @@
     generateLevelData(levelNumber, useGuaranteedDeal = false) {
       this.currentLevel = levelNumber;
       this.selectedItemInfo = null;
-      const { tiers, buffers } = DIFFICULTIES[levelNumber];
+      const endless = levelNumber === ENDLESS_MODE;
+      const { tiers, buffers, typeCount } = roundSettings(levelNumber, this.endlessWave || 1);
       const totalTriplets = tiers.reduce((sum, count) => sum + count, 0);
-      const chosenTypes = selectDistinguishableItemTypes(totalTriplets);
+      const chosenTypes = selectDistinguishableItemTypes(typeCount ?? totalTriplets);
       const makeLayers = () => tiers.map(() => []);
 
-      // Setup 3x3 Upper Cabinet: 9 cubbies, each with 4 layers
+      // Set up the nine cabinet slots and twelve conveyor shelves.
       this.cabinetData = [];
       for (let i = 0; i < 9; i++) {
         this.cabinetData.push({
@@ -3679,7 +3733,6 @@
         });
       }
 
-      // Setup 3 Conveyor Rows: 4 planks per row = 12 planks total, each with 4 layers
       if (!this.conveyorMetrics) {
         this.updateLayoutMetrics();
       }
@@ -3710,17 +3763,46 @@
         ...this.cabinetData.filter((_, index) => !buffers.includes(index))
       ];
       if (useGuaranteedDeal) {
-        let nextType = 0;
+        let availableTypes = [...chosenTypes];
+        const shelfGroups = new Set();
+        let tierSolution = true;
         for (const [depth, count] of tiers.entries()) {
-          const order = shuffleItems([...slots]);
-          const starts = shuffleItems(slots.map((_, index) => index));
-          for (const start of starts.slice(0, count)) {
-            const type = chosenTypes[nextType++];
-            // Offsets 0, 1 and 4 have distinct differences. Two types can
-            // therefore share only one shelf, keeping combinations distinct.
-            for (const offset of [0, 1, 4]) {
-              order[(start + offset) % slots.length].layers[depth].push(type);
+          const types = availableTypes.splice(0, count);
+          if (types.length < count) {
+            // Start a new pass through the same types. Set aside types
+            // already dealt in this tier so a tier still has distinct triplets.
+            const dealt = new Set(types);
+            const nextPass = shuffleItems([...chosenTypes]);
+            availableTypes = [...nextPass.filter(key => !dealt.has(key)), ...nextPass.filter(key => dealt.has(key))];
+            types.push(...availableTypes.splice(0, count - types.length));
+          }
+          for (let attempt = 0; attempt < (endless ? 24 : 1); attempt++) {
+            const order = shuffleItems([...slots]);
+            const starts = shuffleItems(slots.map((_, index) => index));
+            for (const slot of order) slot.layers[depth] = [];
+            for (const [index, type] of types.entries()) {
+              // Distinct offsets keep every pair of types together at most once in this tier.
+              for (const offset of [0, 1, 4]) {
+                order[(starts[index] + offset) % slots.length].layers[depth].push(type);
+              }
             }
+            if (!endless) break;
+            const groups = slots.map(slot => slot.layers[depth]).filter(layer => layer.length > 1)
+              .map(layer => [...layer].sort().join('|'));
+            if (groups.some(group => shelfGroups.has(group))) continue;
+            groups.forEach(group => shelfGroups.add(group));
+            break;
+          }
+
+          if (endless) {
+            const counts = new Map();
+            for (const slot of slots) {
+              const layer = slot.layers[depth];
+              tierSolution &&= layer.length <= 3 && new Set(layer).size === layer.length;
+              for (const key of layer) counts.set(key, (counts.get(key) || 0) + 1);
+            }
+            // Clearing each tier into the empty cabinet is a valid sequence of moves.
+            tierSolution &&= counts.size === count && types.every(key => counts.get(key) === 3);
           }
         }
 
@@ -3730,7 +3812,7 @@
           slot.layers = slot.layers.filter(layer => layer.length > 0).map(shuffleItems);
           while (slot.layers.length < tiers.length) slot.layers.push([]);
         }
-        return;
+        return tierSolution;
       }
 
       const itemPool = shuffleItems(chosenTypes.flatMap(type => [type, type, type]));
@@ -3954,7 +4036,7 @@
             const track = document.getElementById(`conveyor-track-${rowIdx}`);
             if (!track) return;
 
-            const speed = this.conveyorSpeeds[rowIdx] * DIFFICULTIES[this.currentLevel].speed;
+            const speed = this.conveyorSpeeds[rowIdx] * this.roundDifficulty.speed;
 
             row.forEach(shelf => {
               shelf.xPos += speed * elapsed / (1000 / 60);
@@ -4562,18 +4644,17 @@
         const isMuted = sound.toggleMute();
         document.getElementById('btn-sound-toggle').textContent = isMuted ? '🔇' : '🔊';
       });
-      document.getElementById('btn-next-level').addEventListener('click', () => {
-        this.closeModals();
-        this.startRound(this.currentLevel);
-      });
+      document.getElementById('btn-next-level').addEventListener('click', () => this.advanceRound());
       document.getElementById('btn-revive').addEventListener('click', () => {
         this.closeModals();
+        this.roundOutcome = null;
         this.timerSeconds = 90;
         this.startTimer();
       });
 
       document.getElementById('level-mode-tag').addEventListener('click', () => this.openDifficultyPicker());
       document.getElementById('btn-win-difficulty').addEventListener('click', () => this.openDifficultyPicker());
+      document.getElementById('btn-gameover-difficulty').addEventListener('click', () => this.openDifficultyPicker());
       document.getElementById('difficulty-form').addEventListener('submit', event => {
         event.preventDefault();
         const selected = this.difficultyDialog.querySelector('input:checked');
@@ -4770,7 +4851,7 @@
     }
 
     checkGameWinOrLoss() {
-      if (this.getBoardSlots().some(slot => slot.animating)) return;
+      if (this.roundOutcome || this.getBoardSlots().some(slot => slot.animating)) return;
 
       let totalItems = 0;
       this.cabinetData.forEach(comp => {
@@ -4783,6 +4864,7 @@
       });
 
       if (totalItems === 0) {
+        this.roundOutcome = 'won';
         clearInterval(this.timerInterval);
         sound.playWin();
         const parentRect = document.getElementById('game-container').getBoundingClientRect();
@@ -4797,6 +4879,8 @@
           }, i * 200);
         }
         document.getElementById('win-final-score').textContent = this.score;
+        document.getElementById('win-round-result').textContent = this.endlessWave
+          ? `已清空第 ${this.endlessWave} 波！` : '货架已被全部整理清空！';
         document.getElementById('modal-win').classList.add('open');
         return;
       }
@@ -4815,8 +4899,14 @@
     }
 
     handleGameOver(reason) {
+      if (this.roundOutcome) return;
+      this.roundOutcome = 'lost';
+      clearInterval(this.timerInterval);
       sound.playLose();
       document.getElementById('gameover-reason').textContent = reason;
+      const runResult = document.getElementById('gameover-run-result');
+      runResult.hidden = !this.endlessWave;
+      if (this.endlessWave) runResult.textContent = `已通过 ${this.endlessWave - 1} 波 · 累计 ${this.score} 分`;
       document.getElementById('modal-gameover').classList.add('open');
     }
   }
