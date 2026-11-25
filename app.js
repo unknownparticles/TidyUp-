@@ -3,7 +3,7 @@
   'use strict';
 
   // Game Application Version
-  const APP_VERSION = '1.12.1';
+  const APP_VERSION = '1.12.2';
 
   // Imported photo assets, fitted to a shared transparent canvas.
   const ITEMS = {
@@ -2953,65 +2953,55 @@
   Object.values(ITEMS).forEach(item => {
     item.img = `${item.img}?v=${item.revision || APP_VERSION}`;
   });
-  const ITEM_KEYS = Object.keys(ITEMS);
+  function shuffleItems(items) {
+    for (let i = items.length - 1; i > 0; i--) {
+      const other = Math.floor(Math.random() * (i + 1));
+      [items[i], items[other]] = [items[other], items[i]];
+    }
+    return items;
+  }
 
-  // Smart selection ensuring maximum silhouette diversity and high-contrast color distinction
+  // A catalog color group within an archetype identifies one visual variant.
+  // Alternate crops can match even when their image URLs are different.
+  function getItemMatchKey(key) {
+    const item = ITEMS[key];
+    return item?.colorGroup ? `${item.archetype}:${item.colorGroup}` : key;
+  }
+
   function selectDistinguishableItemTypes(count) {
-    const byArchetype = {};
-    for (let k in ITEMS) {
-      const a = ITEMS[k].archetype || 'other';
-      if (!byArchetype[a]) byArchetype[a] = [];
-      byArchetype[a].push(ITEMS[k]);
+    const byArchetype = new Map();
+    const seen = new Set();
+    for (const item of shuffleItems(Object.values(ITEMS))) {
+      const matchKey = getItemMatchKey(item.id);
+      if (seen.has(matchKey)) continue;
+      seen.add(matchKey);
+      if (!byArchetype.has(item.archetype)) byArchetype.set(item.archetype, []);
+      byArchetype.get(item.archetype).push(item.id);
     }
-    const archetypeList = Object.keys(byArchetype);
+
     const chosen = [];
-    const chosenByArchetype = {};
-    archetypeList.forEach(a => chosenByArchetype[a] = []);
-
-    // Pass 1: Pick 1 variant from each archetype (ensuring diverse base silhouettes)
-    const shuffledArch = [...archetypeList].sort(() => Math.random() - 0.5);
-    for (let a of shuffledArch) {
-      if (chosen.length >= count) break;
-      const available = byArchetype[a].sort(() => Math.random() - 0.5);
-      const pick = available[0];
-      chosen.push(pick.id);
-      chosenByArchetype[a].push(pick);
-    }
-
-    // Pass 2+: Distribute across archetypes with guaranteed color contrast
-    while (chosen.length < count) {
-      const candidates = [...archetypeList].filter(a => chosenByArchetype[a].length < byArchetype[a].length);
-      if (candidates.length === 0) {
-        const remaining = ITEM_KEYS.filter(k => !chosen.includes(k));
-        if (remaining.length === 0) {
-          // All unique items used: cycle through diverse archetypes to guarantee exact count
-          const nextArch = archetypeList[chosen.length % archetypeList.length];
-          const archList = byArchetype[nextArch];
-          const pick = archList[Math.floor(Math.random() * archList.length)];
-          chosen.push(pick.id);
-          continue;
-        }
-        chosen.push(remaining[Math.floor(Math.random() * remaining.length)]);
-        continue;
+    let variants = [...byArchetype.values()];
+    while (chosen.length < count && variants.length > 0) {
+      for (const group of shuffleItems(variants)) {
+        chosen.push(group.pop());
+        if (chosen.length === count) break;
       }
-      candidates.sort((a, b) => chosenByArchetype[a].length - chosenByArchetype[b].length || (Math.random() - 0.5));
-      const arch = candidates[0];
-      const alreadyPickedColors = new Set(chosenByArchetype[arch].map(x => x.colorGroup));
-      const pool = byArchetype[arch].filter(x => !chosenByArchetype[arch].some(p => p.id === x.id));
-      let best = pool.filter(x => !alreadyPickedColors.has(x.colorGroup));
-      if (best.length === 0) best = pool;
-      const pick = best[Math.floor(Math.random() * best.length)];
-      chosen.push(pick.id);
-      chosenByArchetype[arch].push(pick);
+      variants = variants.filter(group => group.length > 0);
     }
-
     return chosen;
   }
 
-  // Canonical visual matching key (ensures items that look identical match reliably)
-  function getItemMatchKey(key) {
-    if (!key || !ITEMS[key]) return key;
-    return ITEMS[key].img || key;
+  function hasRepeatedShelfGroups(slots) {
+    const seen = new Set();
+    for (const { layers } of slots) {
+      for (const layer of layers) {
+        if (layer.length < 2) continue;
+        const group = layer.map(getItemMatchKey).sort().join('|');
+        if (seen.has(group)) return true;
+        seen.add(group);
+      }
+    }
+    return false;
   }
 
   function itemImageMarkup(key, front = false, alt = ITEMS[key].name) {
@@ -3580,12 +3570,14 @@
       while (!valid && attempts < 15) {
         attempts++;
         this.generateLevelData(levelNumber);
-        valid = verifySolvability(this.cabinetData, this.conveyorRows);
+        valid = !hasRepeatedShelfGroups(this.getBoardSlots()) &&
+          verifySolvability(this.cabinetData, this.conveyorRows);
       }
 
       if (!valid) {
         this.generateLevelData(levelNumber, true);
-        valid = verifySolvability(this.cabinetData, this.conveyorRows);
+        valid = !hasRepeatedShelfGroups(this.getBoardSlots()) &&
+          verifySolvability(this.cabinetData, this.conveyorRows);
         if (!valid) throw new Error('Could not generate a solvable board');
       }
 
@@ -3669,28 +3661,35 @@
       const populatedCabinet = [0, 1, 3, 4, 5, 7, 8];
 
       if (useGuaranteedDeal) {
-        // Leave the two buffer cabinets empty. Each batch puts one copy of
-        // every type on three exposed shelves, so players can clear the batch
-        // in a buffer before revealing the next layer on those shelves.
-        const slots = [...this.conveyorRows.flat(), ...populatedCabinet.map(index => this.cabinetData[index])]
-          .sort(() => Math.random() - 0.5);
-        const batchCount = Math.floor(slots.length / 3);
+        const slots = [...this.conveyorRows.flat(), ...populatedCabinet.map(index => this.cabinetData[index])];
+        const tierSizes = [0.29, 0.27, 0.24].map(fraction => Math.round(totalTriplets * fraction));
+        tierSizes.push(totalTriplets - tierSizes.reduce((sum, size) => sum + size, 0));
         let nextType = 0;
-        let remainingBatches = batchCount * 4;
-        for (let layer = 0; layer < 4; layer++) {
-          for (let batch = 0; batch < batchCount; batch++) {
-            const count = Math.ceil((totalTriplets - nextType) / remainingBatches--);
-            const types = chosenTypes.slice(nextType, nextType + count);
-            nextType += count;
-            for (const slot of slots.slice(batch * 3, batch * 3 + 3)) {
-              slot.layers[layer] = [...types].sort(() => Math.random() - 0.5);
+
+        for (const [depth, count] of tierSizes.entries()) {
+          const order = shuffleItems([...slots]);
+          const starts = shuffleItems(slots.map((_, index) => index));
+          for (const start of starts.slice(0, count)) {
+            const type = chosenTypes[nextType++];
+            // Each type goes on three different shelves in one tier. With
+            // offsets 0, 1, and 4, the six nonzero differences are distinct,
+            // so two types can share a shelf only once per tier.
+            for (const offset of [0, 1, 4]) {
+              order[(start + offset) % slots.length].layers[depth].push(type);
             }
           }
+        }
+
+        for (const slot of slots) {
+          // Expose the first occupied layer. Both buffer cabinets stay empty,
+          // giving the player room to match every exposed triplet in tier order.
+          slot.layers = slot.layers.filter(layer => layer.length > 0).map(shuffleItems);
+          while (slot.layers.length < 4) slot.layers.push([]);
         }
         return;
       }
 
-      const itemPool = chosenTypes.flatMap(type => [type, type, type]).sort(() => Math.random() - 0.5);
+      const itemPool = shuffleItems(chosenTypes.flatMap(type => [type, type, type]));
 
       // 1. Layer 0 (Front interactive layer):
       // Conveyor: all 12 shelves get 2 to 3 items
@@ -4217,9 +4216,18 @@
         this.conveyorRows.forEach((row, rIdx) => {
           const track = document.getElementById(`conveyor-track-${rIdx}`);
           if (!track) return;
+          const trackRect = track.getBoundingClientRect();
           row.forEach((shelf, sIdx) => {
             const el = track.children[sIdx];
             if (!el) return;
+            const bounds = el.getBoundingClientRect();
+            const rect = {
+              left: Math.max(bounds.left, trackRect.left),
+              right: Math.min(bounds.right, trackRect.right),
+              top: Math.max(bounds.top, trackRect.top),
+              bottom: Math.min(bounds.bottom, trackRect.bottom)
+            };
+            if (rect.left >= rect.right || rect.top >= rect.bottom) return;
             const count = shelf.layers[0].length;
             candidates.push({
               el,
@@ -4228,12 +4236,13 @@
               rowIndex: rIdx,
               shelfIndex: sIdx,
               canPlace: !shelf.animating && (count < 3 || isSameLocation(draggedItemData, { type: 'conveyor', rowIndex: rIdx, shelfIndex: sIdx })),
-              rect: el.getBoundingClientRect()
+              rect
             });
           });
         });
 
         let bestTarget = null;
+        let blockedTarget = null;
         let minDistance = Infinity;
         const SNAP_RADIUS = Math.max(60, Math.round((this.conveyorMetrics?.plankWidth || 142) * 0.45)); // Auto-snap magnetic suction radius
 
@@ -4248,9 +4257,7 @@
             if (cand.canPlace) {
               return { ...cand, dist: 0, directHit: true };
             } else {
-              if (!bestTarget || bestTarget.dist > 0) {
-                bestTarget = { ...cand, dist: 0, directHit: true };
-              }
+              blockedTarget = { ...cand, dist: 0, directHit: true };
             }
           } else if (cand.canPlace && dist <= SNAP_RADIUS && dist < minDistance) {
             minDistance = dist;
@@ -4258,7 +4265,7 @@
           }
         }
 
-        return bestTarget;
+        return blockedTarget || bestTarget;
       };
 
       const findSwapItem = (snap, clientX, clientY) => {
@@ -4710,10 +4717,7 @@
       if (frontItems.length < 2) return;
       sound.playShuffle();
 
-      for (let i = frontItems.length - 1; i > 0; i--) {
-        const other = Math.floor(Math.random() * (i + 1));
-        [frontItems[i], frontItems[other]] = [frontItems[other], frontItems[i]];
-      }
+      shuffleItems(frontItems);
 
       // Shuffle the occupied positions across all shelves without changing occupancy.
       let nextItem = 0;

@@ -8,10 +8,18 @@ const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8').rep
   "  window.addEventListener('DOMContentLoaded', () => {",
   "  window.TestGame = GoodsOrganizerGame; sound.muted = true;\n  window.addEventListener('DOMContentLoaded', () => {"
 );
-const keys = Object.keys(require('../assets/items/items_data.json'));
+const catalog = require('../assets/items/items_data.json');
+const keys = Object.keys(catalog);
 const [a, b, c] = keys;
 const slot = (front = [], back = [], deep = [], deepest = []) => ({ layers: [front, back, deep, deepest] });
 const cabinet = (slotIndex, itemIndex = 0) => ({ type: 'cabinet', slotIndex, itemIndex });
+const conveyor = (rowIndex, shelfIndex, itemIndex = 0) => ({ type: 'conveyor', rowIndex, shelfIndex, itemIndex });
+
+function assertDifferentShelfGroups(board) {
+  const groups = board.flatMap(({ layers }) => layers.filter(layer => layer.length >= 2).map(layer =>
+    [...layer].sort().join('|')));
+  assert.equal(new Set(groups).size, groups.length);
+}
 
 function fixture() {
   const window = { addEventListener() {} };
@@ -21,7 +29,11 @@ function fixture() {
     style: {},
     getBoundingClientRect: () => ({ left: 0, top: 0, width: 120, height: 100 })
   };
-  const document = { body: element, getElementById: () => element, querySelectorAll: () => [] };
+  const document = {
+    body: element,
+    getElementById: id => id.startsWith('conveyor-track-') ? null : element,
+    querySelectorAll: () => []
+  };
   const math = Object.create(Math);
   let state = 49591;
   math.random = () => {
@@ -57,6 +69,53 @@ test('wand clears a full group even when two copies share one hidden layer', () 
   assert.equal(game.propCounts.wand, 40);
   game.activateWand();
   assert.deepEqual(items(), []);
+});
+
+test('three lookalike bags clear when moved from the conveyor onto one shelf', () => {
+  const { game, items, flush } = fixture();
+  const orange = 'item_872';
+  const alternateOrange = 'item_991';
+  const red = 'item_873';
+  game.cabinetData = [slot([orange, alternateOrange, red])];
+  assert.equal(game.checkMatches(), false);
+  game.conveyorRows = [[slot([alternateOrange]), slot([orange]), slot([orange])]];
+
+  assert.ok(game.moveItem(conveyor(0, 1), conveyor(0, 0)));
+  assert.ok(game.moveItem(conveyor(0, 2), conveyor(0, 0)));
+  flush();
+
+  assert.deepEqual(items(), [orange, alternateOrange, red]);
+  assert.equal(game.score, 100);
+});
+
+test('the coffee carton and fridge can both be matched across three conveyor rows', () => {
+  const { game, items, flush } = fixture();
+  const carton = 'item_779';
+  const fridge = 'item_840';
+  game.conveyorRows = [[slot([carton, fridge])], [slot([fridge, carton])], [slot([carton, fridge]), slot()]];
+
+  for (const location of [conveyor(0, 0), conveyor(1, 0, 1), conveyor(2, 0)]) {
+    assert.ok(game.moveItem(location, conveyor(2, 1)));
+  }
+  flush();
+  assert.deepEqual(items(), [fridge, fridge, fridge]);
+  for (const row of [0, 1, 2]) assert.ok(game.moveItem(conveyor(row, 0), conveyor(2, 1)));
+  flush();
+  assert.deepEqual(items(), []);
+});
+
+test('wand and hammer both count alternate crops as part of the same triplet', () => {
+  const orange = 'item_872';
+  const alternateOrange = 'item_991';
+  for (const tool of ['wand', 'hammer']) {
+    const { game, items, clickHammer, flush } = fixture();
+    game.cabinetData = [slot([orange], [alternateOrange]), slot([a])];
+    game.conveyorRows = [[slot([a], [orange, a])]];
+    if (tool === 'wand') game.activateWand();
+    else clickHammer(orange);
+    flush();
+    assert.deepEqual(items(), [a, a, a]);
+  }
 });
 
 test('one hammer charge clears the clicked item and both of its copies', () => {
@@ -126,6 +185,9 @@ test('all difficulties retain complete triplets across 90 consecutive rounds wit
     game.initLevelWithVerification(level);
     assert.equal(countItems().size, [36, 46, 56][level - 1]);
     assert.ok([...countItems().values()].every(count => count === 3));
+    const types = [...countItems().keys()].map(key => `${catalog[key].archetype}:${catalog[key].colorGroup}`);
+    assert.equal(new Set(types).size, types.length);
+    assertDifferentShelfGroups(board());
     assert.ok(board().every(({ layers }) => layers.every(layer => layer.length <= 3)));
 
     game.propCounts = { hammer: 1, wand: 1 };
@@ -141,7 +203,7 @@ test('all difficulties retain complete triplets across 90 consecutive rounds wit
   }
 });
 
-test('an unsolvable deal is replaced, and the replacement can be cleared through legal moves', () => {
+test('a deal with repeated combinations is replaced by a varied deal that clears through legal moves', () => {
   const { game, items, board, flush } = fixture();
   const generate = game.generateLevelData.bind(game);
   let fallbacks = 0;
@@ -150,13 +212,14 @@ test('an unsolvable deal is replaced, and the replacement can be cleared through
       fallbacks++;
       generate(level, true);
     } else {
-      game.cabinetData = [slot([a, b, c]), slot([a, b, c]), slot([a, b, c])];
+      game.cabinetData = [slot([a, b, c]), slot([c, b, a]), slot([b, a, c]), slot()];
       game.conveyorRows = [];
     }
   };
   game.initLevelWithVerification(3);
   assert.equal(fallbacks, 1);
   assert.equal(items().length, 168);
+  assertDifferentShelfGroups(board());
   const locations = [
     ...game.cabinetData.map((_, index) => cabinet(index)),
     ...game.conveyorRows.flatMap((row, rowIndex) => row.map((_, shelfIndex) =>

@@ -60,7 +60,9 @@ function fixture({ sourceCount = 1, targetCount = 1, location = 'cabinet' } = {}
   const compartments = [new Element(), new Element({ left: 200, top: 0, width: 120, height: 100 })];
   const planks = [new Element({ left: 0, top: 180, width: 120, height: 100 }), new Element({ left: 200, top: 180, width: 120, height: 100 })];
   game.cabinetEl = { children: compartments };
-  document.getElementById('conveyor-track-0').children = planks;
+  const track = new Element({ left: 0, top: 180, width: 400, height: 100 });
+  track.children = planks;
+  ids.set('conveyor-track-0', track);
   const sourceEl = new Element({ left: 20, top: location === 'cabinet' ? 20 : 200, width: 40, height: 70 });
   sourceEl.classList.add('good-item', 'layer-front', 'entering');
   sourceEl.dataset = { type: location, slotIndex: '0', rowIndex: '0', shelfIndex: '0', itemIndex: '0', itemKey: 'item_810' };
@@ -91,7 +93,7 @@ function fixture({ sourceCount = 1, targetCount = 1, location = 'cabinet' } = {}
     const handler = type === 'pointerdown' ? container.listeners[type] : window.listeners[type];
     handler({ target, clientX: x, clientY: y, pointerId, pointerType: 'mouse', preventDefault() {} });
   }
-  return { game, sourceEl, sourceItems, event, pending, flush: () => { while (pending.length) pending.shift()(); } };
+  return { game, sourceEl, sourceItems, planks, event, pending, flush: () => { while (pending.length) pending.shift()(); } };
 }
 
 for (const location of ['cabinet', 'conveyor']) {
@@ -257,4 +259,26 @@ test('a valid drop moves the item and updates only source and destination', () =
   assert.equal(f.game.updates.length, 2);
   assert.equal(f.game.renderCount, 0);
   assert.equal(f.game.dragGhost.style.display, 'none');
+});
+
+test('dropping on a full conveyor shelf does not move the item to a nearby shelf', () => {
+  const f = fixture({ location: 'conveyor', targetCount: 3 });
+  Object.assign(f.planks[1].rect, { left: 145, right: 265 });
+  f.event('pointerdown');
+  f.event('pointermove', 150, 220);
+  f.event('pointerup');
+  f.flush();
+  assert.deepEqual(f.game.conveyorRows[0].map(({ layers }) => layers[0].length), [1, 3]);
+  assert.equal(f.game.updates.length, 0);
+});
+
+test('a conveyor shelf wholly outside the track cannot attract a drop', () => {
+  const f = fixture({ location: 'conveyor' });
+  Object.assign(f.planks[1].rect, { left: 400, right: 520 });
+  f.event('pointerdown');
+  f.event('pointermove', 395, 220);
+  f.event('pointerup');
+  f.flush();
+  assert.deepEqual(f.game.conveyorRows[0].map(({ layers }) => layers[0].length), [1, 1]);
+  assert.equal(f.game.updates.length, 0);
 });
